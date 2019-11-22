@@ -15,6 +15,8 @@ parser.tab.c parser.tab.h : parser-version.y
 lexer.c : lexer-version.l
 	flex -o $@ $<
 
+octetos_core_includedir = $(includedir)/octetos/core
+octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
 
 
 lib_LTLIBRARIES =  \
@@ -43,7 +45,6 @@ liboctetos_core_cc_la_SOURCES =  \
 	Message.cc \
 	Object.cc \
 	Version.cc \
-	Version-parser.cc \
 	Licence.cc
 
 

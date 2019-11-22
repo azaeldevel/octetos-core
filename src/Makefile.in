@@ -15,6 +15,7 @@
 @SET_MAKE@
 
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -95,7 +96,8 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(octetos_core_include_HEADERS) \
+	$(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
@@ -127,7 +129,8 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
+	"$(DESTDIR)$(octetos_core_includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 liboctetos_core_cc_la_DEPENDENCIES = libparser-version-c.la
 am_liboctetos_core_cc_la_OBJECTS = liboctetos_core_cc_la-common.lo \
@@ -135,7 +138,6 @@ am_liboctetos_core_cc_la_OBJECTS = liboctetos_core_cc_la-common.lo \
 	liboctetos_core_cc_la-Message.lo \
 	liboctetos_core_cc_la-Object.lo \
 	liboctetos_core_cc_la-Version.lo \
-	liboctetos_core_cc_la-Version-parser.lo \
 	liboctetos_core_cc_la-Licence.lo
 liboctetos_core_cc_la_OBJECTS = $(am_liboctetos_core_cc_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -222,6 +224,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+HEADERS = $(octetos_core_include_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -299,6 +302,9 @@ INTLTOOL__v_MERGE_0 = @INTLTOOL__v_MERGE_0@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LEX = @LEX@
+LEXLIB = @LEXLIB@
+LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
@@ -339,6 +345,8 @@ STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 XGETTEXT = @XGETTEXT@
+YACC = @YACC@
+YFLAGS = @YFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -404,6 +412,8 @@ AM_CFLAGS = \
 	 -Wall\
 	 -g
 
+octetos_core_includedir = $(includedir)/octetos/core
+octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
 lib_LTLIBRARIES = \
 	libparser-version-c.la \
 	liboctetos-core-cc.la
@@ -423,7 +433,6 @@ liboctetos_core_cc_la_SOURCES = \
 	Message.cc \
 	Object.cc \
 	Version.cc \
-	Version-parser.cc \
 	Licence.cc
 
 develop_parser_version_CFLAGS = 
@@ -570,7 +579,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Licence.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Message.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Object.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Version-parser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Version.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparser_version_c_la-lexer.Plo@am__quote@
@@ -667,13 +675,6 @@ liboctetos_core_cc_la-Version.lo: Version.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_core_cc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o liboctetos_core_cc_la-Version.lo `test -f 'Version.cc' || echo '$(srcdir)/'`Version.cc
 
-liboctetos_core_cc_la-Version-parser.lo: Version-parser.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_core_cc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT liboctetos_core_cc_la-Version-parser.lo -MD -MP -MF $(DEPDIR)/liboctetos_core_cc_la-Version-parser.Tpo -c -o liboctetos_core_cc_la-Version-parser.lo `test -f 'Version-parser.cc' || echo '$(srcdir)/'`Version-parser.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_core_cc_la-Version-parser.Tpo $(DEPDIR)/liboctetos_core_cc_la-Version-parser.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Version-parser.cc' object='liboctetos_core_cc_la-Version-parser.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_core_cc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o liboctetos_core_cc_la-Version-parser.lo `test -f 'Version-parser.cc' || echo '$(srcdir)/'`Version-parser.cc
-
 liboctetos_core_cc_la-Licence.lo: Licence.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_core_cc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT liboctetos_core_cc_la-Licence.lo -MD -MP -MF $(DEPDIR)/liboctetos_core_cc_la-Licence.Tpo -c -o liboctetos_core_cc_la-Licence.lo `test -f 'Licence.cc' || echo '$(srcdir)/'`Licence.cc
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_core_cc_la-Licence.Tpo $(DEPDIR)/liboctetos_core_cc_la-Licence.Plo
@@ -686,6 +687,27 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-octetos_core_includeHEADERS: $(octetos_core_include_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(octetos_core_include_HEADERS)'; test -n "$(octetos_core_includedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(octetos_core_includedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(octetos_core_includedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(octetos_core_includedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(octetos_core_includedir)" || exit $$?; \
+	done
+
+uninstall-octetos_core_includeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(octetos_core_include_HEADERS)'; test -n "$(octetos_core_includedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(octetos_core_includedir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -771,11 +793,11 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(PROGRAMS)
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(HEADERS)
 install-binPROGRAMS: install-libLTLIBRARIES
 
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(octetos_core_includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -831,7 +853,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-octetos_core_includeHEADERS
 
 install-dvi: install-dvi-am
 
@@ -877,7 +899,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES
+uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
+	uninstall-octetos_core_includeHEADERS
 
 .MAKE: install-am install-strip
 
@@ -889,13 +912,14 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES
 	install install-am install-binPROGRAMS install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	install-info-am install-libLTLIBRARIES install-man \
+	install-octetos_core_includeHEADERS install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
-	uninstall-libLTLIBRARIES
+	uninstall-libLTLIBRARIES uninstall-octetos_core_includeHEADERS
 
 .PRECIOUS: Makefile
 
