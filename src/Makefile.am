@@ -35,7 +35,7 @@ libparser_version_c_la_SOURCES =  \
 
 liboctetos_core_cc_la_LIBADD = libparser-version-c.la
 
-liboctetos_core_cc_la_CPPFLAGS= -DENABLED_AUTOT -fPIC -Wl,-Bsymbolic
+liboctetos_core_cc_la_CPPFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
  
 liboctetos_core_cc_la_LDFLAGS= -shared -fPIC -Wl,-Bsymbolic
 

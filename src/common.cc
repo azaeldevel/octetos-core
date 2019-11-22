@@ -3,7 +3,7 @@
 #ifdef ENABLED_CMAKE
 	#include "packInfo.hpp"
 #endif
-#ifdef ENABLED_AUTOT
+#ifdef ENABLED_AUTOTOOLS
 	#include "config.h"
 #endif
 #include "common.hh"
@@ -20,7 +20,7 @@ namespace core
 		v.setNumbers(VERSION_MAJOR,VERSION_MINOR,VERSION_PATCH);
 		v.setStage(VERSION_STAGE);
 		v.setBuild(std::stoul(VERSION_BUILD));
-		#elif defined ENABLED_AUTOT
+		#elif defined ENABLED_AUTOTOOLS
 		v.set(VERSION);
 		//v.setStage(octetos::toolkit::Version::Stage::alpha);
 		//v.setBuild(std::stoul(VERSION_BUILD));
@@ -32,7 +32,7 @@ namespace core
 	{
         	#ifdef ENABLED_CMAKE
         	return PACKAGE_NAME;
-		#elif defined ENABLED_AUTOT
+		#elif defined ENABLED_AUTOTOOLS
 		return PACKAGE;
         	#endif
 	}
@@ -55,14 +55,15 @@ namespace core
 		packinfo.licence.owner = "Azael Reyes";
 		packinfo.licence.year = 2018;
         packinfo.licence.contact = "azael.devel@gmail.com";
-		#elif defined ENABLED_AUTOT
+		#elif defined ENABLED_AUTOTOOLS
 		packinfo.name = PACKAGE;
 		packinfo.brief = "";
 		packinfo.url = "";
 		
-		packinfo.version.setNumbers(0,0,0);
-		packinfo.version.setStage(Version::Stage::alpha);
+		//packinfo.version.setNumbers(0,0,0);
+		//packinfo.version.setStage(Version::Stage::alpha);
 		//packinfo.version.setBuild(std::stoul(VERSION_BUILD));
+		packinfo.version.set(VERSION);
 		
 		packinfo.licence.type = Licence::Type::GPL;		
 		packinfo.licence.name_public = packinfo.name;

@@ -1,5 +1,5 @@
-#ifndef TOOLKIT_COMMON_HPP
-#define TOOLKIT_COMMON_HPP
+#ifndef OCTETOS_CORE_COMMON_HH
+#define OCTETOS_CORE_COMMON_HH
 
 #include <string>
 

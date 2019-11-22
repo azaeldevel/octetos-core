@@ -1,5 +1,5 @@
-#ifndef TOOLKIT_COMMON_VERSION_HPP
-#define TOOLKIT_COMMON_VERSION_HPP
+#ifndef OCTETOS_CORE_VERSION_HH
+#define OCTETOS_CORE_VERSION_HH
 #include <string>
 
 #include <vector>

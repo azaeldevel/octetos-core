@@ -52,7 +52,7 @@
                                 return VALUE_SNAPSHOT;
                         }
 "a"|"alpha"|"ALPHA"		{
-                                printf("stage : %s\n",yytext);
+                                //printf("stage : %s\n",yytext);
                                 yylval.stage=alpha;
                                 return VALUE_ALPHA;
                                 }

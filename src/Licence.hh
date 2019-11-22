@@ -1,5 +1,5 @@
-#ifndef TOOLKIT_COMMON_LICENCE
-#define TOOLKIT_COMMON_LICENCE
+#ifndef OCTETOS_CORE_LICENCE_HH
+#define OCTETOS_CORE_LICENCE_HH
 
 #include "Version.hh"
 

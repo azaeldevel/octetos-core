@@ -1,5 +1,5 @@
-#ifndef TOOLKIT_COMMON_ERROR_HPP
-#define TOOLKIT_COMMON_ERROR_HPP
+#ifndef OCTETOS_CORE_ERROR_HH
+#define OCTETOS_CORE_ERROR_HH
 
 #include <string>
 #include <exception>
