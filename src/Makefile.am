@@ -26,7 +26,7 @@ lib_LTLIBRARIES =  \
 
 libparser_version_c_la_CFLAGS=-fPIC -Wl,-Bsymbolic
 
-libparser_version_c_la_LDFLAGS=-shared -fPIC -Wl,-Bsymbolic
+libparser_version_c_la_LDFLAGS=-shared -fPIC -Wl,-Bsymbolic -version-info `version $(AC_PACKAGE_VERSION) --get-numbers-only`
 
 libparser_version_c_la_SOURCES =  \
 	parser.tab.c \
@@ -51,6 +51,7 @@ liboctetos_core_cc_la_SOURCES =  \
 bin_PROGRAMS = \
 	develop-parser-version
 
+bin_SCRIPTS = develop.py
 
 develop_parser_version_CFLAGS =
 
@@ -60,7 +61,10 @@ develop_parser_version_SOURCES = \
 develop_parser_version_LDADD = libparser-version-c.la
 
 
+developdir = $(pythondir)/python_foobar
 
+develop_PYTHON = \
+	develop.py
 
 
 
