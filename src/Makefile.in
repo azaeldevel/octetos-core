@@ -140,7 +140,8 @@ am_liboctetos_core_cc_la_OBJECTS = liboctetos_core_cc_la-common.lo \
 	liboctetos_core_cc_la-Message.lo \
 	liboctetos_core_cc_la-Object.lo \
 	liboctetos_core_cc_la-Version.lo \
-	liboctetos_core_cc_la-Licence.lo
+	liboctetos_core_cc_la-Licence.lo \
+	liboctetos_core_cc_la-common-c.lo
 liboctetos_core_cc_la_OBJECTS = $(am_liboctetos_core_cc_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -436,7 +437,7 @@ lib_LTLIBRARIES = \
 	liboctetos-core-cc.la
 
 libparser_version_c_la_CFLAGS = -fPIC -Wl,-Bsymbolic
-libparser_version_c_la_LDFLAGS = -shared -fPIC -Wl,-Bsymbolic -version-info `version $(AC_PACKAGE_VERSION) --get-numbers-only`
+libparser_version_c_la_LDFLAGS = -shared -fPIC -Wl,-Bsymbolic
 libparser_version_c_la_SOURCES = \
 	parser.tab.c \
 	lexer.c
@@ -444,13 +445,13 @@ libparser_version_c_la_SOURCES = \
 liboctetos_core_cc_la_LIBADD = libparser-version-c.la
 liboctetos_core_cc_la_CPPFLAGS = -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
 liboctetos_core_cc_la_LDFLAGS = -shared -fPIC -Wl,-Bsymbolic
-liboctetos_core_cc_la_SOURCES = \
-	common.cc \
+liboctetos_core_cc_la_SOURCES = common.cc \
 	Error.cc \
 	Message.cc \
 	Object.cc \
 	Version.cc \
-	Licence.cc
+	Licence.cc \
+	common-c.c
 
 bin_SCRIPTS = develop.py
 develop_parser_version_CFLAGS = 
@@ -637,6 +638,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Message.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Object.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Version.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-common-c.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparser_version_c_la-lexer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparser_version_c_la-parser.tab.Plo@am__quote@
@@ -661,6 +663,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+liboctetos_core_cc_la-common-c.lo: common-c.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_core_cc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liboctetos_core_cc_la-common-c.lo -MD -MP -MF $(DEPDIR)/liboctetos_core_cc_la-common-c.Tpo -c -o liboctetos_core_cc_la-common-c.lo `test -f 'common-c.c' || echo '$(srcdir)/'`common-c.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_core_cc_la-common-c.Tpo $(DEPDIR)/liboctetos_core_cc_la-common-c.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='common-c.c' object='liboctetos_core_cc_la-common-c.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_core_cc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liboctetos_core_cc_la-common-c.lo `test -f 'common-c.c' || echo '$(srcdir)/'`common-c.c
 
 libparser_version_c_la-parser.tab.lo: parser.tab.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libparser_version_c_la_CFLAGS) $(CFLAGS) -MT libparser_version_c_la-parser.tab.lo -MD -MP -MF $(DEPDIR)/libparser_version_c_la-parser.tab.Tpo -c -o libparser_version_c_la-parser.tab.lo `test -f 'parser.tab.c' || echo '$(srcdir)/'`parser.tab.c

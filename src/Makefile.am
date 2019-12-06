@@ -26,7 +26,7 @@ lib_LTLIBRARIES =  \
 
 libparser_version_c_la_CFLAGS=-fPIC -Wl,-Bsymbolic
 
-libparser_version_c_la_LDFLAGS=-shared -fPIC -Wl,-Bsymbolic -version-info `version $(AC_PACKAGE_VERSION) --get-numbers-only`
+libparser_version_c_la_LDFLAGS=-shared -fPIC -Wl,-Bsymbolic
 
 libparser_version_c_la_SOURCES =  \
 	parser.tab.c \
@@ -39,13 +39,13 @@ liboctetos_core_cc_la_CPPFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
  
 liboctetos_core_cc_la_LDFLAGS= -shared -fPIC -Wl,-Bsymbolic
 
-liboctetos_core_cc_la_SOURCES =  \
-	common.cc \
+liboctetos_core_cc_la_SOURCES = common.cc \
 	Error.cc \
 	Message.cc \
 	Object.cc \
 	Version.cc \
-	Licence.cc
+	Licence.cc \
+	common-c.c
 
 
 bin_PROGRAMS = \

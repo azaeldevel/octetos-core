@@ -106,6 +106,7 @@ namespace core
         * \brief Retorna el estado
         * */
 		Stage getStage() const;
+		const char* getStageString() const;
         short getStageNumber() const;
         /**
         * \brief Retorna el nombre de la version

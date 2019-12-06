@@ -6,13 +6,18 @@
 
 #include "Version.hh"
 #include "parser-version.h"
+
+
+
 // Reference https://semver.org/
-
-
 namespace octetos
 {
 namespace core
 {
+	const char* Version::getStageString() const
+	{
+		return octetos_version_getString(stage);
+	}
     bool Version::from(const std::string& str)
     {
         Tray ty;
@@ -20,6 +25,11 @@ namespace core
         major = ty.version.major;
         minor = ty.version.minor;
         patch = ty.version.patch;
+		stage = ty.version.stage;
+		stageNumber = ty.version.stageNumber;
+		//Version::build = ty.version.build;
+		octetos_version_Version::build = ty.version.build;
+		
         if(ret == 0) return true;
         return false;
     } 

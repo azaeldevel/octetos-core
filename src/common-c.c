@@ -1,18 +1,35 @@
-//to fix:   warning: implicit declaration of function ‘asprintf’; did you mean ‘vsprintf’....
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE 1
-#endif
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-
 #include "common.h"
 
+const char* octetos_version_getString(enum octetos_version_Stage stage)
+{
+	switch(stage)
+	{
+		case developing:	
+			return "developing";
+		case snapshot: 
+			return "snapshot";
+		case alpha:
+			return "alpha";
+		case beta:
+			return "beta";
+		case betarelease:
+			return "betarelease";
+		case rc:
+			return "rc";
+		case prerelease:
+			return "prerelease";
+		case release:
+			return "release";
+		case rtm:
+			return "RTM";
+		case ga:
+			return "GA";
+		default:
+			return "unknown";
+	}
+}
 
-
-const char* octetos_core_Version_toString(const struct octetos_toolkit_Version* version)
+/*const char* octetos_core_Version_toString(const struct octetos_toolkit_Version* version)
 {
 	char* verstr = NULL;
 	if(version->major > -1)
@@ -73,6 +90,6 @@ const char* octetos_core_Version_toString(const struct octetos_toolkit_Version* 
 	
 	
 	return verstr;
-}	
+}	*/
 
 

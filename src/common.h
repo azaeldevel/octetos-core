@@ -1,8 +1,6 @@
 #ifndef OCTETOS_CORE_COMMON_H
 #define OCTETOS_CORE_COMMON_H
 
-
-
 enum octetos_version_Stage {
     unknown,
     developing,
@@ -46,4 +44,5 @@ struct octetos_version_Version {
 	enum octetos_version_Stage stage;
 };
 
+const char* octetos_version_getString(enum octetos_version_Stage stage);
 #endif
