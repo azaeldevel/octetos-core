@@ -45,4 +45,5 @@ struct octetos_version_Version {
 };
 
 const char* octetos_version_getString(enum octetos_version_Stage stage);
+
 #endif

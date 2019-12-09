@@ -20,20 +20,34 @@ octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh
 
 
 lib_LTLIBRARIES =  \
-	libparser-version-c.la \
+	liboctetos-parser-version-c.la \
+	liboctetos-core-c.la \
 	liboctetos-core-cc.la
 
 
-libparser_version_c_la_CFLAGS=-fPIC -Wl,-Bsymbolic
+liboctetos_parser_version_c_la_CFLAGS=-fPIC -Wl,-Bsymbolic
 
-libparser_version_c_la_LDFLAGS=-shared -fPIC -Wl,-Bsymbolic
+liboctetos_parser_version_c_la_LDFLAGS=-shared -fPIC -Wl,-Bsymbolic
 
-libparser_version_c_la_SOURCES =  \
+liboctetos_parser_version_c_la_SOURCES =  \
 	parser.tab.c \
-	lexer.c
+	lexer.c 
 
 
-liboctetos_core_cc_la_LIBADD = libparser-version-c.la
+
+
+liboctetos_core_c_la_LIBADD = liboctetos-parser-version-c.la
+
+liboctetos_core_c_la_CFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
+
+liboctetos_core_c_la_LDFLAGS= -shared -fPIC -Wl,-Bsymbolic
+
+liboctetos_core_c_la_SOURCES = common-c.c
+
+
+
+
+liboctetos_core_cc_la_LIBADD = liboctetos-core-c.la
 
 liboctetos_core_cc_la_CPPFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
  
@@ -44,8 +58,7 @@ liboctetos_core_cc_la_SOURCES = common.cc \
 	Message.cc \
 	Object.cc \
 	Version.cc \
-	Licence.cc \
-	common-c.c
+	Licence.cc
 
 
 bin_PROGRAMS = \

@@ -21,6 +21,7 @@ namespace core
     bool Version::from(const std::string& str)
     {
         Tray ty;
+		ty.dysplay_erro = 0;
         int ret = parse_string(&ty,str.c_str());
         major = ty.version.major;
         minor = ty.version.minor;

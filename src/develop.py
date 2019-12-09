@@ -18,4 +18,24 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 print "Hello World! 2"
+import ctypes 
+NUM = 16      
+# libfun loaded to the python file 
+# using fun.myFunction(), 
+# C function can be accessed 
+# but type of argument is the problem. 
+                         
+fun = ctype.CDLL(/usr/local/lib/libparser-version-c.so)   
+# Now whenever argument  
+# will be passed to the function                                                         
+# ctypes will check it. 
+            
+fun.myFunction.argtypes(ctypes.c_int) 
+  
+# now we can call this  
+# function using instant (fun) 
+# returnValue is the value  
+# return by function written in C  
+# code 
+returnVale = fun.myFunction(NUM) 
 

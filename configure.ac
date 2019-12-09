@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
-AC_INIT(octetos-core, 0.2.0-alpha)
+AC_INIT(octetos-core, 0.3.0-alpha)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -9,6 +9,7 @@ AM_INIT_AUTOMAKE([1.11])
 
 AM_SILENT_RULES([yes])
 
+AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_YACC
 AM_PROG_LEX

@@ -134,32 +134,39 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
 	"$(DESTDIR)$(bindir)" "$(DESTDIR)$(developdir)" \
 	"$(DESTDIR)$(octetos_core_includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-liboctetos_core_cc_la_DEPENDENCIES = libparser-version-c.la
+liboctetos_core_c_la_DEPENDENCIES = liboctetos-parser-version-c.la
+am_liboctetos_core_c_la_OBJECTS = liboctetos_core_c_la-common-c.lo
+liboctetos_core_c_la_OBJECTS = $(am_liboctetos_core_c_la_OBJECTS)
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
+liboctetos_core_c_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(liboctetos_core_c_la_CFLAGS) $(CFLAGS) \
+	$(liboctetos_core_c_la_LDFLAGS) $(LDFLAGS) -o $@
+liboctetos_core_cc_la_DEPENDENCIES = liboctetos-core-c.la
 am_liboctetos_core_cc_la_OBJECTS = liboctetos_core_cc_la-common.lo \
 	liboctetos_core_cc_la-Error.lo \
 	liboctetos_core_cc_la-Message.lo \
 	liboctetos_core_cc_la-Object.lo \
 	liboctetos_core_cc_la-Version.lo \
-	liboctetos_core_cc_la-Licence.lo \
-	liboctetos_core_cc_la-common-c.lo
+	liboctetos_core_cc_la-Licence.lo
 liboctetos_core_cc_la_OBJECTS = $(am_liboctetos_core_cc_la_OBJECTS)
-AM_V_lt = $(am__v_lt_@AM_V@)
-am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
-am__v_lt_0 = --silent
-am__v_lt_1 = 
 liboctetos_core_cc_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(liboctetos_core_cc_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
-libparser_version_c_la_LIBADD =
-am_libparser_version_c_la_OBJECTS =  \
-	libparser_version_c_la-parser.tab.lo \
-	libparser_version_c_la-lexer.lo
-libparser_version_c_la_OBJECTS = $(am_libparser_version_c_la_OBJECTS)
-libparser_version_c_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+liboctetos_parser_version_c_la_LIBADD =
+am_liboctetos_parser_version_c_la_OBJECTS =  \
+	liboctetos_parser_version_c_la-parser.tab.lo \
+	liboctetos_parser_version_c_la-lexer.lo
+liboctetos_parser_version_c_la_OBJECTS =  \
+	$(am_liboctetos_parser_version_c_la_OBJECTS)
+liboctetos_parser_version_c_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(libparser_version_c_la_CFLAGS) $(CFLAGS) \
-	$(libparser_version_c_la_LDFLAGS) $(LDFLAGS) -o $@
+	$(liboctetos_parser_version_c_la_CFLAGS) $(CFLAGS) \
+	$(liboctetos_parser_version_c_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(bin_PROGRAMS)
 am_develop_parser_version_OBJECTS = develop-parser-version.$(OBJEXT)
 develop_parser_version_OBJECTS = $(am_develop_parser_version_OBJECTS)
@@ -217,11 +224,13 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(liboctetos_core_cc_la_SOURCES) \
-	$(libparser_version_c_la_SOURCES) \
+SOURCES = $(liboctetos_core_c_la_SOURCES) \
+	$(liboctetos_core_cc_la_SOURCES) \
+	$(liboctetos_parser_version_c_la_SOURCES) \
 	$(develop_parser_version_SOURCES)
-DIST_SOURCES = $(liboctetos_core_cc_la_SOURCES) \
-	$(libparser_version_c_la_SOURCES) \
+DIST_SOURCES = $(liboctetos_core_c_la_SOURCES) \
+	$(liboctetos_core_cc_la_SOURCES) \
+	$(liboctetos_parser_version_c_la_SOURCES) \
 	$(develop_parser_version_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -433,16 +442,21 @@ AM_CFLAGS = \
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
 lib_LTLIBRARIES = \
-	libparser-version-c.la \
+	liboctetos-parser-version-c.la \
+	liboctetos-core-c.la \
 	liboctetos-core-cc.la
 
-libparser_version_c_la_CFLAGS = -fPIC -Wl,-Bsymbolic
-libparser_version_c_la_LDFLAGS = -shared -fPIC -Wl,-Bsymbolic
-libparser_version_c_la_SOURCES = \
+liboctetos_parser_version_c_la_CFLAGS = -fPIC -Wl,-Bsymbolic
+liboctetos_parser_version_c_la_LDFLAGS = -shared -fPIC -Wl,-Bsymbolic
+liboctetos_parser_version_c_la_SOURCES = \
 	parser.tab.c \
-	lexer.c
+	lexer.c 
 
-liboctetos_core_cc_la_LIBADD = libparser-version-c.la
+liboctetos_core_c_la_LIBADD = liboctetos-parser-version-c.la
+liboctetos_core_c_la_CFLAGS = -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
+liboctetos_core_c_la_LDFLAGS = -shared -fPIC -Wl,-Bsymbolic
+liboctetos_core_c_la_SOURCES = common-c.c
+liboctetos_core_cc_la_LIBADD = liboctetos-core-c.la
 liboctetos_core_cc_la_CPPFLAGS = -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
 liboctetos_core_cc_la_LDFLAGS = -shared -fPIC -Wl,-Bsymbolic
 liboctetos_core_cc_la_SOURCES = common.cc \
@@ -450,8 +464,7 @@ liboctetos_core_cc_la_SOURCES = common.cc \
 	Message.cc \
 	Object.cc \
 	Version.cc \
-	Licence.cc \
-	common-c.c
+	Licence.cc
 
 bin_SCRIPTS = develop.py
 develop_parser_version_CFLAGS = 
@@ -532,11 +545,14 @@ clean-libLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
+liboctetos-core-c.la: $(liboctetos_core_c_la_OBJECTS) $(liboctetos_core_c_la_DEPENDENCIES) $(EXTRA_liboctetos_core_c_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(liboctetos_core_c_la_LINK) -rpath $(libdir) $(liboctetos_core_c_la_OBJECTS) $(liboctetos_core_c_la_LIBADD) $(LIBS)
+
 liboctetos-core-cc.la: $(liboctetos_core_cc_la_OBJECTS) $(liboctetos_core_cc_la_DEPENDENCIES) $(EXTRA_liboctetos_core_cc_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(liboctetos_core_cc_la_LINK) -rpath $(libdir) $(liboctetos_core_cc_la_OBJECTS) $(liboctetos_core_cc_la_LIBADD) $(LIBS)
 
-libparser-version-c.la: $(libparser_version_c_la_OBJECTS) $(libparser_version_c_la_DEPENDENCIES) $(EXTRA_libparser_version_c_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libparser_version_c_la_LINK) -rpath $(libdir) $(libparser_version_c_la_OBJECTS) $(libparser_version_c_la_LIBADD) $(LIBS)
+liboctetos-parser-version-c.la: $(liboctetos_parser_version_c_la_OBJECTS) $(liboctetos_parser_version_c_la_DEPENDENCIES) $(EXTRA_liboctetos_parser_version_c_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(liboctetos_parser_version_c_la_LINK) -rpath $(libdir) $(liboctetos_parser_version_c_la_OBJECTS) $(liboctetos_parser_version_c_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -633,15 +649,15 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/develop-parser-version.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_c_la-common-c.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Error.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Licence.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Message.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Object.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-Version.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-common-c.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-common.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparser_version_c_la-lexer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libparser_version_c_la-parser.tab.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_parser_version_c_la-lexer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_parser_version_c_la-parser.tab.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -664,26 +680,26 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
-liboctetos_core_cc_la-common-c.lo: common-c.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_core_cc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liboctetos_core_cc_la-common-c.lo -MD -MP -MF $(DEPDIR)/liboctetos_core_cc_la-common-c.Tpo -c -o liboctetos_core_cc_la-common-c.lo `test -f 'common-c.c' || echo '$(srcdir)/'`common-c.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_core_cc_la-common-c.Tpo $(DEPDIR)/liboctetos_core_cc_la-common-c.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='common-c.c' object='liboctetos_core_cc_la-common-c.lo' libtool=yes @AMDEPBACKSLASH@
+liboctetos_core_c_la-common-c.lo: common-c.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(liboctetos_core_c_la_CFLAGS) $(CFLAGS) -MT liboctetos_core_c_la-common-c.lo -MD -MP -MF $(DEPDIR)/liboctetos_core_c_la-common-c.Tpo -c -o liboctetos_core_c_la-common-c.lo `test -f 'common-c.c' || echo '$(srcdir)/'`common-c.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_core_c_la-common-c.Tpo $(DEPDIR)/liboctetos_core_c_la-common-c.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='common-c.c' object='liboctetos_core_c_la-common-c.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_core_cc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liboctetos_core_cc_la-common-c.lo `test -f 'common-c.c' || echo '$(srcdir)/'`common-c.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(liboctetos_core_c_la_CFLAGS) $(CFLAGS) -c -o liboctetos_core_c_la-common-c.lo `test -f 'common-c.c' || echo '$(srcdir)/'`common-c.c
 
-libparser_version_c_la-parser.tab.lo: parser.tab.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libparser_version_c_la_CFLAGS) $(CFLAGS) -MT libparser_version_c_la-parser.tab.lo -MD -MP -MF $(DEPDIR)/libparser_version_c_la-parser.tab.Tpo -c -o libparser_version_c_la-parser.tab.lo `test -f 'parser.tab.c' || echo '$(srcdir)/'`parser.tab.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparser_version_c_la-parser.tab.Tpo $(DEPDIR)/libparser_version_c_la-parser.tab.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='parser.tab.c' object='libparser_version_c_la-parser.tab.lo' libtool=yes @AMDEPBACKSLASH@
+liboctetos_parser_version_c_la-parser.tab.lo: parser.tab.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(liboctetos_parser_version_c_la_CFLAGS) $(CFLAGS) -MT liboctetos_parser_version_c_la-parser.tab.lo -MD -MP -MF $(DEPDIR)/liboctetos_parser_version_c_la-parser.tab.Tpo -c -o liboctetos_parser_version_c_la-parser.tab.lo `test -f 'parser.tab.c' || echo '$(srcdir)/'`parser.tab.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_parser_version_c_la-parser.tab.Tpo $(DEPDIR)/liboctetos_parser_version_c_la-parser.tab.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='parser.tab.c' object='liboctetos_parser_version_c_la-parser.tab.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libparser_version_c_la_CFLAGS) $(CFLAGS) -c -o libparser_version_c_la-parser.tab.lo `test -f 'parser.tab.c' || echo '$(srcdir)/'`parser.tab.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(liboctetos_parser_version_c_la_CFLAGS) $(CFLAGS) -c -o liboctetos_parser_version_c_la-parser.tab.lo `test -f 'parser.tab.c' || echo '$(srcdir)/'`parser.tab.c
 
-libparser_version_c_la-lexer.lo: lexer.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libparser_version_c_la_CFLAGS) $(CFLAGS) -MT libparser_version_c_la-lexer.lo -MD -MP -MF $(DEPDIR)/libparser_version_c_la-lexer.Tpo -c -o libparser_version_c_la-lexer.lo `test -f 'lexer.c' || echo '$(srcdir)/'`lexer.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libparser_version_c_la-lexer.Tpo $(DEPDIR)/libparser_version_c_la-lexer.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lexer.c' object='libparser_version_c_la-lexer.lo' libtool=yes @AMDEPBACKSLASH@
+liboctetos_parser_version_c_la-lexer.lo: lexer.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(liboctetos_parser_version_c_la_CFLAGS) $(CFLAGS) -MT liboctetos_parser_version_c_la-lexer.lo -MD -MP -MF $(DEPDIR)/liboctetos_parser_version_c_la-lexer.Tpo -c -o liboctetos_parser_version_c_la-lexer.lo `test -f 'lexer.c' || echo '$(srcdir)/'`lexer.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_parser_version_c_la-lexer.Tpo $(DEPDIR)/liboctetos_parser_version_c_la-lexer.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lexer.c' object='liboctetos_parser_version_c_la-lexer.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libparser_version_c_la_CFLAGS) $(CFLAGS) -c -o libparser_version_c_la-lexer.lo `test -f 'lexer.c' || echo '$(srcdir)/'`lexer.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(liboctetos_parser_version_c_la_CFLAGS) $(CFLAGS) -c -o liboctetos_parser_version_c_la-lexer.lo `test -f 'lexer.c' || echo '$(srcdir)/'`lexer.c
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

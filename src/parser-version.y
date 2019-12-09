@@ -171,7 +171,7 @@ void yyerror(struct Tray* ty, const char* s);
 
 %%
 void yyerror(struct Tray* ty,const char* s) {
-	if(ty->dysplay_erro > 0) fprintf(stderr, "Parse error: %s\n", s);
+	if(ty->dysplay_erro < 1) fprintf(stderr, "Parse error: %s\n", s);
 }
 /* Declarations */
 void set_input_string(const char* in);
