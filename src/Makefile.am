@@ -22,7 +22,7 @@ octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh
 lib_LTLIBRARIES =  \
 	liboctetos-parser-version-c.la \
 	liboctetos-core-c.la \
-	liboctetos-core-cc.la
+	liboctetos-core-cc.la 
 
 
 liboctetos_parser_version_c_la_CFLAGS=-fPIC -Wl,-Bsymbolic
@@ -47,18 +47,23 @@ liboctetos_core_c_la_SOURCES = common-c.c
 
 
 
-liboctetos_core_cc_la_LIBADD = liboctetos-core-c.la
+liboctetos_core_cc_la_LIBADD = 
 
 liboctetos_core_cc_la_CPPFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
  
 liboctetos_core_cc_la_LDFLAGS= -shared -fPIC -Wl,-Bsymbolic
 
-liboctetos_core_cc_la_SOURCES = common.cc \
+liboctetos_core_cc_la_SOURCES = parser.tab.c \
+	lexer.c \
+	common-c.c \
+	common.cc \
 	Error.cc \
 	Message.cc \
 	Object.cc \
 	Version.cc \
 	Licence.cc
+
+
 
 
 bin_PROGRAMS = \
@@ -84,3 +89,5 @@ develop_PYTHON = \
 if NATIVE_WIN32
 	develop_parser_version_LDFLAGS += -mwindows
 endif
+
+

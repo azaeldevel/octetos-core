@@ -16,7 +16,7 @@ namespace core
 {
 	const char* Version::getStageString() const
 	{
-		return octetos_version_getString(stage);
+		return octetos_core_Stage_getString(stage);
 	}
     bool Version::from(const std::string& str)
     {

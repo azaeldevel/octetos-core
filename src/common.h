@@ -44,6 +44,13 @@ struct octetos_version_Version {
 	enum octetos_version_Stage stage;
 };
 
-const char* octetos_version_getString(enum octetos_version_Stage stage);
+#ifdef __cplusplus  
+extern "C" {
+#endif 
+const char* octetos_core_Version_toString(struct octetos_version_Version* version);
+const char* octetos_core_Stage_getString(enum octetos_version_Stage stage);
+#ifdef __cplusplus 
+}
+#endif
 
 #endif
