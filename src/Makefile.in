@@ -284,6 +284,8 @@ CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
+CUNIT_CFLAGS = @CUNIT_CFLAGS@
+CUNIT_LIBS = @CUNIT_LIBS@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
@@ -354,6 +356,9 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
+PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
+PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 POFILES = @POFILES@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
@@ -478,6 +483,12 @@ develop_parser_version_SOURCES = \
 	develop-parser-version.cc
 
 develop_parser_version_LDADD = libparser-version-c.la
+
+#test_v0_CFLAGS =
+
+#test_v0_SOURCES = test-v0.cc
+
+#test_v0_LDADD = liboctetos-core-cc.la $(CUNIT)
 developdir = $(pythondir)/python_foobar
 develop_PYTHON = \
 	develop.py

@@ -14,6 +14,22 @@ namespace octetos
 {
 namespace core
 {
+	bool Version::operator =(const std::string& str)
+    {
+        Tray ty;
+		ty.dysplay_erro = 0;
+        int ret = parse_string(&ty,str.c_str());
+        major = ty.version.major;
+        minor = ty.version.minor;
+        patch = ty.version.patch;
+		stage = ty.version.stage;
+		stageNumber = ty.version.stageNumber;
+		//Version::build = ty.version.build;
+		octetos_version_Version::build = ty.version.build;
+		
+        if(ret == 0) return true;
+        return false;
+    }
 	const char* Version::getStageString() const
 	{
 		return octetos_core_Stage_getString(stage);
@@ -155,7 +171,7 @@ namespace core
         build = (unsigned long)0;
         //name = "";
     }
-    bool Version::operator !=(const Version& v)
+    bool Version::operator !=(const Version& v)const
     {
         if(major != v.major or minor != v.minor or patch != v.patch)
         {
@@ -164,7 +180,7 @@ namespace core
         
         return false;
     }
-    bool Version::operator ==(const Version& v)
+    bool Version::operator ==(const Version& v)const
     {
         if(major == v.major && minor == v.minor && patch == v.patch)
         {
@@ -173,7 +189,7 @@ namespace core
         
         return false;
     }
-    bool Version::operator <(const Version& v)
+    bool Version::operator <(const Version& v)const
     {                              
         //por numeros
         if(major < v.major)
@@ -220,7 +236,7 @@ namespace core
                 
                 return *this;
         }
-    bool Version::operator >(const Version& v)
+    bool Version::operator >(const Version& v)const
     {
         //por numeros
         if(major < v.major)
@@ -261,7 +277,7 @@ namespace core
         //std::cout << "no cumple" << std::endl;
         return false;
     }
-    bool Version::operator <=(const Version& v)
+    bool Version::operator <=(const Version& v)const
     {
         if((*this) < v or (*this) == v)
         {
@@ -272,7 +288,7 @@ namespace core
             return false;
         }
     }
-    bool Version::operator >=(const Version& v)
+    bool Version::operator >=(const Version& v)const
     {
         if((*this) > v or (*this) == v)
         {

@@ -79,6 +79,15 @@ develop_parser_version_SOURCES = \
 develop_parser_version_LDADD = libparser-version-c.la
 
 
+
+#test_v0_CFLAGS =
+
+#test_v0_SOURCES = test-v0.cc
+
+#test_v0_LDADD = liboctetos-core-cc.la $(CUNIT)
+
+
+
 developdir = $(pythondir)/python_foobar
 
 develop_PYTHON = \

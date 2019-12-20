@@ -116,16 +116,16 @@ namespace core
         * \brief Determina el orden relativo entre dos obejtos Version
         * \return true si el objeto pasado como parametro es amyor o igual, false en otro caso
         * */
-		bool operator >=(const Version& v);
-        bool operator >(const Version& v);
-        bool operator ==(const Version& v);
-        bool operator !=(const Version& v);
-        bool operator <=(const Version& v);
+		bool operator >=(const Version& v)const;
+        bool operator >(const Version& v)const;
+        bool operator ==(const Version& v)const;
+        bool operator !=(const Version& v)const;
+        bool operator <=(const Version& v)const;
         /**
         * \brief Determina el orden relativo entre dos obejtos Version
         * \return true si el objeto pasado como parametro es menor, false en otro caso
         * */
-		bool operator <(const Version& v);
+		bool operator <(const Version& v)const;
         /**
         * \brief Hace una copia del objecto version.
         * */
@@ -194,7 +194,8 @@ namespace core
 		* \brief Asinga los valores con datos leidos desde ana cadena de texto
 		* \param str Texto a leer.
 		* */                 
-		bool from(const std::string& str); 
+		bool from(const std::string& str);
+		bool operator =(const std::string& str); 
 	};
 	
 }

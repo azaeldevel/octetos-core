@@ -57,6 +57,8 @@ LT_INIT([win32-dll])
 
 
 
+PKG_CHECK_MODULES(CUNIT,cunit)
+
 AC_OUTPUT([
 Makefile
 src/Makefile
