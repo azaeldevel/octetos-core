@@ -7,22 +7,14 @@
 #include "common.hh"
 #include "config.h"
 
-//#include "common.hpp"
-
 
 static std::string  rootDir;
 static int majorNumber;
 
-/* Pointer to the file used by the tests. */
-static FILE* temp_file = NULL;
 
-/* The suite initialization function.
- * Opens the temporary file used by the tests.
- * Returns zero on success, non-zero otherwise.
- */
 int init_toolkit_common(void)
 {
-        return 0;
+	return 0;
 }
 
 /* The suite cleanup function.
@@ -31,7 +23,36 @@ int init_toolkit_common(void)
  */
 int clean_toolkit_common(void)
 {
-        return 0;
+	return 0;
+}
+
+void testParseString()
+{
+	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();
+	octetos::core::Version ver = packinfo.version;
+
+	octetos::core::Version verReaded;
+	verReaded = ver.toString ();
+
+	if(verReaded == ver)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+
+	octetos::core::Version verExtracted;
+	if(verExtracted.extractNumbers(ver.toString()))
+	{
+		//std::cout << "Version is '" << verExtracted.toString () << "'\n";
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
 }
 
 void testComparators()
@@ -245,19 +266,6 @@ void testComparators()
     }
 }
 
-
-void testValidStatement()
-{
-        //CU_ASSERT(octetos::toolkit::Version::valid("valid numbers = 1.3.65"));
-        ///std::cout << "Err>>:" <<std::endl;
-        //CU_ASSERT_FALSE(octetos::toolkit::Version::valid("valid numbers = 1.44.55-rc"));//deve rechazar porque se esta incluyendo la etapa
-        //std::cout << "Err<<" <<std::endl;
-        //CU_ASSERT(octetos::toolkit::Version::valid("valid stage = rc"));
-        //CU_ASSERT_FALSE(octetos::toolkit::Version::valid("valid stage = 1.2.3-rc"));
-        //CU_ASSERT(octetos::toolkit::Version::valid("valid name = snate43"));
-        //CU_ASSERT(octetos::toolkit::Version::valid("valid build = +12389678111233"));
-}
-
 void testBuildExtension()
 {
     octetos::core::Version ver1;
@@ -320,25 +328,13 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	
-	if ((NULL == CU_add_test(pSuite, "Pruebas de validadacion", testValidStatement)))
+			
+	if ((NULL == CU_add_test(pSuite, "Validacion de lectura de string", testParseString)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 	
-	
-	/*if ((NULL == CU_add_test(pSuite, "Extención de Campo Build.", testBuildExtension)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}*/
-	
-	/*if ((NULL == CU_add_test(pSuite, "Extención de Campo Stage.", testStageExtension)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}*/
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();

@@ -195,7 +195,14 @@ namespace core
 		* \param str Texto a leer.
 		* */                 
 		//bool from(const std::string& str);
-		bool operator =(const std::string& str); 
+		bool operator =(const std::string& str);
+		/**
+		*\brief Optine los componentes numericos correspondientes a la version,
+		* sin que sea necesaio que toda la string tenga el formato correcto, solo
+		* solo es necesario que los componentes numericos esten al pricipio de la caena.
+		**/
+		bool extractNumbers(const std::string& str);
+		 
 	};
 	
 }

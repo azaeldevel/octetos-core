@@ -14,7 +14,21 @@ namespace octetos
 {
 namespace core
 {
-	
+	bool Version::extractNumbers(const std::string& str)
+	{
+        Tray ty;
+		ty.dysplay_erro = 0;
+		std::string strcmd = "extrac numbers from ";
+		strcmd += str;
+        int ret = parse_string(&ty,strcmd.c_str());
+        major = ty.version.major;
+        minor = ty.version.minor;
+        patch = ty.version.patch;
+		
+        if(ret == 0) return true;
+        return false;
+	}
+		
 	bool Version::set(const std::string& str)
 	{
         Tray ty;

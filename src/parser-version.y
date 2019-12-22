@@ -53,12 +53,7 @@ void yyerror(struct Tray* ty, const char* s);
 %token <str> VALUE_BUILD_STRING
 %token <str> NOEXPECTED
 
-%token VALID 
-%token FIELDNAME_NUMBERS
-%token FIELDNAME_STAGE
-%token FIELDNAME_BUILD
-%token FIELDNAME_NAME 
-%token EQUAL    
+%token EXTRAC_TOKEN NUMBERS_TOKEN FROM_TOKEN
 
 %locations
 
@@ -68,7 +63,13 @@ void yyerror(struct Tray* ty, const char* s);
 	stmt : version ENDOFINPUT
 	{
 		YYACCEPT;
-	};
+	}
+	|
+	extract_numbers
+	{
+		YYACCEPT;
+	}
+	;
 
 	version : 
 	numbers_value
@@ -168,10 +169,12 @@ void yyerror(struct Tray* ty, const char* s);
     }
 	;
 	
+	extract_numbers : EXTRAC_TOKEN NUMBERS_TOKEN FROM_TOKEN numbers_value;
+	
 
 %%
 void yyerror(struct Tray* ty,const char* s) {
-	if(ty->dysplay_erro < 1) fprintf(stderr, "Parse error: %s\n", s);
+	if(ty->dysplay_erro > 0) fprintf(stderr, "Parse error: %s\n", s);
 }
 /* Declarations */
 void set_input_string(const char* in);
