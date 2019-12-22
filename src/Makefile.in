@@ -92,7 +92,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = develop-parser-version$(EXEEXT)
+bin_PROGRAMS = develop-parser-version$(EXEEXT) test-v0$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -195,6 +195,13 @@ PROGRAMS = $(bin_PROGRAMS)
 am_develop_parser_version_OBJECTS = develop-parser-version.$(OBJEXT)
 develop_parser_version_OBJECTS = $(am_develop_parser_version_OBJECTS)
 develop_parser_version_DEPENDENCIES = liboctetos-parser-version-c.la
+am_test_v0_OBJECTS = test_v0-test-v0.$(OBJEXT)
+test_v0_OBJECTS = $(am_test_v0_OBJECTS)
+am__DEPENDENCIES_1 =
+test_v0_DEPENDENCIES = $(am__DEPENDENCIES_1) liboctetos-core-cc.la
+test_v0_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(test_v0_LDFLAGS) $(LDFLAGS) -o $@
 SCRIPTS = $(bin_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -252,12 +259,12 @@ SOURCES = $(liboctetos_core_cc_a_SOURCES) \
 	$(liboctetos_core_c_la_SOURCES) \
 	$(liboctetos_core_cc_la_SOURCES) \
 	$(liboctetos_parser_version_c_la_SOURCES) \
-	$(develop_parser_version_SOURCES)
+	$(develop_parser_version_SOURCES) $(test_v0_SOURCES)
 DIST_SOURCES = $(liboctetos_core_cc_a_SOURCES) \
 	$(liboctetos_core_c_la_SOURCES) \
 	$(liboctetos_core_cc_la_SOURCES) \
 	$(liboctetos_parser_version_c_la_SOURCES) \
-	$(develop_parser_version_SOURCES)
+	$(develop_parser_version_SOURCES) $(test_v0_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -472,12 +479,13 @@ AM_CFLAGS = \
 
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
-lib_LIBRARIES = liboctetos-core-cc.a
 lib_LTLIBRARIES = \
 	liboctetos-parser-version-c.la \
 	liboctetos-core-c.la \
 	liboctetos-core-cc.la 
 
+lib_LIBRARIES = liboctetos-core-cc.a
+bin_SCRIPTS = develop.py
 liboctetos_parser_version_c_la_CFLAGS = -fPIC -Wl,-Bsymbolic
 liboctetos_parser_version_c_la_LDFLAGS = -shared -fPIC -Wl,-Bsymbolic
 liboctetos_parser_version_c_la_SOURCES = \
@@ -489,8 +497,8 @@ liboctetos_core_c_la_CFLAGS = -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
 liboctetos_core_c_la_LDFLAGS = -shared -fPIC -Wl,-Bsymbolic
 liboctetos_core_c_la_SOURCES = common-c.c
 liboctetos_core_cc_a_LIBADD = 
-liboctetos_core_cc_a_CPPFLAGS = -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
-liboctetos_core_cc_a_LDFLAGS = -static -fPIC -Wl,-Bsymbolic
+liboctetos_core_cc_a_CPPFLAGS = -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic 
+#liboctetos_core_cc_a_LDFLAGS= -static -fPIC -Wl,-Bsymbolic
 liboctetos_core_cc_a_SOURCES = parser.tab.c \
 	lexer.c \
 	common-c.c \
@@ -502,8 +510,8 @@ liboctetos_core_cc_a_SOURCES = parser.tab.c \
 	Licence.cc
 
 liboctetos_core_cc_la_LIBADD = 
-liboctetos_core_cc_la_CPPFLAGS = -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
-liboctetos_core_cc_la_LDFLAGS = -shared -static -fPIC -Wl,-Bsymbolic
+liboctetos_core_cc_la_CPPFLAGS = -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic 
+liboctetos_core_cc_la_LDFLAGS = -shared -fPIC -Wl,-Bsymbolic
 liboctetos_core_cc_la_SOURCES = parser.tab.c \
 	lexer.c \
 	common-c.c \
@@ -514,18 +522,14 @@ liboctetos_core_cc_la_SOURCES = parser.tab.c \
 	Version.cc \
 	Licence.cc
 
-bin_SCRIPTS = develop.py
 develop_parser_version_CFLAGS = 
-develop_parser_version_SOURCES = \
-	develop-parser-version.cc
-
+develop_parser_version_SOURCES = develop-parser-version.cc
 develop_parser_version_LDADD = liboctetos-parser-version-c.la
-
-#test_v0_CFLAGS =
-
-#test_v0_SOURCES = test-v0.cc
-
-#test_v0_LDADD = liboctetos-core-cc.la $(CUNIT)
+test_v0_LDFLAGS = $(CUNIT_LIBS) liboctetos-core-cc.la
+test_v0_CPPFLAGS = 
+test_v0_LDADD = $(CUNIT_LIBS) liboctetos-core-cc.la
+test_v0_LIBDADD = $(CUNIT_LIBS) liboctetos-core-cc.la
+test_v0_SOURCES = test-v0.cc
 developdir = $(pythondir)/python_foobar
 develop_PYTHON = \
 	develop.py
@@ -696,6 +700,10 @@ clean-binPROGRAMS:
 develop-parser-version$(EXEEXT): $(develop_parser_version_OBJECTS) $(develop_parser_version_DEPENDENCIES) $(EXTRA_develop_parser_version_DEPENDENCIES) 
 	@rm -f develop-parser-version$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(develop_parser_version_OBJECTS) $(develop_parser_version_LDADD) $(LIBS)
+
+test-v0$(EXEEXT): $(test_v0_OBJECTS) $(test_v0_DEPENDENCIES) $(EXTRA_test_v0_DEPENDENCIES) 
+	@rm -f test-v0$(EXEEXT)
+	$(AM_V_CXXLD)$(test_v0_LINK) $(test_v0_OBJECTS) $(test_v0_LDADD) $(LIBS)
 install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_SCRIPTS)'; test -n "$(bindir)" || list=; \
@@ -760,6 +768,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_cc_la-parser.tab.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_parser_version_c_la-lexer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_parser_version_c_la-parser.tab.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_v0-test-v0.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -1012,6 +1021,20 @@ liboctetos_core_cc_la-Licence.lo: Licence.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Licence.cc' object='liboctetos_core_cc_la-Licence.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_core_cc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o liboctetos_core_cc_la-Licence.lo `test -f 'Licence.cc' || echo '$(srcdir)/'`Licence.cc
+
+test_v0-test-v0.o: test-v0.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test_v0-test-v0.o -MD -MP -MF $(DEPDIR)/test_v0-test-v0.Tpo -c -o test_v0-test-v0.o `test -f 'test-v0.cc' || echo '$(srcdir)/'`test-v0.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_v0-test-v0.Tpo $(DEPDIR)/test_v0-test-v0.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test-v0.cc' object='test_v0-test-v0.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test_v0-test-v0.o `test -f 'test-v0.cc' || echo '$(srcdir)/'`test-v0.cc
+
+test_v0-test-v0.obj: test-v0.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test_v0-test-v0.obj -MD -MP -MF $(DEPDIR)/test_v0-test-v0.Tpo -c -o test_v0-test-v0.obj `if test -f 'test-v0.cc'; then $(CYGPATH_W) 'test-v0.cc'; else $(CYGPATH_W) '$(srcdir)/test-v0.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_v0-test-v0.Tpo $(DEPDIR)/test_v0-test-v0.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test-v0.cc' object='test_v0-test-v0.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test_v0-test-v0.obj `if test -f 'test-v0.cc'; then $(CYGPATH_W) 'test-v0.cc'; else $(CYGPATH_W) '$(srcdir)/test-v0.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

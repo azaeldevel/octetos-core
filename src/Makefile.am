@@ -19,12 +19,20 @@ octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
 
 
-lib_LIBRARIES = liboctetos-core-cc.a
-
 lib_LTLIBRARIES =  \
 	liboctetos-parser-version-c.la \
 	liboctetos-core-c.la \
 	liboctetos-core-cc.la 
+
+lib_LIBRARIES = liboctetos-core-cc.a
+
+
+bin_PROGRAMS = \
+	develop-parser-version\
+	test-v0
+
+
+bin_SCRIPTS = develop.py
 
 
 liboctetos_parser_version_c_la_CFLAGS=-fPIC -Wl,-Bsymbolic
@@ -39,20 +47,14 @@ liboctetos_parser_version_c_la_SOURCES =  \
 
 
 liboctetos_core_c_la_LIBADD = liboctetos-parser-version-c.la
-
 liboctetos_core_c_la_CFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
-
 liboctetos_core_c_la_LDFLAGS= -shared -fPIC -Wl,-Bsymbolic
-
 liboctetos_core_c_la_SOURCES = common-c.c
 
 
-liboctetos_core_cc_a_LIBADD = 
-
-liboctetos_core_cc_a_CPPFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
- 
-liboctetos_core_cc_a_LDFLAGS= -static -fPIC -Wl,-Bsymbolic
-
+liboctetos_core_cc_a_LIBADD =
+liboctetos_core_cc_a_CPPFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic 
+#liboctetos_core_cc_a_LDFLAGS= -static -fPIC -Wl,-Bsymbolic
 liboctetos_core_cc_a_SOURCES = parser.tab.c \
 	lexer.c \
 	common-c.c \
@@ -65,11 +67,8 @@ liboctetos_core_cc_a_SOURCES = parser.tab.c \
 
 
 liboctetos_core_cc_la_LIBADD = 
-
-liboctetos_core_cc_la_CPPFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
- 
-liboctetos_core_cc_la_LDFLAGS= -shared -static -fPIC -Wl,-Bsymbolic
-
+liboctetos_core_cc_la_CPPFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic 
+liboctetos_core_cc_la_LDFLAGS= -shared -fPIC -Wl,-Bsymbolic
 liboctetos_core_cc_la_SOURCES = parser.tab.c \
 	lexer.c \
 	common-c.c \
@@ -81,32 +80,20 @@ liboctetos_core_cc_la_SOURCES = parser.tab.c \
 	Licence.cc
 
 
-
-
-bin_PROGRAMS = \
-	develop-parser-version
-
-bin_SCRIPTS = develop.py
-
 develop_parser_version_CFLAGS =
-
-develop_parser_version_SOURCES = \
-	develop-parser-version.cc
-
+develop_parser_version_SOURCES = develop-parser-version.cc
 develop_parser_version_LDADD = liboctetos-parser-version-c.la
 
 
-
-#test_v0_CFLAGS =
-
-#test_v0_SOURCES = test-v0.cc
-
-#test_v0_LDADD = liboctetos-core-cc.la $(CUNIT)
+test_v0_LDFLAGS = $(CUNIT_LIBS) liboctetos-core-cc.la
+test_v0_CPPFLAGS =
+test_v0_LDADD = $(CUNIT_LIBS) liboctetos-core-cc.la
+test_v0_LIBDADD = $(CUNIT_LIBS) liboctetos-core-cc.la
+test_v0_SOURCES = test-v0.cc
 
 
 
 developdir = $(pythondir)/python_foobar
-
 develop_PYTHON = \
 	develop.py
 
@@ -115,5 +102,4 @@ develop_PYTHON = \
 if NATIVE_WIN32
 	develop_parser_version_LDFLAGS += -mwindows
 endif
-
 

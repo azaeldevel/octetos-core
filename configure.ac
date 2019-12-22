@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
-AC_INIT(octetos-core, 0.3.2-alpha)
+AC_INIT(octetos-core, 0.4.0-alpha)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -57,7 +57,8 @@ LT_INIT([win32-dll])
 
 
 
-PKG_CHECK_MODULES(CUNIT,cunit)
+PKG_CHECK_MODULES([CUNIT],[cunit],,[echo "Deve installar la libreria 'cunit' para ejecutar pruebas."] )
+
 
 AC_OUTPUT([
 Makefile

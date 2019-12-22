@@ -14,8 +14,9 @@ namespace octetos
 {
 namespace core
 {
-	bool Version::operator =(const std::string& str)
-    {
+	
+	bool Version::set(const std::string& str)
+	{
         Tray ty;
 		ty.dysplay_erro = 0;
         int ret = parse_string(&ty,str.c_str());
@@ -29,12 +30,16 @@ namespace core
 		
         if(ret == 0) return true;
         return false;
+	}
+	bool Version::operator =(const std::string& str)
+    {
+		return set(str);
     }
 	const char* Version::getStageString() const
 	{
 		return octetos_core_Stage_getString(stage);
 	}
-    bool Version::from(const std::string& str)
+    /*bool Version::from(const std::string& str)
     {
         Tray ty;
 		ty.dysplay_erro = 0;
@@ -49,7 +54,7 @@ namespace core
 		
         if(ret == 0) return true;
         return false;
-    } 
+    } */
 	
     const char* Version::Build::getString()const
     {
@@ -467,10 +472,6 @@ namespace core
         build = (unsigned long)0;
         //name = "";
     }
-	void Version::set(const std::string& str)
-	{
-		from(str);
-	}
 	Version::Version()
 	{
         init();

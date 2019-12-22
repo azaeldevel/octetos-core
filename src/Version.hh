@@ -162,7 +162,7 @@ namespace core
         * \brief Asigna solamanete el valor major. A menor y patch se le asigna 0.
         * */
 		void setNumbers(short major);
-		void set(const std::string&);
+		bool set(const std::string&);
         /**
         * \brief Asigna la etapa del proyecto
         * */
@@ -194,7 +194,7 @@ namespace core
 		* \brief Asinga los valores con datos leidos desde ana cadena de texto
 		* \param str Texto a leer.
 		* */                 
-		bool from(const std::string& str);
+		//bool from(const std::string& str);
 		bool operator =(const std::string& str); 
 	};
 	
