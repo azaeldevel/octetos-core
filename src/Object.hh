@@ -1,7 +1,7 @@
 #ifndef OCTETOS_CORE_OBJECT_HH
 #define OCTETOS_CORE_OBJECT_HH
 
-#ifndef DEBUG
+#ifdef DEBUG
         #define COLLETION_ASSISTANT
 #endif
 

@@ -19,6 +19,8 @@ octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
 
 
+lib_LIBRARIES = liboctetos-core-cc.a
+
 lib_LTLIBRARIES =  \
 	liboctetos-parser-version-c.la \
 	liboctetos-core-c.la \
@@ -45,13 +47,28 @@ liboctetos_core_c_la_LDFLAGS= -shared -fPIC -Wl,-Bsymbolic
 liboctetos_core_c_la_SOURCES = common-c.c
 
 
+liboctetos_core_cc_a_LIBADD = 
+
+liboctetos_core_cc_a_CPPFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
+ 
+liboctetos_core_cc_a_LDFLAGS= -static -fPIC -Wl,-Bsymbolic
+
+liboctetos_core_cc_a_SOURCES = parser.tab.c \
+	lexer.c \
+	common-c.c \
+	common.cc \
+	Error.cc \
+	Message.cc \
+	Object.cc \
+	Version.cc \
+	Licence.cc
 
 
 liboctetos_core_cc_la_LIBADD = 
 
 liboctetos_core_cc_la_CPPFLAGS= -DENABLED_AUTOTOOLS -fPIC -Wl,-Bsymbolic
  
-liboctetos_core_cc_la_LDFLAGS= -shared -fPIC -Wl,-Bsymbolic
+liboctetos_core_cc_la_LDFLAGS= -shared -static -fPIC -Wl,-Bsymbolic
 
 liboctetos_core_cc_la_SOURCES = parser.tab.c \
 	lexer.c \
@@ -76,7 +93,7 @@ develop_parser_version_CFLAGS =
 develop_parser_version_SOURCES = \
 	develop-parser-version.cc
 
-develop_parser_version_LDADD = libparser-version-c.la
+develop_parser_version_LDADD = liboctetos-parser-version-c.la
 
 
 
