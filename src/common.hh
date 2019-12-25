@@ -17,7 +17,7 @@ namespace core
 	/**
 	 * \brief retorna la version actual de componente
 	 **/
-	Version getPakageVersion();
+	Semver getPakageVersion();
 	std::string getPakageName();
 	
 	/**

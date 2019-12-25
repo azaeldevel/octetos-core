@@ -13,14 +13,28 @@ namespace octetos
 {
 namespace core
 {
+	class Version : public Object
+	{
+	public:
+        virtual bool operator ==(const Version& v)const = 0;
+        virtual bool operator !=(const Version& v)const = 0;
+        virtual bool operator >(const Version& v)const = 0;
+        virtual bool operator <(const Version& v)const = 0;
+		virtual bool operator >=(const Version& v)const = 0;
+        virtual bool operator <=(const Version& v)const = 0;
+	};
 
 	/**
 	 * \brief Informacion de Version
 	 * \details Acerda de 'Semantica de Versionado' https://semver.org/lang/es/.
 	 **/
-	class Version: public Object, private octetos_version_Version
+	class Semver: public Version, private octetos_version_Version
 	{
 	public:	
+		enum Imports
+		{
+			MySQL,
+		};
 		class InvalidComparison : public Error
 		{
 		public:
@@ -112,15 +126,15 @@ namespace core
         * \brief Retorna el nombre de la version
         * */
 		const std::string& getName() const;
+        virtual bool operator ==(const Version& v)const;
+        virtual bool operator !=(const Version& v)const;
         /**
         * \brief Determina el orden relativo entre dos obejtos Version
         * \return true si el objeto pasado como parametro es amyor o igual, false en otro caso
         * */
-		bool operator >=(const Version& v)const;
-        bool operator >(const Version& v)const;
-        bool operator ==(const Version& v)const;
-        bool operator !=(const Version& v)const;
-        bool operator <=(const Version& v)const;
+		virtual bool operator >=(const Version& v)const;
+        virtual bool operator >(const Version& v)const;
+        virtual bool operator <=(const Version& v)const;
         /**
         * \brief Determina el orden relativo entre dos obejtos Version
         * \return true si el objeto pasado como parametro es menor, false en otro caso
@@ -129,23 +143,23 @@ namespace core
         /**
         * \brief Hace una copia del objecto version.
         * */
-		const Version& operator =(const Version& v);
+		const Semver& operator =(const Semver& v);
                 
         /**
         * \brief Simple mente limpa las variables intenas
         * */
-        ~Version();
-        Version(const Version*);
-        Version(const Version&);
-		Version();
+        ~Semver();
+        Semver(const Semver*);
+        Semver(const Semver&);
+		Semver();
         /**
         * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
         * */
-		Version(short major,short minor);
+		Semver(short major,short minor);
         /**
         * \brief Asigna numero major, menor y patch, los restantas datos son limpiados
         * */
-		Version(short major,short minor,short patch);
+		Semver(short major,short minor,short patch);
         /**
         * \brief Asigna todos los campos de version.
         * */
@@ -202,6 +216,12 @@ namespace core
 		* solo es necesario que los componentes numericos esten al pricipio de la caena.
 		**/
 		bool extractNumbers(const std::string& str);
+		/**
+		*\brief La version especificada la convierte a formato semver
+		*\param ver Versión en formato númerico
+		*\param import Código del formato en que se recive la versión.
+		**/
+		bool importFactors(unsigned long ver,Imports import);
 		 
 	};
 	

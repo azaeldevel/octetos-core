@@ -15,7 +15,7 @@ namespace core
 		std::string name_decorated;
 		std::string brief;
 		std::string url;
-		Version version;
+		Semver version;
 		Licence licence;
 	};
 	

@@ -29,9 +29,9 @@ int clean_toolkit_common(void)
 void testParseString()
 {
 	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();
-	octetos::core::Version ver = packinfo.version;
+	octetos::core::Semver ver = packinfo.version;
 
-	octetos::core::Version verReaded;
+	octetos::core::Semver verReaded;
 	verReaded.set(ver.toString());
 	//std::cout << "ver '" << ver.toString () << "'\n";
 	//std::cout << "verReaded '" << verReaded.toString () << "'\n";
@@ -44,10 +44,22 @@ void testParseString()
 		CU_ASSERT(false);
 	}
 
-	octetos::core::Version verExtracted;
+	octetos::core::Semver verExtracted;
 	if(verExtracted.extractNumbers(ver.toString()))
 	{
 		//std::cout << "Version is '" << verExtracted.toString () << "'\n";
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+
+	octetos::core::Semver mysqlServer(5,7,30);
+	octetos::core::Semver mysqlServerImported;
+	mysqlServerImported.importFactors(50730,octetos::core::Semver::Imports::MySQL);
+	if(mysqlServer == mysqlServerImported)
+	{
 		CU_ASSERT(true);
 	}
 	else
@@ -58,8 +70,8 @@ void testParseString()
 
 void testComparators()
 {
-        octetos::core::Version ver1;
-        octetos::core::Version ver2;
+        octetos::core::Semver ver1;
+        octetos::core::Semver ver2;
         
         ver1.setNumbers(1,2,3);
         ver2.setNumbers(1,2,5);
@@ -126,8 +138,8 @@ void testComparators()
         }   
         
     //x simepre es amjor que x.y
-    octetos::core::Version ver3;
-    octetos::core::Version ver4;
+    octetos::core::Semver ver3;
+    octetos::core::Semver ver4;
     ver3.setNumbers(1);
     ver4.setNumbers(1,50);
     if(ver3 >= ver4) 
@@ -183,8 +195,8 @@ void testComparators()
     
     
     //x simepre es amjor que x.y
-    octetos::core::Version ver5;
-    octetos::core::Version ver6;
+    octetos::core::Semver ver5;
+    octetos::core::Semver ver6;
     ver5.setNumbers(1,50);
     ver6.setNumbers(1,50,100);
     if(ver5 >= ver6) 
@@ -230,9 +242,9 @@ void testComparators()
         CU_ASSERT(false);
     }
     
-    octetos::core::Version verMin;
-    octetos::core::Version verMax;
-    octetos::core::Version verVal;
+    octetos::core::Semver verMin;
+    octetos::core::Semver verMax;
+    octetos::core::Semver verVal;
     verMin.setNumbers(1,2,0);
     verVal.setNumbers(1,2,3);
     verMax.setNumbers(3,9,0);
@@ -253,8 +265,8 @@ void testComparators()
         CU_ASSERT(false);
     }
     
-    octetos::core::Version ver7;
-    octetos::core::Version ver8;
+    octetos::core::Semver ver7;
+    octetos::core::Semver ver8;
     ver7.setNumbers(4,4,20);
     ver8.setNumbers(3,2);
     if(ver7 >= ver8)
@@ -269,15 +281,15 @@ void testComparators()
 
 void testBuildExtension()
 {
-    octetos::core::Version ver1;
+    octetos::core::Semver ver1;
     ver1.setBuild(12345678901233);
     CU_ASSERT(ver1.getBuildUL() == 12345678901233);
-    octetos::core::Version ver2;
+    octetos::core::Semver ver2;
     ver2.setNumbers(2,36,98);
-    ver2.setStage(octetos::core::Version::Stage::alpha);
-    octetos::core::Version ver3;
+    ver2.setStage(octetos::core::Semver::Stage::alpha);
+    octetos::core::Semver ver3;
     ver3.setNumbers(1);
-    ver3.setStage(octetos::core::Version::Stage::release);
+    ver3.setStage(octetos::core::Semver::Stage::release);
     ver2.setBuild("+200-r56");
     //std::cout << std::endl << "Build complejo " << ver2.toString() << std::endl;
     if(ver2.getBuildString().compare("+200-r56") == 0)
@@ -292,9 +304,9 @@ void testBuildExtension()
 
 void testStageExtension()
 {
-    octetos::core::Version ver1;
+    octetos::core::Semver ver1;
     ver1.setNumbers(2,36,98);
-    ver1.setStage(octetos::core::Version::Stage::alpha,2);
+    ver1.setStage(octetos::core::Semver::Stage::alpha,2);
     if(ver1.getStageNumber() == 2)
     {
         CU_ASSERT(true);
@@ -308,7 +320,7 @@ int main(int argc, char *argv[])
 {
 
 	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();
-	octetos::core::Version& ver = packinfo.version;
+	octetos::core::Semver& ver = packinfo.version;
     
 	CU_pSuite pSuite = NULL;
 	majorNumber = ver.getMajor();

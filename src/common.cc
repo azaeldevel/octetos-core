@@ -9,9 +9,9 @@ namespace octetos
 {
 namespace core
 {
-	Version getPakageVersion()
+	Semver getPakageVersion()
 	{
-		Version v;
+		Semver v;
 		v.set(VERSION);
 		return v;		
 	}

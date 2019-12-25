@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <string.h>
-//#include <iostream> //for test
+#include <iostream> //for test
 
 
 #include "Version.hh"
@@ -14,7 +14,23 @@ namespace octetos
 {
 namespace core
 {
-	bool Version::extractNumbers(const std::string& str)
+	bool Semver::importFactors(unsigned long ver,Imports import)
+	{
+		if(import == Imports::MySQL)
+		{
+			unsigned long actualVer = ver;
+			major = actualVer/10000;
+			actualVer -= (10000 * major);
+			minor = actualVer/100;
+			actualVer -= (100 * minor);
+			patch = actualVer;
+			
+			return true;
+		}	
+
+		return false;
+	}
+	bool Semver::extractNumbers(const std::string& str)
 	{
         Tray ty;
 		ty.dysplay_erro = 0;
@@ -30,7 +46,7 @@ namespace core
         return false;
 	}
 		
-	bool Version::set(const std::string& str)
+	bool Semver::set(const std::string& str)
 	{
         Tray ty;
 		ty.dysplay_erro = 0;
@@ -50,7 +66,7 @@ namespace core
     {
 		return set(str);
     }*/
-	const char* Version::getStageString() const
+	const char* Semver::getStageString() const
 	{
 		return octetos_core_Stage_getString(stage);
 	}
@@ -71,7 +87,7 @@ namespace core
         return false;
     } */
 	
-    const char* Version::Build::getString()const
+    const char* Semver::Build::getString()const
     {
         if(type == eBuild::string_e)
         {
@@ -93,7 +109,7 @@ namespace core
             throw Error("El tipo de este dato no es 'Version'",0);
         }
     }*/
-    unsigned long Version::Build::getUL() const
+    unsigned long Semver::Build::getUL() const
     {
         if(type == eBuild::ul_e)
         {
@@ -104,7 +120,7 @@ namespace core
             throw Error("El tipo de este dato no es 'unsigned long'",0);
         }
     }
-    Version::Build::eBuild Version::Build::getType()const
+    Semver::Build::eBuild Semver::Build::getType()const
     {
         return type;
     }    
@@ -115,14 +131,14 @@ namespace core
         
         return *this;
     }*/
-    Version::Build& Version::Build::operator =(unsigned long ul)
+    Semver::Build& Semver::Build::operator =(unsigned long ul)
     {
         type = eBuild::ul_e;
         value.ul = ul;
         
         return *this;
     }
-    Version::Build& Version::Build::operator =(const char* str)
+    Semver::Build& Semver::Build::operator =(const char* str)
     {
         
         strcpy(value.string,str);
@@ -130,7 +146,7 @@ namespace core
         return *this;
     }
     
-    Version::Build::~Build()
+    Semver::Build::~Build()
     {
         /*if(build.getType() == Build::etype::version)
         {
@@ -147,15 +163,15 @@ namespace core
     
     
 
-    Version::Version(const Version* v)
+    Semver::Semver(const Semver* v)
     {
         (*this) = *v;
     }
-    Version::Version(const Version& v)
+    Semver::Semver(const Semver& v)
     {
         (*this) = v;
     }
-    Version::~Version()
+    Semver::~Semver()
     {
     }
     /*void Version::setBuild(const Version& v)
@@ -163,7 +179,7 @@ namespace core
         Version* ver = new Version(v);
         this->build = ver;
     }*/
-    void Version::setBuild(const std::string& str)
+    void Semver::setBuild(const std::string& str)
     {
         //std::string* str = new std::string(v);
         this->build = str.c_str();
@@ -173,15 +189,15 @@ namespace core
         Version* ver = new Version(v);
         this->build = ver;        
     }  */  
-        Version::InvalidComparison::InvalidComparison(const std::string& msg):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON)
+        Semver::InvalidComparison::InvalidComparison(const std::string& msg):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON)
         {
                 
         }
-        Version::InvalidComparison::InvalidComparison(const std::string& msg ,std::string filename,int lineNumber):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON,filename,lineNumber)
+        Semver::InvalidComparison::InvalidComparison(const std::string& msg ,std::string filename,int lineNumber):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON,filename,lineNumber)
         {
                 
         }
-    void Version::init()
+    void Semver::init()
     {
 		major = -1;
 		minor = -1;
@@ -191,61 +207,61 @@ namespace core
         build = (unsigned long)0;
         //name = "";
     }
-    bool Version::operator !=(const Version& v)const
+    bool Semver::operator !=(const Version& v)const
     {
-        if(major != v.major or minor != v.minor or patch != v.patch)
+        if(major != ((Semver&)v).major or minor != ((Semver&)v).minor or patch != ((Semver&)v).patch)
         {
             return true;
         }
         
         return false;
     }
-    bool Version::operator ==(const Version& v)const
+    bool Semver::operator ==(const Version& v)const
     {
-        if(major == v.major && minor == v.minor && patch == v.patch)
+        if(major == ((Semver&)v).major && minor == ((Semver&)v).minor && patch == ((Semver&)v).patch)
         {
             return true;
         }
         
         return false;
     }
-    bool Version::operator <(const Version& v)const
+    bool Semver::operator <(const Version& v)const
     {                              
         //por numeros
-        if(major < v.major)
+        if(major < ((Semver&)v).major)
         {
             return true;  
         }
-        else if(major < 0 and v.major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
+        else if(major < 0 and ((Semver&)v).major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
         {
             throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
         }
                 
-        if(minor < 0 and v.minor > -1)
+        if(minor < 0 and ((Semver&)v).minor > -1)
         {
             return false;
         }
-        else if(minor < v.minor)
+        else if(minor < ((Semver&)v).minor)
         {
             return true;
         } 
-        else if(minor > v.minor)
+        else if(minor > ((Semver&)v).minor)
         {
             return false;
         }
         
-        if(patch < 0 and v.patch > -1)
+        if(patch < 0 and ((Semver&)v).patch > -1)
         {
             return false;
         }
-        else if(patch < v.patch)
+        else if(patch < ((Semver&)v).patch)
         {
             return true;
         }
                 
         return false;
     }
-        const Version& Version::operator =(const Version& v)
+        const Semver& Semver::operator =(const Semver& v)
         {
                 this->major = v.major;
                 this->minor = v.minor;
@@ -256,40 +272,40 @@ namespace core
                 
                 return *this;
         }
-    bool Version::operator >(const Version& v)const
+    bool Semver::operator >(const Version& v)const
     {
         //por numeros
-        if(major < v.major)
+        if(major < ((Semver&)v).major)
         {
             return false;
         }
-        else if(major > v.major)
+        else if(major > ((Semver&)v).major)
         {
             return true;
         }
-        else if(major < 0 and v.major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
+        else if(major < 0 and ((Semver&)v).major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
         {
             throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
         }
         
-        if(minor < 0 and v.minor > -1)
+        if(minor < 0 and ((Semver&)v).minor > -1)
         {
             return true;
         }
-        else if(minor > v.minor)
+        else if(minor > ((Semver&)v).minor)
         {
             return true;
         }
-        else if(minor < v.minor)
+        else if(minor < ((Semver&)v).minor)
         {
             return false;
         }
         
-        if(patch < 0 and v.patch > -1)
+        if(patch < 0 and ((Semver&)v).patch > -1)
         {
             return true;
         }
-        else if(patch > v.patch)
+        else if(patch > ((Semver&)v).patch)
         {
             return true;
         }
@@ -297,7 +313,7 @@ namespace core
         //std::cout << "no cumple" << std::endl;
         return false;
     }
-    bool Version::operator <=(const Version& v)const
+    bool Semver::operator <=(const Version& v)const
     {
         if((*this) < v or (*this) == v)
         {
@@ -308,7 +324,7 @@ namespace core
             return false;
         }
     }
-    bool Version::operator >=(const Version& v)const
+    bool Semver::operator >=(const Version& v)const
     {
         if((*this) > v or (*this) == v)
         {
@@ -394,7 +410,7 @@ namespace core
         {
                 this->name = name;
         }*/
-    void Version::set(short major,short minor,short patch,Stage stage,unsigned long build, const std::string& name)
+    void Semver::set(short major,short minor,short patch,Stage stage,unsigned long build, const std::string& name)
     {                
         this->major = major;
         this->minor = minor;
@@ -403,73 +419,73 @@ namespace core
         this->build = build;
         //this->name = name;
     }
-	const std::string& Version::getBuildString() const
+	const std::string& Semver::getBuildString() const
 	{
         return build.getString();
     }
-	unsigned long Version::getBuildUL() const
+	unsigned long Semver::getBuildUL() const
 	{
         return build.getUL();
     }
-    Version::Stage Version::getStage() const
+    Semver::Stage Semver::getStage() const
     {
         return stage;
     }       
-    short Version::getStageNumber() const
+    short Semver::getStageNumber() const
     {
         return stageNumber;
     }
-    const Version::Build& Version::getBuild() const
+    const Semver::Build& Semver::getBuild() const
     {
         return build;
     }
-        void Version::setNumbers(short major,short minor,short patch)
+        void Semver::setNumbers(short major,short minor,short patch)
         {
                 this->major = major;
                 this->minor = minor;
                 this->patch = patch;
         }
-        void Version::setNumbers(short major,short minor)
+        void Semver::setNumbers(short major,short minor)
         {
                 this->major = major;
                 this->minor = minor;
                 patch = -1;
         }
-        void Version::setNumbers(short major)
+        void Semver::setNumbers(short major)
         {
                 this->major = major;
                 minor = -1;
                 patch = -1;
         }
- 	void Version::setStage(Stage stage)
+ 	void Semver::setStage(Stage stage)
 	{
 		this->stage = stage;
 	}
- 	void Version::setStage(Stage stage,short number)
+ 	void Semver::setStage(Stage stage,short number)
 	{
 		this->stage = stage;
 		this->stageNumber = number;
 	}
-    void Version::setBuild(unsigned long build)
+    void Semver::setBuild(unsigned long build)
     {
         this->build = build;
     }
-	short Version::getMajor() const
+	short Semver::getMajor() const
 	{
 		return this->major;		
 	}
 
-	short Version::getMinor() const
+	short Semver::getMinor() const
 	{
 		return this->minor;
 	}
 
-	short Version::getPatch() const
+	short Semver::getPatch() const
 	{
 		return this->patch;
 	}
 
-	Version::Version(short major,short minor,short patch)
+	Semver::Semver(short major,short minor,short patch)
     {
 		this->major = major;
 		this->minor = minor;
@@ -478,7 +494,7 @@ namespace core
         build = (unsigned long)0;
         //name = "";
     }
-	Version::Version(short major,short minor)
+	Semver::Semver(short major,short minor)
     {
 		this->major = major;
 		this->minor = minor;
@@ -487,12 +503,12 @@ namespace core
         build = (unsigned long)0;
         //name = "";
     }
-	Version::Version()
+	Semver::Semver()
 	{
         init();
 	}
 
-	std::string Version::toString(Version::Format formato) const
+	std::string Semver::toString(Semver::Format formato) const
 	{		
 		std::string ver = "";
                 if(major >= 0)
@@ -509,7 +525,7 @@ namespace core
                         ver += ".";
                         ver += std::to_string(patch);		
                 }
-                if(formato == Version::Format::ONLY_NUMBERS) return ver;
+                if(formato == Semver::Format::ONLY_NUMBERS) return ver;
                 
 		switch(stage)
 		{
