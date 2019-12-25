@@ -1,2 +1,9 @@
+v0.5.0 - Azael Reyes
+	- Adaptación para pkgconfig
+	- Se cambia el nombre de core::Version hacia core::Semver y se crea la 
+	  clase bastracta core::Version.
+	- Implemetación de documentación.
 
+v0.0.1 - Azael Reyes
+	Creación de proyecto apartir de toolkit::common v6.10
 
