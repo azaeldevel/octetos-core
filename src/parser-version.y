@@ -53,7 +53,7 @@ void yyerror(struct Tray* ty, const char* s);
 %token <str> VALUE_BUILD_STRING
 %token <str> NOEXPECTED
 
-%token EXTRAC_TOKEN NUMBERS_TOKEN FROM_TOKEN
+%token EXTRACT_TOKEN NUMBERS_TOKEN FROM_TOKEN
 
 %locations
 
@@ -169,7 +169,7 @@ void yyerror(struct Tray* ty, const char* s);
     }
 	;
 	
-	extract_numbers : EXTRAC_TOKEN NUMBERS_TOKEN FROM_TOKEN numbers_value;
+	extract_numbers : EXTRACT_TOKEN NUMBERS_TOKEN FROM_TOKEN numbers_value;
 	
 
 %%

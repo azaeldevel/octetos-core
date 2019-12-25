@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@prefix@/lib
+datarootdir=@datarootdir@
+datadir=@datadir@
+includedir=@prefix@/include
+
+Name: octetos-core
+Description: Libreria Core de Octetos.
+Version: @VERSION@
+Requires: 
+Libs: -L${libdir} -loctetos-core
+Cflags: -I${includedir}

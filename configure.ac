@@ -2,11 +2,8 @@ dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
 AC_INIT(octetos-core, 0.5.0-alpha)
-
 AC_CONFIG_HEADERS([config.h])
-
-AM_INIT_AUTOMAKE([1.11])
-
+AM_INIT_AUTOMAKE([foreign])
 AM_SILENT_RULES([yes])
 
 AC_PROG_CC
@@ -14,14 +11,17 @@ AC_PROG_CXX
 AC_PROG_YACC
 AM_PROG_LEX
 AM_PATH_PYTHON
+AC_PROG_LIBTOOL
 
+AC_SUBST(LIBTOOL_DEPS)
+AC_LTDL_DLLIB
 
 dnl ***************************************************************************
 dnl Internationalization
 dnl ***************************************************************************
 IT_PROG_INTLTOOL([0.35.0])
 
-GETTEXT_PACKAGE=octetos-core
+GETTEXT_PACKAGE=octetos_core
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 AM_GLIB_GNU_GETTEXT
@@ -54,14 +54,13 @@ AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 LT_INIT([win32-dll])
 
 
+PKG_CHECK_MODULES(CUNIT, [cunit],,[echo "Deve installar la libreria 'cunit' para ejecutar pruebas."] )
 
 
-
-PKG_CHECK_MODULES([CUNIT],[cunit],,[echo "Deve installar la libreria 'cunit' para ejecutar pruebas."] )
 
 
 AC_OUTPUT([
 Makefile
+src/octetos-core.pc
 src/Makefile
-po/Makefile.in
-])
+po/Makefile.in])

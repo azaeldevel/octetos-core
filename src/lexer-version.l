@@ -22,16 +22,19 @@
 %{          /** Code executed at the beginning of yylex **/
             BEGIN(INITIAL);
 %}
-"from"        {//printf("token : %s\n",yytext);
+"from"        {
+								//printf("token : %s\n",yytext);
                                 return FROM_TOKEN;
                                         
                             }
-"numbers"        {//printf("token : %s\n",yytext);
+"numbers"        {
+								//printf("token : %s\n",yytext);
                                 return NUMBERS_TOKEN;
                                         
                             }
-"extrac"        {//printf("token : %s\n",yytext);
-                                return EXTRAC_TOKEN;
+"extract"        {
+								//printf("token : %s\n",yytext);
+                                return EXTRACT_TOKEN;
                                         
                             }             
 

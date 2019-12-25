@@ -8,7 +8,7 @@
 #include "config.h"
 
 
-static std::string  rootDir;
+
 static int majorNumber;
 
 
@@ -32,8 +32,9 @@ void testParseString()
 	octetos::core::Version ver = packinfo.version;
 
 	octetos::core::Version verReaded;
-	verReaded = ver.toString ();
-
+	verReaded.set(ver.toString());
+	//std::cout << "ver '" << ver.toString () << "'\n";
+	//std::cout << "verReaded '" << verReaded.toString () << "'\n";
 	if(verReaded == ver)
 	{
 		CU_ASSERT(true);

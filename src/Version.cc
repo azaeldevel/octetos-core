@@ -18,8 +18,9 @@ namespace core
 	{
         Tray ty;
 		ty.dysplay_erro = 0;
-		std::string strcmd = "extrac numbers from ";
+		std::string strcmd = "extract numbers from ";
 		strcmd += str;
+		//printf("command : %s\n",strcmd.c_str());
         int ret = parse_string(&ty,strcmd.c_str());
         major = ty.version.major;
         minor = ty.version.minor;
@@ -45,10 +46,10 @@ namespace core
         if(ret == 0) return true;
         return false;
 	}
-	bool Version::operator =(const std::string& str)
+	/*bool Version::operator =(const std::string& str)
     {
 		return set(str);
-    }
+    }*/
 	const char* Version::getStageString() const
 	{
 		return octetos_core_Stage_getString(stage);
