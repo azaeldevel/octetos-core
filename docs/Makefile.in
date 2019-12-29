@@ -299,9 +299,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-@HAVE_DOXYGEN_TRUE@directory = $(top_srcdir)/docs/man/man3
-@HAVE_DOXYGEN_TRUE@man_MANS = $(directory)
-@HAVE_DOXYGEN_TRUE@CLEANFILES = doxyfile.stamp
+@WITH_DOCS_TRUE@directory = $(top_srcdir)/docs/man/man3
+@WITH_DOCS_TRUE@man_MANS = $(directory)
+@WITH_DOCS_TRUE@CLEANFILES = doxyfile.stamp
 all: all-am
 
 .SUFFIXES:
@@ -381,7 +381,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-@HAVE_DOXYGEN_FALSE@all-local:
+@WITH_DOCS_FALSE@all-local:
 all-am: Makefile all-local
 installdirs:
 install: install-am
@@ -415,7 +415,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-@HAVE_DOXYGEN_FALSE@clean-local:
+@WITH_DOCS_FALSE@clean-local:
 clean: clean-am
 
 clean-am: clean-generic clean-libtool clean-local mostlyclean-am
@@ -500,16 +500,16 @@ uninstall-am:
 .PRECIOUS: Makefile
 
 
-@HAVE_DOXYGEN_TRUE@$(directory): doxyfile.stamp
+@WITH_DOCS_TRUE@$(directory): doxyfile.stamp
 
-@HAVE_DOXYGEN_TRUE@doxyfile.stamp: $(top_builddir)/docs/Doxyfile
-@HAVE_DOXYGEN_TRUE@	$(DOXYGEN) $^
+@WITH_DOCS_TRUE@doxyfile.stamp: $(top_builddir)/docs/Doxyfile
+@WITH_DOCS_TRUE@	$(DOXYGEN) $^
 #	cd $(top_builddir)/docs/latex && $(MAKE)
-@HAVE_DOXYGEN_TRUE@	echo Timestamp > $@
+@WITH_DOCS_TRUE@	echo Timestamp > $@
 
-@HAVE_DOXYGEN_TRUE@all-local: doxyfile.stamp
-@HAVE_DOXYGEN_TRUE@clean-local:
-@HAVE_DOXYGEN_TRUE@	-rm -rf $(top_srcdir)/docs/man
+@WITH_DOCS_TRUE@all-local: doxyfile.stamp
+@WITH_DOCS_TRUE@clean-local:
+@WITH_DOCS_TRUE@	-rm -rf $(top_srcdir)/docs/man
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

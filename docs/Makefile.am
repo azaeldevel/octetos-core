@@ -1,6 +1,5 @@
 
-
-if HAVE_DOXYGEN
+if WITH_DOCS
 directory = $(top_srcdir)/docs/man/man3
 
 man_MANS = $(directory)

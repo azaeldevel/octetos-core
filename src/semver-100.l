@@ -6,12 +6,12 @@
 #include <stdlib.h>
 
 
-#include "parser-version.h"
+#include "semver-parser.h"
 
 #define YY_DECL int yylex(struct Tray* ty)
 //int parse_string(struct Tray* ty,const char* in);
 
-#include "parser.tab.h"
+#include "semver-100.tab.h"
 //extern YYSTYPE yylval;
 %}
 

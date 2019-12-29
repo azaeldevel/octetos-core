@@ -24,11 +24,13 @@ namespace core
         virtual bool operator <=(const Version& v)const = 0;
 	};
 
+	namespace semver
+	{
 	/**
 	 * \brief Informacion de Version
 	 * \details Acerda de 'Semantica de Versionado' https://semver.org/lang/es/.
 	 **/
-	class Semver: public Version, private octetos_version_Version
+	class v100: public Version, private octetos_version_Version
 	{
 	public:	
 		enum Imports
@@ -143,23 +145,23 @@ namespace core
         /**
         * \brief Hace una copia del objecto version.
         * */
-		const Semver& operator =(const Semver& v);
+		const v100& operator =(const v100& v);
                 
         /**
         * \brief Simple mente limpa las variables intenas
         * */
-        ~Semver();
-        Semver(const Semver*);
-        Semver(const Semver&);
-		Semver();
+        ~v100();
+        v100(const v100*);
+        v100(const v100&);
+		v100();
         /**
         * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
         * */
-		Semver(short major,short minor);
+		v100(short major,short minor);
         /**
         * \brief Asigna numero major, menor y patch, los restantas datos son limpiados
         * */
-		Semver(short major,short minor,short patch);
+		v100(short major,short minor,short patch);
         /**
         * \brief Asigna todos los campos de version.
         * */
@@ -222,9 +224,14 @@ namespace core
 		*\param import Código del formato en que se recive la versión.
 		**/
 		bool importFactors(unsigned long ver,Imports import);
-		 
+		
+		/**
+		*\brief Indica la version semver implemetada.
+		**/
+		v100 getVersion() const;
 	};
-	
+	}
+	typedef semver::v100 Semver;
 }
 }
 #endif

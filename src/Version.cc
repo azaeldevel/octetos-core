@@ -5,7 +5,7 @@
 
 
 #include "Version.hh"
-#include "parser-version.h"
+#include "semver-parser.h"
 
 
 
@@ -14,7 +14,14 @@ namespace octetos
 {
 namespace core
 {
-	bool Semver::importFactors(unsigned long ver,Imports import)
+namespace semver
+{
+	v100 v100::getVersion() const
+	{
+		return v100(1,0,0);
+	}
+	
+	bool v100::importFactors(unsigned long ver,Imports import)
 	{
 		if(import == Imports::MySQL)
 		{
@@ -30,7 +37,7 @@ namespace core
 
 		return false;
 	}
-	bool Semver::extractNumbers(const std::string& str)
+	bool v100::extractNumbers(const std::string& str)
 	{
         Tray ty;
 		ty.dysplay_erro = 0;
@@ -46,7 +53,7 @@ namespace core
         return false;
 	}
 		
-	bool Semver::set(const std::string& str)
+	bool v100::set(const std::string& str)
 	{
         Tray ty;
 		ty.dysplay_erro = 0;
@@ -66,7 +73,7 @@ namespace core
     {
 		return set(str);
     }*/
-	const char* Semver::getStageString() const
+	const char* v100::getStageString() const
 	{
 		return octetos_core_Stage_getString(stage);
 	}
@@ -87,7 +94,7 @@ namespace core
         return false;
     } */
 	
-    const char* Semver::Build::getString()const
+    const char* v100::Build::getString()const
     {
         if(type == eBuild::string_e)
         {
@@ -109,7 +116,7 @@ namespace core
             throw Error("El tipo de este dato no es 'Version'",0);
         }
     }*/
-    unsigned long Semver::Build::getUL() const
+    unsigned long v100::Build::getUL() const
     {
         if(type == eBuild::ul_e)
         {
@@ -120,7 +127,7 @@ namespace core
             throw Error("El tipo de este dato no es 'unsigned long'",0);
         }
     }
-    Semver::Build::eBuild Semver::Build::getType()const
+    v100::Build::eBuild v100::Build::getType()const
     {
         return type;
     }    
@@ -131,14 +138,14 @@ namespace core
         
         return *this;
     }*/
-    Semver::Build& Semver::Build::operator =(unsigned long ul)
+    v100::Build& v100::Build::operator =(unsigned long ul)
     {
         type = eBuild::ul_e;
         value.ul = ul;
         
         return *this;
     }
-    Semver::Build& Semver::Build::operator =(const char* str)
+    v100::Build& v100::Build::operator =(const char* str)
     {
         
         strcpy(value.string,str);
@@ -146,7 +153,7 @@ namespace core
         return *this;
     }
     
-    Semver::Build::~Build()
+    v100::Build::~Build()
     {
         /*if(build.getType() == Build::etype::version)
         {
@@ -163,15 +170,15 @@ namespace core
     
     
 
-    Semver::Semver(const Semver* v)
+    v100::v100(const v100* v)
     {
         (*this) = *v;
     }
-    Semver::Semver(const Semver& v)
+    v100::v100(const v100& v)
     {
         (*this) = v;
     }
-    Semver::~Semver()
+    v100::~v100()
     {
     }
     /*void Version::setBuild(const Version& v)
@@ -179,7 +186,7 @@ namespace core
         Version* ver = new Version(v);
         this->build = ver;
     }*/
-    void Semver::setBuild(const std::string& str)
+    void v100::setBuild(const std::string& str)
     {
         //std::string* str = new std::string(v);
         this->build = str.c_str();
@@ -189,15 +196,15 @@ namespace core
         Version* ver = new Version(v);
         this->build = ver;        
     }  */  
-        Semver::InvalidComparison::InvalidComparison(const std::string& msg):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON)
+        v100::InvalidComparison::InvalidComparison(const std::string& msg):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON)
         {
                 
         }
-        Semver::InvalidComparison::InvalidComparison(const std::string& msg ,std::string filename,int lineNumber):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON,filename,lineNumber)
+        v100::InvalidComparison::InvalidComparison(const std::string& msg ,std::string filename,int lineNumber):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON,filename,lineNumber)
         {
                 
         }
-    void Semver::init()
+    void v100::init()
     {
 		major = -1;
 		minor = -1;
@@ -207,7 +214,7 @@ namespace core
         build = (unsigned long)0;
         //name = "";
     }
-    bool Semver::operator !=(const Version& v)const
+    bool v100::operator !=(const Version& v)const
     {
         if(major != ((Semver&)v).major or minor != ((Semver&)v).minor or patch != ((Semver&)v).patch)
         {
@@ -216,7 +223,7 @@ namespace core
         
         return false;
     }
-    bool Semver::operator ==(const Version& v)const
+    bool v100::operator ==(const Version& v)const
     {
         if(major == ((Semver&)v).major && minor == ((Semver&)v).minor && patch == ((Semver&)v).patch)
         {
@@ -225,43 +232,43 @@ namespace core
         
         return false;
     }
-    bool Semver::operator <(const Version& v)const
+    bool v100::operator <(const Version& v)const
     {                              
         //por numeros
         if(major < ((Semver&)v).major)
         {
             return true;  
         }
-        else if(major < 0 and ((Semver&)v).major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
+        else if(major < 0 and ((v100&)v).major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
         {
             throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
         }
                 
-        if(minor < 0 and ((Semver&)v).minor > -1)
+        if(minor < 0 and ((v100&)v).minor > -1)
         {
             return false;
         }
-        else if(minor < ((Semver&)v).minor)
+        else if(minor < ((v100&)v).minor)
         {
             return true;
         } 
-        else if(minor > ((Semver&)v).minor)
+        else if(minor > ((v100&)v).minor)
         {
             return false;
         }
         
-        if(patch < 0 and ((Semver&)v).patch > -1)
+        if(patch < 0 and ((v100&)v).patch > -1)
         {
             return false;
         }
-        else if(patch < ((Semver&)v).patch)
+        else if(patch < ((v100&)v).patch)
         {
             return true;
         }
                 
         return false;
     }
-        const Semver& Semver::operator =(const Semver& v)
+        const v100& v100::operator =(const v100& v)
         {
                 this->major = v.major;
                 this->minor = v.minor;
@@ -272,7 +279,7 @@ namespace core
                 
                 return *this;
         }
-    bool Semver::operator >(const Version& v)const
+    bool v100::operator >(const Version& v)const
     {
         //por numeros
         if(major < ((Semver&)v).major)
@@ -410,7 +417,7 @@ namespace core
         {
                 this->name = name;
         }*/
-    void Semver::set(short major,short minor,short patch,Stage stage,unsigned long build, const std::string& name)
+    void v100::set(short major,short minor,short patch,Stage stage,unsigned long build, const std::string& name)
     {                
         this->major = major;
         this->minor = minor;
@@ -419,73 +426,73 @@ namespace core
         this->build = build;
         //this->name = name;
     }
-	const std::string& Semver::getBuildString() const
+	const std::string& v100::getBuildString() const
 	{
         return build.getString();
     }
-	unsigned long Semver::getBuildUL() const
+	unsigned long v100::getBuildUL() const
 	{
         return build.getUL();
     }
-    Semver::Stage Semver::getStage() const
+    Semver::Stage v100::getStage() const
     {
         return stage;
     }       
-    short Semver::getStageNumber() const
+    short v100::getStageNumber() const
     {
         return stageNumber;
     }
-    const Semver::Build& Semver::getBuild() const
+    const v100::Build& Semver::getBuild() const
     {
         return build;
     }
-        void Semver::setNumbers(short major,short minor,short patch)
+        void v100::setNumbers(short major,short minor,short patch)
         {
                 this->major = major;
                 this->minor = minor;
                 this->patch = patch;
         }
-        void Semver::setNumbers(short major,short minor)
+        void v100::setNumbers(short major,short minor)
         {
                 this->major = major;
                 this->minor = minor;
                 patch = -1;
         }
-        void Semver::setNumbers(short major)
+        void v100::setNumbers(short major)
         {
                 this->major = major;
                 minor = -1;
                 patch = -1;
         }
- 	void Semver::setStage(Stage stage)
+ 	void v100::setStage(Stage stage)
 	{
 		this->stage = stage;
 	}
- 	void Semver::setStage(Stage stage,short number)
+ 	void v100::setStage(Stage stage,short number)
 	{
 		this->stage = stage;
 		this->stageNumber = number;
 	}
-    void Semver::setBuild(unsigned long build)
+    void v100::setBuild(unsigned long build)
     {
         this->build = build;
     }
-	short Semver::getMajor() const
+	short v100::getMajor() const
 	{
 		return this->major;		
 	}
 
-	short Semver::getMinor() const
+	short v100::getMinor() const
 	{
 		return this->minor;
 	}
 
-	short Semver::getPatch() const
+	short v100::getPatch() const
 	{
 		return this->patch;
 	}
 
-	Semver::Semver(short major,short minor,short patch)
+	v100::v100(short major,short minor,short patch)
     {
 		this->major = major;
 		this->minor = minor;
@@ -494,7 +501,7 @@ namespace core
         build = (unsigned long)0;
         //name = "";
     }
-	Semver::Semver(short major,short minor)
+	v100::v100(short major,short minor)
     {
 		this->major = major;
 		this->minor = minor;
@@ -503,12 +510,12 @@ namespace core
         build = (unsigned long)0;
         //name = "";
     }
-	Semver::Semver()
+	v100::v100()
 	{
         init();
 	}
 
-	std::string Semver::toString(Semver::Format formato) const
+	std::string v100::toString(Semver::Format formato) const
 	{		
 		std::string ver = "";
                 if(major >= 0)
@@ -590,6 +597,6 @@ namespace core
                 
 		return ver;
 	}
-	
+}
 }
 }

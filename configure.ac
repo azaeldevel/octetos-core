@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
-AC_INIT(octetos-core, 0.5.0-alpha)
+AC_INIT(octetos-core, 0.7.0-alpha)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign])
 AM_SILENT_RULES([yes])
@@ -54,29 +54,35 @@ AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 LT_INIT([win32-dll])
 
 
-PKG_CHECK_MODULES(CUNIT, [cunit],,[echo "Deve installar la libreria 'cunit' para ejecutar pruebas."] )
-
-##Documentacion de Doxygen
-AC_CHECK_PROGS([DOXYGEN], [doxygen])
-if test -z "$DOXYGEN"; then
-   AC_MSG_WARN([Doxygen not found - continue without Doxygen support])
+AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
+AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Pruebas.]))
+if test "x$with_tests" = "xyes"; then
+	PKG_CHECK_MODULES(CUNIT,cunit)
 fi
-AC_CHECK_PROGS([DOT], [dot])
-if test -z "$DOT"; then
-   AC_MSG_ERROR([Doxygen needs dot, please install dot first])
-fi
-AC_CHECK_PROGS([PDFLATEX], [pdflatex])
-if test -z "$PDFLATEX"; then
-   AC_MSG_ERROR([Doxygen needs pdflatex program, it is part of TeX http://www.tug.org/texlive/acquire-netinstall.html])
-fi
-AM_CONDITIONAL([HAVE_DOXYGEN], [test -n "$DOXYGEN"])
-AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([docs/Doxyfile])])
-AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([docs/Makefile])])
 
-
+AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")
+AC_ARG_WITH([docs], AS_HELP_STRING([--with-docs], [Compilando con soporte para Documentación.]))
+#if test "x$with_docs" = "xyes"; then 
+	AC_CHECK_PROGS([DOXYGEN], [doxygen])
+	if test -z "$DOXYGEN"; then
+	   AC_MSG_ERROR([Es necesario instalar Doxygen para continuar])
+	fi
+	AC_CHECK_PROGS([DOT], [dot])
+	if test -z "$DOT"; then
+	   AC_MSG_ERROR([Doxygen necesita dot, porfavor instalelo primero])
+	fi
+	AC_CHECK_PROGS([PDFLATEX], [pdflatex])
+	if test -z "$PDFLATEX"; then
+	   AC_MSG_ERROR([Doxygen necesita pdflatex, es parte de TeX http://www.tug.org/texlive/acquire-netinstall.html])
+	fi
+	AM_CONDITIONAL([HAVE_DOXYGEN], [test -n "$DOXYGEN"])
+	AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([docs/Doxyfile])])
+	AM_COND_IF([HAVE_DOXYGEN], [AC_CONFIG_FILES([docs/Makefile])])
+#fi
 
 AC_OUTPUT([
 Makefile
 src/octetos-core.pc
 src/Makefile
+tests/Makefile
 po/Makefile.in])

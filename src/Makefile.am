@@ -11,21 +11,32 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-lib_LTLIBRARIES = liboctetos-core.la
+lib_LTLIBRARIES = liboctetos-semver-100.la \
+	liboctetos-core.la
 
-bin_PROGRAMS = test-v0
+bin_PROGRAMS = 
 
-parser.tab.c parser.tab.h : parser-version.y
+semver-100.tab.c semver-100.h : semver-100.y
 	bison -d -o $@ $<
 
-lexer.c : lexer-version.l
+semver-100.c : semver-100.l
 	flex -o $@ $<
 
+liboctetos_semver_100_la_LDFLAGS = 
+liboctetos_semver_100_la_LIBADD = $(CUNIT_LIBS)
+liboctetos_semver_100_la_SOURCES = \
+	semver-100.tab.c \
+	semver-100.c
+
 liboctetos_core_la_LDFLAGS = 
-liboctetos_core_la_LIBADD = $(CUNIT_LIBS)
+if PLATFORM_WIN32
+liboctetos_core_la_LDFLAGS += -no-undefined
+endif
+if NATIVE_WIN32
+liboctetos_core_la_LDFLAGS += -export-dynamic
+endif
+liboctetos_core_la_LIBADD = $(CUNIT_LIBS)  liboctetos-semver-100.la
 liboctetos_core_la_SOURCES = \
-	parser.tab.c \
-	lexer.c \
 	common-c.c \
 	common.cc \
 	Error.cc \
@@ -33,17 +44,6 @@ liboctetos_core_la_SOURCES = \
 	Object.cc \
 	Version.cc \
 	Licence.cc
-if PLATFORM_WIN32
-liboctetos_core_la_LDFLAGS += -no-undefined
-endif
-if NATIVE_WIN32
-liboctetos_core_la_LDFLAGS += -export-dynamic
-endif
-
-
-test_v0_LDADD = $(CUNIT_LIBS) liboctetos-core.la
-test_v0_SOURCES = test-v0.cc
-
 
 
 octetos_core_includedir = $(includedir)/octetos/core
