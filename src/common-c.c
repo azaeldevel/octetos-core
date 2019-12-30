@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "common.h"
 
 void octetos_Semver_init(struct octetos_Semver* version)
@@ -39,65 +41,73 @@ const char* octetos_Stage_getString(enum octetos_version_Stage stage)
 	}
 }
 
-const char* octetos_Semver_toString(struct octetos_Semver* version)
+const char* octetos_Semver_toString(const struct octetos_Semver* version,enum octetos_Semver_FormatString formato)
 {
-	char* verstr  = 0;
-	/*if(version->major > -1)
+	const char* numberStr  = NULL;	
+	if(version->major > -1 && version->minor > -1 && version->patch > -1)
 	{
-		char* verstrMa;
-		asprintf(&verstrMa, "%i", version->major);
-		verstr = verstrMa;
+		char* buffer[20];
+		int leng = sprintf(buffer,"%d.%d.%d",version->major,version->minor,version->patch);
+		numberStr = malloc(leng +1);
+		strcpy(numberStr, buffer);
+	}	
+	else if(version->major > -1 && version->minor > -1)
+	{
+		char* buffer[15];
+		int leng = sprintf(buffer,"%d.%d",version->major,version->minor);
+		numberStr = malloc(leng +1);
+		strcpy(numberStr, buffer);
+	}	
+	else if(version->major > -1)
+	{
+		char* buffer[7];
+		int leng = sprintf(buffer,"%d",version->major);
+		numberStr = malloc(leng +1);
+		strcpy(numberStr, buffer);
 	}
 	else
-	{//falla devido a que no esta inicializado
-		return 0;
-	}
-	if(version->minor > -1)
 	{
-		char* verstrMi;
-		asprintf(&verstrMi, "%i", version->minor);
-		if(verstr != 0) 
-		{
-			verstr = strcat(verstr,".");
-			verstr = strcat(verstr,verstrMi);
-		}
+		return NULL;
+	}
+	int numberLeng = strlen(numberStr);
+	if(formato == OnlyNumber) return numberStr;
+
+	const char* stageStr = octetos_Stage_getString(version->stage);	
+	int stageLeng = strlen(stageStr) + 1;//se agrega la longitus de stage mas el espacio del guion
+
+	const char* buildStr = NULL;
+	int buildLeng = 0;
+	if(version->build.type == ul_e)
+	{
+		char* buffer[15];
+		buildLeng = sprintf(buffer,"%d",version->build.value.ul);
+		buildStr = malloc(buildLeng+1);//la cadena mas el signo de '+'
+		strcpy(buildStr, buffer);
+	}
+    else if(version->build.type == string_e)
+	{
+		buildStr = version->build.value.string;
+		buildLeng = strlen(buildStr);
 	}
 	else
-	{//falla devido a que no esta inicializado
-		return 0;
-	}
-	if(version->patch > -1)
 	{
-		char* verstrPa;
-		asprintf(&verstrPa, "%i", version->patch);
-		if(verstr != 0) 
-		{
-			verstr = strcat(verstr,".");
-			verstr = strcat(verstr,verstrPa);
-		}
+		buildLeng = 0;
 	}
-	else
-	{//falla devido a que no esta inicializado
-		return 0;
-	}
-	
-	if(version->stage == unknown)
-	{//falla devido a que no esta inicializado
-		return 0;
-	}
-	else if(version->stage == alpha)
+
+	int verstrLeng = numberLeng + stageLeng + buildLeng + 1;
+	const char* verstr = malloc(verstrLeng);
+	strcpy(verstr,numberStr);
+	strcat(verstr,"-");
+	strcat(verstr,stageStr);
+	if(version->build.type == ul_e)
 	{
-		verstr = strcat(verstr,"-alpha");		
+		strcat(verstr,"+");
+		strcat(verstr,buildStr);
 	}
-	else if(version->stage == beta)
+	else if(version->build.type == string_e)
 	{
-		verstr = strcat(verstr,"-beta");
+		strcat(verstr,buildStr);
 	}
-	else if(version->stage == release)
-	{
-		verstr = strcat(verstr,"-release");
-	}*/
-	
 	
 	return verstr;
 }

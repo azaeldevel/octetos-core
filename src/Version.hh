@@ -39,7 +39,7 @@ namespace core
 		**/
 		typedef octetos_version_Stage Stage;
 						
-
+		typedef octetos_Semver_FormatString FormatString;
 		/**
 		 * \brief Informacion de Version
 		 * \details Acerda de 'Semantica de Versionado' https://semver.org/lang/es/.
@@ -52,14 +52,6 @@ namespace core
 				MySQL,
 			};
 
-			/**
-			* \brief Paramaetro pasado a la funcion toString para determinar el formato de texto geneerado
-			* */
-			enum Format
-			{
-				FULL,
-				ONLY_NUMBERS
-			};
 					    
 		public:
 			/**
@@ -175,7 +167,7 @@ namespace core
 		    * \brief Retorna una representa en texto de la version.
 		    * \param formato Determina el formato generado.
 		    * */
-			std::string toString(Format formato = Format::FULL) const; 
+			std::string toString(FormatString formato = FormatString::FullString) const; 
 			/**		    
 			*\brief Optine los componentes numericos correspondientes a la version,
 			* sin que sea necesaio que toda la string tenga el formato correcto, solo

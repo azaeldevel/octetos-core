@@ -234,9 +234,10 @@ namespace semver
         build.type = octetos_Semver_Build_Type::none;
     }
 
-	std::string v100::toString(Semver::Format formato) const
+	std::string v100::toString(FormatString formato) const
 	{		
 		std::string ver = "";
+		/*
                 if(major >= 0)
                 {
                         ver += std::to_string(major);
@@ -301,8 +302,8 @@ namespace semver
         else if(build.type == octetos_Semver_Build_Type::string_e)
         {
             ver += build.value.string;
-        }
-                
+        }*/
+        ver = octetos_Semver_toString(this,formato);
 		return ver;
 	}
 }

@@ -26,6 +26,14 @@ union octetos_Semver_Build_Value
     char* string;
     unsigned long ul;
 };
+/**
+* \brief Paramaetro pasado a la funcion toString para determinar el formato de texto geneerado
+* */
+enum octetos_Semver_FormatString
+{
+	FullString,
+	OnlyNumber
+};
 struct octetos_Semver_Build
 {
     enum octetos_Semver_Build_Type type;
@@ -48,7 +56,7 @@ struct octetos_Semver {
 #ifdef __cplusplus  
 extern "C" {
 #endif 
-	const char* octetos_Semver_toString(struct octetos_Semver* version);
+	const char* octetos_Semver_toString(const struct octetos_Semver* version,enum octetos_Semver_FormatString);
 	void octetos_Semver_init(struct octetos_Semver* version);
 	
 	const char* octetos_Stage_getString(enum octetos_version_Stage stage);
