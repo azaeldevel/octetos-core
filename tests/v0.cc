@@ -57,7 +57,7 @@ void testParseString()
 
 	octetos::core::Semver mysqlServer(5,7,30);
 	octetos::core::Semver mysqlServerImported;
-	mysqlServerImported.importFactors(50730,octetos::core::Semver::Imports::MySQL);
+	mysqlServerImported.set(50730,octetos::core::Semver::ImportCode::MySQL);
 	if(mysqlServer == mysqlServerImported)
 	{
 		CU_ASSERT(true);

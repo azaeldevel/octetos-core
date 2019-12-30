@@ -15,21 +15,21 @@ enum octetos_version_Stage {
     ga
 };
 
-enum octetos_version_eBuild
+enum octetos_Semver_Build_Type
 {
 	none,
     ul_e,
     string_e
 };
-union octetos_version_vBuild
+union octetos_Semver_Build_Value
 {
     char* string;
     unsigned long ul;
 };
-struct octetos_version_Build
+struct octetos_Semver_Build
 {
-    enum octetos_version_eBuild type;
-    union octetos_version_vBuild value;
+    enum octetos_Semver_Build_Type type;
+    union octetos_Semver_Build_Value value;
 };
 /**
 * \brief Informacion de version
@@ -41,16 +41,17 @@ struct octetos_Semver {
 	short patch;
 	short tweak;
     short stageNumber;
-	struct octetos_version_Build build;
+	struct octetos_Semver_Build build;
 	enum octetos_version_Stage stage;
 };
 
 #ifdef __cplusplus  
 extern "C" {
 #endif 
-	const char* octetos_core_Version_toString(struct octetos_Semver* version);
-	void Semver_init(struct octetos_Semver* version);
-const char* octetos_core_Stage_getString(enum octetos_version_Stage stage);
+	const char* octetos_Semver_toString(struct octetos_Semver* version);
+	void octetos_Semver_init(struct octetos_Semver* version);
+	
+	const char* octetos_Stage_getString(enum octetos_version_Stage stage);
 #ifdef __cplusplus 
 }
 #endif

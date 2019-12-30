@@ -38,9 +38,7 @@ namespace core
 		* \details Tipicamente un proyecto o sprint comienz en la vervion X-alpha, luego pasa a X-beta y finalmente se genera X-release, lo que sigue a continuacion del guion es la fase aqui representado
 		**/
 		typedef octetos_version_Stage Stage;
-			
-		typedef octetos_version_eBuild eBuild;
-			
+						
 
 		/**
 		 * \brief Informacion de Version
@@ -49,7 +47,7 @@ namespace core
 		class v100: public Version, private octetos_Semver
 		{
 		public:	
-			enum Imports
+			enum ImportCode
 			{
 				MySQL,
 			};
@@ -231,7 +229,7 @@ namespace core
 			*\param ver Versión en formato númerico
 			*\param import Código del formato en que se recive la versión.
 			**/
-			bool importFactors(unsigned long ver,Imports import);
+			bool set(unsigned long ver,ImportCode import);
 			
 			/**
 			*\brief Indica la version semver implemetada.

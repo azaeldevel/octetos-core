@@ -21,9 +21,9 @@ namespace semver
 		return v100(1,0,0);
 	}
 	
-	bool v100::importFactors(unsigned long ver,Imports import)
+	bool v100::set(unsigned long ver,ImportCode import)
 	{
-		if(import == Imports::MySQL)
+		if(import == ImportCode::MySQL)
 		{
 			unsigned long actualVer = ver;
 			major = actualVer/10000;
@@ -67,7 +67,7 @@ namespace semver
     }*/
 	const char* v100::getStageString() const
 	{
-		return octetos_core_Stage_getString(stage);
+		return octetos_Stage_getString(stage);
 	}
     /*bool Version::from(const std::string& str)
     {
@@ -160,7 +160,7 @@ namespace semver
 
     void v100::init()
     {
-		Semver_init(this);
+		octetos_Semver_init(this);
     }
 	v100::v100(short major,short minor)
     {
@@ -168,7 +168,7 @@ namespace semver
 		this->minor = minor;
 		patch = -1;
 		stage = unknown;
-        build.type = octetos_version_eBuild::none;
+        build.type = octetos_Semver_Build_Type::none;
         build.value.ul = 0;
     }
 	v100::v100()
@@ -185,7 +185,7 @@ namespace semver
     }
     v100::~v100()
     {
-		if(build.type == eBuild::string_e)
+		if(build.type == octetos_Semver_Build_Type::string_e)
 		{
 			if(!build.value.string) delete build.value.string;
 		}
@@ -194,12 +194,12 @@ namespace semver
 	
     void v100::setBuild(unsigned long b)
     {
-		if(build.type == eBuild::none)
+		if(build.type == octetos_Semver_Build_Type::none)
 		{
-			build.type = eBuild::ul_e;
+			build.type = octetos_Semver_Build_Type::ul_e;
         	this->build.value.ul = b;
 		}
-		else if(build.type == eBuild::ul_e)
+		else if(build.type == octetos_Semver_Build_Type::ul_e)
 		{
 			
         	this->build.value.ul = b;
@@ -211,9 +211,9 @@ namespace semver
     }
     void v100::setBuild(const std::string& str)
     {
-		if(build.type == eBuild::none or build.type == eBuild::string_e)
+		if(build.type == octetos_Semver_Build_Type::none or build.type == octetos_Semver_Build_Type::string_e)
 		{
-			build.type = eBuild::string_e;
+			build.type = octetos_Semver_Build_Type::string_e;
 			const char* temp = str.c_str();
 			if(build.value.string)
 			{//si hay una string librar la memoria
@@ -336,17 +336,17 @@ namespace semver
         this->minor = minor;
         this->patch = patch;
         this->stage = stage;
-        this->build.type = eBuild::none;
+        this->build.type = octetos_Semver_Build_Type::none;
 		this->build.value.ul = 0;
     }
 	std::string v100::getBuildString() const
 	{
-        if(build.type == eBuild::string_e) return std::string(build.value.string);
+        if(build.type == octetos_Semver_Build_Type::string_e) return std::string(build.value.string);
 		throw Error("El campo build no contine informacion de tipo string.",Error::ERROR_UNKNOW);
     }
 	unsigned long v100::getBuildUL() const
 	{
-        if(build.type == octetos_version_eBuild::ul_e) return build.value.ul;
+        if(build.type == octetos_Semver_Build_Type::ul_e) return build.value.ul;
 		throw Error("El campo build no contine informacion de tipo long.",Error::ERROR_UNKNOW);
     }
     Stage v100::getStage() const
@@ -409,7 +409,7 @@ namespace semver
 		this->minor = minor;
 		this->patch = patch;
 		stage = unknown;
-        build.type = octetos_version_eBuild::none;
+        build.type = octetos_Semver_Build_Type::none;
         //name = "";
     }
 
@@ -469,7 +469,7 @@ namespace semver
 							break;							
 		}
 
-		if(build.type == octetos_version_eBuild::ul_e)
+		if(build.type == octetos_Semver_Build_Type::ul_e)
         {
             if(build.value.ul > 0)
             {
@@ -477,7 +477,7 @@ namespace semver
                 ver += std::to_string(build.value.ul);	
             }
         }
-        else if(build.type == octetos_version_eBuild::string_e)
+        else if(build.type == octetos_Semver_Build_Type::string_e)
         {
             ver += build.value.string;
         }
