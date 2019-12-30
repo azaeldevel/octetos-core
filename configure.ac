@@ -54,10 +54,16 @@ AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 LT_INIT([win32-dll])
 
 
+
 AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
 AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Pruebas.]))
 if test "x$with_tests" = "xyes"; then
 	PKG_CHECK_MODULES(CUNIT,cunit)
+	AC_CHECK_PROG([VERSION],[version])
+	if test -z "$VERSION"; then
+	   AC_MSG_ERROR([Es necesario instalar version, pertenece al paquete octeos-software, puede descargarlo en https://github.com/azaeldevel/octetos-software.git])
+	fi
+	AM_CONDITIONAL([HAVE_VERSION], [test -n "$VERSION"])
 fi
 
 AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")

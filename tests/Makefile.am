@@ -12,8 +12,12 @@ AM_CFLAGS =\
 	 -g
 
 
-bin_PROGRAMS = v0
+bin_PROGRAMS =
 
-v0_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la
-v0_CPPFLAGS = -I$(top_srcdir)/src
-v0_SOURCES = v0.cc
+if HAVE_VERSION
+bin_PROGRAMS += v0
+majorVersion = $(version $(PACKAGE_VERSION) --major)
+v$(majorVersion)_LDADD = $(CUNIT_LIBS)  $(top_builddir)/src/liboctetos-core.la
+v$(majorVersion)_CPPFLAGS = -I$(top_srcdir)/src
+v$(majorVersion)_SOURCES = v$(majorVersion).cc
+endif

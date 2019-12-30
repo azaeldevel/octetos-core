@@ -12,7 +12,7 @@
 static int majorNumber;
 
 
-int init_toolkit_common(void)
+int init(void)
 {
 	return 0;
 }
@@ -21,7 +21,7 @@ int init_toolkit_common(void)
  * Closes the temporary file used by the tests.
  * Returns zero on success, non-zero otherwise.
  */
-int clean_toolkit_common(void)
+int clean(void)
 {
 	return 0;
 }
@@ -328,8 +328,8 @@ int main(int argc, char *argv[])
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
 	std::string& pkName = packinfo.name;
-	std::string classVersionString = std::string("Probando ") + pkName + " " + ver.toString() + "\n" + packinfo.licence.getBrief() + "\n" + packinfo.brief + "\n";
-	pSuite = CU_add_suite(classVersionString.c_str(), init_toolkit_common, clean_toolkit_common);
+	std::string classVersionString = pkName + " " + ver.toString() + "\n" + packinfo.licence.getBrief() + "\n" + packinfo.brief + "\n";
+	pSuite = CU_add_suite(classVersionString.c_str(), init, clean);
 	if (NULL == pSuite) 
 	{
 		CU_cleanup_registry();
@@ -342,7 +342,7 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 			
-	if ((NULL == CU_add_test(pSuite, "Validacion de lectura de string", testParseString)))
+	if ((NULL == CU_add_test(pSuite, "Validacion de parseo de string", testParseString)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

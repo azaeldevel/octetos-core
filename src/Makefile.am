@@ -11,10 +11,8 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-lib_LTLIBRARIES = liboctetos-semver-100.la \
-	liboctetos-core.la
+lib_LTLIBRARIES = liboctetos-core.la
 
-bin_PROGRAMS = 
 
 semver-100.tab.c semver-100.h : semver-100.y
 	bison -d -o $@ $<
@@ -22,11 +20,6 @@ semver-100.tab.c semver-100.h : semver-100.y
 semver-100.c : semver-100.l
 	flex -o $@ $<
 
-liboctetos_semver_100_la_LDFLAGS = 
-liboctetos_semver_100_la_LIBADD = $(CUNIT_LIBS)
-liboctetos_semver_100_la_SOURCES = \
-	semver-100.tab.c \
-	semver-100.c
 
 liboctetos_core_la_LDFLAGS = 
 if PLATFORM_WIN32
@@ -35,14 +28,16 @@ endif
 if NATIVE_WIN32
 liboctetos_core_la_LDFLAGS += -export-dynamic
 endif
-liboctetos_core_la_LIBADD = $(CUNIT_LIBS)  liboctetos-semver-100.la
+liboctetos_core_la_LIBADD = 
 liboctetos_core_la_SOURCES = \
+	semver-100.tab.c \
+	semver-100.c \
+	version-semver-100.cc\
 	common-c.c \
 	common.cc \
 	Error.cc \
 	Message.cc \
 	Object.cc \
-	Version.cc \
 	Licence.cc
 
 
