@@ -61,103 +61,10 @@ namespace semver
         if(ret == 0) return true;
         return false;
 	}
-	/*bool Version::operator =(const std::string& str)
-    {
-		return set(str);
-    }*/
 	const char* v100::getStageString() const
 	{
 		return octetos_Stage_getString(stage);
-	}
-    /*bool Version::from(const std::string& str)
-    {
-        Tray ty;
-		ty.dysplay_erro = 0;
-        int ret = parse_string(&ty,str.c_str());
-        major = ty.version.major;
-        minor = ty.version.minor;
-        patch = ty.version.patch;
-		stage = ty.version.stage;
-		stageNumber = ty.version.stageNumber;
-		//Version::build = ty.version.build;
-		octetos_version_Version::build = ty.version.build;
-		
-        if(ret == 0) return true;
-        return false;
-    } */
-	
-    /*const char* v100::Build::getString()const
-    {
-        if(type == eBuild::string_e)
-        {
-            return value.string;
-        }
-        else
-        {
-            throw Error("El tipo de este dato no es 'una cadena de texto.'",0);
-        }
-    }*/
-    /*Version* Version::Build::getVersion() const
-    {
-        if(type == etype::version)
-        {
-                return val.version;
-        }
-        else
-        {
-            throw Error("El tipo de este dato no es 'Version'",0);
-        }
-    }*/
-    /*unsigned long v100::Build::getUL() const
-    {
-        if(type == eBuild::ul_e)
-        {
-                return value.ul;
-        }
-        else
-        {
-            throw Error("El tipo de este dato no es 'unsigned long'",0);
-        }
-    }*/
-    /*v100::Build::eBuild v100::Build::getType()const
-    {
-        return type;
-    }*/    
-    /*Version::Build& Version::Build::operator =(Version* build)
-    {
-        val.version = build;
-        type = etype::version;
-        
-        return *this;
-    }*/
-    /*v100::Build& v100::Build::operator =(unsigned long ul)
-    {
-        type = eBuild::ul_e;
-        value.ul = ul;
-        
-        return *this;
-    }*/
-    /*v100::Build& v100::Build::operator =(const char* str)
-    {
-        
-        strcpy(value.string,str);
-        type = eBuild::string_e;        
-        return *this;
-    }*/
-    
-    /*v100::Build::~Build()
-    {
-        if(type == Build::eBuild::string_e)
-        {
-            delete this->value.string;
-        }
-    }*/
-    
-    
-    
-    
-    
-
+	}    
     void v100::init()
     {
 		octetos_Semver_init(this);
@@ -226,12 +133,7 @@ namespace semver
 		{
 			throw Error("Esta asignado un valor entero a un campo no entero.");
 		}
-    }
-    /*void Version::setBuild(const Version* v)
-    {
-        Version* ver = new Version(v);
-        this->build = ver;        
-    }  */  
+    }  
 	const v100& v100::operator =(const v100& v)
 	{
 		this->major = v.major;
@@ -253,83 +155,7 @@ namespace semver
 		this->stageNumber = v.stageNumber;
                 
 		return *this;
-	}
-    
-    /*bool Version::operator >=(const Version& v)
-    {
-        //por numeros
-        if(major > -1 and v.major > -1)
-        {
-            if(major > v.major)
-            {
-                //std::cout << "por major" << std::endl;
-                return true;
-            }
-            else if(major < v.major) 
-            {
-                return false;
-            }                                
-        }
-        else // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
-        {
-            throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
-        }
-               
-               
-        if(minor > -1 and v.minor > -1)
-        {
-            if(minor > v.minor)
-            {
-                //std::cout << "por minor" << std::endl;
-                return true;
-            }
-            else if(minor < v.minor)
-            {
-                return false;
-            }
-        }
-        else if(minor < 0 and v.minor > -1) //x simepre es major que x.y
-        {
-            return true;
-        }
-        
-        
-        if(patch > -1 and v.patch > -1)
-        {
-            if(patch >= v.patch)
-            {
-                //std::cout << "por patch" << std::endl;
-                return true;
-            }
-            else if(patch < v.patch)
-            {
-                return false;
-            }
-        }
-        else if(patch < 0 and v.patch > -1)
-        {
-            return true;
-        }
-        else if(patch > v.patch)
-        {
-            return true;
-        }
-        else//El menor se asigno pero el patch no.
-        {
-            return false;
-        }
-                
-        //std::cout << "no cumple" << std::endl;
-        return false;
-    }*/
-        /*const std::string& Version::getName() const
-        {
-                return name;
-        }*/
-        /*void Version::setName(const std::string& name)
-        {
-                this->name = name;
-        }*/
+	}    
     void v100::set(short major,short minor,short patch,Stage stage,unsigned long build, const std::string& name)
     {                
         this->major = major;
@@ -357,10 +183,6 @@ namespace semver
     {
         return stageNumber;
     }
-    /*const v100::Build& Semver::getBuild() const
-    {
-        return build;
-    }*/
         void v100::setNumbers(short major,short minor,short patch)
         {
                 this->major = major;
@@ -410,7 +232,6 @@ namespace semver
 		this->patch = patch;
 		stage = unknown;
         build.type = octetos_Semver_Build_Type::none;
-        //name = "";
     }
 
 	std::string v100::toString(Semver::Format formato) const

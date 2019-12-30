@@ -60,43 +60,7 @@ namespace core
 				FULL,
 				ONLY_NUMBERS
 			};
-			
-		    /*class Build : private octetos_version_Build
-		    {
-		    public:
-		        typedef octetos_version_eBuild eBuild;
-		        //typedef octetos_toolkit_vBuild vtype;
-		    private:
-		        //vtype value;
-		        //etype type;
-		    public:
-		        ~Build();
-		        Build& operator =(unsigned long);
-		        //Build& operator =(Version*);
-		        Build& operator =(const char*);
-		        eBuild getType()const;
-		        //unsigned long operator(unsigned long)();
-		        unsigned long getUL()const;
-		        //Version* getVersion()const;
-		        const char* getString()const;
-		        
-		    };*/
-		    
-		private:
-			/**
-			* \brief Build del projecto(solose acepta un numero intero largo)
-			* */
-			//Build build;
-			/**
-			* \brief Fase del proyecto
-			* */
-			//Stage stage;
-			//short stageNumber;
-			/**
-			* \brief Nombre de la version
-			* */
-			//std::string name;                
-
+					    
 		public:
 			/**
 			* \brief Limpia todos los datos
@@ -189,6 +153,9 @@ namespace core
 		    * \brief Asigna la etapa del proyecto
 		    * */
 			void setStage(Stage stage);
+		    /**
+		    * \brief Asigna la etapa del proyecto
+		    * */
 			void setStage(Stage stage,short number);
 		    /**
 		    * \brief Asigna el build de la version
@@ -198,39 +165,23 @@ namespace core
 		    //void setBuild(const Version&);
 		    //void setBuild(const Version*);
 		    void setBuild(const std::string&);
-		    /**
-		    * Asigna el nombre de la version
-		    * */
-			void setName(const std::string& name);
-		    /**
-		    * \brief Retorna una representa en texto de la version.
-		    * \param formato Determina el formato generado.
-		    * */
-			std::string toString(Format formato = Format::FULL) const; 
-		    /**
-		    * \brief Asinga los valores con datos leidos desde un archivo
-		    * \param filename nombre del archivo
-		    * */
-			//bool fromFile(const std::string& filename);       
-			/**
-			* \brief Asinga los valores con datos leidos desde ana cadena de texto
-			* \param str Texto a leer.
-			* */                 
-			//bool from(const std::string& str);
-			//bool operator =(const std::string& str);
-			/**
-			*\brief Optine los componentes numericos correspondientes a la version,
-			* sin que sea necesaio que toda la string tenga el formato correcto, solo
-			* solo es necesario que los componentes numericos esten al pricipio de la caena.
-			**/
-			bool extractNumbers(const std::string& str);
 			/**
 			*\brief La version especificada la convierte a formato semver
 			*\param ver Versión en formato númerico
 			*\param import Código del formato en que se recive la versión.
 			**/
 			bool set(unsigned long ver,ImportCode import);
-			
+		    /**
+		    * \brief Retorna una representa en texto de la version.
+		    * \param formato Determina el formato generado.
+		    * */
+			std::string toString(Format formato = Format::FULL) const; 
+			/**		    
+			*\brief Optine los componentes numericos correspondientes a la version,
+			* sin que sea necesaio que toda la string tenga el formato correcto, solo
+			* solo es necesario que los componentes numericos esten al pricipio de la caena.
+			**/
+			bool extractNumbers(const std::string& str);			
 			/**
 			*\brief Indica la version semver implemetada.
 			**/
