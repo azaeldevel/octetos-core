@@ -136,7 +136,8 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 liboctetos_core_la_DEPENDENCIES =
 am_liboctetos_core_la_OBJECTS = semver-100.tab.lo semver-100.lo \
 	version-semver-comparators-100.lo version-semver-100.lo \
-	common-c.lo common.lo Error.lo Message.lo Object.lo Licence.lo
+	Version.lo common-c.lo common.lo Error.lo Message.lo Object.lo \
+	Licence.lo
 liboctetos_core_la_OBJECTS = $(am_liboctetos_core_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -429,6 +430,7 @@ liboctetos_core_la_SOURCES = \
 	semver-100.c \
 	version-semver-comparators-100.cc\
 	version-semver-100.cc\
+	Version.cc \
 	common-c.c \
 	common.cc \
 	Error.cc \
@@ -527,6 +529,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Licence.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Message.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Object.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Version.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/common-c.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/semver-100.Plo@am__quote@

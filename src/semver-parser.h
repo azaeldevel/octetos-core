@@ -5,7 +5,7 @@
 
 struct Tray
 {
-	struct octetos_version_Version version;
+	struct octetos_Semver* version;
     int dysplay_erro;
 };
 

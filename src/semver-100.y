@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "semver-parser.h"
 
@@ -88,84 +89,90 @@ void yyerror(struct Tray* ty, const char* s);
 
 	one_number : VALUE_NUMBER
 	{
-		ty->version.major = $1;
+		ty->version->major = $1;
 	};
 	two_numbers : VALUE_NUMBER '.' VALUE_NUMBER
 	{
-		ty->version.major = $1;
-		ty->version.minor = $3;
+		ty->version->major = $1;
+		ty->version->minor = $3;
 	};
 	three_numbers : VALUE_NUMBER '.' VALUE_NUMBER '.' VALUE_NUMBER
 	{
-		ty->version.major = $1;
-		ty->version.minor = $3;
-		ty->version.patch = $5;
+		ty->version->major = $1;
+		ty->version->minor = $3;
+		ty->version->patch = $5;
 		//printf("N1: %d\n",ty->version.major);
 	};
 
 	stage : 
 	'-' VALUE_DEVELOPING
 	{
-		ty->version.stage = developing;
+		ty->version->stage = developing;
 	}
 	|
 	'-' VALUE_SNAPSHOT
 	{
-        ty->version.stage = snapshot;
+        ty->version->stage = snapshot;
 	}
 	| 
 	'-' VALUE_ALPHA
 	{
-        ty->version.stage = alpha;
+        ty->version->stage = alpha;
 	}
 	| 
 	'-' VALUE_BETA
 	{
-        ty->version.stage = beta;
+        ty->version->stage = beta;
 	} 
 	|
 	'-' VALUE_BETARELEASE
 	{
-		ty->version.stage = betarelease;
+		ty->version->stage = betarelease;
 	}
 	| 
 	'-' VALUE_RC
 	{
-		ty->version.stage = rc;
+		ty->version->stage = rc;
 	}
 	| 
 	'-' VALUE_PRERELEASE
 	{
-		ty->version.stage = prerelease;
+		ty->version->stage = prerelease;
 	}
 	| 
 	'-' VALUE_RELEASE
 	{
-		ty->version.stage = release;
+		ty->version->stage = release;
 	}
 	| 
 	'-' VALUE_RTM
 	{
-		ty->version.stage = rtm;
+		ty->version->stage = rtm;
 	}
 	| 
 	'-' VALUE_GA
 	{
-		ty->version.stage = ga;
+		ty->version->stage = ga;
 	}
 	;
 
 	build : 
 	'+' VALUE_BUILD_UL
 	{    
-        ty->version.build.type = ul_e;
-        ty->version.build.value.ul = $2;
+        ty->version->build.type = ul_e;
+        ty->version->build.value.ul = $2;
 	}
 	|
 	'+' VALUE_BUILD_STRING
 	{
-        ty->version.build.type = string_e;
-        ty->version.build.value.string = $2;    
+        ty->version->build.type = string_e;
+		const char* temp = $2;
+		if(ty->version->build.value.string)
+		{//si hay una string librar la memoria
+			free(ty->version->build.value.string);
+		}
+		ty->version->build.value.string = malloc(strlen(temp) + 1);
+		strcpy(ty->version->build.value.string, temp);    
     }
 	;
 	

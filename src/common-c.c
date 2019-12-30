@@ -1,5 +1,15 @@
 #include "common.h"
 
+void Semver_init(struct octetos_Semver* version)
+{
+	version->major = -1;
+	version->minor = -1;
+	version->patch = -1;
+	version->stage = unknown;
+	version->stageNumber = -1;
+	version->build.type = none;
+	version->build.value.ul = 0;	
+}
 const char* octetos_core_Stage_getString(enum octetos_version_Stage stage)
 {
 	switch(stage)
@@ -29,7 +39,7 @@ const char* octetos_core_Stage_getString(enum octetos_version_Stage stage)
 	}
 }
 
-const char* octetos_core_Version_toString(struct octetos_version_Version* version)
+const char* octetos_core_Version_toString(struct octetos_Semver* version)
 {
 	char* verstr  = 0;
 	/*if(version->major > -1)

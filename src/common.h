@@ -35,7 +35,7 @@ struct octetos_version_Build
 * \brief Informacion de version
 * 
 **/
-struct octetos_version_Version {
+struct octetos_Semver {
 	short major;
 	short minor;
 	short patch;
@@ -48,7 +48,8 @@ struct octetos_version_Version {
 #ifdef __cplusplus  
 extern "C" {
 #endif 
-const char* octetos_core_Version_toString(struct octetos_version_Version* version);
+	const char* octetos_core_Version_toString(struct octetos_Semver* version);
+	void Semver_init(struct octetos_Semver* version);
 const char* octetos_core_Stage_getString(enum octetos_version_Stage stage);
 #ifdef __cplusplus 
 }

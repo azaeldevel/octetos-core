@@ -34,6 +34,7 @@ liboctetos_core_la_SOURCES = \
 	semver-100.c \
 	version-semver-comparators-100.cc\
 	version-semver-100.cc\
+	Version.cc \
 	common-c.c \
 	common.cc \
 	Error.cc \

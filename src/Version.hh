@@ -24,34 +24,35 @@ namespace core
         virtual bool operator <=(const Version& v)const = 0;
 	};
 
+	class InvalidComparison : public Error
+	{
+	public:
+		InvalidComparison(const std::string& msg ,std::string filename,int lineNumber);
+		InvalidComparison(const std::string& msg);
+	};
+
 	namespace semver
 	{
-			/**
-			* \brief Representa la fase del proyecto.
-			* \details Tipicamente un proyecto o sprint comienz en la vervion X-alpha, luego pasa a X-beta y finalmente se genera X-release, lo que sigue a continuacion del guion es la fase aqui representado
-			**/
+		/**
+		* \brief Representa la fase del proyecto.
+		* \details Tipicamente un proyecto o sprint comienz en la vervion X-alpha, luego pasa a X-beta y finalmente se genera X-release, lo que sigue a continuacion del guion es la fase aqui representado
+		**/
 		typedef octetos_version_Stage Stage;
 			
 		typedef octetos_version_eBuild eBuild;
+			
 
 		/**
 		 * \brief Informacion de Version
 		 * \details Acerda de 'Semantica de Versionado' https://semver.org/lang/es/.
 		 **/
-		class v100: public Version, private octetos_version_Version
+		class v100: public Version, private octetos_Semver
 		{
 		public:	
 			enum Imports
 			{
 				MySQL,
 			};
-			class InvalidComparison : public Error
-			{
-			public:
-				InvalidComparison(const std::string& msg ,std::string filename,int lineNumber);
-				InvalidComparison(const std::string& msg);
-			};
-			
 
 			/**
 			* \brief Paramaetro pasado a la funcion toString para determinar el formato de texto geneerado
@@ -152,7 +153,7 @@ namespace core
 		    /**
 		    * \brief Hace una copia del objecto version.
 		    * */
-			const octetos_version_Version& operator =(const octetos_version_Version& v);
+			const octetos_Semver& operator =(const octetos_Semver& v);
 		            
 		    /**
 		    * \brief Simple mente limpa las variables intenas

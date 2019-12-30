@@ -41,13 +41,11 @@ namespace semver
 	{
         Tray ty;
 		ty.dysplay_erro = 0;
+		ty.version = this;
 		std::string strcmd = "extract numbers from ";
 		strcmd += str;
 		//printf("command : %s\n",strcmd.c_str());
         int ret = parse_string(&ty,strcmd.c_str());
-        major = ty.version.major;
-        minor = ty.version.minor;
-        patch = ty.version.patch;
 		
         if(ret == 0) return true;
         return false;
@@ -57,13 +55,8 @@ namespace semver
 	{
         Tray ty;
 		ty.dysplay_erro = 0;
+		ty.version = this;
         int ret = parse_string(&ty,str.c_str());
-        major = ty.version.major;
-        minor = ty.version.minor;
-        patch = ty.version.patch;
-		stage = ty.version.stage;
-		stageNumber = ty.version.stageNumber;
-		octetos_version_Version::build = ty.version.build;
 		
         if(ret == 0) return true;
         return false;
@@ -167,13 +160,7 @@ namespace semver
 
     void v100::init()
     {
-		major = -1;
-		minor = -1;
-		patch = -1;
-		stage = unknown;
-		stageNumber = -1;
-		build.type = eBuild::none;
-        build.value.ul = 0;
+		Semver_init(this);
     }
 	v100::v100(short major,short minor)
     {
@@ -245,14 +232,6 @@ namespace semver
         Version* ver = new Version(v);
         this->build = ver;        
     }  */  
-        v100::InvalidComparison::InvalidComparison(const std::string& msg):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON)
-        {
-                
-        }
-        v100::InvalidComparison::InvalidComparison(const std::string& msg ,std::string filename,int lineNumber):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON,filename,lineNumber)
-        {
-                
-        }
 	const v100& v100::operator =(const v100& v)
 	{
 		this->major = v.major;
@@ -264,7 +243,7 @@ namespace semver
                 
 		return *this;
 	}
-	const octetos_version_Version& v100::operator =(const octetos_version_Version& v)
+	const octetos_Semver& v100::operator =(const octetos_Semver& v)
 	{
 		this->major = v.major;
 		this->minor = v.minor;
