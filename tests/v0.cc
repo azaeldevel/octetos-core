@@ -277,6 +277,30 @@ void testComparators()
     {
         CU_ASSERT(false);
     }
+
+	octetos::core::Semver ver9;
+	ver9.setNumbers(4,4,20);
+	ver9.setBuild(12345678901233);
+	if(ver9.getBuildUL() == 12345678901233)
+    {
+        CU_ASSERT(true);
+    }
+    else
+    {
+        CU_ASSERT(false);
+    }
+	
+	octetos::core::Semver ver10;
+	ver10.setNumbers(4,4,20);
+	ver10.setBuild("+200-r56");
+	if(ver10.getBuildString().compare("+200-r56") == 0)
+    {
+        CU_ASSERT(true);
+    }
+    else
+    {
+        CU_ASSERT(false);
+    }
 }
 
 void testBuildExtension()
@@ -286,10 +310,10 @@ void testBuildExtension()
     CU_ASSERT(ver1.getBuildUL() == 12345678901233);
     octetos::core::Semver ver2;
     ver2.setNumbers(2,36,98);
-    ver2.setStage(octetos::core::Semver::Stage::alpha);
+    ver2.setStage(octetos::core::semver::Stage::alpha);
     octetos::core::Semver ver3;
     ver3.setNumbers(1);
-    ver3.setStage(octetos::core::Semver::Stage::release);
+    ver3.setStage(octetos::core::semver::Stage::release);
     ver2.setBuild("+200-r56");
     //std::cout << std::endl << "Build complejo " << ver2.toString() << std::endl;
     if(ver2.getBuildString().compare("+200-r56") == 0)
@@ -306,7 +330,7 @@ void testStageExtension()
 {
     octetos::core::Semver ver1;
     ver1.setNumbers(2,36,98);
-    ver1.setStage(octetos::core::Semver::Stage::alpha,2);
+    ver1.setStage(octetos::core::semver::Stage::alpha,2);
     if(ver1.getStageNumber() == 2)
     {
         CU_ASSERT(true);
@@ -342,11 +366,12 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 			
-	if ((NULL == CU_add_test(pSuite, "Validacion de parseo de string", testParseString)))
+	if ((NULL == CU_add_test(pSuite, "Validacion de parseo", testParseString)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+		
 	
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);

@@ -44,7 +44,12 @@ namespace core
 	{
 		full = filename + " : " + std::to_string(lineNumber) + ", codigo (" + std::to_string(code) + "):" + "\n" + brief;
 		this->code = code;
-	}	
+	}		
+	Error::Error(const std::string& brief) throw()
+	{
+		full = brief;
+		this->code = Codes::NOTCODED;
+	}
 	Error::Error(const std::string& brief, int code) throw()
 	{
 		full="";

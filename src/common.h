@@ -17,6 +17,7 @@ enum octetos_version_Stage {
 
 enum octetos_version_eBuild
 {
+	none,
     ul_e,
     string_e
 };

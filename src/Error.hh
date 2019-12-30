@@ -22,6 +22,10 @@ namespace core
                 enum Codes
                 {
                         /**
+                         * \brief Usado cuando no se espefica codigo.
+                         **/
+						NOTCODED,
+                        /**
                          * \brief Cuando el motivo no es claro.
                          **/
                         ERROR_UNKNOW,
@@ -58,6 +62,10 @@ namespace core
                  * */
                 virtual const std::string& describe() const throw();
 				int getCode()const;
+                /**
+                 * \brief Especifica en el mensaje  una descricion y codigo de error.
+                 * */
+                Error(const std::string&) throw();
                 /**
                  * \brief Especifica en el mensaje  una descricion y codigo de error.
                  * */

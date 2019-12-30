@@ -6,7 +6,7 @@
 
 #include "Version.hh"
 #include "semver-parser.h"
-
+#include "Error.hh"
 
 
 // Reference https://semver.org/
@@ -63,7 +63,6 @@ namespace semver
         patch = ty.version.patch;
 		stage = ty.version.stage;
 		stageNumber = ty.version.stageNumber;
-		//Version::build = ty.version.build;
 		octetos_version_Version::build = ty.version.build;
 		
         if(ret == 0) return true;
@@ -94,7 +93,7 @@ namespace semver
         return false;
     } */
 	
-    const char* v100::Build::getString()const
+    /*const char* v100::Build::getString()const
     {
         if(type == eBuild::string_e)
         {
@@ -104,7 +103,7 @@ namespace semver
         {
             throw Error("El tipo de este dato no es 'una cadena de texto.'",0);
         }
-    }
+    }*/
     /*Version* Version::Build::getVersion() const
     {
         if(type == etype::version)
@@ -116,7 +115,7 @@ namespace semver
             throw Error("El tipo de este dato no es 'Version'",0);
         }
     }*/
-    unsigned long v100::Build::getUL() const
+    /*unsigned long v100::Build::getUL() const
     {
         if(type == eBuild::ul_e)
         {
@@ -126,11 +125,11 @@ namespace semver
         {
             throw Error("El tipo de este dato no es 'unsigned long'",0);
         }
-    }
-    v100::Build::eBuild v100::Build::getType()const
+    }*/
+    /*v100::Build::eBuild v100::Build::getType()const
     {
         return type;
-    }    
+    }*/    
     /*Version::Build& Version::Build::operator =(Version* build)
     {
         val.version = build;
@@ -138,38 +137,57 @@ namespace semver
         
         return *this;
     }*/
-    v100::Build& v100::Build::operator =(unsigned long ul)
+    /*v100::Build& v100::Build::operator =(unsigned long ul)
     {
         type = eBuild::ul_e;
         value.ul = ul;
         
         return *this;
-    }
-    v100::Build& v100::Build::operator =(const char* str)
+    }*/
+    /*v100::Build& v100::Build::operator =(const char* str)
     {
         
         strcpy(value.string,str);
         type = eBuild::string_e;        
         return *this;
-    }
+    }*/
     
-    v100::Build::~Build()
+    /*v100::Build::~Build()
     {
-        /*if(build.getType() == Build::etype::version)
-        {
-            delete this->build.getVersion();
-        }*/
         if(type == Build::eBuild::string_e)
         {
             delete this->value.string;
         }
-    }
+    }*/
     
     
     
     
     
 
+    void v100::init()
+    {
+		major = -1;
+		minor = -1;
+		patch = -1;
+		stage = unknown;
+		stageNumber = -1;
+		build.type = eBuild::none;
+        build.value.ul = 0;
+    }
+	v100::v100(short major,short minor)
+    {
+		this->major = major;
+		this->minor = minor;
+		patch = -1;
+		stage = unknown;
+        build.type = octetos_version_eBuild::none;
+        build.value.ul = 0;
+    }
+	v100::v100()
+	{
+        init();
+	}
     v100::v100(const v100* v)
     {
         (*this) = *v;
@@ -180,16 +198,47 @@ namespace semver
     }
     v100::~v100()
     {
+		if(build.type == eBuild::string_e)
+		{
+			if(!build.value.string) delete build.value.string;
+		}
     }
-    /*void Version::setBuild(const Version& v)
+
+	
+    void v100::setBuild(unsigned long b)
     {
-        Version* ver = new Version(v);
-        this->build = ver;
-    }*/
+		if(build.type == eBuild::none)
+		{
+			build.type = eBuild::ul_e;
+        	this->build.value.ul = b;
+		}
+		else if(build.type == eBuild::ul_e)
+		{
+			
+        	this->build.value.ul = b;
+		}
+		else
+		{
+			throw Error("Esta asignado un valor entero a un campo no entero.");
+		}
+    }
     void v100::setBuild(const std::string& str)
     {
-        //std::string* str = new std::string(v);
-        this->build = str.c_str();
+		if(build.type == eBuild::none or build.type == eBuild::string_e)
+		{
+			build.type = eBuild::string_e;
+			const char* temp = str.c_str();
+			if(build.value.string)
+			{//si hay una string librar la memoria
+				delete build.value.string;
+			}
+			build.value.string = new char(str.size() + 1);
+		    strcpy(build.value.string, temp);
+		}
+		else
+		{
+			throw Error("Esta asignado un valor entero a un campo no entero.");
+		}
     }
     /*void Version::setBuild(const Version* v)
     {
@@ -204,27 +253,28 @@ namespace semver
         {
                 
         }
-    void v100::init()
-    {
-		major = -1;
-		minor = -1;
-		patch = -1;
-		stage = unknown;
-		stageNumber = -1;
-        build = (unsigned long)0;
-        //name = "";
-    }
-        const v100& v100::operator =(const v100& v)
-        {
-                this->major = v.major;
-                this->minor = v.minor;
-                this->patch = v.patch;
-                this->build = v.build;
-                this->stage = v.stage;
-                //this->name = v.name;
+	const v100& v100::operator =(const v100& v)
+	{
+		this->major = v.major;
+		this->minor = v.minor;
+		this->patch = v.patch;
+		this->build = v.build;
+		this->stage = v.stage;
+		this->stageNumber = v.stageNumber;
                 
-                return *this;
-        }
+		return *this;
+	}
+	const octetos_version_Version& v100::operator =(const octetos_version_Version& v)
+	{
+		this->major = v.major;
+		this->minor = v.minor;
+		this->patch = v.patch;
+		this->build = v.build;
+		this->stage = v.stage;
+		this->stageNumber = v.stageNumber;
+                
+		return *this;
+	}
     
     /*bool Version::operator >=(const Version& v)
     {
@@ -307,18 +357,20 @@ namespace semver
         this->minor = minor;
         this->patch = patch;
         this->stage = stage;
-        this->build = build;
-        //this->name = name;
+        this->build.type = eBuild::none;
+		this->build.value.ul = 0;
     }
-	const std::string& v100::getBuildString() const
+	std::string v100::getBuildString() const
 	{
-        return build.getString();
+        if(build.type == eBuild::string_e) return std::string(build.value.string);
+		throw Error("El campo build no contine informacion de tipo string.",Error::ERROR_UNKNOW);
     }
 	unsigned long v100::getBuildUL() const
 	{
-        return build.getUL();
+        if(build.type == octetos_version_eBuild::ul_e) return build.value.ul;
+		throw Error("El campo build no contine informacion de tipo long.",Error::ERROR_UNKNOW);
     }
-    Semver::Stage v100::getStage() const
+    Stage v100::getStage() const
     {
         return stage;
     }       
@@ -326,10 +378,10 @@ namespace semver
     {
         return stageNumber;
     }
-    const v100::Build& Semver::getBuild() const
+    /*const v100::Build& Semver::getBuild() const
     {
         return build;
-    }
+    }*/
         void v100::setNumbers(short major,short minor,short patch)
         {
                 this->major = major;
@@ -357,10 +409,6 @@ namespace semver
 		this->stage = stage;
 		this->stageNumber = number;
 	}
-    void v100::setBuild(unsigned long build)
-    {
-        this->build = build;
-    }
 	short v100::getMajor() const
 	{
 		return this->major;		
@@ -382,22 +430,9 @@ namespace semver
 		this->minor = minor;
 		this->patch = patch;
 		stage = unknown;
-        build = (unsigned long)0;
+        build.type = octetos_version_eBuild::none;
         //name = "";
     }
-	v100::v100(short major,short minor)
-    {
-		this->major = major;
-		this->minor = minor;
-		patch = -1;
-		stage = unknown;
-        build = (unsigned long)0;
-        //name = "";
-    }
-	v100::v100()
-	{
-        init();
-	}
 
 	std::string v100::toString(Semver::Format formato) const
 	{		
@@ -455,29 +490,18 @@ namespace semver
 							break;							
 		}
 
-		if(build.getType() == Build::eBuild::ul_e)
+		if(build.type == octetos_version_eBuild::ul_e)
         {
-            if(build.getUL() > 0)
+            if(build.value.ul > 0)
             {
                 ver += "+";
-                ver += std::to_string(build.getUL());	
+                ver += std::to_string(build.value.ul);	
             }
         }
-        /*else if(build.getType() == Build::etype::version)
+        else if(build.type == octetos_version_eBuild::string_e)
         {
-            
-            ver += " ";
-            ver += build.getVersion()->toString(formato);
-        }*/
-        else if(build.getType() == Build::eBuild::string_e)
-        {
-            ver += build.getString();
+            ver += build.value.string;
         }
-        /*if(name.size() > 0)
-        {
-            ver += " ";
-            ver += name;
-        }*/
                 
 		return ver;
 	}

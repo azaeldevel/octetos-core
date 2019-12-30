@@ -26,6 +26,14 @@ namespace core
 
 	namespace semver
 	{
+			/**
+			* \brief Representa la fase del proyecto.
+			* \details Tipicamente un proyecto o sprint comienz en la vervion X-alpha, luego pasa a X-beta y finalmente se genera X-release, lo que sigue a continuacion del guion es la fase aqui representado
+			**/
+		typedef octetos_version_Stage Stage;
+			
+		typedef octetos_version_eBuild eBuild;
+
 		/**
 		 * \brief Informacion de Version
 		 * \details Acerda de 'Semantica de Versionado' https://semver.org/lang/es/.
@@ -44,12 +52,7 @@ namespace core
 				InvalidComparison(const std::string& msg);
 			};
 			
-			/**
-			* \brief Representa la fase del proyecto.
-			* \details Tipicamente un proyecto o sprint comienz en la vervion X-alpha, luego pasa a X-beta y finalmente se genera X-release, lo que sigue a continuacion del guion es la fase aqui representado
-			**/
-		    typedef octetos_version_Stage Stage;
-			
+
 			/**
 			* \brief Paramaetro pasado a la funcion toString para determinar el formato de texto geneerado
 			* */
@@ -59,7 +62,7 @@ namespace core
 				ONLY_NUMBERS
 			};
 			
-		    class Build : private octetos_version_Build
+		    /*class Build : private octetos_version_Build
 		    {
 		    public:
 		        typedef octetos_version_eBuild eBuild;
@@ -78,13 +81,13 @@ namespace core
 		        //Version* getVersion()const;
 		        const char* getString()const;
 		        
-		    };
+		    };*/
 		    
 		private:
 			/**
 			* \brief Build del projecto(solose acepta un numero intero largo)
 			* */
-			Build build;
+			//Build build;
 			/**
 			* \brief Fase del proyecto
 			* */
@@ -116,8 +119,8 @@ namespace core
 		    * \brief Retorna build
 		    * */
 			unsigned long getBuildUL() const;
-		    const std::string& getBuildString() const;
-		    const Build& getBuild() const;
+		    std::string getBuildString() const;
+		    //const Build& getBuild() const;
 		    /**
 		    * \brief Retorna el estado
 		    * */
@@ -146,6 +149,10 @@ namespace core
 		    * \brief Hace una copia del objecto version.
 		    * */
 			const v100& operator =(const v100& v);
+		    /**
+		    * \brief Hace una copia del objecto version.
+		    * */
+			const octetos_version_Version& operator =(const octetos_version_Version& v);
 		            
 		    /**
 		    * \brief Simple mente limpa las variables intenas
