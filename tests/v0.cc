@@ -9,9 +9,6 @@
 
 
 
-static int majorNumber;
-
-
 int init(void)
 {
 	return 0;
@@ -347,7 +344,12 @@ int main(int argc, char *argv[])
 	octetos::core::Semver& ver = packinfo.version;
     
 	CU_pSuite pSuite = NULL;
-	majorNumber = ver.getMajor();
+	int majorDevelop = 0;
+	if(majorDevelop != ver.getMajor())
+	{
+		std::cerr << "Esta conjunto de pruebas estan Deseñado para la version mayor '" << majorDevelop << "'\n";
+		return EXIT_FAILURE;
+	}
 	/* initialize the CUnit test registry */
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 

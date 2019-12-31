@@ -29,9 +29,6 @@ namespace core
 		packinfo.brief = "";
 		packinfo.url = "";
 		
-		//packinfo.version.setNumbers(0,0,0);
-		//packinfo.version.setStage(Version::Stage::alpha);
-		//packinfo.version.setBuild(std::stoul(VERSION_BUILD));
 		packinfo.version.set(VERSION);
 		
 		packinfo.licence.type = Licence::Type::GPL;		

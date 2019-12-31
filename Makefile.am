@@ -4,9 +4,9 @@ SUBDIRS = src po
 if WITH_TESTS
 SUBDIRS += tests
 endif
-if WITH_DOCS
-SUBDIRS +=  docs
-endif
+#if WITH_DOCS
+#SUBDIRS +=  docs
+#endif
 
 dist_doc_DATA = \
 	README \

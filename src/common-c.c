@@ -70,7 +70,11 @@ const char* octetos_Semver_toString(const struct octetos_Semver* version,enum oc
 		return NULL;
 	}
 	int numberLeng = strlen(numberStr);
-	if(formato == OnlyNumber) return numberStr;
+	if(formato == OnlyNumber) 
+	{
+		free(numberStr);
+		return numberStr;
+	}
 
 	const char* stageStr = octetos_Stage_getString(version->stage);	
 	int stageLeng = strlen(stageStr) + 1;//se agrega la longitus de stage mas el espacio del guion
@@ -108,6 +112,9 @@ const char* octetos_Semver_toString(const struct octetos_Semver* version,enum oc
 	{
 		strcat(verstr,buildStr);
 	}
+
+	free(numberStr);
+	if(version->build.type == ul_e) free(buildStr);
 	
 	return verstr;
 }

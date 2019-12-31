@@ -88,7 +88,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = v0$(EXEEXT)
+bin_PROGRAMS = $(am__EXEEXT_1)
+@HAVE_VERSION_TRUE@am__append_1 = v0
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -99,13 +100,15 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+@HAVE_VERSION_TRUE@am__EXEEXT_1 = v0$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_v0_OBJECTS = v0-v0.$(OBJEXT)
+am__v0_SOURCES_DIST = v0.cc
+@HAVE_VERSION_TRUE@am_v0_OBJECTS = v0-v0.$(OBJEXT)
 v0_OBJECTS = $(am_v0_OBJECTS)
 am__DEPENDENCIES_1 =
-v0_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(top_builddir)/src/liboctetos-core.la
+@HAVE_VERSION_TRUE@v0_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+@HAVE_VERSION_TRUE@	$(top_builddir)/src/liboctetos-core.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -145,7 +148,7 @@ am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(v0_SOURCES)
-DIST_SOURCES = $(v0_SOURCES)
+DIST_SOURCES = $(am__v0_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -199,8 +202,6 @@ DATADIRNAME = @DATADIRNAME@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
-DOT = @DOT@
-DOXYGEN = @DOXYGEN@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
@@ -269,7 +270,6 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
-PDFLATEX = @PDFLATEX@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
@@ -364,9 +364,9 @@ AM_CFLAGS = \
 	 -Wall\
 	 -g
 
-v0_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la
-v0_CPPFLAGS = -I$(top_srcdir)/src
-v0_SOURCES = v0.cc
+@HAVE_VERSION_TRUE@v0_LDADD = $(CUNIT_LIBS)  $(top_builddir)/src/liboctetos-core.la
+@HAVE_VERSION_TRUE@v0_CPPFLAGS = -I$(top_srcdir)/src -DMAJORNUMBER=$(version $(PACKAGE_VERSION) --major)
+@HAVE_VERSION_TRUE@v0_SOURCES = v0.cc
 all: all-am
 
 .SUFFIXES:
