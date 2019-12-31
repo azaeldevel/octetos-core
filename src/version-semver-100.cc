@@ -124,9 +124,9 @@ namespace semver
 			const char* temp = str.c_str();
 			if(build.value.string)
 			{//si hay una string librar la memoria
-				delete build.value.string;
+				free(build.value.string);
 			}
-			build.value.string = new char(str.size() + 1);
+			build.value.string = (char*)malloc(str.size() + 1);
 		    strcpy(build.value.string, temp);
 		}
 		else
