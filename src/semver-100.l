@@ -55,7 +55,7 @@
                                 return yytext[0];
                 }
 
-"d"|"dev"|"devel"|"developing"|"DEV"|"DEVEL"|"DEVELOPING"   {
+"d"|"dev"|"devel"|"developing"|"DEV"|"DEVEL"|"DEVELOP"|"DEVELOPING"   {
                                 yylval.stage=developing;
                                 return VALUE_SNAPSHOT;
                                         
@@ -84,11 +84,7 @@
                                         yylval.stage=rc;
                                         return VALUE_RC;
                         }
-"prerelease"|"PRERELEASE"  	{
-                                        //std::cout << yytext << std::endl;
-                                yylval.stage=prerelease;
-                                return VALUE_PRERELEASE;
-                                }
+
 "r"|"release"|"RELEASE"  	{
                                         //std::cout << yytext << std::endl;
                                 yylval.stage=release;

@@ -44,7 +44,6 @@ void yyerror(struct Tray* ty, const char* s);
 %token <stage> VALUE_BETA
 %token <stage> VALUE_BETARELEASE
 %token <stage> VALUE_RC 
-%token <stage> VALUE_PRERELEASE 
 %token <stage> VALUE_RELEASE 
 %token <stage> VALUE_RTM
 %token <stage> VALUE_GA
@@ -133,11 +132,6 @@ void yyerror(struct Tray* ty, const char* s);
 	'-' VALUE_RC
 	{
 		ty->version->stage = rc;
-	}
-	| 
-	'-' VALUE_PRERELEASE
-	{
-		ty->version->stage = prerelease;
 	}
 	| 
 	'-' VALUE_RELEASE

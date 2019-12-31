@@ -28,8 +28,6 @@ const char* octetos_Stage_getString(enum octetos_version_Stage stage)
 			return "betarelease";
 		case rc:
 			return "rc";
-		case prerelease:
-			return "prerelease";
 		case release:
 			return "release";
 		case rtm:

@@ -9,7 +9,6 @@ enum octetos_version_Stage {
     beta,
     betarelease,
     rc,
-    prerelease,
     release,
     rtm,
     ga
