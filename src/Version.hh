@@ -32,13 +32,7 @@ namespace core
 	};
 
 	namespace semver
-	{
-		/**
-		* \brief Representa la fase del proyecto.
-		* \details Tipicamente un proyecto o sprint comienz en la vervion X-alpha, luego pasa a X-beta y finalmente se genera X-release, lo que sigue a continuacion del guion es la fase aqui representado
-		**/
-		typedef octetos_version_Stage Stage;
-						
+	{						
 		typedef octetos_Semver_FormatString FormatString;
 
 	
@@ -75,22 +69,6 @@ namespace core
 		    * \brief Retorna el número patch
 		    * */
 			short getPatch() const;
-		    /**
-		    * \brief Retorna build
-		    * */
-			unsigned long getBuildUL() const;
-		    std::string getBuildString() const;
-		    //const Build& getBuild() const;
-		    /**
-		    * \brief Retorna el estado
-		    * */
-			Stage getStage() const;
-			const char* getStageString() const;
-		    short getStageNumber() const;
-		    /**
-		    * \brief Retorna el nombre de la version
-		    * */
-			const std::string& getName() const;
 		    virtual bool operator ==(const Version& v)const;
 		    virtual bool operator !=(const Version& v)const;
 		    /**
@@ -132,7 +110,7 @@ namespace core
 		    /**
 		    * \brief Asigna todos los campos de version.
 		    * */
-			void set(short major,short minor,short patch,Stage stage,unsigned long build, const std::string& name);
+			void set(short major,short minor,short patch, const std::string&);
 		    /**
 		    * \brief Asigna numero major, menor y patch.
 		    * */
@@ -146,22 +124,6 @@ namespace core
 		    * */
 			void setNumbers(short major);
 			bool set(const std::string&);
-		    /**
-		    * \brief Asigna la etapa del proyecto
-		    * */
-			void setStage(Stage stage);
-		    /**
-		    * \brief Asigna la etapa del proyecto
-		    * */
-			void setStage(Stage stage,short number);
-		    /**
-		    * \brief Asigna el build de la version
-		    * \details Solo se acepta un entero largo positivo. por lo que no se aceptan metadatos en el sentido convencional, tampoco tiene signifacod alguno el compracion o validaciones por lo que es libre ade asignar el valor que desea
-		    * */
-			void setBuild(unsigned long);
-		    //void setBuild(const Version&);
-		    //void setBuild(const Version*);
-		    void setBuild(const std::string&);
 			/**
 			*\brief La version especificada la convierte a formato semver
 			*\param ver Versión en formato númerico
@@ -172,13 +134,7 @@ namespace core
 		    * \brief Retorna una representa en texto de la version.
 		    * \param formato Determina el formato generado.
 		    * */
-			std::string toString(FormatString formato = FormatString::FullString) const; 
-			/**		    
-			*\brief Optine los componentes numericos correspondientes a la version,
-			* sin que sea necesaio que toda la string tenga el formato correcto, solo
-			* solo es necesario que los componentes numericos esten al pricipio de la caena.
-			**/
-			bool extractNumbers(const std::string& str);			
+			std::string toString(FormatString formato = FormatString::FullString) const; 			
 			/**
 			*\brief Indica la version semver implemetada.
 			**/

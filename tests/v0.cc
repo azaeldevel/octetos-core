@@ -352,68 +352,9 @@ void testComparators_v100()
         CU_ASSERT(false);
     }
 
-	octetos::core::semver::v100 ver9;
-	ver9.setNumbers(4,4,20);
-	ver9.setBuild(12345678901233);
-	if(ver9.getBuildUL() == 12345678901233)
-    {
-        CU_ASSERT(true);
-    }
-    else
-    {
-        CU_ASSERT(false);
-    }
-	
-	octetos::core::semver::v100 ver10;
-	ver10.setNumbers(4,4,20);
-	ver10.setBuild("+200-r56");
-	if(ver10.getBuildString().compare("+200-r56") == 0)
-    {
-        CU_ASSERT(true);
-    }
-    else
-    {
-        CU_ASSERT(false);
-    }
 }
 
-void testBuildExtension()
-{
-    octetos::core::Semver ver1;
-    ver1.setBuild(12345678901233);
-    CU_ASSERT(ver1.getBuildUL() == 12345678901233);
-    octetos::core::Semver ver2;
-    ver2.setNumbers(2,36,98);
-    ver2.setStage(octetos::core::semver::Stage::alpha);
-    octetos::core::Semver ver3;
-    ver3.setNumbers(1);
-    ver3.setStage(octetos::core::semver::Stage::release);
-    ver2.setBuild("+200-r56");
-    //std::cout << std::endl << "Build complejo " << ver2.toString() << std::endl;
-    if(ver2.getBuildString().compare("+200-r56") == 0)
-    {
-        CU_ASSERT(true);
-    }
-    else
-    {
-        CU_ASSERT(false);
-    }
-}
 
-void testStageExtension()
-{
-    octetos::core::Semver ver1;
-    ver1.setNumbers(2,36,98);
-    ver1.setStage(octetos::core::semver::Stage::alpha,2);
-    if(ver1.getStageNumber() == 2)
-    {
-        CU_ASSERT(true);
-    }
-    else
-    {
-        CU_ASSERT(false);
-    }
-}
 int main(int argc, char *argv[])
 {
 

@@ -25,7 +25,6 @@ void yyerror(struct Tray* ty, const char* s);
 	short sval;
 	unsigned long ulval;
 	const char* str;
-	enum octetos_version_Stage stage;
 }
 
 %token
@@ -85,11 +84,7 @@ void yyerror(struct Tray* ty, const char* s);
 	prerelease : 
 	'-'  PRERELEASE_VALUE
 	{
-		const char* temp = $2;
-		int len = strlen(temp);
-		if(ty->version->prerelease) free(ty->version->prerelease);
-		ty->version->prerelease = (char*)malloc(len + 1);
-		strcpy(ty->version->prerelease, temp);
+		octetos_Semver_setPrerelease(ty->version,$2);
 	};
 	
 
