@@ -41,8 +41,10 @@ namespace core
 						
 		typedef octetos_Semver_FormatString FormatString;
 		/**
-		 * \brief Informacion de Version
-		 * \details Acerda de 'Semantica de Versionado' https://semver.org/lang/es/.
+		 * \brief Implemete un subconjuto de semver v1.0.0, la reduciones aplicada
+		 * a los componentes pre-release y build. Su principal utilidad radica
+		 * en el manejo de los numero, mayo, menor y patch
+		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 		 **/
 		class v100: public Version, private octetos_Semver
 		{

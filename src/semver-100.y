@@ -80,7 +80,7 @@ void yyerror(struct Tray* ty, const char* s);
 	{
 	}
 	| 
-	numbers_value stage build
+	numbers_value build
 	{
 	};
 	
