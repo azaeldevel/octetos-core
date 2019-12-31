@@ -92,6 +92,8 @@ build_triplet = @build@
 host_triplet = @host@
 @PLATFORM_WIN32_TRUE@am__append_1 = -no-undefined
 @NATIVE_WIN32_TRUE@am__append_2 = -export-dynamic
+@PLATFORM_WIN32_TRUE@am__append_3 = -no-undefined
+@NATIVE_WIN32_TRUE@am__append_4 = -export-dynamic
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -133,11 +135,9 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
 	"$(DESTDIR)$(octetos_core_includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-liboctetos_core_la_DEPENDENCIES =
-am_liboctetos_core_la_OBJECTS = semver-100.tab.lo semver-100.lo \
-	version-semver-comparators-100.lo version-semver-100.lo \
-	Version.lo common-c.lo common.lo Error.lo Message.lo Object.lo \
-	Licence.lo
+liboctetos_core_la_DEPENDENCIES = liboctetos-semver-100.la
+am_liboctetos_core_la_OBJECTS = common-c.lo common.lo Error.lo \
+	Message.lo Object.lo Licence.lo
 liboctetos_core_la_OBJECTS = $(am_liboctetos_core_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -146,6 +146,16 @@ am__v_lt_1 =
 liboctetos_core_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(liboctetos_core_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
+liboctetos_semver_100_la_DEPENDENCIES =
+am_liboctetos_semver_100_la_OBJECTS = semver-100.tab.lo semver-100.lo \
+	version-semver-comparators-100.lo version-semver-100.lo \
+	Version.lo
+liboctetos_semver_100_la_OBJECTS =  \
+	$(am_liboctetos_semver_100_la_OBJECTS)
+liboctetos_semver_100_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(AM_CXXFLAGS) $(CXXFLAGS) $(liboctetos_semver_100_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -199,8 +209,10 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(liboctetos_core_la_SOURCES)
-DIST_SOURCES = $(liboctetos_core_la_SOURCES)
+SOURCES = $(liboctetos_core_la_SOURCES) \
+	$(liboctetos_semver_100_la_SOURCES)
+DIST_SOURCES = $(liboctetos_core_la_SOURCES) \
+	$(liboctetos_semver_100_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -419,15 +431,19 @@ AM_CFLAGS = \
 	 -Wall\
 	 -g
 
-lib_LTLIBRARIES = liboctetos-core.la
-liboctetos_core_la_LDFLAGS = $(am__append_1) $(am__append_2)
-liboctetos_core_la_LIBADD = 
-liboctetos_core_la_SOURCES = \
+lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-core.la
+liboctetos_semver_100_la_LDFLAGS = $(am__append_1) $(am__append_2)
+liboctetos_semver_100_la_LIBADD = 
+liboctetos_semver_100_la_SOURCES = \
 	semver-100.tab.c \
 	semver-100.c \
 	version-semver-comparators-100.cc\
 	version-semver-100.cc\
-	Version.cc \
+	Version.cc
+
+liboctetos_core_la_LDFLAGS = $(am__append_3) $(am__append_4)
+liboctetos_core_la_LIBADD = liboctetos-semver-100.la
+liboctetos_core_la_SOURCES = \
 	common-c.c \
 	common.cc \
 	Error.cc \
@@ -515,6 +531,9 @@ clean-libLTLIBRARIES:
 
 liboctetos-core.la: $(liboctetos_core_la_OBJECTS) $(liboctetos_core_la_DEPENDENCIES) $(EXTRA_liboctetos_core_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(liboctetos_core_la_LINK) -rpath $(libdir) $(liboctetos_core_la_OBJECTS) $(liboctetos_core_la_LIBADD) $(LIBS)
+
+liboctetos-semver-100.la: $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_DEPENDENCIES) $(EXTRA_liboctetos_semver_100_la_DEPENDENCIES) 
+	$(AM_V_CXXLD)$(liboctetos_semver_100_la_LINK) -rpath $(libdir) $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

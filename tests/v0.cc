@@ -23,12 +23,12 @@ int clean(void)
 	return 0;
 }
 
-void testParseString()
+void testParseString_v100()
 {
 	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();
-	octetos::core::Semver ver = packinfo.version;
+	octetos::core::semver::v100 ver = packinfo.version;
 
-	octetos::core::Semver verReaded;
+	octetos::core::semver::v100 verReaded;
 	verReaded.set(ver.toString());
 	//std::cout << "ver '" << ver.toString () << "'\n";
 	//std::cout << "verReaded '" << verReaded.toString () << "'\n";
@@ -41,7 +41,7 @@ void testParseString()
 		CU_ASSERT(false);
 	}
 
-	octetos::core::Semver verExtracted;
+	octetos::core::semver::v100 verExtracted;
 	if(verExtracted.extractNumbers(ver.toString()))
 	{
 		//std::cout << "Version is '" << verExtracted.toString () << "'\n";
@@ -52,8 +52,8 @@ void testParseString()
 		CU_ASSERT(false);
 	}
 
-	octetos::core::Semver mysqlServer(5,7,30);
-	octetos::core::Semver mysqlServerImported;
+	octetos::core::semver::v100 mysqlServer(5,7,30);
+	octetos::core::semver::v100 mysqlServerImported;
 	mysqlServerImported.set(50730,octetos::core::Semver::ImportCode::MySQL);
 	if(mysqlServer == mysqlServerImported)
 	{
@@ -65,10 +65,10 @@ void testParseString()
 	}
 }
 
-void testComparators()
+void testComparators_v100()
 {
-        octetos::core::Semver ver1;
-        octetos::core::Semver ver2;
+        octetos::core::semver::v100 ver1;
+        octetos::core::semver::v100 ver2;
         
         ver1.setNumbers(1,2,3);
         ver2.setNumbers(1,2,5);
@@ -135,8 +135,8 @@ void testComparators()
         }   
         
     //x simepre es amjor que x.y
-    octetos::core::Semver ver3;
-    octetos::core::Semver ver4;
+    octetos::core::semver::v100 ver3;
+    octetos::core::semver::v100 ver4;
     ver3.setNumbers(1);
     ver4.setNumbers(1,50);
     if(ver3 >= ver4) 
@@ -192,8 +192,8 @@ void testComparators()
     
     
     //x simepre es amjor que x.y
-    octetos::core::Semver ver5;
-    octetos::core::Semver ver6;
+    octetos::core::semver::v100 ver5;
+    octetos::core::semver::v100 ver6;
     ver5.setNumbers(1,50);
     ver6.setNumbers(1,50,100);
     if(ver5 >= ver6) 
@@ -239,9 +239,9 @@ void testComparators()
         CU_ASSERT(false);
     }
     
-    octetos::core::Semver verMin;
-    octetos::core::Semver verMax;
-    octetos::core::Semver verVal;
+    octetos::core::semver::v100 verMin;
+    octetos::core::semver::v100 verMax;
+    octetos::core::semver::v100 verVal;
     verMin.setNumbers(1,2,0);
     verVal.setNumbers(1,2,3);
     verMax.setNumbers(3,9,0);
@@ -262,8 +262,8 @@ void testComparators()
         CU_ASSERT(false);
     }
     
-    octetos::core::Semver ver7;
-    octetos::core::Semver ver8;
+    octetos::core::semver::v100 ver7;
+    octetos::core::semver::v100 ver8;
     ver7.setNumbers(4,4,20);
     ver8.setNumbers(3,2);
     if(ver7 >= ver8)
@@ -275,7 +275,7 @@ void testComparators()
         CU_ASSERT(false);
     }
 
-	octetos::core::Semver ver9;
+	octetos::core::semver::v100 ver9;
 	ver9.setNumbers(4,4,20);
 	ver9.setBuild(12345678901233);
 	if(ver9.getBuildUL() == 12345678901233)
@@ -287,7 +287,7 @@ void testComparators()
         CU_ASSERT(false);
     }
 	
-	octetos::core::Semver ver10;
+	octetos::core::semver::v100 ver10;
 	ver10.setNumbers(4,4,20);
 	ver10.setBuild("+200-r56");
 	if(ver10.getBuildString().compare("+200-r56") == 0)
@@ -362,13 +362,13 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 		
-	if ((NULL == CU_add_test(pSuite, "Criterios de comparación", testComparators)))
+	if ((NULL == CU_add_test(pSuite, "Criterios de comparación", testComparators_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 			
-	if ((NULL == CU_add_test(pSuite, "Validacion de parseo", testParseString)))
+	if ((NULL == CU_add_test(pSuite, "Validacion de parseo", testParseString_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

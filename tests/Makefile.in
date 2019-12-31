@@ -108,6 +108,7 @@ am__v0_SOURCES_DIST = v0.cc
 v0_OBJECTS = $(am_v0_OBJECTS)
 am__DEPENDENCIES_1 =
 @HAVE_VERSION_TRUE@v0_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+@HAVE_VERSION_TRUE@	$(top_builddir)/src/liboctetos-semver-100.la \
 @HAVE_VERSION_TRUE@	$(top_builddir)/src/liboctetos-core.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -364,8 +365,8 @@ AM_CFLAGS = \
 	 -Wall\
 	 -g
 
-@HAVE_VERSION_TRUE@v0_LDADD = $(CUNIT_LIBS)  $(top_builddir)/src/liboctetos-core.la
-@HAVE_VERSION_TRUE@v0_CPPFLAGS = -I$(top_srcdir)/src -DMAJORNUMBER=$(version $(PACKAGE_VERSION) --major)
+@HAVE_VERSION_TRUE@v0_LDADD = $(CUNIT_LIBS)  $(top_builddir)/src/liboctetos-semver-100.la $(top_builddir)/src/liboctetos-core.la 
+@HAVE_VERSION_TRUE@v0_CPPFLAGS = -I$(top_srcdir)/src 
 @HAVE_VERSION_TRUE@v0_SOURCES = v0.cc
 all: all-am
 

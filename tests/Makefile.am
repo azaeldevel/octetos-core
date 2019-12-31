@@ -17,7 +17,8 @@ bin_PROGRAMS =
 if HAVE_VERSION
 
 bin_PROGRAMS += v0
-v0_LDADD = $(CUNIT_LIBS)  $(top_builddir)/src/liboctetos-core.la
-v0_CPPFLAGS = -I$(top_srcdir)/src -DMAJORNUMBER=$(version $(PACKAGE_VERSION) --major)
+v0_LDADD = $(CUNIT_LIBS)  $(top_builddir)/src/liboctetos-semver-100.la $(top_builddir)/src/liboctetos-core.la 
+v0_CPPFLAGS = -I$(top_srcdir)/src 
 v0_SOURCES = v0.cc
+
 endif
