@@ -10,7 +10,8 @@ void octetos_Semver_init(struct octetos_Semver* version)
 	version->stage = unknown;
 	version->stageNumber = -1;
 	version->build.type = none;
-	version->build.value.ul = 0;	
+	version->build.value.ul = 0;
+	version->prerelease = NULL;
 }
 const char* octetos_Stage_getString(enum octetos_version_Stage stage)
 {

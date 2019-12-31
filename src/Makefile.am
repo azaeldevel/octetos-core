@@ -52,6 +52,11 @@ liboctetos_core_la_SOURCES = \
 	Object.cc \
 	Licence.cc
 
+bin_PROGRAMS = develop
+
+develop_LDADD = $(CUNIT_LIBS)  liboctetos-semver-100.la liboctetos-core.la 
+develop_CPPFLAGS =  
+develop_SOURCES = develop.cc
 
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh

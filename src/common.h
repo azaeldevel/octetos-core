@@ -50,6 +50,7 @@ struct octetos_Semver {
     short stageNumber;
 	struct octetos_Semver_Build build;
 	enum octetos_version_Stage stage;
+	const char* prerelease;
 };
 
 #ifdef __cplusplus  

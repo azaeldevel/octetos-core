@@ -37,23 +37,11 @@ void yyerror(struct Tray* ty, const char* s);
   ENDOFINPUT
 ;
 
-%token <stage> VALUE_DEVELOPING
-%token <stage> VALUE_SNAPSHOT
-%token <stage> VALUE_PREALPHA
-%token <stage> VALUE_ALPHA
-%token <stage> VALUE_BETA
-%token <stage> VALUE_BETARELEASE
-%token <stage> VALUE_RC 
-%token <stage> VALUE_RELEASE 
-%token <stage> VALUE_RTM
-%token <stage> VALUE_GA
-%token <str> VALUE_NAME
-%token <sval> VALUE_NUMBER
-%token <ulval> VALUE_BUILD_UL
-%token <str> VALUE_BUILD_STRING
-%token <str> NOEXPECTED
 
-%token EXTRACT_TOKEN NUMBERS_TOKEN FROM_TOKEN
+
+%token <sval> NUMBER_VALUE
+%token <str> PRERELEASE_VALUE
+
 
 %locations
 
@@ -64,11 +52,6 @@ void yyerror(struct Tray* ty, const char* s);
 	{
 		YYACCEPT;
 	}
-	|
-	extract_numbers
-	{
-		YYACCEPT;
-	}
 	;
 
 	version : 
@@ -76,26 +59,22 @@ void yyerror(struct Tray* ty, const char* s);
 	{
 	}
 	|
-	numbers_value stage
-	{
-	}
-	| 
-	numbers_value build
+	numbers_value prerelease
 	{
 	};
 	
 	numbers_value : one_number | two_numbers | three_numbers;
 
-	one_number : VALUE_NUMBER
+	one_number : NUMBER_VALUE
 	{
 		ty->version->major = $1;
 	};
-	two_numbers : VALUE_NUMBER '.' VALUE_NUMBER
+	two_numbers : NUMBER_VALUE '.' NUMBER_VALUE
 	{
 		ty->version->major = $1;
 		ty->version->minor = $3;
 	};
-	three_numbers : VALUE_NUMBER '.' VALUE_NUMBER '.' VALUE_NUMBER
+	three_numbers : NUMBER_VALUE '.' NUMBER_VALUE '.' NUMBER_VALUE
 	{
 		ty->version->major = $1;
 		ty->version->minor = $3;
@@ -103,74 +82,15 @@ void yyerror(struct Tray* ty, const char* s);
 		//printf("N1: %d\n",ty->version.major);
 	};
 
-	stage : 
-	'-' VALUE_DEVELOPING
+	prerelease : 
+	'-'  PRERELEASE_VALUE
 	{
-		ty->version->stage = developing;
-	}
-	|
-	'-' VALUE_SNAPSHOT
-	{
-        ty->version->stage = snapshot;
-	}
-	| 
-	'-' VALUE_ALPHA
-	{
-        ty->version->stage = alpha;
-	}
-	| 
-	'-' VALUE_BETA
-	{
-        ty->version->stage = beta;
-	} 
-	|
-	'-' VALUE_BETARELEASE
-	{
-		ty->version->stage = betarelease;
-	}
-	| 
-	'-' VALUE_RC
-	{
-		ty->version->stage = rc;
-	}
-	| 
-	'-' VALUE_RELEASE
-	{
-		ty->version->stage = release;
-	}
-	| 
-	'-' VALUE_RTM
-	{
-		ty->version->stage = rtm;
-	}
-	| 
-	'-' VALUE_GA
-	{
-		ty->version->stage = ga;
-	}
-	;
-
-	build : 
-	'+' VALUE_BUILD_UL
-	{    
-        ty->version->build.type = ul_e;
-        ty->version->build.value.ul = $2;
-	}
-	|
-	'+' VALUE_BUILD_STRING
-	{
-        ty->version->build.type = string_e;
 		const char* temp = $2;
-		if(ty->version->build.value.string)
-		{//si hay una string librar la memoria
-			free(ty->version->build.value.string);
-		}
-		ty->version->build.value.string = malloc(strlen(temp) + 1);
-		strcpy(ty->version->build.value.string, temp);    
-    }
-	;
-	
-	extract_numbers : EXTRACT_TOKEN NUMBERS_TOKEN FROM_TOKEN numbers_value;
+		int len = strlen(temp);
+		if(ty->version->prerelease) free(ty->version->prerelease);
+		ty->version->prerelease = (char*)malloc(len + 1);
+		strcpy(ty->version->prerelease, temp);
+	};
 	
 
 %%

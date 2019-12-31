@@ -6,7 +6,7 @@
 
 #include "common.hh"
 #include "config.h"
-
+#include "semver-parser.h"
 
 
 int init(void)
@@ -25,14 +25,21 @@ int clean(void)
 
 void testParseString_v100()
 {
-	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();
-	octetos::core::semver::v100 ver = packinfo.version;
-
-	octetos::core::semver::v100 verReaded;
-	verReaded.set(ver.toString());
-	//std::cout << "ver '" << ver.toString () << "'\n";
-	//std::cout << "verReaded '" << verReaded.toString () << "'\n";
-	if(verReaded == ver)
+	octetos_Semver ver1,ver2,ver3;
+	octetos_Semver_init(&ver1);
+	octetos_Semver_init(&ver2);
+	octetos_Semver_init(&ver3);
+	struct Tray ty1,ty2,ty3;
+	ty1.version = &ver1;
+	ty1.dysplay_erro = 1;
+	ty2.version = &ver2;
+	ty2.dysplay_erro = 1;
+	ty3.version = &ver3;
+	ty3.dysplay_erro = 1;
+	
+	//printf( ">>>\n");
+	parse_string(&ty1,"1.6.55-alpha");    
+    if(ty1.version->major == 1)
 	{
 		CU_ASSERT(true);
 	}
@@ -40,22 +47,92 @@ void testParseString_v100()
 	{
 		CU_ASSERT(false);
 	}
-
-	octetos::core::semver::v100 verExtracted;
-	if(verExtracted.extractNumbers(ver.toString()))
+    if(ty1.version->minor == 6)
 	{
-		//std::cout << "Version is '" << verExtracted.toString () << "'\n";
 		CU_ASSERT(true);
 	}
 	else
 	{
 		CU_ASSERT(false);
 	}
-
-	octetos::core::semver::v100 mysqlServer(5,7,30);
-	octetos::core::semver::v100 mysqlServerImported;
-	mysqlServerImported.set(50730,octetos::core::Semver::ImportCode::MySQL);
-	if(mysqlServer == mysqlServerImported)
+    if(ty1.version->patch == 55)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+    if(strcmp(ty1.version->prerelease,"alpha") == 0)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+    
+	parse_string(&ty2,"7.6.23-alpha-1"); 
+	if(ty2.version->major == 7)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+    if(ty2.version->minor == 6)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+    if(ty2.version->patch == 23)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+    if(strcmp(ty2.version->prerelease,"alpha-1") == 0)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+	
+    
+	parse_string(&ty3,"7.6.23-alpha5-2");     
+	if(ty3.version->major == 7)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+    if(ty3.version->minor == 6)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+    if(ty3.version->patch == 23)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+    if(strcmp(ty3.version->prerelease,"alpha5-2") == 0)
 	{
 		CU_ASSERT(true);
 	}

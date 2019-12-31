@@ -14,119 +14,47 @@
 #include "semver-100.tab.h"
 //extern YYSTYPE yylval;
 %}
+NUMBER			[0-9]{1,5}
+PRERELEASE_ID	[a-zA-Z][0-9A-Za-z-]+
 
-
-
-
+%s scPRERELEASE
 %%
 %{          /** Code executed at the beginning of yylex **/
             BEGIN(INITIAL);
 %}
-"from"        {
-								//printf("token : %s\n",yytext);
-                                return FROM_TOKEN;
-                                        
-                            }
-"numbers"        {
-								//printf("token : %s\n",yytext);
-                                return NUMBERS_TOKEN;
-                                        
-                            }
-"extract"        {
-								//printf("token : %s\n",yytext);
-                                return EXTRACT_TOKEN;
-                                        
-                            }             
+             
 
-[0-9]{1,5}  	{
+<INITIAL>{NUMBER}  	{
                                         //printf("%s\n",yytext); 
                                         yylval.sval=(short)atoi(yytext);
-                                        return VALUE_NUMBER;
+                                        return NUMBER_VALUE;
                                 }
 
-"."     {
-		//std::cout << yytext << std::endl;
-		return yytext[0];
-	}
+<INITIAL>"."     		{
+					//std::cout << yytext << std::endl;
+					return yytext[0];
+				}
 	
-"-"     {
-                                //printf("%s\n",yytext);
-                                //BEGIN(scSTAGE);
-                                return yytext[0];
+<INITIAL>"-"     		{
+					//printf("%s\n",yytext);
+					BEGIN(scPRERELEASE);
+					return yytext[0];
                 }
+{PRERELEASE_ID}		{
+						//printf("invalid : %s\n",yytext);
+						yylval.str = yytext; 
+						return PRERELEASE_VALUE;
+					}
 
-"d"|"dev"|"devel"|"developing"|"DEV"|"DEVEL"|"DEVELOP"|"DEVELOPING"   {
-                                yylval.stage=developing;
-                                return VALUE_SNAPSHOT;
-                                        
-                            }
-"s"|"snapshot"|"SNAPSHOT"  {
-                                        //std::cout << yytext << std::endl;
-                                yylval.stage=snapshot;
-                                return VALUE_SNAPSHOT;
-                        }
-"a"|"alpha"|"ALPHA"		{
-                                //printf("stage : %s\n",yytext);
-                                yylval.stage=alpha;
-                                return VALUE_ALPHA;
-                                }
-
-"b"|"beta"|"BETA"     	{
-                                        //std::cout << yytext << std::endl;
-                                yylval.stage=beta;return VALUE_BETA;
-                                }
-"br"|"betar"|"betarelease"|"BETAR"|"BETARELEASE"    	{
-			//std::cout << yytext << std::endl;
-			yylval.stage=betarelease;return VALUE_BETARELEASE;
-		}
-"rc"|"RC"       	{
-                                        //std::cout << yytext << std::endl;
-                                        yylval.stage=rc;
-                                        return VALUE_RC;
-                        }
-
-"r"|"release"|"RELEASE"  	{
-                                        //std::cout << yytext << std::endl;
-                                yylval.stage=release;
-                                return VALUE_RELEASE;
-                        }
-"RTM"  	{
-                                        //std::cout << yytext << std::endl;
-                                yylval.stage=rtm;
-                                return VALUE_RTM;
-                                }                                
-"GA"  	{
-                                        //std::cout << yytext << std::endl;
-                                yylval.stage=ga;return VALUE_GA;
-                                }
-
-"+"        	{
-                //printf("P : %s\n",yytext);
-                //yylval->build< std::string >( yytext );
-                //BEGIN(scBUILD);
-                return yytext[0];
-            }
-
-[0-9]{14}                  {
-                                                        //printf("build : %s\n",yytext);
-                                                        yylval.ulval=strtoul(yytext, NULL, 0);
-                                                        return VALUE_BUILD_UL;                                                                        
-                                                }
-[a-zA-Z][a-zA-Z0-9\.]* {
-                            //printf("build : %s\n",yytext);
-                            yylval.str = yytext;
-                            return VALUE_BUILD_STRING;
-}
 
 [\0\n]            {
                         return ENDOFINPUT;
 }
-.          	            {
-                                                        //printf("build : %s\n",yytext);
-                                        //printf("invalid : %s\n",yytext);
-                                        yylval.str = yytext;
-                                        
-                                }
+
+.					{
+						//printf("invalid : %s\n",yytext);
+						yylval.str = yytext;                                  
+					}
 <<EOF>>    {
                                         //std::cout << "En of file" << std::endl; 
                                 return ENDOFINPUT;
