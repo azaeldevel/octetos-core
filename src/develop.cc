@@ -10,7 +10,7 @@ int main()
 	octetos_Semver_init(&ver1);
 	octetos_Semver_init(&ver2);
 	octetos_Semver_init(&ver3);
-	struct Tray ty1,ty2,ty3;
+	struct octetos_Tray ty1,ty2,ty3;
 	ty1.version = &ver1;
 	ty1.dysplay_erro = 1;
 	ty2.version = &ver2;

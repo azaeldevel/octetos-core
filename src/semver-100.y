@@ -6,20 +6,20 @@
 
 #include "semver-parser.h"
 
-extern int yylex(struct Tray* ty);
-extern int yyparse(struct Tray* ty);
+extern int yylex(struct octetos_Tray* ty);
+extern int yyparse(struct octetos_Tray* ty);
 //int parse_string(struct Tray* ty, const char* in);
 extern FILE* yyin;
 
-void yyerror(struct Tray* ty, const char* s);
+void yyerror(struct octetos_Tray* ty, const char* s);
 //void set_input_string(const char* in);
 //void end_lexical_scan(void);
 
 
 %}
 
-%lex-param {struct Tray* ty}
-%parse-param {struct Tray* ty}
+%lex-param {struct octetos_Tray* ty}
+%parse-param {struct octetos_Tray* ty}
 
 %union {
 	short sval;
@@ -89,13 +89,13 @@ void yyerror(struct Tray* ty, const char* s);
 	
 
 %%
-void yyerror(struct Tray* ty,const char* s) {
+void yyerror(struct octetos_Tray* ty,const char* s) {
 	if(ty->dysplay_erro > 0) fprintf(stderr, "Parse error: %s\n", s);
 }
 /* Declarations */
 void set_input_string(const char* in);
 void end_lexical_scan(void);
-int parse_string(struct Tray* ty,const char* in) {
+int parse_string(struct octetos_Tray* ty,const char* in) {
   set_input_string(in);
   int rv = yyparse(ty);
   end_lexical_scan();

@@ -40,7 +40,7 @@ namespace semver
 		
 	bool v100::set(const std::string& str)
 	{
-        Tray ty;
+        octetos_Tray ty;
 		ty.dysplay_erro = 0;
 		ty.version = this;
         int ret = parse_string(&ty,str.c_str());

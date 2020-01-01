@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-struct Tray
+struct octetos_Tray
 {
 	struct octetos_Semver* version;
     int dysplay_erro;
@@ -12,7 +12,7 @@ struct Tray
 #ifdef __cplusplus  
 extern "C" {
 #endif 
-    int parse_string(struct Tray* ty,const char* in);
+    int parse_string(struct octetos_Tray* ty,const char* in);
 #ifdef __cplusplus 
 } 
 #endif

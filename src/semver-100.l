@@ -8,8 +8,7 @@
 
 #include "semver-parser.h"
 
-#define YY_DECL int yylex(struct Tray* ty)
-//int parse_string(struct Tray* ty,const char* in);
+#define YY_DECL int yylex(struct octetos_Tray* ty)
 
 #include "semver-100.tab.h"
 //extern YYSTYPE yylval;
