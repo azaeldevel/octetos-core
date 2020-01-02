@@ -56,14 +56,17 @@ const char* octetos_Semver_toString(const struct octetos_Semver* version,enum oc
 	}
 
 		
-	int prereleaseLeng = strlen(version->prerelease);//se agrega la longitus de stage mas el espacio del guion
+	int prereleaseLeng = version->prerelease ? strlen(version->prerelease) : 0;//se agrega la longitus de stage mas el espacio del guion
 
 	int verstrLeng = numberLeng + prereleaseLeng + 2;//mas guion y terminalcion NULL
 	const char* verstr = malloc(verstrLeng);
 	strcpy(verstr,numberStr);
-	strcat(verstr,"-");
-	strcat(verstr,version->prerelease);
-
+	if(prereleaseLeng > 0)
+	{
+		strcat(verstr,"-");
+		strcat(verstr,version->prerelease);
+	}
+	
 	free(numberStr);
 	
 	return verstr;

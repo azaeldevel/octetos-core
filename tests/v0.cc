@@ -23,6 +23,38 @@ int clean(void)
 	return 0;
 }
 
+void testImports_v100()
+{
+	octetos::core::semver::v100 verPQ;
+	verPQ.set(80105,octetos::core::semver::ImportCode::PostgreSQL);
+	if(verPQ.getMajor() == 8)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+	if(verPQ.getMinor() == 1)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+	if(verPQ.getPatch() == 5)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+	std::string strverpq = verPQ.toString();
+	std::cout << "verPQ = " << strverpq << "\n";
+}
+
 void testParseString_v100()
 {
 	octetos_Semver ver1,ver2,ver3;
@@ -133,6 +165,16 @@ void testParseString_v100()
 		CU_ASSERT(false);
 	}
     if(strcmp(ty3.version->prerelease,"alpha5-2") == 0)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+	octetos::core::semver::v100 ver4;
+	ver4.set("7.6.23-betar1-2");
+	if(ver4.getPrerelease().compare("betar1-2") == 0)
 	{
 		CU_ASSERT(true);
 	}
@@ -387,6 +429,12 @@ int main(int argc, char *argv[])
 	}
 			
 	if ((NULL == CU_add_test(pSuite, "Validacion de parseo", testParseString_v100)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}	
+	
+	if ((NULL == CU_add_test(pSuite, "Validacion de Imports", testImports_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

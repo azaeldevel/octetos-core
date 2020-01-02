@@ -39,6 +39,7 @@ namespace core
 		enum ImportCode
 		{
 			MySQL,
+			PostgreSQL,
 		};
 
 		/**
@@ -69,6 +70,7 @@ namespace core
 		    * \brief Retorna el número patch
 		    * */
 			short getPatch() const;
+			std::string getPrerelease() const;
 		    virtual bool operator ==(const Version& v)const;
 		    virtual bool operator !=(const Version& v)const;
 		    /**

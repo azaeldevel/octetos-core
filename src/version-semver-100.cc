@@ -16,6 +16,10 @@ namespace core
 {
 namespace semver
 {
+	std::string v100::getPrerelease() const
+	{
+		return prerelease;
+	}
 	v100 v100::getVersion() const
 	{
 		return v100(1,0,0);
@@ -34,6 +38,17 @@ namespace semver
 			
 			return true;
 		}	
+		else if(import == ImportCode::PostgreSQL)
+		{
+			unsigned long actualVer = ver;
+			major = actualVer/10000;
+			actualVer -= (10000 * major);
+			minor = actualVer/100;
+			actualVer -= (100 * minor);
+			patch = actualVer;
+			
+			return true;
+		}
 
 		return false;
 	}
