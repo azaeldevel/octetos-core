@@ -30,31 +30,39 @@ namespace semver
         return false;
     }
     bool v100::operator <(const Semver& obj)const
-    {                              
-        //por numeros
-        if(major < obj.major)
+    {                  
+		
+		if(major < 0 or obj.major < 0)
+		{
+			throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
+		}
+        else if(major > obj.major)
+        {
+            return false;  
+        }
+		else if(major < obj.major)
         {
             return true;  
         }
-        else if(major < 0 and obj.major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
-        {
-            throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
-        }
-                
+
         if(minor < 0 and obj.minor > -1)
         {
             return false;
         }
-        else if(minor < obj.minor)
-        {
-            return true;
-        } 
         else if(minor > obj.minor)
         {
             return false;
-        }
+        } 
+		else if(minor < obj.minor)
+        {
+            return true;
+        } 
         
         if(patch < 0 and obj.patch > -1)
+        {
+            return false;
+        }
+        else if(patch > obj.patch)
         {
             return false;
         }
@@ -67,8 +75,11 @@ namespace semver
     }
 	bool v100::operator >(const Semver& obj)const
     {
-        //por numeros
-        if(major < obj.major)
+        if(major < 0 or obj.major < 0)
+		{
+			throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
+		}
+        else if(major < obj.major)
         {
             return false;
         }
@@ -76,10 +87,7 @@ namespace semver
         {
             return true;
         }
-        else if(major < 0 and obj.major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
-        {
-            throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
-        }
+		
         
         if(minor < 0 and obj.minor > -1)
         {
@@ -102,13 +110,17 @@ namespace semver
         {
             return true;
         }
+        else if(patch < obj.patch)
+        {
+            return false;
+        }
                 
         //std::cout << "no cumple" << std::endl;
         return false;
     }
     bool v100::operator <=(const Semver& obj)const
     {
-        if((*this) < obj or (*this) == obj)
+        if((*this) == obj or (*this) < obj)
         {
             return true;
         }
@@ -119,7 +131,7 @@ namespace semver
     }
     bool v100::operator >=(const Semver& obj)const
     {
-        if((*this) > obj or (*this) == obj)
+        if((*this) == obj or (*this) > obj)
         {
             return true;
         }
