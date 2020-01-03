@@ -11,94 +11,94 @@ namespace core
 {
 namespace semver
 {
-    bool v100::operator !=(const Version& v)const
+    bool Semver_v100::operator !=(const Semver& obj)const
     {
-        if(major != ((Semver&)v).major or minor != ((Semver&)v).minor or patch != ((Semver&)v).patch)
+        if(major != obj.major or minor != obj.minor or patch != obj.patch)
         {
             return true;
         }
         
         return false;
     }
-    bool v100::operator ==(const Version& v)const
+    bool Semver_v100::operator ==(const Semver& obj)const
     {
-        if(major == ((Semver&)v).major && minor == ((Semver&)v).minor && patch == ((Semver&)v).patch)
+        if(major == obj.major && minor == obj.minor && patch == obj.patch)
         {
             return true;
         }
         
         return false;
     }
-    bool v100::operator <(const Version& v)const
+    bool Semver_v100::operator <(const Semver& obj)const
     {                              
         //por numeros
-        if(major < ((Semver&)v).major)
+        if(major < obj.major)
         {
             return true;  
         }
-        else if(major < 0 and ((v100&)v).major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
+        else if(major < 0 and obj.major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
         {
             throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
         }
                 
-        if(minor < 0 and ((v100&)v).minor > -1)
+        if(minor < 0 and obj.minor > -1)
         {
             return false;
         }
-        else if(minor < ((v100&)v).minor)
+        else if(minor < obj.minor)
         {
             return true;
         } 
-        else if(minor > ((v100&)v).minor)
+        else if(minor > obj.minor)
         {
             return false;
         }
         
-        if(patch < 0 and ((v100&)v).patch > -1)
+        if(patch < 0 and obj.patch > -1)
         {
             return false;
         }
-        else if(patch < ((v100&)v).patch)
+        else if(patch < obj.patch)
         {
             return true;
         }
                 
         return false;
     }
-	bool v100::operator >(const Version& v)const
+	bool Semver_v100::operator >(const Semver& obj)const
     {
         //por numeros
-        if(major < ((Semver&)v).major)
+        if(major < obj.major)
         {
             return false;
         }
-        else if(major > ((Semver&)v).major)
+        else if(major > obj.major)
         {
             return true;
         }
-        else if(major < 0 and ((Semver&)v).major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
+        else if(major < 0 and obj.major < 0) // no se puede retornar false y escribir un erro ya que el programa tendria la false idea de que la comparacion fue correcta con valor de retorno falso.
         {
             throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
         }
         
-        if(minor < 0 and ((Semver&)v).minor > -1)
+        if(minor < 0 and obj.minor > -1)
         {
             return true;
         }
-        else if(minor > ((Semver&)v).minor)
+        else if(minor > obj.minor)
         {
             return true;
         }
-        else if(minor < ((Semver&)v).minor)
+        else if(minor < obj.minor)
         {
             return false;
         }
         
-        if(patch < 0 and ((Semver&)v).patch > -1)
+        if(patch < 0 and obj.patch > -1)
         {
             return true;
         }
-        else if(patch > ((Semver&)v).patch)
+        else if(patch > obj.patch)
         {
             return true;
         }
@@ -106,9 +106,9 @@ namespace semver
         //std::cout << "no cumple" << std::endl;
         return false;
     }
-    bool Semver::operator <=(const Version& v)const
+    bool Semver_v100::operator <=(const Semver& obj)const
     {
-        if((*this) < v or (*this) == v)
+        if((*this) < obj or (*this) == obj)
         {
             return true;
         }
@@ -117,9 +117,9 @@ namespace semver
             return false;
         }
     }
-    bool Semver::operator >=(const Version& v)const
+    bool Semver_v100::operator >=(const Semver& obj)const
     {
-        if((*this) > v or (*this) == v)
+        if((*this) > obj or (*this) == obj)
         {
             return true;
         }

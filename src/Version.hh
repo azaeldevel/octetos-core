@@ -13,7 +13,7 @@ namespace octetos
 {
 namespace core
 {
-	class Version : public Object
+	/*class Version : public Object
 	{
 	public:
         virtual bool operator ==(const Version& v)const = 0;
@@ -22,7 +22,7 @@ namespace core
         virtual bool operator <(const Version& v)const = 0;
 		virtual bool operator >=(const Version& v)const = 0;
         virtual bool operator <=(const Version& v)const = 0;
-	};
+	};*/
 
 	class InvalidComparison : public Error
 	{
@@ -42,17 +42,8 @@ namespace core
 			PostgreSQL,
 		};
 
-		/**
-		 * \brief Implemete un subconjuto de semver v1.0.0, la reduciones aplicada
-		 * a los componentes pre-release y build. Su principal utilidad radica
-		 * en el manejo de los numero, mayor, menor y patch.
-		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
-		 **/
-		class v100: public Version, private octetos_Semver
+		class Semver : public octetos_Semver
 		{
-		public:
-
-					    
 		public:
 			/**
 			* \brief Limpia todos los datos
@@ -70,45 +61,10 @@ namespace core
 		    * \brief Retorna el número patch
 		    * */
 			short getPatch() const;
+			
 			std::string getPrerelease() const;
-		    virtual bool operator ==(const Version& v)const;
-		    virtual bool operator !=(const Version& v)const;
-		    /**
-		    * \brief Determina el orden relativo entre dos obejtos Version
-		    * \return true si el objeto pasado como parametro es amyor o igual, false en otro caso
-		    * */
-			virtual bool operator >=(const Version& v)const;
-		    virtual bool operator >(const Version& v)const;
-		    virtual bool operator <=(const Version& v)const;
-		    /**
-		    * \brief Determina el orden relativo entre dos obejtos Version
-		    * \return true si el objeto pasado como parametro es menor, false en otro caso
-		    * */
-			bool operator <(const Version& v)const;
-		    /**
-		    * \brief Hace una copia del objecto version.
-		    * */
-			const v100& operator =(const v100& v);
-		    /**
-		    * \brief Hace una copia del objecto version.
-		    * */
-			const octetos_Semver& operator =(const octetos_Semver& v);
-		            
-		    /**
-		    * \brief Simple mente limpa las variables intenas
-		    * */
-		    ~v100();
-		    v100(const v100*);
-		    v100(const v100&);
-			v100();
-		    /**
-		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
-		    * */
-			v100(short major,short minor);
-		    /**
-		    * \brief Asigna numero major, menor y patch, los restantas datos son limpiados
-		    * */
-			v100(short major,short minor,short patch);
+		    
+
 		    /**
 		    * \brief Asigna todos los campos de version.
 		    * */
@@ -137,15 +93,69 @@ namespace core
 		    * \brief Retorna una representa en texto de la version.
 		    * \param formato Determina el formato generado.
 		    * */
-			std::string toString(FormatString formato = FormatString::FullString) const; 			
+			std::string toString(FormatString formato = FormatString::FullString) const;
+			Semver();
+		    /**
+		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
+		    * */
+			Semver(short major,short minor);
+		    /**
+		    * \brief Asigna numero major, menor y patch, los restantas datos son limpiados
+		    * */
+			Semver(short major,short minor,short patch);
+
+
+		    virtual bool operator ==(const Semver& v)const = 0;
+		    virtual bool operator !=(const Semver& v)const = 0;
+		    virtual bool operator >(const Semver& v)const = 0;
+		    virtual bool operator <(const Semver& v)const = 0;
+			virtual bool operator >=(const Semver& v)const = 0;
+		    virtual bool operator <=(const Semver& v)const = 0;
+
+
+		    /**
+		    * \brief Hace una copia del objecto version.
+		    * */
+			const octetos_Semver& operator =(const octetos_Semver& v);
+			const Semver& operator =(const Semver& v);
+		};
+
+		/**
+		 * \brief Implemete un subconjuto de semver v1.0.0
+		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
+		 **/
+		class Semver_v100: public Semver
+		{					    
+		public:
+		    virtual bool operator ==(const Semver& v)const;
+		    virtual bool operator !=(const Semver& v)const;
+			virtual bool operator >=(const Semver& v)const;
+		    virtual bool operator >(const Semver& v)const;
+		    virtual bool operator <=(const Semver& v)const;
+			virtual bool operator <(const Semver& v)const; 		            
+		    /**
+		    * \brief Simple mente limpa las variables intenas
+		    * */
+		    ~Semver_v100();
+		    //v100(const v100*);
+		    //v100(const v100&);
+			Semver_v100();
+		    /**
+		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
+		    * */
+			Semver_v100(short major,short minor);
+		    /**
+		    * \brief Asigna numero major, menor y patch, los restantas datos son limpiados
+		    * */
+			Semver_v100(short major,short minor,short patch);			
 			/**
 			*\brief Indica la version semver implemetada.
 			**/
-			v100 getVersion() const;
+			Semver_v100 getVersion() const;
 		};
 	}
 
-	typedef semver::v100 Semver;
+	typedef semver::Semver_v100 Semver;
 }
 }
 #endif

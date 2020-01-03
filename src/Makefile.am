@@ -33,6 +33,7 @@ liboctetos_semver_100_la_SOURCES = \
 	semver-100.c \
 	version-semver-comparators-100.cc\
 	version-semver-100.cc\
+	version-semver.cc\
 	Version.cc
 
 

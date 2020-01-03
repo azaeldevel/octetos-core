@@ -103,13 +103,27 @@ CONFIG_CLEAN_VPATH_FILES =
 @HAVE_VERSION_TRUE@am__EXEEXT_1 = v0$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__v0_SOURCES_DIST = v0.cc
-@HAVE_VERSION_TRUE@am_v0_OBJECTS = v0-v0.$(OBJEXT)
+am__v0_SOURCES_DIST = v0.cc semver-100.tab.c semver-100.c \
+	$(top_srcdir)/src/version-semver-comparators-100.cc \
+	$(top_srcdir)/src/version-semver-100.cc \
+	$(top_srcdir)/src/version-semver.cc \
+	$(top_srcdir)/src/Version.cc $(top_srcdir)/src/common-c.c \
+	$(top_srcdir)/src/common.cc $(top_srcdir)/src/Error.cc \
+	$(top_srcdir)/src/Message.cc $(top_srcdir)/src/Object.cc \
+	$(top_srcdir)/src/Licence.cc
+@HAVE_VERSION_TRUE@am_v0_OBJECTS = v0-v0.$(OBJEXT) \
+@HAVE_VERSION_TRUE@	v0-semver-100.tab.$(OBJEXT) \
+@HAVE_VERSION_TRUE@	v0-semver-100.$(OBJEXT) \
+@HAVE_VERSION_TRUE@	v0-version-semver-comparators-100.$(OBJEXT) \
+@HAVE_VERSION_TRUE@	v0-version-semver-100.$(OBJEXT) \
+@HAVE_VERSION_TRUE@	v0-version-semver.$(OBJEXT) \
+@HAVE_VERSION_TRUE@	v0-Version.$(OBJEXT) v0-common-c.$(OBJEXT) \
+@HAVE_VERSION_TRUE@	v0-common.$(OBJEXT) v0-Error.$(OBJEXT) \
+@HAVE_VERSION_TRUE@	v0-Message.$(OBJEXT) v0-Object.$(OBJEXT) \
+@HAVE_VERSION_TRUE@	v0-Licence.$(OBJEXT)
 v0_OBJECTS = $(am_v0_OBJECTS)
 am__DEPENDENCIES_1 =
-@HAVE_VERSION_TRUE@v0_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-@HAVE_VERSION_TRUE@	$(top_builddir)/src/liboctetos-semver-100.la \
-@HAVE_VERSION_TRUE@	$(top_builddir)/src/liboctetos-core.la
+@HAVE_VERSION_TRUE@v0_DEPENDENCIES = $(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -130,6 +144,24 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_@AM_V@)
+am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
+am__v_CC_0 = @echo "  CC      " $@;
+am__v_CC_1 = 
+CCLD = $(CC)
+LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_@AM_V@)
+am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
+am__v_CCLD_0 = @echo "  CCLD    " $@;
+am__v_CCLD_1 = 
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -365,13 +397,26 @@ AM_CFLAGS = \
 	 -Wall\
 	 -g
 
-@HAVE_VERSION_TRUE@v0_LDADD = $(CUNIT_LIBS)  $(top_builddir)/src/liboctetos-semver-100.la $(top_builddir)/src/liboctetos-core.la 
+@HAVE_VERSION_TRUE@v0_LDADD = $(CUNIT_LIBS)  
 @HAVE_VERSION_TRUE@v0_CPPFLAGS = -I$(top_srcdir)/src 
-@HAVE_VERSION_TRUE@v0_SOURCES = v0.cc
+@HAVE_VERSION_TRUE@v0_SOURCES = v0.cc  \
+@HAVE_VERSION_TRUE@	semver-100.tab.c \
+@HAVE_VERSION_TRUE@	semver-100.c \
+@HAVE_VERSION_TRUE@	$(top_srcdir)/src/version-semver-comparators-100.cc\
+@HAVE_VERSION_TRUE@	$(top_srcdir)/src/version-semver-100.cc\
+@HAVE_VERSION_TRUE@	$(top_srcdir)/src/version-semver.cc\
+@HAVE_VERSION_TRUE@	$(top_srcdir)/src/Version.cc\
+@HAVE_VERSION_TRUE@	$(top_srcdir)/src/common-c.c \
+@HAVE_VERSION_TRUE@	$(top_srcdir)/src/common.cc \
+@HAVE_VERSION_TRUE@	$(top_srcdir)/src/Error.cc \
+@HAVE_VERSION_TRUE@	$(top_srcdir)/src/Message.cc \
+@HAVE_VERSION_TRUE@	$(top_srcdir)/src/Object.cc \
+@HAVE_VERSION_TRUE@	$(top_srcdir)/src/Licence.cc
+
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .cc .lo .o .obj
+.SUFFIXES: .c .cc .lo .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -461,7 +506,82 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-Error.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-Licence.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-Message.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-Object.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-Version.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-common-c.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-common.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-semver-100.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-semver-100.tab.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-v0.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-version-semver-100.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-version-semver-comparators-100.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-version-semver.Po@am__quote@
+
+.c.o:
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ $<
+
+.c.obj:
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.c.lo:
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+v0-semver-100.tab.o: semver-100.tab.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT v0-semver-100.tab.o -MD -MP -MF $(DEPDIR)/v0-semver-100.tab.Tpo -c -o v0-semver-100.tab.o `test -f 'semver-100.tab.c' || echo '$(srcdir)/'`semver-100.tab.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-semver-100.tab.Tpo $(DEPDIR)/v0-semver-100.tab.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='semver-100.tab.c' object='v0-semver-100.tab.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o v0-semver-100.tab.o `test -f 'semver-100.tab.c' || echo '$(srcdir)/'`semver-100.tab.c
+
+v0-semver-100.tab.obj: semver-100.tab.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT v0-semver-100.tab.obj -MD -MP -MF $(DEPDIR)/v0-semver-100.tab.Tpo -c -o v0-semver-100.tab.obj `if test -f 'semver-100.tab.c'; then $(CYGPATH_W) 'semver-100.tab.c'; else $(CYGPATH_W) '$(srcdir)/semver-100.tab.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-semver-100.tab.Tpo $(DEPDIR)/v0-semver-100.tab.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='semver-100.tab.c' object='v0-semver-100.tab.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o v0-semver-100.tab.obj `if test -f 'semver-100.tab.c'; then $(CYGPATH_W) 'semver-100.tab.c'; else $(CYGPATH_W) '$(srcdir)/semver-100.tab.c'; fi`
+
+v0-semver-100.o: semver-100.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT v0-semver-100.o -MD -MP -MF $(DEPDIR)/v0-semver-100.Tpo -c -o v0-semver-100.o `test -f 'semver-100.c' || echo '$(srcdir)/'`semver-100.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-semver-100.Tpo $(DEPDIR)/v0-semver-100.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='semver-100.c' object='v0-semver-100.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o v0-semver-100.o `test -f 'semver-100.c' || echo '$(srcdir)/'`semver-100.c
+
+v0-semver-100.obj: semver-100.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT v0-semver-100.obj -MD -MP -MF $(DEPDIR)/v0-semver-100.Tpo -c -o v0-semver-100.obj `if test -f 'semver-100.c'; then $(CYGPATH_W) 'semver-100.c'; else $(CYGPATH_W) '$(srcdir)/semver-100.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-semver-100.Tpo $(DEPDIR)/v0-semver-100.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='semver-100.c' object='v0-semver-100.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o v0-semver-100.obj `if test -f 'semver-100.c'; then $(CYGPATH_W) 'semver-100.c'; else $(CYGPATH_W) '$(srcdir)/semver-100.c'; fi`
+
+v0-common-c.o: $(top_srcdir)/src/common-c.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT v0-common-c.o -MD -MP -MF $(DEPDIR)/v0-common-c.Tpo -c -o v0-common-c.o `test -f '$(top_srcdir)/src/common-c.c' || echo '$(srcdir)/'`$(top_srcdir)/src/common-c.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-common-c.Tpo $(DEPDIR)/v0-common-c.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$(top_srcdir)/src/common-c.c' object='v0-common-c.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o v0-common-c.o `test -f '$(top_srcdir)/src/common-c.c' || echo '$(srcdir)/'`$(top_srcdir)/src/common-c.c
+
+v0-common-c.obj: $(top_srcdir)/src/common-c.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT v0-common-c.obj -MD -MP -MF $(DEPDIR)/v0-common-c.Tpo -c -o v0-common-c.obj `if test -f '$(top_srcdir)/src/common-c.c'; then $(CYGPATH_W) '$(top_srcdir)/src/common-c.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/common-c.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-common-c.Tpo $(DEPDIR)/v0-common-c.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$(top_srcdir)/src/common-c.c' object='v0-common-c.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o v0-common-c.obj `if test -f '$(top_srcdir)/src/common-c.c'; then $(CYGPATH_W) '$(top_srcdir)/src/common-c.c'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/common-c.c'; fi`
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -497,6 +617,132 @@ v0-v0.obj: v0.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='v0.cc' object='v0-v0.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-v0.obj `if test -f 'v0.cc'; then $(CYGPATH_W) 'v0.cc'; else $(CYGPATH_W) '$(srcdir)/v0.cc'; fi`
+
+v0-version-semver-comparators-100.o: $(top_srcdir)/src/version-semver-comparators-100.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-version-semver-comparators-100.o -MD -MP -MF $(DEPDIR)/v0-version-semver-comparators-100.Tpo -c -o v0-version-semver-comparators-100.o `test -f '$(top_srcdir)/src/version-semver-comparators-100.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/version-semver-comparators-100.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-version-semver-comparators-100.Tpo $(DEPDIR)/v0-version-semver-comparators-100.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/version-semver-comparators-100.cc' object='v0-version-semver-comparators-100.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-version-semver-comparators-100.o `test -f '$(top_srcdir)/src/version-semver-comparators-100.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/version-semver-comparators-100.cc
+
+v0-version-semver-comparators-100.obj: $(top_srcdir)/src/version-semver-comparators-100.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-version-semver-comparators-100.obj -MD -MP -MF $(DEPDIR)/v0-version-semver-comparators-100.Tpo -c -o v0-version-semver-comparators-100.obj `if test -f '$(top_srcdir)/src/version-semver-comparators-100.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/version-semver-comparators-100.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/version-semver-comparators-100.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-version-semver-comparators-100.Tpo $(DEPDIR)/v0-version-semver-comparators-100.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/version-semver-comparators-100.cc' object='v0-version-semver-comparators-100.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-version-semver-comparators-100.obj `if test -f '$(top_srcdir)/src/version-semver-comparators-100.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/version-semver-comparators-100.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/version-semver-comparators-100.cc'; fi`
+
+v0-version-semver-100.o: $(top_srcdir)/src/version-semver-100.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-version-semver-100.o -MD -MP -MF $(DEPDIR)/v0-version-semver-100.Tpo -c -o v0-version-semver-100.o `test -f '$(top_srcdir)/src/version-semver-100.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/version-semver-100.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-version-semver-100.Tpo $(DEPDIR)/v0-version-semver-100.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/version-semver-100.cc' object='v0-version-semver-100.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-version-semver-100.o `test -f '$(top_srcdir)/src/version-semver-100.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/version-semver-100.cc
+
+v0-version-semver-100.obj: $(top_srcdir)/src/version-semver-100.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-version-semver-100.obj -MD -MP -MF $(DEPDIR)/v0-version-semver-100.Tpo -c -o v0-version-semver-100.obj `if test -f '$(top_srcdir)/src/version-semver-100.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/version-semver-100.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/version-semver-100.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-version-semver-100.Tpo $(DEPDIR)/v0-version-semver-100.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/version-semver-100.cc' object='v0-version-semver-100.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-version-semver-100.obj `if test -f '$(top_srcdir)/src/version-semver-100.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/version-semver-100.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/version-semver-100.cc'; fi`
+
+v0-version-semver.o: $(top_srcdir)/src/version-semver.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-version-semver.o -MD -MP -MF $(DEPDIR)/v0-version-semver.Tpo -c -o v0-version-semver.o `test -f '$(top_srcdir)/src/version-semver.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/version-semver.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-version-semver.Tpo $(DEPDIR)/v0-version-semver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/version-semver.cc' object='v0-version-semver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-version-semver.o `test -f '$(top_srcdir)/src/version-semver.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/version-semver.cc
+
+v0-version-semver.obj: $(top_srcdir)/src/version-semver.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-version-semver.obj -MD -MP -MF $(DEPDIR)/v0-version-semver.Tpo -c -o v0-version-semver.obj `if test -f '$(top_srcdir)/src/version-semver.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/version-semver.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/version-semver.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-version-semver.Tpo $(DEPDIR)/v0-version-semver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/version-semver.cc' object='v0-version-semver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-version-semver.obj `if test -f '$(top_srcdir)/src/version-semver.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/version-semver.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/version-semver.cc'; fi`
+
+v0-Version.o: $(top_srcdir)/src/Version.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-Version.o -MD -MP -MF $(DEPDIR)/v0-Version.Tpo -c -o v0-Version.o `test -f '$(top_srcdir)/src/Version.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/Version.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-Version.Tpo $(DEPDIR)/v0-Version.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/Version.cc' object='v0-Version.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-Version.o `test -f '$(top_srcdir)/src/Version.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/Version.cc
+
+v0-Version.obj: $(top_srcdir)/src/Version.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-Version.obj -MD -MP -MF $(DEPDIR)/v0-Version.Tpo -c -o v0-Version.obj `if test -f '$(top_srcdir)/src/Version.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/Version.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/Version.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-Version.Tpo $(DEPDIR)/v0-Version.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/Version.cc' object='v0-Version.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-Version.obj `if test -f '$(top_srcdir)/src/Version.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/Version.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/Version.cc'; fi`
+
+v0-common.o: $(top_srcdir)/src/common.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-common.o -MD -MP -MF $(DEPDIR)/v0-common.Tpo -c -o v0-common.o `test -f '$(top_srcdir)/src/common.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/common.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-common.Tpo $(DEPDIR)/v0-common.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/common.cc' object='v0-common.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-common.o `test -f '$(top_srcdir)/src/common.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/common.cc
+
+v0-common.obj: $(top_srcdir)/src/common.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-common.obj -MD -MP -MF $(DEPDIR)/v0-common.Tpo -c -o v0-common.obj `if test -f '$(top_srcdir)/src/common.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/common.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/common.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-common.Tpo $(DEPDIR)/v0-common.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/common.cc' object='v0-common.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-common.obj `if test -f '$(top_srcdir)/src/common.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/common.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/common.cc'; fi`
+
+v0-Error.o: $(top_srcdir)/src/Error.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-Error.o -MD -MP -MF $(DEPDIR)/v0-Error.Tpo -c -o v0-Error.o `test -f '$(top_srcdir)/src/Error.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/Error.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-Error.Tpo $(DEPDIR)/v0-Error.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/Error.cc' object='v0-Error.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-Error.o `test -f '$(top_srcdir)/src/Error.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/Error.cc
+
+v0-Error.obj: $(top_srcdir)/src/Error.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-Error.obj -MD -MP -MF $(DEPDIR)/v0-Error.Tpo -c -o v0-Error.obj `if test -f '$(top_srcdir)/src/Error.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/Error.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/Error.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-Error.Tpo $(DEPDIR)/v0-Error.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/Error.cc' object='v0-Error.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-Error.obj `if test -f '$(top_srcdir)/src/Error.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/Error.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/Error.cc'; fi`
+
+v0-Message.o: $(top_srcdir)/src/Message.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-Message.o -MD -MP -MF $(DEPDIR)/v0-Message.Tpo -c -o v0-Message.o `test -f '$(top_srcdir)/src/Message.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/Message.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-Message.Tpo $(DEPDIR)/v0-Message.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/Message.cc' object='v0-Message.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-Message.o `test -f '$(top_srcdir)/src/Message.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/Message.cc
+
+v0-Message.obj: $(top_srcdir)/src/Message.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-Message.obj -MD -MP -MF $(DEPDIR)/v0-Message.Tpo -c -o v0-Message.obj `if test -f '$(top_srcdir)/src/Message.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/Message.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/Message.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-Message.Tpo $(DEPDIR)/v0-Message.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/Message.cc' object='v0-Message.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-Message.obj `if test -f '$(top_srcdir)/src/Message.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/Message.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/Message.cc'; fi`
+
+v0-Object.o: $(top_srcdir)/src/Object.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-Object.o -MD -MP -MF $(DEPDIR)/v0-Object.Tpo -c -o v0-Object.o `test -f '$(top_srcdir)/src/Object.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/Object.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-Object.Tpo $(DEPDIR)/v0-Object.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/Object.cc' object='v0-Object.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-Object.o `test -f '$(top_srcdir)/src/Object.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/Object.cc
+
+v0-Object.obj: $(top_srcdir)/src/Object.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-Object.obj -MD -MP -MF $(DEPDIR)/v0-Object.Tpo -c -o v0-Object.obj `if test -f '$(top_srcdir)/src/Object.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/Object.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/Object.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-Object.Tpo $(DEPDIR)/v0-Object.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/Object.cc' object='v0-Object.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-Object.obj `if test -f '$(top_srcdir)/src/Object.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/Object.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/Object.cc'; fi`
+
+v0-Licence.o: $(top_srcdir)/src/Licence.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-Licence.o -MD -MP -MF $(DEPDIR)/v0-Licence.Tpo -c -o v0-Licence.o `test -f '$(top_srcdir)/src/Licence.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/Licence.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-Licence.Tpo $(DEPDIR)/v0-Licence.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/Licence.cc' object='v0-Licence.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-Licence.o `test -f '$(top_srcdir)/src/Licence.cc' || echo '$(srcdir)/'`$(top_srcdir)/src/Licence.cc
+
+v0-Licence.obj: $(top_srcdir)/src/Licence.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v0-Licence.obj -MD -MP -MF $(DEPDIR)/v0-Licence.Tpo -c -o v0-Licence.obj `if test -f '$(top_srcdir)/src/Licence.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/Licence.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/Licence.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v0-Licence.Tpo $(DEPDIR)/v0-Licence.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_srcdir)/src/Licence.cc' object='v0-Licence.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-Licence.obj `if test -f '$(top_srcdir)/src/Licence.cc'; then $(CYGPATH_W) '$(top_srcdir)/src/Licence.cc'; else $(CYGPATH_W) '$(srcdir)/$(top_srcdir)/src/Licence.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -711,6 +957,12 @@ uninstall-am: uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 
+
+semver-100.tab.c semver-100.h : $(top_srcdir)/src/semver-100.y
+	bison -d -o $@ $<
+
+semver-100.c : $(top_srcdir)/src/semver-100.l
+	flex -o $@ $<
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
