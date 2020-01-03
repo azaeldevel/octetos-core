@@ -61,30 +61,33 @@ if test "x$with_tests" = "xyes"; then
 	PKG_CHECK_MODULES(CUNIT,cunit)
 	AC_CHECK_PROG([VERSION],[version])
 	if test -z "$VERSION"; then
-	   AC_MSG_ERROR([Es necesario instalar version, pertenece al paquete octeos-software, puede descargarlo en https://github.com/azaeldevel/octetos-software.git])
-	fi
-	AM_CONDITIONAL([HAVE_VERSION], [test -n "$VERSION"])
+	   AC_MSG_ERROR([Es necesario instalar 'version', pertenece al paquete octeos-software, puede descargarlo en https://github.com/azaeldevel/octetos-software.git])
+	fi	
 fi
+AM_CONDITIONAL([HAVE_VERSION], [test -n "$VERSION"])
 
-#AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")
-#AC_ARG_WITH([docs], AS_HELP_STRING([--with-docs], [Compilando con soporte para Documentación.]))
-#if test "x$with_docs" = "xyes"; then 
-	#AC_CHECK_PROG([DOXYGEN], [doxygen])
-	#if test -z "$DOXYGEN"; then
-	#   AC_MSG_ERROR([Es necesario instalar Doxygen para continuar])
-	#fi
-	#AC_CHECK_PROGS([DOT], [dot])
-	#if test -z "$DOT"; then
-	#   AC_MSG_ERROR([Doxygen necesita dot, porfavor instalelo primero])
-	#fi
-	#AC_CHECK_PROGS([PDFLATEX], [pdflatex])
-	#if test -z "$PDFLATEX"; then
-	#   AC_MSG_ERROR([Doxygen necesita pdflatex, es parte de TeX http://www.tug.org/texlive/acquire-netinstall.html])
-	#fi
-	#AM_CONDITIONAL([CHECK_DOXYGEN], [test -n "$DOXYGEN"])
-	#AM_COND_IF([CHECK_DOXYGEN], [AC_CONFIG_FILES([docs/Doxyfile])])
-	#AM_COND_IF([CHECK_DOXYGEN], [AC_CONFIG_FILES([docs/Makefile])])
-#fi
+TESTS=src/v0
+
+AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")
+AC_ARG_WITH([docs], AS_HELP_STRING([--with-docs], [Compilando con soporte para Documentación.]))
+if test "x$with_docs" = "xyes"; then 
+	AC_CHECK_PROG([DOXYGEN], [doxygen])
+	if test -z "$DOXYGEN"; then
+	   AC_MSG_ERROR([Es necesario instalar Doxygen para continuar])
+	fi
+	AC_CHECK_PROGS([DOT], [dot])
+	if test -z "$DOT"; then
+	   AC_MSG_ERROR([Doxygen necesita dot, porfavor instalelo primero])
+	fi
+	AC_CHECK_PROGS([PDFLATEX], [pdflatex])
+	if test -z "$PDFLATEX"; then
+	   AC_MSG_ERROR([Doxygen necesita pdflatex, es parte de TeX http://www.tug.org/texlive/acquire-netinstall.html])
+	fi
+fi
+AM_CONDITIONAL([CHECK_DOXYGEN], [test -n "$DOXYGEN"])
+AM_COND_IF([CHECK_DOXYGEN], [AC_CONFIG_FILES([docs/Doxyfile])])
+AM_COND_IF([CHECK_DOXYGEN], [AC_CONFIG_FILES([docs/Makefile])])
+
 
 AC_OUTPUT([
 Makefile

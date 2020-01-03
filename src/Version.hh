@@ -155,6 +155,7 @@ namespace core
 	}
 
 	typedef semver::v100 Semver;
+	typedef Semver Version;
 }
 }
 #endif

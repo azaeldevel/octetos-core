@@ -19,11 +19,10 @@ semver-100.c : $(top_srcdir)/src/semver-100.l
 	flex -o $@ $<
 
 
-bin_PROGRAMS =
+noinst_PROGRAMS =
 
 if HAVE_VERSION
-
-bin_PROGRAMS += v0
+noinst_PROGRAMS += v0
 v0_LDADD = $(CUNIT_LIBS)  
 v0_CPPFLAGS = -I$(top_srcdir)/src 
 v0_SOURCES = v0.cc  \

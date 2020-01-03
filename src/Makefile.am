@@ -53,7 +53,7 @@ liboctetos_core_la_SOURCES = \
 	Object.cc \
 	Licence.cc
 
-bin_PROGRAMS = develop
+noinst_PROGRAMS = develop
 
 develop_LDADD = $(CUNIT_LIBS)  liboctetos-semver-100.la liboctetos-core.la 
 develop_CPPFLAGS =  
