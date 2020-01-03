@@ -11,7 +11,7 @@ namespace core
 {
 namespace semver
 {
-    bool Semver_v100::operator !=(const Semver& obj)const
+    bool v100::operator !=(const Semver& obj)const
     {
         if(major != obj.major or minor != obj.minor or patch != obj.patch)
         {
@@ -20,7 +20,7 @@ namespace semver
         
         return false;
     }
-    bool Semver_v100::operator ==(const Semver& obj)const
+    bool v100::operator ==(const Semver& obj)const
     {
         if(major == obj.major && minor == obj.minor && patch == obj.patch)
         {
@@ -29,7 +29,7 @@ namespace semver
         
         return false;
     }
-    bool Semver_v100::operator <(const Semver& obj)const
+    bool v100::operator <(const Semver& obj)const
     {                              
         //por numeros
         if(major < obj.major)
@@ -65,7 +65,7 @@ namespace semver
                 
         return false;
     }
-	bool Semver_v100::operator >(const Semver& obj)const
+	bool v100::operator >(const Semver& obj)const
     {
         //por numeros
         if(major < obj.major)
@@ -106,7 +106,7 @@ namespace semver
         //std::cout << "no cumple" << std::endl;
         return false;
     }
-    bool Semver_v100::operator <=(const Semver& obj)const
+    bool v100::operator <=(const Semver& obj)const
     {
         if((*this) < obj or (*this) == obj)
         {
@@ -117,7 +117,7 @@ namespace semver
             return false;
         }
     }
-    bool Semver_v100::operator >=(const Semver& obj)const
+    bool v100::operator >=(const Semver& obj)const
     {
         if((*this) > obj or (*this) == obj)
         {

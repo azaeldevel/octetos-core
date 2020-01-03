@@ -25,7 +25,7 @@ int clean(void)
 
 void testImports_v100()
 {
-	octetos::core::semver::Semver_v100 verPQ;
+	octetos::core::semver::v100 verPQ;
 	verPQ.set(80105,octetos::core::semver::ImportCode::PostgreSQL);
 	if(verPQ.getMajor() == 8)
 	{
@@ -172,7 +172,7 @@ void testParseString_v100()
 	{
 		CU_ASSERT(false);
 	}
-	octetos::core::semver::Semver_v100 ver4;
+	octetos::core::semver::v100 ver4;
 	ver4.set("7.6.23-betar1-2");
 	if(ver4.getPrerelease().compare("betar1-2") == 0)
 	{
@@ -186,8 +186,8 @@ void testParseString_v100()
 
 void testComparators_v100()
 {
-        octetos::core::semver::Semver_v100 ver1;
-        octetos::core::semver::Semver_v100 ver2;
+        octetos::core::semver::v100 ver1;
+        octetos::core::semver::v100 ver2;
         
         ver1.setNumbers(1,2,3);
         ver2.setNumbers(1,2,5);
@@ -254,8 +254,8 @@ void testComparators_v100()
         }   
         
     //x simepre es amjor que x.y
-    octetos::core::semver::Semver_v100 ver3;
-    octetos::core::semver::Semver_v100 ver4;
+    octetos::core::semver::v100 ver3;
+    octetos::core::semver::v100 ver4;
     ver3.setNumbers(1);
     ver4.setNumbers(1,50);
     if(ver3 >= ver4) 
@@ -311,8 +311,8 @@ void testComparators_v100()
     
     
     //x simepre es amjor que x.y
-    octetos::core::semver::Semver_v100 ver5;
-    octetos::core::semver::Semver_v100 ver6;
+    octetos::core::semver::v100 ver5;
+    octetos::core::semver::v100 ver6;
     ver5.setNumbers(1,50);
     ver6.setNumbers(1,50,100);
     if(ver5 >= ver6) 
@@ -358,9 +358,9 @@ void testComparators_v100()
         CU_ASSERT(false);
     }
     
-    octetos::core::semver::Semver_v100 verMin;
-    octetos::core::semver::Semver_v100 verMax;
-    octetos::core::semver::Semver_v100 verVal;
+    octetos::core::semver::v100 verMin;
+    octetos::core::semver::v100 verMax;
+    octetos::core::semver::v100 verVal;
     verMin.setNumbers(1,2,0);
     verVal.setNumbers(1,2,3);
     verMax.setNumbers(3,9,0);
@@ -381,8 +381,8 @@ void testComparators_v100()
         CU_ASSERT(false);
     }
     
-    octetos::core::semver::Semver_v100 ver7;
-    octetos::core::semver::Semver_v100 ver8;
+    octetos::core::semver::v100 ver7;
+    octetos::core::semver::v100 ver8;
     ver7.setNumbers(4,4,20);
     ver8.setNumbers(3,2);
     if(ver7 >= ver8)

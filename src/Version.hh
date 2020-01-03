@@ -124,7 +124,7 @@ namespace core
 		 * \brief Implemete un subconjuto de semver v1.0.0
 		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 		 **/
-		class Semver_v100: public Semver
+		class v100: public Semver
 		{					    
 		public:
 		    virtual bool operator ==(const Semver& v)const;
@@ -136,26 +136,26 @@ namespace core
 		    /**
 		    * \brief Simple mente limpa las variables intenas
 		    * */
-		    ~Semver_v100();
+		    ~v100();
 		    //v100(const v100*);
 		    //v100(const v100&);
-			Semver_v100();
+			v100();
 		    /**
 		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
 		    * */
-			Semver_v100(short major,short minor);
+			v100(short major,short minor);
 		    /**
 		    * \brief Asigna numero major, menor y patch, los restantas datos son limpiados
 		    * */
-			Semver_v100(short major,short minor,short patch);			
+			v100(short major,short minor,short patch);			
 			/**
 			*\brief Indica la version semver implemetada.
 			**/
-			Semver_v100 getVersion() const;
+			v100 getVersion() const;
 		};
 	}
 
-	typedef semver::Semver_v100 Semver;
+	typedef semver::v100 Semver;
 }
 }
 #endif
