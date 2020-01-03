@@ -21,7 +21,6 @@ semver-100.c : $(top_srcdir)/src/semver-100.l
 
 noinst_PROGRAMS =
 
-if HAVE_VERSION
 noinst_PROGRAMS += v0
 v0_LDADD = $(CUNIT_LIBS)  
 v0_CPPFLAGS = -I$(top_srcdir)/src 
@@ -38,4 +37,3 @@ v0_SOURCES = v0.cc  \
 	$(top_srcdir)/src/Message.cc \
 	$(top_srcdir)/src/Object.cc \
 	$(top_srcdir)/src/Licence.cc
-endif

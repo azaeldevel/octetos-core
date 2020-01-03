@@ -407,7 +407,7 @@ int main(int argc, char *argv[])
 	int majorDevelop = 0;
 	if(majorDevelop != ver.getMajor())
 	{
-		std::cerr << "Esta conjunto de pruebas estan Deseñado para la version mayor '" << majorDevelop << "'\n";
+		std::cerr << "Este conjunto de pruebas estan Deseñado para la version mayor '" << majorDevelop << "'\n";
 		return EXIT_FAILURE;
 	}
 	/* initialize the CUnit test registry */

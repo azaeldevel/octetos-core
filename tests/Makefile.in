@@ -88,8 +88,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = $(am__EXEEXT_1)
-@HAVE_VERSION_TRUE@am__append_1 = v0
+noinst_PROGRAMS = v0$(EXEEXT)
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -100,29 +99,17 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-@HAVE_VERSION_TRUE@am__EXEEXT_1 = v0$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
-am__v0_SOURCES_DIST = v0.cc semver-100.tab.c semver-100.c \
-	$(top_srcdir)/src/version-semver-comparators-100.cc \
-	$(top_srcdir)/src/version-semver-100.cc \
-	$(top_srcdir)/src/version-semver.cc \
-	$(top_srcdir)/src/Version.cc $(top_srcdir)/src/common-c.c \
-	$(top_srcdir)/src/common.cc $(top_srcdir)/src/Error.cc \
-	$(top_srcdir)/src/Message.cc $(top_srcdir)/src/Object.cc \
-	$(top_srcdir)/src/Licence.cc
-@HAVE_VERSION_TRUE@am_v0_OBJECTS = v0-v0.$(OBJEXT) \
-@HAVE_VERSION_TRUE@	v0-semver-100.tab.$(OBJEXT) \
-@HAVE_VERSION_TRUE@	v0-semver-100.$(OBJEXT) \
-@HAVE_VERSION_TRUE@	v0-version-semver-comparators-100.$(OBJEXT) \
-@HAVE_VERSION_TRUE@	v0-version-semver-100.$(OBJEXT) \
-@HAVE_VERSION_TRUE@	v0-version-semver.$(OBJEXT) \
-@HAVE_VERSION_TRUE@	v0-Version.$(OBJEXT) v0-common-c.$(OBJEXT) \
-@HAVE_VERSION_TRUE@	v0-common.$(OBJEXT) v0-Error.$(OBJEXT) \
-@HAVE_VERSION_TRUE@	v0-Message.$(OBJEXT) v0-Object.$(OBJEXT) \
-@HAVE_VERSION_TRUE@	v0-Licence.$(OBJEXT)
+am_v0_OBJECTS = v0-v0.$(OBJEXT) v0-semver-100.tab.$(OBJEXT) \
+	v0-semver-100.$(OBJEXT) \
+	v0-version-semver-comparators-100.$(OBJEXT) \
+	v0-version-semver-100.$(OBJEXT) v0-version-semver.$(OBJEXT) \
+	v0-Version.$(OBJEXT) v0-common-c.$(OBJEXT) v0-common.$(OBJEXT) \
+	v0-Error.$(OBJEXT) v0-Message.$(OBJEXT) v0-Object.$(OBJEXT) \
+	v0-Licence.$(OBJEXT)
 v0_OBJECTS = $(am_v0_OBJECTS)
 am__DEPENDENCIES_1 =
-@HAVE_VERSION_TRUE@v0_DEPENDENCIES = $(am__DEPENDENCIES_1)
+v0_DEPENDENCIES = $(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -180,7 +167,7 @@ am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(v0_SOURCES)
-DIST_SOURCES = $(am__v0_SOURCES_DIST)
+DIST_SOURCES = $(v0_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -399,21 +386,21 @@ AM_CFLAGS = \
 	 -Wall\
 	 -g
 
-@HAVE_VERSION_TRUE@v0_LDADD = $(CUNIT_LIBS)  
-@HAVE_VERSION_TRUE@v0_CPPFLAGS = -I$(top_srcdir)/src 
-@HAVE_VERSION_TRUE@v0_SOURCES = v0.cc  \
-@HAVE_VERSION_TRUE@	semver-100.tab.c \
-@HAVE_VERSION_TRUE@	semver-100.c \
-@HAVE_VERSION_TRUE@	$(top_srcdir)/src/version-semver-comparators-100.cc\
-@HAVE_VERSION_TRUE@	$(top_srcdir)/src/version-semver-100.cc\
-@HAVE_VERSION_TRUE@	$(top_srcdir)/src/version-semver.cc\
-@HAVE_VERSION_TRUE@	$(top_srcdir)/src/Version.cc\
-@HAVE_VERSION_TRUE@	$(top_srcdir)/src/common-c.c \
-@HAVE_VERSION_TRUE@	$(top_srcdir)/src/common.cc \
-@HAVE_VERSION_TRUE@	$(top_srcdir)/src/Error.cc \
-@HAVE_VERSION_TRUE@	$(top_srcdir)/src/Message.cc \
-@HAVE_VERSION_TRUE@	$(top_srcdir)/src/Object.cc \
-@HAVE_VERSION_TRUE@	$(top_srcdir)/src/Licence.cc
+v0_LDADD = $(CUNIT_LIBS)  
+v0_CPPFLAGS = -I$(top_srcdir)/src 
+v0_SOURCES = v0.cc  \
+	semver-100.tab.c \
+	semver-100.c \
+	$(top_srcdir)/src/version-semver-comparators-100.cc\
+	$(top_srcdir)/src/version-semver-100.cc\
+	$(top_srcdir)/src/version-semver.cc\
+	$(top_srcdir)/src/Version.cc\
+	$(top_srcdir)/src/common-c.c \
+	$(top_srcdir)/src/common.cc \
+	$(top_srcdir)/src/Error.cc \
+	$(top_srcdir)/src/Message.cc \
+	$(top_srcdir)/src/Object.cc \
+	$(top_srcdir)/src/Licence.cc
 
 all: all-am
 
