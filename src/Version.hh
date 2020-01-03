@@ -126,6 +126,7 @@ namespace core
 		    * */
 			void setNumbers(short major);
 			bool set(const std::string&);
+			void setPrerelease(const std::string&);
 			/**
 			*\brief La version especificada la convierte a formato semver
 			*\param ver Versión en formato númerico

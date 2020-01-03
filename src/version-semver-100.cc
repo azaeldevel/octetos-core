@@ -16,6 +16,10 @@ namespace core
 {
 namespace semver
 {
+	void v100::setPrerelease(const std::string& str)
+	{
+		octetos_Semver_setPrerelease(this,str.c_str());
+	}
 	std::string v100::getPrerelease() const
 	{
 		return prerelease;
