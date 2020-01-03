@@ -134,19 +134,13 @@ namespace semver
 	}
 
 
-	
+	Semver::~Semver()
+	{
+	}
 	Semver::Semver()
 	{
 		init();
 	}
-    /*Semver::Semver(const v100* v)
-    {
-        (*this) = *v;
-    }
-    Semver::Semver(const v100& v)
-    {
-        (*this) = v;
-    }*/
 	Semver::Semver(short major,short minor,short patch)
     {
 		init();

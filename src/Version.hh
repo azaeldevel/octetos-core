@@ -94,6 +94,7 @@ namespace core
 		    * \param formato Determina el formato generado.
 		    * */
 			std::string toString(FormatString formato = FormatString::FullString) const;
+			virtual ~Semver();			
 			Semver();
 		    /**
 		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
@@ -136,9 +137,7 @@ namespace core
 		    /**
 		    * \brief Simple mente limpa las variables intenas
 		    * */
-		    ~v100();
-		    //v100(const v100*);
-		    //v100(const v100&);
+		    virtual ~v100();
 			v100();
 		    /**
 		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
