@@ -45,7 +45,11 @@ namespace semver
             return true;  
         }
 
-        if(minor < 0 and obj.minor > -1)
+        if(minor < 0 and obj.minor < 0)
+        {
+            return false;
+        }
+        else if(minor < 0 and obj.minor > -1)
         {
             return false;
         }
@@ -58,7 +62,11 @@ namespace semver
             return true;
         } 
         
-        if(patch < 0 and obj.patch > -1)
+        if(patch < 0 and obj.patch < 0)
+        {
+            return false;
+        }
+        else if(patch < 0 and obj.patch > -1)
         {
             return false;
         }
@@ -89,7 +97,11 @@ namespace semver
         }
 		
         
-        if(minor < 0 and obj.minor > -1)
+        if(minor < 0 and obj.minor < 0)
+        {
+            return false;
+        }
+        else if(minor < 0 and obj.minor > -1)
         {
             return true;
         }
@@ -102,7 +114,11 @@ namespace semver
             return false;
         }
         
-        if(patch < 0 and obj.patch > -1)
+        if(patch < 0 and obj.patch < 0)
+        {
+            return true;
+        }
+        else if(patch < 0 and obj.patch > -1)
         {
             return true;
         }

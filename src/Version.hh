@@ -13,17 +13,6 @@ namespace octetos
 {
 namespace core
 {
-	/*class Version : public Object
-	{
-	public:
-        virtual bool operator ==(const Version& v)const = 0;
-        virtual bool operator !=(const Version& v)const = 0;
-        virtual bool operator >(const Version& v)const = 0;
-        virtual bool operator <(const Version& v)const = 0;
-		virtual bool operator >=(const Version& v)const = 0;
-        virtual bool operator <=(const Version& v)const = 0;
-	};*/
-
 	class InvalidComparison : public Error
 	{
 	public:

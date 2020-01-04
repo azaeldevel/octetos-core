@@ -394,6 +394,40 @@ void testComparators_v100()
         CU_ASSERT(false);
     }
 
+	octetos::core::semver::v100 ver9;
+    octetos::core::semver::v100 ver10;
+    ver9.setNumbers(2);
+    ver10.setNumbers(2);
+    if(ver9 < ver10)
+    {
+        CU_ASSERT(false);
+    }
+	octetos::core::semver::v100 ver11;
+    octetos::core::semver::v100 ver12;
+    ver11.setNumbers(2);
+    ver12.setNumbers(2);
+    if(ver11 > ver12)
+    {
+        CU_ASSERT(false);
+    }
+	
+	octetos::core::semver::v100 ver13;
+    octetos::core::semver::v100 ver14;
+    ver13.setNumbers(2,1);
+    ver14.setNumbers(2,1);
+    if(ver13 < ver14)
+    {
+        CU_ASSERT(false);
+    }
+	
+	octetos::core::semver::v100 ver15;
+    octetos::core::semver::v100 ver16;
+    ver15.setNumbers(2,1);
+    ver16.setNumbers(2,1);
+    if(ver15 < ver16)
+    {
+        CU_ASSERT(false);
+    }
 }
 
 
