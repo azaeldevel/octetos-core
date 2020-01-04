@@ -86,42 +86,42 @@ namespace semver
                 
 		return *this;
 	}
-    void Semver::set(short major,short minor,short patch, const std::string& prerelease)
+    void Semver::set(Number major,Number minor,Number patch, const std::string& prerelease)
     {                
         this->major = major;
         this->minor = minor;
         this->patch = patch;
 		octetos_Semver_setPrerelease(this,prerelease.c_str());
     }
-        void Semver::setNumbers(short major,short minor,short patch)
+        void Semver::setNumbers(Number major,Number minor,Number patch)
         {
                 this->major = major;
                 this->minor = minor;
                 this->patch = patch;
         }
-        void Semver::setNumbers(short major,short minor)
+        void Semver::setNumbers(Number major,Number minor)
         {
                 this->major = major;
                 this->minor = minor;
                 patch = -1;
         }
-        void Semver::setNumbers(short major)
+        void Semver::setNumbers(Number major)
         {
                 this->major = major;
                 minor = -1;
                 patch = -1;
         }
-	short Semver::getMajor() const
+	Number Semver::getMajor() const
 	{
 		return this->major;		
 	}
 
-	short Semver::getMinor() const
+	Number Semver::getMinor() const
 	{
 		return this->minor;
 	}
 
-	short Semver::getPatch() const
+	Number Semver::getPatch() const
 	{
 		return this->patch;
 	}
@@ -141,14 +141,14 @@ namespace semver
 	{
 		init();
 	}
-	Semver::Semver(short major,short minor,short patch)
+	Semver::Semver(Number major,Number minor,Number patch)
     {
 		init();
 		this->major = major;
 		this->minor = minor;
 		this->patch = patch;
     }
-	Semver::Semver(short major,short minor)
+	Semver::Semver(Number major,Number minor)
     {
 		init();
 		this->major = major;

@@ -10,14 +10,15 @@ enum octetos_Semver_FormatString
 	FullString,
 	OnlyNumber
 };
+typedef short octetos_semver_Number;
 /**
 * \brief Informacion de version
 * 
 **/
 struct octetos_Semver {
-	short major;
-	short minor;
-	short patch;
+	octetos_semver_Number major;
+	octetos_semver_Number minor;
+	octetos_semver_Number patch;
 	const char* prerelease;
 };
 

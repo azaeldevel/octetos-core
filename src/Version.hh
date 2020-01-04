@@ -23,7 +23,7 @@ namespace core
 	namespace semver
 	{						
 		typedef octetos_Semver_FormatString FormatString;
-
+		typedef octetos_semver_Number Number;
 	
 		enum ImportCode
 		{
@@ -31,7 +31,7 @@ namespace core
 			PostgreSQL,
 		};
 
-		class Semver : public octetos_Semver
+		class Semver : protected octetos_Semver
 		{
 		public:
 			/**
@@ -41,15 +41,15 @@ namespace core
 			/**
 			* \brief Retorna el numero major.
 			* */
-			short getMajor() const;
+			Number getMajor() const;
 			/**
 			* \brief Retorna el número menor
 			* */
-			short getMinor() const;
+			Number getMinor() const;
 		    /**
 		    * \brief Retorna el número patch
 		    * */
-			short getPatch() const;
+			Number getPatch() const;
 			
 			std::string getPrerelease() const;
 		    
@@ -57,19 +57,19 @@ namespace core
 		    /**
 		    * \brief Asigna todos los campos de version.
 		    * */
-			void set(short major,short minor,short patch, const std::string&);
+			void set(Number major,Number minor,Number patch, const std::string&);
 		    /**
 		    * \brief Asigna numero major, menor y patch.
 		    * */
-			void setNumbers(short major,short minor,short patch);
+			void setNumbers(Number major,Number minor,Number patch);
 		    /**
 		    * \brief Asigna numero major y menor. A patch se le asigna 0.
 		    * */
-			void setNumbers(short major,short minor);
+			void setNumbers(Number major,Number minor);
 		    /**
 		    * \brief Asigna solamanete el valor major. A menor y patch se le asigna 0.
 		    * */
-			void setNumbers(short major);
+			void setNumbers(Number major);
 			bool set(const std::string&);
 			void setPrerelease(const std::string&);
 			/**
