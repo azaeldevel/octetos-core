@@ -9,7 +9,7 @@ namespace octetos
 {
 namespace core
 {	
-        const Error* Error::error = NULL;
+	const Error* Error::error = NULL;
         
         Error Error::get()
         {
@@ -39,12 +39,11 @@ namespace core
                 error = new Error(e);
                 return true;
         }
-        
 	Error::Error(const std::string& brief, int code,std::string filename,int lineNumber) throw()
 	{
-		full = filename + " : " + std::to_string(lineNumber) + ", codigo (" + std::to_string(code) + "):" + "\n" + brief;
+		full = filename + " : " + std::to_string(lineNumber) + ", Codigo (" + std::to_string(code) + "):" + "\n" + brief;
 		this->code = code;
-	}		
+	}
 	Error::Error(const std::string& brief) throw()
 	{
 		full = brief;
@@ -52,22 +51,20 @@ namespace core
 	}
 	Error::Error(const std::string& brief, int code) throw()
 	{
-		full="";
-		full = full + "Codigo (" + std::to_string(code) + "):" + "\n" + brief;
+		full = "Codigo (" + std::to_string(code) + "):" + "\n" + brief;
 		this->code = code;
 	}
 	Error::~Error() throw()
 	{
-		
 	}	
 	const std::string& Error::describe() const throw()
-        {
-                return full;               
-        }
-        const char* Error::what() const throw()
-        {
-                return this->full.c_str();
-        }
+   	{
+		return full;               
+	}
+	const char* Error::what() const throw()
+	{
+		return this->full.c_str();
+	}
 	int Error::getCode()const
 	{
 		return code;
