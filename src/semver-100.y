@@ -10,7 +10,7 @@ extern int yylex(struct octetos_Tray* ty);
 extern int yyparse(struct octetos_Tray* ty);
 //int parse_string(struct Tray* ty, const char* in);
 extern FILE* yyin;
-
+extern const char* semver_version = "1.0.0";
 void yyerror(struct octetos_Tray* ty, const char* s);
 //void set_input_string(const char* in);
 //void end_lexical_scan(void);
@@ -62,7 +62,7 @@ void yyerror(struct octetos_Tray* ty, const char* s);
 	{
 	};
 	
-	numbers_value : one_number | two_numbers | three_numbers;
+	numbers_value : one_number | two_numbers | three_numbers | four_numbers;
 
 	one_number : NUMBER_VALUE
 	{
@@ -79,6 +79,11 @@ void yyerror(struct octetos_Tray* ty, const char* s);
 		ty->version->minor = $3;
 		ty->version->patch = $5;
 		//printf("N1: %d\n",ty->version.major);
+	};
+	four_numbers : NUMBER_VALUE '.' NUMBER_VALUE '.' NUMBER_VALUE '.' NUMBER_VALUE
+	{
+		yyerror(ty,"Solo está permitido 3 números.");
+		//YYERROR;
 	};
 
 	prerelease : 

@@ -11,7 +11,7 @@
 #define YY_DECL int yylex(struct octetos_Tray* ty)
 
 #include "semver-100.tab.h"
-//extern YYSTYPE yylval;
+
 %}
 NUMBER			[0-9]{1,5}
 PRERELEASE_ID	[a-zA-Z][0-9A-Za-z-]+
