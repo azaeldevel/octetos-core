@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
-AC_INIT(octetos-core, 0.17.0-alpha)
+AC_INIT(octetos-core, 0.19.0-developing, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign])
 AM_SILENT_RULES([yes])
@@ -53,7 +53,7 @@ AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 
 LT_INIT([win32-dll])
 
-
+#PKG_CHECK_MODULES(DL,dl)
 
 AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
 AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Pruebas.]))
@@ -66,7 +66,6 @@ if test "x$with_tests" = "xyes"; then
 fi
 #AM_CONDITIONAL([HAVE_VERSION], [test -n "$VERSION"])
 
-TESTS=src/v0
 
 AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")
 AC_ARG_WITH([docs], AS_HELP_STRING([--with-docs], [Compilando con soporte para Documentación.]))

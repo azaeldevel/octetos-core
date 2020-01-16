@@ -34,6 +34,11 @@ void testImports_v100()
 	else
 	{
 		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
 	if(verPQ.getMinor() == 1)
 	{
@@ -42,6 +47,11 @@ void testImports_v100()
 	else
 	{
 		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
 	if(verPQ.getPatch() == 5)
 	{
@@ -50,6 +60,11 @@ void testImports_v100()
 	else
 	{
 		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
 	//std::string strverpq = verPQ.toString();
 	//std::cout << "verPQ = " << strverpq << "\n";
@@ -57,55 +72,84 @@ void testImports_v100()
 
 void testParseString_v100()
 {
-	octetos_Semver ver1,ver2,ver3;
-	octetos_Semver_init(&ver1);
-	octetos_Semver_init(&ver2);
-	octetos_Semver_init(&ver3);
-	struct octetos_Tray ty1,ty2,ty3;
-	ty1.version = &ver1;
-	ty1.dysplay_erro = 1;
-	ty2.version = &ver2;
-	ty2.dysplay_erro = 1;
-	ty3.version = &ver3;
-	ty3.dysplay_erro = 1;
+	octetos::core::semver::v100 ver1,ver2,ver3;
+
+	if(octetos::core::Error::check())
+	{
+		CU_ASSERT(false);
+		std::cerr << (std::string)octetos::core::Error::get() << "\n";
+		return;
+	} 
 	
-	//printf( ">>>\n");
-	parse_string(&ty1,"1.6.55-alpha");    
-    if(ty1.version->major == 1)
+	ver1.set("1.6.55-alpha"); 
+    if(ver1.getMajor() == 1)
 	{
 		CU_ASSERT(true);
 	}
 	else
 	{
 		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
-    if(ty1.version->minor == 6)
+    if(ver1.getMinor() == 6)
 	{
 		CU_ASSERT(true);
 	}
 	else
 	{
 		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
-    if(ty1.version->patch == 55)
+    if(ver1.getPatch() == 55)
 	{
 		CU_ASSERT(true);
 	}
 	else
 	{
 		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
-    if(strcmp(ty1.version->prerelease,"alpha") == 0)
+    if(strcmp(ver1.getPrerelease().c_str(),"alpha") == 0)
 	{
 		CU_ASSERT(true);
 	}
 	else
 	{
 		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
     
-	parse_string(&ty2,"7.6.23-alpha-1"); 
-	if(ty2.version->major == 7)
+	ver2.set("7.6.23-alpha-1"); 
+	if(ver2.getMajor() == 7)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(ver2.getMinor() == 6)
 	{
 		CU_ASSERT(true);
 	}
@@ -113,34 +157,49 @@ void testParseString_v100()
 	{
 		CU_ASSERT(false);
 	}
-    if(ty2.version->minor == 6)
+    if(ver2.getPatch() == 23)
 	{
 		CU_ASSERT(true);
 	}
 	else
 	{
 		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
-    if(ty2.version->patch == 23)
+    if(strcmp(ver2.getPrerelease().c_str(),"alpha-1") == 0)
 	{
 		CU_ASSERT(true);
 	}
 	else
 	{
 		CU_ASSERT(false);
-	}
-    if(strcmp(ty2.version->prerelease,"alpha-1") == 0)
-	{
-		CU_ASSERT(true);
-	}
-	else
-	{
-		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
 	
     
-	parse_string(&ty3,"7.6.23-alpha5-2");     
-	if(ty3.version->major == 7)
+	ver3.set("7.6.23-alpha5-2");     
+	if(ver3.getMajor() == 7)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(ver3.getMinor() == 6)
 	{
 		CU_ASSERT(true);
 	}
@@ -148,29 +207,31 @@ void testParseString_v100()
 	{
 		CU_ASSERT(false);
 	}
-    if(ty3.version->minor == 6)
+    if(ver3.getPatch() == 23)
 	{
 		CU_ASSERT(true);
 	}
 	else
 	{
 		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
-    if(ty3.version->patch == 23)
+    if(strcmp(ver3.getPrerelease().c_str(),"alpha5-2") == 0)
 	{
 		CU_ASSERT(true);
 	}
 	else
 	{
 		CU_ASSERT(false);
-	}
-    if(strcmp(ty3.version->prerelease,"alpha5-2") == 0)
-	{
-		CU_ASSERT(true);
-	}
-	else
-	{
-		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
 	octetos::core::semver::v100 ver4;
 	ver4.set("7.6.23-betar1-2");
@@ -181,6 +242,11 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
 	}
 }
 
@@ -194,7 +260,12 @@ void testComparators_v100()
         //std::cout << "test 1" << std::endl;
         if(ver1 >= ver2)
         {
-                CU_ASSERT(false);
+			CU_ASSERT(false);
+			if(octetos::core::Error::check())
+			{
+				std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+				return;
+			}
         }
         else
         {
@@ -208,6 +279,11 @@ void testComparators_v100()
         else
         {
                 CU_ASSERT(false);
+			if(octetos::core::Error::check())
+			{
+				std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+				return;
+			}
         }
                 
         ver1.setNumbers(1,2,3);
@@ -220,6 +296,11 @@ void testComparators_v100()
         else
         {
                 CU_ASSERT(false);
+			if(octetos::core::Error::check())
+			{
+				std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+				return;
+			}
         }
         //std::cout << "test 4" << std::endl;
         if(ver2 >= ver1)
@@ -229,6 +310,11 @@ void testComparators_v100()
         else
         {
                 CU_ASSERT(false);
+			if(octetos::core::Error::check())
+			{
+				std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+				return;
+			}
         }
         
         //La nueva politca dicta que build no tiene significado en la presendiencia de las version pero sera removido hasta v5 paramantener compatibilidad 
@@ -242,11 +328,21 @@ void testComparators_v100()
         else
         {
                 CU_ASSERT(false);
+			if(octetos::core::Error::check())
+			{
+				std::cerr << (std::string)octetos::core::Error::get() << "\n";
+				return;
+			}
         }
         //std::cout << "test 4" << std::endl;
         if(ver2 >= ver1)
         {
                 CU_ASSERT(false);
+			if(octetos::core::Error::check())
+			{
+				std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+				return;
+			}
         }
         else
         {
@@ -265,6 +361,11 @@ void testComparators_v100()
     else 
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     if(ver3 >= ver4) 
     {
@@ -273,10 +374,20 @@ void testComparators_v100()
     else 
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     if(ver3 <= ver4) 
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     else 
     {
@@ -289,6 +400,11 @@ void testComparators_v100()
     else 
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     if(ver3 > ver4) 
     {
@@ -297,10 +413,20 @@ void testComparators_v100()
     else 
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     if(ver3 < ver4) 
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     else 
     {
@@ -321,7 +447,12 @@ void testComparators_v100()
     }
     else 
     {
-        CU_ASSERT(false);
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     if(ver5 > ver6) 
     {
@@ -330,10 +461,20 @@ void testComparators_v100()
     else 
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     if(ver5 < ver6) 
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     else 
     {
@@ -344,6 +485,11 @@ void testComparators_v100()
     if(ver5 == ver6)
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     else
     {
@@ -356,6 +502,11 @@ void testComparators_v100()
     else
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     
     octetos::core::semver::v100 verMin;
@@ -371,6 +522,11 @@ void testComparators_v100()
     else
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     if(verMax >= verVal)
     {
@@ -379,6 +535,11 @@ void testComparators_v100()
     else
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
     
     octetos::core::semver::v100 ver7;
@@ -392,6 +553,11 @@ void testComparators_v100()
     else
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
 
 	octetos::core::semver::v100 ver9;
@@ -401,6 +567,11 @@ void testComparators_v100()
     if(ver9 < ver10)
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
 	octetos::core::semver::v100 ver11;
     octetos::core::semver::v100 ver12;
@@ -409,6 +580,11 @@ void testComparators_v100()
     if(ver11 > ver12)
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
 	
 	octetos::core::semver::v100 ver13;
@@ -418,6 +594,11 @@ void testComparators_v100()
     if(ver13 < ver14)
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
 	
 	octetos::core::semver::v100 ver15;
@@ -427,6 +608,11 @@ void testComparators_v100()
     if(ver15 < ver16)
     {
         CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
     }
 }
 
@@ -439,7 +625,7 @@ int main(int argc, char *argv[])
     
 	CU_pSuite pSuite = NULL;
 	int majorDevelop = 0;
-	if(majorDevelop != ver.getMajor())
+	if(majorDevelop != packinfo.version.getMajor())
 	{
 		std::cerr << "Este conjunto de pruebas estan Deseñado para la version mayor '" << majorDevelop << "'\n";
 		return EXIT_FAILURE;
@@ -448,8 +634,8 @@ int main(int argc, char *argv[])
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
 	std::string& pkName = packinfo.name;
-	std::string classVersionString = pkName + " " + ver.toString() + "\n" + packinfo.licence.getBrief() + "\n" + packinfo.brief + "\n";
-	pSuite = CU_add_suite(classVersionString.c_str(), init, clean);
+	std::string headerTest = pkName + " " + (std::string)ver + "\n" + packinfo.licence.getBrief() + "\n" + packinfo.brief + "\n";
+	pSuite = CU_add_suite(headerTest.c_str(), init, clean);
 	if (NULL == pSuite) 
 	{
 		CU_cleanup_registry();

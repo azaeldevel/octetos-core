@@ -16,7 +16,6 @@
 
 
 
-
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -95,7 +94,8 @@ host_triplet = @host@
 @NATIVE_WIN32_TRUE@am__append_2 = -export-dynamic
 @PLATFORM_WIN32_TRUE@am__append_3 = -no-undefined
 @NATIVE_WIN32_TRUE@am__append_4 = -export-dynamic
-noinst_PROGRAMS = develop$(EXEEXT)
+@PLATFORM_WIN32_TRUE@am__append_5 = -no-undefined
+@NATIVE_WIN32_TRUE@am__append_6 = -export-dynamic
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -137,9 +137,10 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
 	"$(DESTDIR)$(octetos_core_includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-liboctetos_core_la_DEPENDENCIES = liboctetos-semver-100.la
+liboctetos_core_la_DEPENDENCIES =
 am_liboctetos_core_la_OBJECTS = common-c.lo common.lo Error.lo \
-	Message.lo Object.lo Licence.lo
+	Message.lo Object.lo Licence.lo Version.lo version-semver.lo \
+	version-semver-100.lo version-semver-200.lo
 liboctetos_core_la_OBJECTS = $(am_liboctetos_core_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -151,20 +152,22 @@ liboctetos_core_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(LDFLAGS) -o $@
 liboctetos_semver_100_la_DEPENDENCIES =
 am_liboctetos_semver_100_la_OBJECTS = semver-100.tab.lo semver-100.lo \
-	version-semver-comparators-100.lo version-semver-100.lo \
-	version-semver.lo Version.lo
+	common-c.lo
 liboctetos_semver_100_la_OBJECTS =  \
 	$(am_liboctetos_semver_100_la_OBJECTS)
-liboctetos_semver_100_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
-	$(AM_CXXFLAGS) $(CXXFLAGS) $(liboctetos_semver_100_la_LDFLAGS) \
+liboctetos_semver_100_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(liboctetos_semver_100_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
-PROGRAMS = $(noinst_PROGRAMS)
-am_develop_OBJECTS = develop-develop.$(OBJEXT)
-develop_OBJECTS = $(am_develop_OBJECTS)
-am__DEPENDENCIES_1 =
-develop_DEPENDENCIES = $(am__DEPENDENCIES_1) liboctetos-semver-100.la \
-	liboctetos-core.la
+liboctetos_semver_200_la_DEPENDENCIES =
+am_liboctetos_semver_200_la_OBJECTS = semver-200.tab.lo semver-200.lo \
+	common-c.lo
+liboctetos_semver_200_la_OBJECTS =  \
+	$(am_liboctetos_semver_200_la_OBJECTS)
+liboctetos_semver_200_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(liboctetos_semver_200_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -218,9 +221,11 @@ am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(liboctetos_core_la_SOURCES) \
-	$(liboctetos_semver_100_la_SOURCES) $(develop_SOURCES)
+	$(liboctetos_semver_100_la_SOURCES) \
+	$(liboctetos_semver_200_la_SOURCES)
 DIST_SOURCES = $(liboctetos_core_la_SOURCES) \
-	$(liboctetos_semver_100_la_SOURCES) $(develop_SOURCES)
+	$(liboctetos_semver_100_la_SOURCES) \
+	$(liboctetos_semver_200_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -442,30 +447,42 @@ AM_CFLAGS = \
 	 -Wall\
 	 -g
 
-lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-core.la
-liboctetos_semver_100_la_LDFLAGS = $(am__append_1) $(am__append_2)
-liboctetos_semver_100_la_LIBADD = 
+lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-semver-200.la liboctetos-core.la
+liboctetos_semver_100_la_LDFLAGS = -ldl $(am__append_1) \
+	$(am__append_2)
+liboctetos_semver_100_la_LIBADD = -ldl
 liboctetos_semver_100_la_SOURCES = \
 	semver-100.tab.c \
 	semver-100.c \
-	version-semver-comparators-100.cc\
-	version-semver-100.cc\
-	version-semver.cc\
-	Version.cc
+	common-c.c
 
-liboctetos_core_la_LDFLAGS = $(am__append_3) $(am__append_4)
-liboctetos_core_la_LIBADD = liboctetos-semver-100.la
+liboctetos_semver_200_la_LDFLAGS = $(am__append_3) $(am__append_4)
+liboctetos_semver_200_la_LIBADD = -ldl
+liboctetos_semver_200_la_SOURCES = \
+	semver-200.tab.c \
+	semver-200.c \
+	common-c.c
+
+liboctetos_core_la_LDFLAGS = $(am__append_5) $(am__append_6)
+liboctetos_core_la_LIBADD = -ldl
 liboctetos_core_la_SOURCES = \
 	common-c.c \
 	common.cc \
 	Error.cc \
 	Message.cc \
 	Object.cc \
-	Licence.cc
+	Licence.cc \
+	Version.cc \
+	version-semver.cc \
+	version-semver-100.cc \
+	version-semver-200.cc
 
-develop_LDADD = $(CUNIT_LIBS)  liboctetos-semver-100.la liboctetos-core.la 
-develop_CPPFLAGS = 
-develop_SOURCES = develop.cc
+
+#noinst_PROGRAMS = develop
+
+#develop_LDADD = $(CUNIT_LIBS)  liboctetos-core.la -ldl
+#develop_CPPFLAGS =
+#develop_SOURCES = develop.cc
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
 pkgconfigdir = $(libdir)/pkgconfig
@@ -548,20 +565,10 @@ liboctetos-core.la: $(liboctetos_core_la_OBJECTS) $(liboctetos_core_la_DEPENDENC
 	$(AM_V_CXXLD)$(liboctetos_core_la_LINK) -rpath $(libdir) $(liboctetos_core_la_OBJECTS) $(liboctetos_core_la_LIBADD) $(LIBS)
 
 liboctetos-semver-100.la: $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_DEPENDENCIES) $(EXTRA_liboctetos_semver_100_la_DEPENDENCIES) 
-	$(AM_V_CXXLD)$(liboctetos_semver_100_la_LINK) -rpath $(libdir) $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_LIBADD) $(LIBS)
+	$(AM_V_CCLD)$(liboctetos_semver_100_la_LINK) -rpath $(libdir) $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_LIBADD) $(LIBS)
 
-clean-noinstPROGRAMS:
-	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
-	echo " rm -f" $$list; \
-	rm -f $$list || exit $$?; \
-	test -n "$(EXEEXT)" || exit 0; \
-	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
-	echo " rm -f" $$list; \
-	rm -f $$list
-
-develop$(EXEEXT): $(develop_OBJECTS) $(develop_DEPENDENCIES) $(EXTRA_develop_DEPENDENCIES) 
-	@rm -f develop$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(develop_OBJECTS) $(develop_LDADD) $(LIBS)
+liboctetos-semver-200.la: $(liboctetos_semver_200_la_OBJECTS) $(liboctetos_semver_200_la_DEPENDENCIES) $(EXTRA_liboctetos_semver_200_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(liboctetos_semver_200_la_LINK) -rpath $(libdir) $(liboctetos_semver_200_la_OBJECTS) $(liboctetos_semver_200_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -576,11 +583,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Version.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/common-c.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/common.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/develop-develop.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/semver-100.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/semver-100.tab.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/semver-200.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/semver-200.tab.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/version-semver-100.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/version-semver-comparators-100.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/version-semver-200.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/version-semver.Plo@am__quote@
 
 .c.o:
@@ -624,20 +632,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
-
-develop-develop.o: develop.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(develop_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT develop-develop.o -MD -MP -MF $(DEPDIR)/develop-develop.Tpo -c -o develop-develop.o `test -f 'develop.cc' || echo '$(srcdir)/'`develop.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/develop-develop.Tpo $(DEPDIR)/develop-develop.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='develop.cc' object='develop-develop.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(develop_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o develop-develop.o `test -f 'develop.cc' || echo '$(srcdir)/'`develop.cc
-
-develop-develop.obj: develop.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(develop_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT develop-develop.obj -MD -MP -MF $(DEPDIR)/develop-develop.Tpo -c -o develop-develop.obj `if test -f 'develop.cc'; then $(CYGPATH_W) 'develop.cc'; else $(CYGPATH_W) '$(srcdir)/develop.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/develop-develop.Tpo $(DEPDIR)/develop-develop.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='develop.cc' object='develop-develop.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(develop_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o develop-develop.obj `if test -f 'develop.cc'; then $(CYGPATH_W) 'develop.cc'; else $(CYGPATH_W) '$(srcdir)/develop.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -771,7 +765,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(DATA) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs:
 	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(octetos_core_includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -809,7 +803,7 @@ maintainer-clean-generic:
 clean: clean-am
 
 clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-noinstPROGRAMS mostlyclean-am
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -882,29 +876,32 @@ uninstall-am: uninstall-libLTLIBRARIES \
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool clean-noinstPROGRAMS \
-	cscopelist-am ctags ctags-am distclean distclean-compile \
-	distclean-generic distclean-libtool distclean-tags distdir dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-libLTLIBRARIES \
-	install-man install-octetos_core_includeHEADERS install-pdf \
-	install-pdf-am install-pkgconfigDATA install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-libLTLIBRARIES uninstall-octetos_core_includeHEADERS \
-	uninstall-pkgconfigDATA
+	clean-libLTLIBRARIES clean-libtool cscopelist-am ctags \
+	ctags-am distclean distclean-compile distclean-generic \
+	distclean-libtool distclean-tags distdir dvi dvi-am html \
+	html-am info info-am install install-am install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-libLTLIBRARIES install-man \
+	install-octetos_core_includeHEADERS install-pdf install-pdf-am \
+	install-pkgconfigDATA install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES \
+	uninstall-octetos_core_includeHEADERS uninstall-pkgconfigDATA
 
 .PRECIOUS: Makefile
 
 
 semver-100.tab.c semver-100.h : semver-100.y
 	bison -d -o $@ $<
-
 semver-100.c : semver-100.l
+	flex -o $@ $<
+
+semver-200.tab.c semver-200.h : semver-200.y
+	bison -d -o $@ $<
+semver-200.c : semver-200.l
 	flex -o $@ $<
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

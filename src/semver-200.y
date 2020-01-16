@@ -89,7 +89,7 @@ void yyerror(struct octetos_core_Tray* ty, const char* s);
 	prerelease : 
 	'-'  PRERELEASE_VALUE
 	{
-		octetos_core_Semver_setPrerelease(ty->version,$2);
+		octetos_Semver_setPrerelease(ty->version,$2);
 	};
 	
 

@@ -11,53 +11,70 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-core.la
+lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-semver-200.la liboctetos-core.la
 
 
 semver-100.tab.c semver-100.h : semver-100.y
 	bison -d -o $@ $<
-
 semver-100.c : semver-100.l
 	flex -o $@ $<
 
-liboctetos_semver_100_la_LDFLAGS = 
+semver-200.tab.c semver-200.h : semver-200.y
+	bison -d -o $@ $<
+semver-200.c : semver-200.l
+	flex -o $@ $<
+
+liboctetos_semver_100_la_LDFLAGS = -ldl
 if PLATFORM_WIN32
 liboctetos_semver_100_la_LDFLAGS += -no-undefined
 endif
 if NATIVE_WIN32
 liboctetos_semver_100_la_LDFLAGS += -export-dynamic
 endif
-liboctetos_semver_100_la_LIBADD = 
+liboctetos_semver_100_la_LIBADD = -ldl
 liboctetos_semver_100_la_SOURCES = \
 	semver-100.tab.c \
 	semver-100.c \
-	version-semver-comparators-100.cc\
-	version-semver-100.cc\
-	version-semver.cc\
-	Version.cc
+	common-c.c
 
+liboctetos_semver_200_la_LDFLAGS =
+if PLATFORM_WIN32
+liboctetos_semver_200_la_LDFLAGS += -no-undefined
+endif
+if NATIVE_WIN32
+liboctetos_semver_200_la_LDFLAGS += -export-dynamic
+endif
+liboctetos_semver_200_la_LIBADD = -ldl
+liboctetos_semver_200_la_SOURCES = \
+	semver-200.tab.c \
+	semver-200.c \
+	common-c.c
 
-liboctetos_core_la_LDFLAGS = 
+liboctetos_core_la_LDFLAGS =
 if PLATFORM_WIN32
 liboctetos_core_la_LDFLAGS += -no-undefined
 endif
 if NATIVE_WIN32
 liboctetos_core_la_LDFLAGS += -export-dynamic
 endif
-liboctetos_core_la_LIBADD = liboctetos-semver-100.la
+liboctetos_core_la_LIBADD = -ldl
 liboctetos_core_la_SOURCES = \
 	common-c.c \
 	common.cc \
 	Error.cc \
 	Message.cc \
 	Object.cc \
-	Licence.cc
+	Licence.cc \
+	Version.cc \
+	version-semver.cc \
+	version-semver-100.cc \
+	version-semver-200.cc
 
-noinst_PROGRAMS = develop
+#noinst_PROGRAMS = develop
 
-develop_LDADD = $(CUNIT_LIBS)  liboctetos-semver-100.la liboctetos-core.la 
-develop_CPPFLAGS =  
-develop_SOURCES = develop.cc
+#develop_LDADD = $(CUNIT_LIBS)  liboctetos-core.la -ldl
+#develop_CPPFLAGS =
+#develop_SOURCES = develop.cc
 
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh

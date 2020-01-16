@@ -77,6 +77,7 @@ namespace core
                 /**
                  * \brief Returna una copia del objeto error y limpa el registro
                  * */
+				operator const std::string&();
                 static Error get();                
                 /**
                  * \brief Verifica si hay error en el registro.

@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-const char* octetos_Semver_setPrerelease(struct octetos_Semver* version,const char* prerelease)
+const char* octetos_core_Semver_setPrerelease(struct octetos_core_Semver* version,const char* prerelease)
 {
 	if(version->prerelease)
 	{
@@ -12,7 +12,7 @@ const char* octetos_Semver_setPrerelease(struct octetos_Semver* version,const ch
 	version->prerelease = (const char*)malloc(strlen(temp));
 	strcpy((char*)version->prerelease,temp);
 }
-void octetos_Semver_init(struct octetos_Semver* version)
+void octetos_core_Semver_init(struct octetos_core_Semver* version)
 {
 	version->major = -1;
 	version->minor = -1;
@@ -20,7 +20,7 @@ void octetos_Semver_init(struct octetos_Semver* version)
 	version->prerelease = NULL;
 }
 
-const char* octetos_Semver_toString(const struct octetos_Semver* version,enum octetos_Semver_FormatString formato)
+const char* octetos_core_Semver_toString(const struct octetos_core_Semver* version,enum octetos_core_Semver_FormatString formato)
 {
 	const char* numberStr  = NULL;	
 	if(version->major > -1 && version->minor > -1 && version->patch > -1)

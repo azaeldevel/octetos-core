@@ -9,6 +9,10 @@ namespace octetos
 {
 namespace core
 {	
+	Error::operator const std::string&()
+	{
+		return full;
+	}
 	const Error* Error::error = NULL;
         
         Error Error::get()

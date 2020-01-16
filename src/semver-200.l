@@ -10,11 +10,11 @@
 
 #define YY_DECL int yylex(struct octetos_core_Tray* ty)
 
-#include "semver-100.tab.h"
+#include "semver-200.tab.h"
 
 %}
 NUMBER			[0-9]{1,5}
-PRERELEASE_ID	[a-zA-Z][0-9A-Za-z-]+
+PRERELEASE	[a-zA-Z][0-9A-Za-z-]+
 
 %s scPRERELEASE
 %%
@@ -39,7 +39,7 @@ PRERELEASE_ID	[a-zA-Z][0-9A-Za-z-]+
 					BEGIN(scPRERELEASE);
 					return yytext[0];
                 }
-{PRERELEASE_ID}		{
+{PRERELEASE}		{
 						//printf("invalid : %s\n",yytext);
 						yylval.str = yytext; 
 						return PRERELEASE_VALUE;
