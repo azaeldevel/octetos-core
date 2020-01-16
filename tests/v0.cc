@@ -250,9 +250,245 @@ void testParseString_v100()
 	}
 }
 
+void testParseString_v200()
+{
+	octetos::core::semver::v200 ver1,ver2,ver3;
+
+	if(octetos::core::Error::check())
+	{
+		CU_ASSERT(false);
+		std::cerr << (std::string)octetos::core::Error::get() << "\n";
+		return;
+	} 
+	
+	ver1.set("1.6.55-alpha"); 
+    if(ver1.getMajor() == 1)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(ver1.getMinor() == 6)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(ver1.getPatch() == 55)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(strcmp(ver1.getPrerelease().c_str(),"alpha") == 0)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    
+	ver2.set("7.6.23-alpha-1"); 
+	if(ver2.getMajor() == 7)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(ver2.getMinor() == 6)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+    if(ver2.getPatch() == 23)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(strcmp(ver2.getPrerelease().c_str(),"alpha-1") == 0)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+	
+    
+	ver3.set("7.6.23-alpha5-2");     
+	if(ver3.getMajor() == 7)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(ver3.getMinor() == 6)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+    if(ver3.getPatch() == 23)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(strcmp(ver3.getPrerelease().c_str(),"alpha5-2") == 0)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+	octetos::core::semver::v100 ver4;
+	ver4.set("7.6.23-betar1-2");
+	if(ver4.getPrerelease().compare("betar1-2") == 0)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+
+	octetos::core::semver::v200 ver5;
+	ver5.set("1.6.55+20190102arm"); 
+    if(ver1.getMajor() == 1)
+	{
+		std::cout << "["<< (std::string)ver5 << "]: pass \n";
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(ver1.getMinor() == 6)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(ver1.getPatch() == 55)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+    if(strcmp(ver1.getPrerelease().c_str(),"alpha") == 0)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+}
+
 void testComparators_v100()
 {
-        octetos::core::semver::v100 ver1;
+        /*octetos::core::semver::v100 ver1;
         octetos::core::semver::v100 ver2;
         
         ver1.setNumbers(1,2,3);
@@ -613,29 +849,28 @@ void testComparators_v100()
 			std::cerr << (std::string)octetos::core::Error::get() << "\n";
 			return;
 		}
-    }
+    }*/
 }
 
 
 int main(int argc, char *argv[])
 {
 
-	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();
-	octetos::core::Semver& ver = packinfo.version;
+	//octetos::core::Artifact packinfo = octetos::core::getPackageInfo();;
     
 	CU_pSuite pSuite = NULL;
 	int majorDevelop = 0;
-	if(majorDevelop != packinfo.version.getMajor())
+	/*if(majorDevelop != packinfo.version.getMajor())
 	{
 		std::cerr << "Este conjunto de pruebas estan Deseñado para la version mayor '" << majorDevelop << "'\n";
 		return EXIT_FAILURE;
-	}
+	}*/
 	/* initialize the CUnit test registry */
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
-	std::string& pkName = packinfo.name;
-	std::string headerTest = pkName + " " + (std::string)ver + "\n" + packinfo.licence.getBrief() + "\n" + packinfo.brief + "\n";
-	pSuite = CU_add_suite(headerTest.c_str(), init, clean);
+	//std::string& pkName = packinfo.name;
+	//std::string headerTest = pkName + " " + (std::string)ver + "\n" + packinfo.licence.getBrief() + "\n" + packinfo.brief + "\n";
+	pSuite = CU_add_suite("headerTest.c_str()", init, clean);
 	if (NULL == pSuite) 
 	{
 		CU_cleanup_registry();
@@ -648,7 +883,12 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 			
-	if ((NULL == CU_add_test(pSuite, "Validacion de parseo", testParseString_v100)))
+	/*if ((NULL == CU_add_test(pSuite, "Validacion de parseo v1.0.0", testParseString_v100)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}		
+	if ((NULL == CU_add_test(pSuite, "Validacion de parseo v2.0.0", testParseString_v200)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
@@ -658,7 +898,7 @@ int main(int argc, char *argv[])
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
-	}
+	}*/
 		
 	
 	/* Run all tests using the CUnit Basic interface */

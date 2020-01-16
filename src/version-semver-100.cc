@@ -15,29 +15,17 @@ namespace core
 {
 namespace semver
 {
-	bool Semver::set(const std::string& str)
+	const Semver& v100::getVersion() const
 	{
-        octetos_core_Tray ty;
-		ty.dysplay_erro = 0;
-		ty.version = this;
-        int ret = parse_string(&ty,str.c_str());
-		
-        if(ret == 0) return true;
-        return false;
-	}	
-	v100 v100::getVersion() const
-	{
-		return semver::v100(1,0,0);
+		return *version;
 	}
-	
-	
-    
+    v100* v100::version = new v100(1,0,0);
 	
 	v100::v100()
-	{        
+	{       
 	}
 	v100::v100(short major,short minor,short patch) : semver::Semver(major,minor,patch)
-    {
+    { 
     }	
 	v100::v100(short major,short minor) : semver::Semver(major,minor)
     {

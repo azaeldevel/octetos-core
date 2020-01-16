@@ -44,8 +44,11 @@ namespace core
 		class Semver : protected octetos_core_Semver , public core::Version
 		{
 		private:
-			//bool loadParser(const std::string& sufix);
-			//int (*parser)(struct octetos_core_Tray*,const char*);
+			bool loadParser(const std::string& sufix);
+			int (*parser)(struct octetos_core_Tray*,const char*);
+			const char* parserSufix;
+		protected:
+			
 		public:
 			/**
 			* \brief Limpia todos los datos
@@ -118,7 +121,11 @@ namespace core
 		    * \brief Hace una copia del objecto version.
 		    * */
 			const octetos_core_Semver& operator =(const octetos_core_Semver& v);
-			const Semver& operator =(const Semver& v);
+			const Semver& operator =(const Semver& v);		
+			/**
+			*\brief Indica la version semver implemetada.
+			**/
+			virtual const Semver& getVersion() const = 0;
 		};
 
 		/**
@@ -126,7 +133,10 @@ namespace core
 		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 		 **/
 		class v100: public Semver
-		{					    
+		{		
+		private:
+			static v100* version;
+						    
 		public:
 		    virtual bool operator ==(const Version& v)const;
 		    virtual bool operator !=(const Version& v)const;
@@ -146,11 +156,9 @@ namespace core
 		    /**
 		    * \brief Asigna numero major, menor y patch, los restantas datos son limpiados
 		    * */
-			v100(short major,short minor,short patch);			
-			/**
-			*\brief Indica la version semver implemetada.
-			**/
-			v100 getVersion() const;
+			v100(short major,short minor,short patch);
+
+			virtual const Semver& getVersion() const;
 		};
 
 		/**
@@ -158,7 +166,10 @@ namespace core
 		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v2.0.0.html.
 		 **/
 		class v200: public Semver
-		{					    
+		{	
+		private:
+			static v200* version;
+							    
 		public:
 		    virtual bool operator ==(const Version& v)const;
 		    virtual bool operator !=(const Version& v)const;
@@ -178,17 +189,15 @@ namespace core
 		    /**
 		    * \brief Asigna numero major, menor y patch, los restantas datos son limpiados
 		    * */
-			v200(short major,short minor,short patch);			
-			/**
-			*\brief Indica la version semver implemetada.
-			**/
-			v200 getVersion() const;
+			v200(short major,short minor,short patch);	
+
+			virtual const Semver& getVersion() const;	
 		};
 	}
 
-	typedef semver::v100 Semver;
+	typedef semver::v200 Semver;
 	typedef semver::v100 Semver_v100;
-	//typedef semver::v200 Semver_v200;
+	typedef semver::v200 Semver_v200;
 }
 }
 #endif

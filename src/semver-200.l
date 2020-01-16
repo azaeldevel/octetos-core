@@ -15,8 +15,9 @@
 %}
 NUMBER			[0-9]{1,5}
 PRERELEASE	[a-zA-Z][0-9A-Za-z-]+
+BUILD	[a-zA-Z][0-9A-Za-z-]+
 
-%s scPRERELEASE
+%s scPRERELEASE scBUILD
 %%
 %{          /** Code executed at the beginning of yylex **/
             BEGIN(INITIAL);
@@ -24,34 +25,43 @@ PRERELEASE	[a-zA-Z][0-9A-Za-z-]+
              
 
 <INITIAL>{NUMBER}  	{
-                                        //printf("%s\n",yytext); 
+                                        printf("%s\n",yytext); 
                                         yylval.sval=(short)atoi(yytext);
                                         return NUMBER_VALUE;
                                 }
 
 <INITIAL>"."     		{
-					//std::cout << yytext << std::endl;
+					printf("%s\n",yytext);
 					return yytext[0];
 				}
 	
 <INITIAL>"-"     		{
-					//printf("%s\n",yytext);
+					printf("%s\n",yytext);
 					BEGIN(scPRERELEASE);
 					return yytext[0];
                 }
+<INITIAL>"+"     		{
+					printf("%s\n",yytext);
+					BEGIN(scBUILD);
+					return yytext[0];
+                }
 {PRERELEASE}		{
-						//printf("invalid : %s\n",yytext);
+						printf("Prerelease : %s\n",yytext);
 						yylval.str = yytext; 
 						return PRERELEASE_VALUE;
 					}
-
+<scBUILD>{BUILD}		{
+						printf("Build : %s\n",yytext);
+						yylval.str = yytext; 
+						return BUILD_VALUE;
+					}
 
 [\0\n]            {
                         return ENDOFINPUT;
 }
 
 .					{
-						//printf("invalid : %s\n",yytext);
+						printf("invalid : %s\n",yytext);
 						yylval.str = yytext;                                  
 					}
 <<EOF>>    {

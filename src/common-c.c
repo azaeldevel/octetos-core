@@ -5,6 +5,18 @@
 
 #include "common.h"
 
+const char* octetos_core_Semver_setBuild(struct octetos_core_Semver* version,const char* build)
+{
+	if(version->build)
+	{
+		free((void*)version->build);
+	}
+	const char* temp = build;
+	version->build = (const char*)malloc(strlen(temp));
+	strcpy((char*)version->build,temp);
+
+	return version->build;
+}
 const char* octetos_core_Semver_setPrerelease(struct octetos_core_Semver* version,const char* prerelease)
 {
 	if(version->prerelease)
@@ -23,6 +35,7 @@ void octetos_core_Semver_init(struct octetos_core_Semver* version)
 	version->minor = -1;
 	version->patch = -1;
 	version->prerelease = NULL;
+	version->build = NULL;
 }
 
 const char* octetos_core_Semver_toString(const struct octetos_core_Semver* version,enum octetos_core_Semver_FormatString formato)
@@ -62,14 +75,23 @@ const char* octetos_core_Semver_toString(const struct octetos_core_Semver* versi
 
 		
 	int prereleaseLeng = version->prerelease ? strlen(version->prerelease) : 0;//se agrega la longitus de stage mas el espacio del guion
-
-	int verstrLeng = numberLeng + prereleaseLeng + 2;//mas guion y terminalcion NULL
+	int buildLeng = version->build ? strlen(version->build) : 0;
+	
+	int verstrLeng = numberLeng + prereleaseLeng + buildLeng + 1;//terminalcion NULL
+	verstrLeng += version->prerelease ? 1 : 0;//mas guion
+	buildLeng += version->build ? 1 : 0;// mas '+'
+	
 	char* verstr = malloc(verstrLeng);
 	strcpy(verstr,numberStr);
 	if(prereleaseLeng > 0)
 	{
 		strcat(verstr,"-");
 		strcat(verstr,(char*)version->prerelease);
+	}
+	if(buildLeng > 0)
+	{
+		strcat(verstr,"+");
+		strcat(verstr,(char*)version->build);
 	}
 	
 	free((void*)numberStr);

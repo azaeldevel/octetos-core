@@ -24,7 +24,10 @@ semver-200.tab.c semver-200.h : semver-200.y
 semver-200.c : semver-200.l
 	flex -o $@ $<
 
-liboctetos_semver_100_la_LDFLAGS = -ldl
+liboctetos_semver_100_la_CFLAGS = -fPIC
+liboctetos_semver_100_la_CPPFLAGS = -fPIC
+liboctetos_semver_100_la_CXXFLAGS = -fPIC
+liboctetos_semver_100_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32
 liboctetos_semver_100_la_LDFLAGS += -no-undefined
 endif
@@ -40,7 +43,10 @@ liboctetos_semver_100_la_SOURCES = \
 	version-semver.cc \
 	version-semver-100.cc
 
-liboctetos_semver_200_la_LDFLAGS =
+liboctetos_semver_200_la_CFLAGS = -fPIC
+liboctetos_semver_200_la_CPPFLAGS = -fPIC
+liboctetos_semver_200_la_CXXFLAGS = -fPIC
+liboctetos_semver_200_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32
 liboctetos_semver_200_la_LDFLAGS += -no-undefined
 endif
@@ -56,17 +62,20 @@ liboctetos_semver_200_la_SOURCES = \
 	version-semver.cc \
 	version-semver-200.cc
 
-liboctetos_core_la_LDFLAGS =
+liboctetos_core_la_CFLAGS = -fPIC
+liboctetos_core_la_CPPFLAGS = -fPIC
+liboctetos_core_la_CXXFLAGS = -fPIC
+liboctetos_core_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32
 liboctetos_core_la_LDFLAGS += -no-undefined
 endif
 if NATIVE_WIN32
 liboctetos_core_la_LDFLAGS += -export-dynamic
 endif
-liboctetos_core_la_LIBADD = -ldl
+liboctetos_core_la_LIBDADD = -ldl
 liboctetos_core_la_SOURCES = \
-	common-c.c \
 	common.cc \
+	common-c.c \
 	Error.cc \
 	Message.cc \
 	Object.cc \

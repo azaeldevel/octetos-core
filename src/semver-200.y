@@ -10,7 +10,7 @@ extern int yylex(struct octetos_core_Tray* ty);
 extern int yyparse(struct octetos_core_Tray* ty);
 //int parse_string(struct Tray* ty, const char* in);
 extern FILE* yyin;
-extern const char* semver_version = "1.0.0";
+
 void yyerror(struct octetos_core_Tray* ty, const char* s);
 //void set_input_string(const char* in);
 //void end_lexical_scan(void);
@@ -40,6 +40,7 @@ void yyerror(struct octetos_core_Tray* ty, const char* s);
 
 %token <sval> NUMBER_VALUE
 %token <str> PRERELEASE_VALUE
+%token <str> BUILD_VALUE
 
 
 %locations
@@ -59,6 +60,10 @@ void yyerror(struct octetos_core_Tray* ty, const char* s);
 	}
 	|
 	numbers_value prerelease
+	{
+	}
+	|
+	numbers_value build
 	{
 	};
 	
@@ -89,9 +94,14 @@ void yyerror(struct octetos_core_Tray* ty, const char* s);
 	prerelease : 
 	'-'  PRERELEASE_VALUE
 	{
-		octetos_Semver_setPrerelease(ty->version,$2);
+		octetos_core_Semver_setPrerelease(ty->version,$2);
 	};
 	
+	build : 
+	'+'  BUILD_VALUE
+	{
+		octetos_core_Semver_setBuild(ty->version,$2);
+	};
 
 %%
 void yyerror(struct octetos_core_Tray* ty,const char* s) {

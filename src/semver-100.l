@@ -30,7 +30,7 @@ PRERELEASE_ID	[a-zA-Z][0-9A-Za-z-]+
                                 }
 
 <INITIAL>"."     		{
-					//std::cout << yytext << std::endl;
+					//printf("%s\n",yytext);
 					return yytext[0];
 				}
 	

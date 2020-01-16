@@ -20,6 +20,7 @@ struct octetos_core_Semver {
 	octetos_core_semver_Number minor;
 	octetos_core_semver_Number patch;
 	const char* prerelease;
+	const char* build;
 };
 
 #ifdef __cplusplus  
@@ -28,7 +29,7 @@ extern "C" {
 	const char* octetos_core_Semver_toString(const struct octetos_core_Semver* version,enum octetos_core_Semver_FormatString);
 	void octetos_core_Semver_init(struct octetos_core_Semver* version);
 	const char* octetos_core_Semver_setPrerelease(struct octetos_core_Semver* version,const char*);
-	
+	const char* octetos_core_Semver_setBuild(struct octetos_core_Semver* version,const char*);	
 #ifdef __cplusplus 
 }
 #endif

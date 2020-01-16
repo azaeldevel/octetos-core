@@ -14,10 +14,27 @@ namespace core
 {
 namespace semver
 {
-	/*bool Semver::loadParser(const std::string& sufix)
+	bool Semver::loadParser(const std::string& sufix)
 	{
-		std::string filename = "liboctetos-semver-";
-		filename += sufix + ".so";
+		std::string filename = "Debug/src/.libs/liboctetos-semver-100";
+		/*if(this->getVersion().getMajor () == 1)
+		{
+			filename += "100";
+		}
+		else if(this->getVersion().getMajor () == 2)
+		{
+			filename += "200";
+		}
+		else
+		{
+			std::string msgErr ="Configuración de dlopen fallo con la version '" ;
+			msgErr += this->toString() + "' : ";
+          	msgErr = msgErr + dlerror();
+			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
+			core::Error::write(err);
+			return false;
+		}*/
+		filename += ".so";
 		void* handle = dlopen(filename.c_str(), RTLD_LAZY);
 		if(!handle)
 		{
@@ -27,7 +44,7 @@ namespace semver
 			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
 			core::Error::write(err);
 			return false;
-		}
+		}		
 		parser = (int (*)(struct octetos_core_Tray*,const char*))dlsym(handle, "parse_string");
 		if(!parser)
 		{                    
@@ -39,7 +56,7 @@ namespace semver
 		}
 
 		return true;
-	}*/
+	}
 	void Semver::setPrerelease(const std::string& str)
 	{
 		octetos_core_Semver_setPrerelease(this,str.c_str());
@@ -50,6 +67,16 @@ namespace semver
 	}
 	
 	
+	bool Semver::set(const std::string& str)
+	{
+        octetos_core_Tray ty;
+		ty.dysplay_erro = 0;
+		ty.version = this;
+        int ret = parser(&ty,str.c_str());
+		
+        if(ret == 0) return true;
+        return false;
+	}	
 	bool Semver::set(unsigned long ver,ImportCode import)
 	{
 		if(import == ImportCode::MySQL)
@@ -82,8 +109,8 @@ namespace semver
     void Semver::init()
     {
 		octetos_core_Semver_init(this);
-		//parser = NULL;
-		//loadParser("100");
+		parser = NULL;
+		loadParser("200");
     }
 	
 
@@ -145,14 +172,16 @@ namespace semver
 
 	std::string Semver::toString(FormatString formato) const
 	{		
-		std::string ver = "";
-        ver = octetos_core_Semver_toString(this,formato);
+		const char* verbuf = octetos_core_Semver_toString(this,formato);
+		std::string ver = verbuf;
+		free((void*)verbuf);
 		return ver;
 	}
 	Semver::operator std::string()
 	{
-		std::string ver = "";
-        ver = octetos_core_Semver_toString(this,FormatString::FullString);
+		const char* verbuf = octetos_core_Semver_toString(this,FormatString::FullString);
+		std::string ver = verbuf;
+		free((void*)verbuf);
 		return ver;
 	}
 

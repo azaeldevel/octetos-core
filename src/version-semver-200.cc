@@ -14,26 +14,16 @@ namespace octetos
 namespace core
 {
 namespace semver
-{
-	bool Semver::set(const std::string& str)
+{	
+	const Semver& v200::getVersion() const
 	{
-        octetos_core_Tray ty;
-		ty.dysplay_erro = 0;
-		ty.version = this;
-        int ret = parse_string(&ty,str.c_str());
-		
-        if(ret == 0) return true;
-        return false;
-	}	
-	v200 v200::getVersion() const
-	{
-		return v200(2,0,0);
+		return *version;
 	}
-	
+    v200* v200::version = new v200(2,0,0);
+
 	
 	v200::v200()
 	{
-        
 	}
 	v200::v200(short major,short minor,short patch) : semver::Semver(major,minor,patch)
     {

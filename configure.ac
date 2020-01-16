@@ -11,10 +11,14 @@ AC_PROG_CXX
 AC_PROG_YACC
 AM_PROG_LEX
 AM_PATH_PYTHON
-AC_PROG_LIBTOOL
 
-AC_SUBST(LIBTOOL_DEPS)
-AC_LTDL_DLLIB
+
+#AC_ENABLE_SHARED
+#AC_ENABLE_STATIC
+#AC_PROG_LIBTOOL(libtool)
+
+#AC_SUBST(LIBTOOL_DEPS)
+#AC_LTDL_DLLIB
 
 dnl ***************************************************************************
 dnl Internationalization
