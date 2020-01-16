@@ -10,7 +10,7 @@ extern int yylex(struct octetos_core_Tray* ty);
 extern int yyparse(struct octetos_core_Tray* ty);
 //int parse_string(struct Tray* ty, const char* in);
 extern FILE* yyin;
-extern const char* semver_version = "1.0.0";
+
 void yyerror(struct octetos_core_Tray* ty, const char* s);
 //void set_input_string(const char* in);
 //void end_lexical_scan(void);

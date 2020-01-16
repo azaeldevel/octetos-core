@@ -12,25 +12,12 @@ AM_CFLAGS =\
 	 -g
 
 
-semver-100.tab.c semver-100.h : $(top_srcdir)/src/semver-100.y
-	bison -d -o $@ $<
-semver-100.c : $(top_srcdir)/src/semver-100.l
-	flex -o $@ $<
+noinst_PROGRAMS = v0
 
-semver-200.tab.c semver-200.h : $(top_srcdir)/src/semver-200.y
-	bison -d -o $@ $<
-semver-200.c : $(top_srcdir)/src/semver-100.l
-	flex -o $@ $<
 
-noinst_PROGRAMS =
-
-noinst_PROGRAMS += v0
-v0_LDADD = $(CUNIT_LIBS) -ldl
+v0_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-semver-100.la $(top_builddir)/src/liboctetos-semver-200.la
 v0_CPPFLAGS = -I$(top_srcdir)/src 
 v0_SOURCES = v0.cc  \
-	$(top_srcdir)/src/version-semver-100.cc\
-	$(top_srcdir)/src/version-semver-200.cc\
-	$(top_srcdir)/src/version-semver.cc\
 	$(top_srcdir)/src/Version.cc\
 	$(top_srcdir)/src/common-c.c \
 	$(top_srcdir)/src/common.cc \

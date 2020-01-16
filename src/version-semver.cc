@@ -8,14 +8,13 @@
 #include "Version.hh"
 #include "Error.hh"
 
-
 namespace octetos
 {
 namespace core
 {
 namespace semver
 {
-	bool Semver::loadParser(const std::string& sufix)
+	/*bool Semver::loadParser(const std::string& sufix)
 	{
 		std::string filename = "liboctetos-semver-";
 		filename += sufix + ".so";
@@ -40,7 +39,7 @@ namespace semver
 		}
 
 		return true;
-	}
+	}*/
 	void Semver::setPrerelease(const std::string& str)
 	{
 		octetos_core_Semver_setPrerelease(this,str.c_str());
@@ -79,21 +78,12 @@ namespace semver
 		return false;
 	}
 		
-	bool Semver::set(const std::string& str)
-	{
-        octetos_core_Tray ty;
-		ty.dysplay_erro = 0;
-		ty.version = this;
-        int ret = parser(&ty,str.c_str());
-		
-        if(ret == 0) return true;
-        return false;
-	}
+	
     void Semver::init()
     {
 		octetos_core_Semver_init(this);
-		parser = NULL;
-		loadParser("100");
+		//parser = NULL;
+		//loadParser("100");
     }
 	
 

@@ -139,8 +139,7 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
 LTLIBRARIES = $(lib_LTLIBRARIES)
 liboctetos_core_la_DEPENDENCIES =
 am_liboctetos_core_la_OBJECTS = common-c.lo common.lo Error.lo \
-	Message.lo Object.lo Licence.lo Version.lo version-semver.lo \
-	version-semver-100.lo version-semver-200.lo
+	Message.lo Object.lo Licence.lo
 liboctetos_core_la_OBJECTS = $(am_liboctetos_core_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -152,21 +151,21 @@ liboctetos_core_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(LDFLAGS) -o $@
 liboctetos_semver_100_la_DEPENDENCIES =
 am_liboctetos_semver_100_la_OBJECTS = semver-100.tab.lo semver-100.lo \
-	common-c.lo
+	common-c.lo Version.lo version-semver.lo version-semver-100.lo
 liboctetos_semver_100_la_OBJECTS =  \
 	$(am_liboctetos_semver_100_la_OBJECTS)
-liboctetos_semver_100_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(AM_CFLAGS) $(CFLAGS) $(liboctetos_semver_100_la_LDFLAGS) \
+liboctetos_semver_100_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(AM_CXXFLAGS) $(CXXFLAGS) $(liboctetos_semver_100_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
 liboctetos_semver_200_la_DEPENDENCIES =
 am_liboctetos_semver_200_la_OBJECTS = semver-200.tab.lo semver-200.lo \
-	common-c.lo
+	common-c.lo Version.lo version-semver.lo version-semver-200.lo
 liboctetos_semver_200_la_OBJECTS =  \
 	$(am_liboctetos_semver_200_la_OBJECTS)
-liboctetos_semver_200_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(AM_CFLAGS) $(CFLAGS) $(liboctetos_semver_200_la_LDFLAGS) \
+liboctetos_semver_200_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(AM_CXXFLAGS) $(CXXFLAGS) $(liboctetos_semver_200_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -454,14 +453,20 @@ liboctetos_semver_100_la_LIBADD = -ldl
 liboctetos_semver_100_la_SOURCES = \
 	semver-100.tab.c \
 	semver-100.c \
-	common-c.c
+	common-c.c \
+	Version.cc \
+	version-semver.cc \
+	version-semver-100.cc
 
 liboctetos_semver_200_la_LDFLAGS = $(am__append_3) $(am__append_4)
 liboctetos_semver_200_la_LIBADD = -ldl
 liboctetos_semver_200_la_SOURCES = \
 	semver-200.tab.c \
 	semver-200.c \
-	common-c.c
+	common-c.c\
+	Version.cc \
+	version-semver.cc \
+	version-semver-200.cc
 
 liboctetos_core_la_LDFLAGS = $(am__append_5) $(am__append_6)
 liboctetos_core_la_LIBADD = -ldl
@@ -471,11 +476,7 @@ liboctetos_core_la_SOURCES = \
 	Error.cc \
 	Message.cc \
 	Object.cc \
-	Licence.cc \
-	Version.cc \
-	version-semver.cc \
-	version-semver-100.cc \
-	version-semver-200.cc
+	Licence.cc 
 
 
 #noinst_PROGRAMS = develop
@@ -565,10 +566,10 @@ liboctetos-core.la: $(liboctetos_core_la_OBJECTS) $(liboctetos_core_la_DEPENDENC
 	$(AM_V_CXXLD)$(liboctetos_core_la_LINK) -rpath $(libdir) $(liboctetos_core_la_OBJECTS) $(liboctetos_core_la_LIBADD) $(LIBS)
 
 liboctetos-semver-100.la: $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_DEPENDENCIES) $(EXTRA_liboctetos_semver_100_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(liboctetos_semver_100_la_LINK) -rpath $(libdir) $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_LIBADD) $(LIBS)
+	$(AM_V_CXXLD)$(liboctetos_semver_100_la_LINK) -rpath $(libdir) $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_LIBADD) $(LIBS)
 
 liboctetos-semver-200.la: $(liboctetos_semver_200_la_OBJECTS) $(liboctetos_semver_200_la_DEPENDENCIES) $(EXTRA_liboctetos_semver_200_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(liboctetos_semver_200_la_LINK) -rpath $(libdir) $(liboctetos_semver_200_la_OBJECTS) $(liboctetos_semver_200_la_LIBADD) $(LIBS)
+	$(AM_V_CXXLD)$(liboctetos_semver_200_la_LINK) -rpath $(libdir) $(liboctetos_semver_200_la_OBJECTS) $(liboctetos_semver_200_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

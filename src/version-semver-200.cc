@@ -15,7 +15,16 @@ namespace core
 {
 namespace semver
 {
-	
+	bool Semver::set(const std::string& str)
+	{
+        octetos_core_Tray ty;
+		ty.dysplay_erro = 0;
+		ty.version = this;
+        int ret = parse_string(&ty,str.c_str());
+		
+        if(ret == 0) return true;
+        return false;
+	}	
 	v200 v200::getVersion() const
 	{
 		return v200(2,0,0);

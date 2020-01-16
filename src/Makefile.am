@@ -35,7 +35,10 @@ liboctetos_semver_100_la_LIBADD = -ldl
 liboctetos_semver_100_la_SOURCES = \
 	semver-100.tab.c \
 	semver-100.c \
-	common-c.c
+	common-c.c \
+	Version.cc \
+	version-semver.cc \
+	version-semver-100.cc
 
 liboctetos_semver_200_la_LDFLAGS =
 if PLATFORM_WIN32
@@ -48,7 +51,10 @@ liboctetos_semver_200_la_LIBADD = -ldl
 liboctetos_semver_200_la_SOURCES = \
 	semver-200.tab.c \
 	semver-200.c \
-	common-c.c
+	common-c.c\
+	Version.cc \
+	version-semver.cc \
+	version-semver-200.cc
 
 liboctetos_core_la_LDFLAGS =
 if PLATFORM_WIN32
@@ -64,11 +70,7 @@ liboctetos_core_la_SOURCES = \
 	Error.cc \
 	Message.cc \
 	Object.cc \
-	Licence.cc \
-	Version.cc \
-	version-semver.cc \
-	version-semver-100.cc \
-	version-semver-200.cc
+	Licence.cc 
 
 #noinst_PROGRAMS = develop
 
