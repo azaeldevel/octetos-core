@@ -14,6 +14,6 @@ AM_CFLAGS = \
 noinst_PROGRAMS = v0
 
 v0_LDFLAGS =
-v0_LDADD = -ldl $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-semver-100.la $(top_builddir)/src/liboctetos-semver-200.la $(top_builddir)/src/liboctetos-core.la
+v0_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl
 v0_CPPFLAGS = -I$(top_srcdir)/src 
 v0_SOURCES = v0.cc 

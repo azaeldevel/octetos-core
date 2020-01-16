@@ -24,12 +24,15 @@ namespace semver
 	
 	v200::v200()
 	{
+		loadParser("200");
 	}
 	v200::v200(short major,short minor,short patch) : semver::Semver(major,minor,patch)
     {
+		loadParser("200");
     }	
 	v200::v200(short major,short minor) : semver::Semver(major,minor)
     {
+		loadParser("200");
     }
     v200::~v200()
     {

@@ -20,15 +20,19 @@ namespace semver
 		return *version;
 	}
     v100* v100::version = new v100(1,0,0);
+
 	
 	v100::v100()
-	{       
+	{     
+		loadParser("100"); 
 	}
 	v100::v100(short major,short minor,short patch) : semver::Semver(major,minor,patch)
     { 
+		loadParser("100");
     }	
 	v100::v100(short major,short minor) : semver::Semver(major,minor)
     {
+		loadParser("100");
     }
     v100::~v100()
     {

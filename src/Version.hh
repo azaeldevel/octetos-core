@@ -44,10 +44,9 @@ namespace core
 		class Semver : protected octetos_core_Semver , public core::Version
 		{
 		private:
-			bool loadParser(const std::string& sufix);
 			int (*parser)(struct octetos_core_Tray*,const char*);
-			const char* parserSufix;
 		protected:
+			bool loadParser(const char* sufix);
 			
 		public:
 			/**

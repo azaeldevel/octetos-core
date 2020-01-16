@@ -14,27 +14,10 @@ namespace core
 {
 namespace semver
 {
-	bool Semver::loadParser(const std::string& sufix)
+	bool Semver::loadParser(const char* sufix)
 	{
-		std::string filename = "Debug/src/.libs/liboctetos-semver-100";
-		/*if(this->getVersion().getMajor () == 1)
-		{
-			filename += "100";
-		}
-		else if(this->getVersion().getMajor () == 2)
-		{
-			filename += "200";
-		}
-		else
-		{
-			std::string msgErr ="Configuración de dlopen fallo con la version '" ;
-			msgErr += this->toString() + "' : ";
-          	msgErr = msgErr + dlerror();
-			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
-			core::Error::write(err);
-			return false;
-		}*/
-		filename += ".so";
+		std::string filename = "Debug/src/.libs/liboctetos-semver-";		
+		filename = filename + sufix + ".so";
 		void* handle = dlopen(filename.c_str(), RTLD_LAZY);
 		if(!handle)
 		{
@@ -110,7 +93,6 @@ namespace semver
     {
 		octetos_core_Semver_init(this);
 		parser = NULL;
-		loadParser("200");
     }
 	
 

@@ -26,6 +26,11 @@ int clean(void)
 void testImports_v100()
 {
 	octetos::core::semver::v100 verPQ;
+	if(octetos::core::Error::check())
+	{
+		std::cerr << (std::string)octetos::core::Error::get() << "\n";
+		return;
+	}
 	verPQ.set(80105,octetos::core::semver::ImportCode::PostgreSQL);
 	if(verPQ.getMajor() == 8)
 	{
@@ -488,7 +493,7 @@ void testParseString_v200()
 
 void testComparators_v100()
 {
-        /*octetos::core::semver::v100 ver1;
+        octetos::core::semver::v100 ver1;
         octetos::core::semver::v100 ver2;
         
         ver1.setNumbers(1,2,3);
@@ -849,7 +854,7 @@ void testComparators_v100()
 			std::cerr << (std::string)octetos::core::Error::get() << "\n";
 			return;
 		}
-    }*/
+    }
 }
 
 
@@ -883,7 +888,7 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 			
-	/*if ((NULL == CU_add_test(pSuite, "Validacion de parseo v1.0.0", testParseString_v100)))
+	if ((NULL == CU_add_test(pSuite, "Validacion de parseo v1.0.0", testParseString_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
@@ -898,7 +903,7 @@ int main(int argc, char *argv[])
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
-	}*/
+	}
 		
 	
 	/* Run all tests using the CUnit Basic interface */

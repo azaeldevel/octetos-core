@@ -104,8 +104,6 @@ am_v0_OBJECTS = v0-v0.$(OBJEXT)
 v0_OBJECTS = $(am_v0_OBJECTS)
 am__DEPENDENCIES_1 =
 v0_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(top_builddir)/src/liboctetos-semver-100.la \
-	$(top_builddir)/src/liboctetos-semver-200.la \
 	$(top_builddir)/src/liboctetos-core.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -363,7 +361,7 @@ AM_CFLAGS = \
 	 -g
 
 v0_LDFLAGS = 
-v0_LDADD = -ldl $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-semver-100.la $(top_builddir)/src/liboctetos-semver-200.la $(top_builddir)/src/liboctetos-core.la
+v0_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl
 v0_CPPFLAGS = -I$(top_srcdir)/src 
 v0_SOURCES = v0.cc 
 all: all-am

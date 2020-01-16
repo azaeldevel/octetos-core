@@ -38,10 +38,7 @@ liboctetos_semver_100_la_LIBADD = -ldl
 liboctetos_semver_100_la_SOURCES = \
 	semver-100.tab.c \
 	semver-100.c \
-	common-c.c \
-	Version.cc \
-	version-semver.cc \
-	version-semver-100.cc
+	common-c.c
 
 liboctetos_semver_200_la_CFLAGS = -fPIC
 liboctetos_semver_200_la_CPPFLAGS = -fPIC
@@ -57,10 +54,7 @@ liboctetos_semver_200_la_LIBADD = -ldl
 liboctetos_semver_200_la_SOURCES = \
 	semver-200.tab.c \
 	semver-200.c \
-	common-c.c\
-	Version.cc \
-	version-semver.cc \
-	version-semver-200.cc
+	common-c.c
 
 liboctetos_core_la_CFLAGS = -fPIC
 liboctetos_core_la_CPPFLAGS = -fPIC
@@ -79,7 +73,11 @@ liboctetos_core_la_SOURCES = \
 	Error.cc \
 	Message.cc \
 	Object.cc \
-	Licence.cc 
+	Licence.cc \
+	Version.cc \
+	version-semver.cc \
+	version-semver-100.cc \
+	version-semver-200.cc
 
 #noinst_PROGRAMS = develop
 
