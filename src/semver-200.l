@@ -24,50 +24,48 @@ BUILD	[a-zA-Z][0-9A-Za-z-]+
 %}
              
 
-<INITIAL>{NUMBER}  	{
-                                        //printf("%s\n",yytext); 
-                                        yylval.sval=(short)atoi(yytext);
-                                        return NUMBER_VALUE;
-                                }
-
+<INITIAL>{NUMBER}		{
+							//printf("%s\n",yytext); 
+							yylval.sval=(short)atoi(yytext);
+							return NUMBER_VALUE;
+						}
 <INITIAL>"."     		{
-					//printf("%s\n",yytext);
-					return yytext[0];
-				}
-	
+							//printf("%s\n",yytext);
+							return yytext[0];
+						}	
 <INITIAL>"-"     		{
-					//printf("%s\n",yytext);
-					BEGIN(scPRERELEASE);
-					return yytext[0];
-                }
-<INITIAL>"+"     		{
-					//printf("%s\n",yytext);
-					BEGIN(scBUILD);
-					return yytext[0];
-                }
-{PRERELEASE}		{
-						//printf("Prerelease : %s\n",yytext);
-						yylval.str = yytext; 
-						return PRERELEASE_VALUE;
-					}
+							//printf("%s\n",yytext);
+							BEGIN(scPRERELEASE);
+							return yytext[0];
+                		}
+<INITIAL,scPRERELEASE>"+"		{
+									//printf("%s\n",yytext);
+									BEGIN(scBUILD);
+									return yytext[0];
+                				}
+<scPRERELEASE>{PRERELEASE}		{
+									//printf("Prerelease : %s\n",yytext);
+									yylval.str = yytext; 
+									return PRERELEASE_VALUE;
+								}
 <scBUILD>{BUILD}		{
-						//printf("Build : %s\n",yytext);
-						yylval.str = yytext; 
-						return BUILD_VALUE;
-					}
+							printf("Build : %s\n",yytext);
+							yylval.str = yytext; 
+							return BUILD_VALUE;
+						}
 
-[\0\n]            {
+[\0\n]            	{
                         return ENDOFINPUT;
-}
+					}
 
 .					{
 						//printf("invalid : %s\n",yytext);
 						yylval.str = yytext;                                  
 					}
-<<EOF>>    {
-                                        //std::cout << "En of file" << std::endl; 
-                                return ENDOFINPUT;
-                        }
+<<EOF>>    			{
+						//std::cout << "En of file" << std::endl; 
+						return ENDOFINPUT;
+               		}
 
 %%
 void set_input_string(const char* in) 

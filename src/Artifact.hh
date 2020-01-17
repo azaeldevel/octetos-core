@@ -18,7 +18,11 @@ namespace core
 		Semver version;
 		Licence licence;
 	};
-	
+
+	/**
+	 * \brief retorna la informacion del paquete usese ne lugar getPakageVersion y getPakageName
+	 **/
+	Artifact getPackageInfo();
 }
 }
 

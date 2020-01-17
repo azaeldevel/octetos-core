@@ -38,7 +38,7 @@ liboctetos_semver_100_la_LIBADD = -ldl
 liboctetos_semver_100_la_SOURCES = \
 	semver-100.tab.c \
 	semver-100.c \
-	common-c.c
+	common.c
 
 liboctetos_semver_200_la_CFLAGS = -fPIC
 liboctetos_semver_200_la_CPPFLAGS = -fPIC
@@ -54,7 +54,7 @@ liboctetos_semver_200_la_LIBADD = -ldl
 liboctetos_semver_200_la_SOURCES = \
 	semver-200.tab.c \
 	semver-200.c \
-	common-c.c
+	common.c
 
 liboctetos_core_la_CFLAGS = -fPIC
 liboctetos_core_la_CPPFLAGS = -fPIC
@@ -68,8 +68,8 @@ liboctetos_core_la_LDFLAGS += -export-dynamic
 endif
 liboctetos_core_la_LIBDADD = -ldl
 liboctetos_core_la_SOURCES = \
-	common.cc \
-	common-c.c \
+	common.c \
+	Artifact.cc \
 	Error.cc \
 	Message.cc \
 	Object.cc \
@@ -86,7 +86,7 @@ liboctetos_core_la_SOURCES = \
 #develop_SOURCES = develop.cc
 
 octetos_core_includedir = $(includedir)/octetos/core
-octetos_core_include_HEADERS = common.h common.hh Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
+octetos_core_include_HEADERS = common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = octetos-core.pc

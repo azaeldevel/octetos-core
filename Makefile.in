@@ -89,6 +89,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 @WITH_TESTS_TRUE@am__append_1 = tests
+@WITH_DOCS_TRUE@am__append_2 = docs
+@WITH_EXAMPLES_TRUE@am__append_3 = examples
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -187,7 +189,7 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = src po tests
+DIST_SUBDIRS = src po tests docs examples
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in AUTHORS \
 	COPYING ChangeLog INSTALL NEWS README compile config.guess \
 	config.sub install-sh ltmain.sh missing
@@ -408,10 +410,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign 1.4
-SUBDIRS = src po $(am__append_1)
-#if WITH_DOCS
-#SUBDIRS +=  docs
-#endif
+SUBDIRS = src po $(am__append_1) $(am__append_2) $(am__append_3)
 dist_doc_DATA = \
 	README \
 	COPYING \

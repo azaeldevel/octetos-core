@@ -94,9 +94,6 @@ namespace semver
 		octetos_core_Semver_init(this);
 		parser = NULL;
     }
-	
-
-	
 	const Semver& Semver::operator =(const Semver& v)
 	{
         octetos_core_Semver& v1 = *this;

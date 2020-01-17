@@ -5,8 +5,8 @@
 //#include <string.h>
 //#include <string>
 
+#include "config.h"
 #include "Object.hh"
-
 
 namespace octetos
 {
@@ -51,5 +51,11 @@ namespace core
         }
 #endif
 
+
+
+	std::string getPakageName()
+	{
+		return PACKAGE;
+	}
 }
 }

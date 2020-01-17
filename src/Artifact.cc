@@ -1,26 +1,11 @@
 
-
-
 #include "config.h"
-#include "common.hh"
-	
+#include "Artifact.hh"
 
 namespace octetos
 {
 namespace core
 {
-	Semver getPakageVersion()
-	{
-		Semver v;
-		v.set(VERSION);
-		return v;		
-	}
-
-	std::string getPakageName()
-	{
-		return PACKAGE;
-	}
-	
 	Artifact getPackageInfo()
 	{
 		Artifact packinfo;
@@ -28,6 +13,7 @@ namespace core
 		packinfo.name = PACKAGE;
 		packinfo.brief = "Libreria Core de Octetos.";
 		packinfo.url = "https://github.com/azaeldevel/octetos-core.git";
+		packinfo.name_decorated = "Libreria Core de Octetos";
 		
 		packinfo.version.set(VERSION);
 		

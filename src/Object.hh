@@ -10,6 +10,12 @@ namespace octetos
 {
 namespace core
 {
+
+	/**
+	 * \brief retorna el nombre del componente
+	 **/
+	std::string getPakageName();
+
         /**
          * \brief Clase base común de toolkit.
          * \private en desarrollo

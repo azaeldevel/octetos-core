@@ -65,6 +65,10 @@ void yyerror(struct octetos_core_Tray* ty, const char* s);
 	|
 	numbers_value build
 	{
+	}
+	|
+	numbers_value prerelease build
+	{
 	};
 	
 	numbers_value : one_number | two_numbers | three_numbers | four_numbers;

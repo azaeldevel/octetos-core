@@ -194,9 +194,14 @@ namespace core
 		};
 	}
 
-	typedef semver::v200 Semver;
+	typedef semver::v100 Semver;
 	typedef semver::v100 Semver_v100;
 	typedef semver::v200 Semver_v200;
+	
+	/**
+	 * \brief retorna la version actual de componente
+	 **/
+	Semver getPakageVersion();	
 }
 }
 #endif
