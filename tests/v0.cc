@@ -858,9 +858,8 @@ void testComparators_v100()
 
 
 int main(int argc, char *argv[])
-{
-	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();
-    
+{  
+	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();  
 	CU_pSuite pSuite = NULL;
 	int majorDevelop = 0;
 	if(majorDevelop != packinfo.version.getMajor())
@@ -879,7 +878,11 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-		
+#ifdef SANDBOX
+		std::cout << "Sandbox is enabled.\n";
+#else
+		std::cout << "Sandbox is not enabled.\n";	
+#endif	
 	if ((NULL == CU_add_test(pSuite, "Criterios de comparación", testComparators_v100)))
 	{
 		CU_cleanup_registry();

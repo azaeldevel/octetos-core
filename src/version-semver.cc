@@ -1,7 +1,9 @@
 
 #include <stdio.h>
 #include <string.h>
-//#include <iostream> //for test
+#ifdef SANDBOX
+#include <iostream> //for test
+#endif
 #include <dlfcn.h>
 #include <dirent.h>
 
@@ -17,10 +19,11 @@ namespace semver
 	bool Semver::loadParser(const char* sufix)
 	{
 		std::string filename;
-#ifdef ENABLE_DEVELOP_MODE
+#ifdef SANDBOX
 		filename = "Debug/src/.libs/liboctetos-semver-";
+		//std::cout << "filename:" << filename << "\n";
 #else
-		filename = "liboctetos-semver-";	
+		filename = "liboctetos-semver-";
 #endif
 		filename = filename + sufix + ".so";		
 		handle = dlopen(filename.c_str(), RTLD_LAZY);

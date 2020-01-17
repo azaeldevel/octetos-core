@@ -4,7 +4,6 @@ AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
-	$(CUNIT_CFLAGS) \
 	$(all_includes)
 
 AM_CFLAGS =\
@@ -59,6 +58,9 @@ liboctetos_semver_200_la_SOURCES = \
 liboctetos_core_la_CFLAGS = -fPIC
 liboctetos_core_la_CPPFLAGS = -fPIC
 liboctetos_core_la_CXXFLAGS = -fPIC
+if WITH_SANDBOX
+liboctetos_core_la_CXXFLAGS += -DSANDBOX
+endif
 liboctetos_core_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32
 liboctetos_core_la_LDFLAGS += -no-undefined
