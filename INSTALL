@@ -201,6 +201,8 @@ They may also pay attention to '--with-PACKAGE' options, where PACKAGE
 is something like 'gnu-as' or 'x' (for the X Window System).  The
 'README' should mention any '--enable-' and '--with-' options that the
 package recognizes.
+   Use --with-tests to enable testing and --with-examples to contruct 
+the examples.
 
    For packages that use the X Window System, 'configure' can usually
 find the X include and library files automatically, but if it doesn't,
@@ -317,6 +319,9 @@ workaround:
 
    'configure' recognizes the following options to control how it
 operates.
+
+--with-tests Create testing
+--with-examples Create exampes
 
 '--help'
 '-h'

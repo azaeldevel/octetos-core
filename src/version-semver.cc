@@ -3,7 +3,7 @@
 #include <string.h>
 //#include <iostream> //for test
 #include <dlfcn.h>
-
+#include <dirent.h>
 
 #include "Version.hh"
 #include "Error.hh"
@@ -16,9 +16,14 @@ namespace semver
 {
 	bool Semver::loadParser(const char* sufix)
 	{
-		std::string filename = "Debug/src/.libs/liboctetos-semver-";		
-		filename = filename + sufix + ".so";
-		void* handle = dlopen(filename.c_str(), RTLD_LAZY);
+		std::string filename;
+#ifdef ENABLE_DEVELOP_MODE
+		filename = "Debug/src/.libs/liboctetos-semver-";
+#else
+		filename = "liboctetos-semver-";	
+#endif
+		filename = filename + sufix + ".so";		
+		handle = dlopen(filename.c_str(), RTLD_LAZY);
 		if(!handle)
 		{
 			std::string msgErr ="dlopen fallo con '" ;
@@ -27,7 +32,7 @@ namespace semver
 			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
 			core::Error::write(err);
 			return false;
-		}		
+		}
 		parser = (int (*)(struct octetos_core_Tray*,const char*))dlsym(handle, "parse_string");
 		if(!parser)
 		{                    
@@ -93,6 +98,7 @@ namespace semver
     {
 		octetos_core_Semver_init(this);
 		parser = NULL;
+		handle = NULL;
     }
 	const Semver& Semver::operator =(const Semver& v)
 	{
@@ -166,6 +172,7 @@ namespace semver
 
 	Semver::~Semver()
 	{
+		if(!handle) dlclose(handle); 
 	}
 	Semver::Semver()
 	{

@@ -45,6 +45,7 @@ namespace core
 		{
 		private:
 			int (*parser)(struct octetos_core_Tray*,const char*);
+			void* handle;
 		protected:
 			bool loadParser(const char* sufix);
 			

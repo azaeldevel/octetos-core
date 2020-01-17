@@ -1,3 +1,29 @@
-	#Descripcion
-Es un conjunto de clases commues a diversos proyectos.
+	#Descripciún
+Es un conjunto de clases comunes a diversos proyectos. Su principal función
+radica en la implemetación de semver(https://semver.org/), actualmente cuenta
+con una implmetación para 1.0.0 y esta en desarrollo la versión 2.0.0. Encontrará
+un ejemplo de su uso en examples/verinfo.cc. Agregó algúnas operaciones 
+validas aquí.
 
+	octetos::core::Semver ver(0,20,0)
+	octetos::core::Semver ver100(1,0,0);
+	if(ver < ver100)
+	{
+	.
+	.
+	}
+	if(ver >= ver100)
+	{
+	.
+	.
+	}
+	if(ver != ver100)
+	{
+	.
+	.
+	}
+	if(ver.getMajor() == 0)
+	{
+	.
+	.
+	}

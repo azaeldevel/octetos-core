@@ -2,9 +2,8 @@
 #include <CUnit/Basic.h>
 #include <iostream>
 #include <cstdlib>
+#include <Artifact.hh>
 
-
-#include "common.hh"
 #include "config.h"
 #include "semver-parser.h"
 
