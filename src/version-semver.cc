@@ -16,6 +16,18 @@ namespace core
 {
 namespace semver
 {
+	bool Semver::extractNumbers(const std::string& str)
+	{
+        octetos_core_Tray ty;
+		ty.dysplay_erro = 0;
+		ty.version = this;
+		std::string cmdstr = "extract numbers from ";
+		cmdstr += str;
+        int ret = parser(&ty,cmdstr.c_str());
+		
+        if(ret == 0) return true;
+        return false;
+	}
 	bool Semver::loadParser(const char* sufix)
 	{
 		std::string filename;
@@ -63,7 +75,9 @@ namespace semver
         octetos_core_Tray ty;
 		ty.dysplay_erro = 0;
 		ty.version = this;
-        int ret = parser(&ty,str.c_str());
+		std::string cmdstr = "extract all from ";
+		cmdstr += str;
+        int ret = parser(&ty,cmdstr.c_str());
 		
         if(ret == 0) return true;
         return false;

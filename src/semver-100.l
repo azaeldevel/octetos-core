@@ -22,6 +22,24 @@ PRERELEASE_ID	[a-zA-Z][0-9A-Za-z-]+
             BEGIN(INITIAL);
 %}
              
+"extract"	{
+					//printf("%s\n",yytext);
+					return EXTRACT_KW;
+				}
+
+"from"	{
+					//printf("%s\n",yytext);
+					return FROM_KW;
+				}
+"numbers"	{
+					//printf("%s\n",yytext);
+					return NUMBERS_KW;
+				}
+
+"all"	{
+					//printf("%s\n",yytext);
+					return ALL_KW;
+				}
 
 <INITIAL>{NUMBER}  	{
                                         //printf("%s\n",yytext); 

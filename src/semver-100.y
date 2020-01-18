@@ -35,7 +35,7 @@ void yyerror(struct octetos_core_Tray* ty, const char* s);
   //ENDFILE
   ENDOFINPUT
 ;
-
+%token EXTRACT_KW FROM_KW NUMBERS_KW ALL_KW
 
 
 %token <sval> NUMBER_VALUE
@@ -47,7 +47,18 @@ void yyerror(struct octetos_core_Tray* ty, const char* s);
 %%
 %start stmt;
 
-	stmt : version ENDOFINPUT
+	stmt :
+	version ENDOFINPUT
+	{
+		YYACCEPT;
+	}
+	|
+	EXTRACT_KW ALL_KW FROM_KW version ENDOFINPUT
+	{
+		YYACCEPT;
+	}
+	|
+	EXTRACT_KW NUMBERS_KW FROM_KW numbers_value
 	{
 		YYACCEPT;
 	}
@@ -92,7 +103,6 @@ void yyerror(struct octetos_core_Tray* ty, const char* s);
 		octetos_core_Semver_setPrerelease(ty->version,$2);
 	};
 	
-
 %%
 void yyerror(struct octetos_core_Tray* ty,const char* s) {
 	if(ty->dysplay_erro > 0) fprintf(stderr, "Parse error: %s\n", s);

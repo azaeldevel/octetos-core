@@ -9,5 +9,5 @@ Name: octetos-core
 Description: Libreria Core de Octetos.
 Version: @VERSION@
 Requires: 
-Libs: -L${libdir} -loctetos-semver-100 -loctetos-core 
+Libs: -L${libdir} -loctetos-core -ldl
 Cflags: -I${includedir}

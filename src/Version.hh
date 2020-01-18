@@ -126,6 +126,8 @@ namespace core
 			*\brief Indica la version semver implemetada.
 			**/
 			virtual const Semver& getVersion() const = 0;
+		
+			bool extractNumbers(const std::string&);
 		};
 
 		/**

@@ -252,6 +252,22 @@ void testParseString_v100()
 			return;
 		}
 	}
+	
+	octetos::core::semver::v100 ver5;
+	if(ver5.extractNumbers("7.6.23-betar1-2"))
+	{
+		//std::cerr << "Extracted :" << (std::string)ver5 << "\n";
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
 }
 
 void testParseString_v200()
