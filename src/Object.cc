@@ -12,6 +12,14 @@ namespace octetos
 {
 namespace core
 {	
+	bool Object::checkCollectionAssistant()const
+	{
+#ifdef COLLETION_ASSISTANT
+		return true;
+#else
+		return false;
+#endif
+	}
         Object::~Object()
         {
 #ifdef COLLETION_ASSISTANT

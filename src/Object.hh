@@ -25,7 +25,8 @@ namespace core
                 /**
                  * \brief Destructor
                  * */
-                virtual ~Object();
+		virtual ~Object();
+		bool checkCollectionAssistant()const;
                 
 #ifdef COLLETION_ASSISTANT
         protected:
