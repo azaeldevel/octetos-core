@@ -890,7 +890,14 @@ int main(int argc, char *argv[])
 #else
 	std::cout << "Collention Assitan is not enabled.\n";	
 #endif
-	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();  
+	//std::cout << "Step 1.\n";
+	octetos::core::Artifact packinfo = octetos::core::getPackageInfo(); 	
+	if(octetos::core::Error::check())
+	{
+		std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+		return EXIT_FAILURE;
+	}
+	//std::cout << "Step 2.\n"; 
 	CU_pSuite pSuite = NULL;
 	int majorNumber = 1;
 	if(majorNumber != packinfo.version.getMajor())
@@ -898,6 +905,7 @@ int main(int argc, char *argv[])
 		std::cerr << "Este conjunto de pruebas estan Deseñado para la version mayor '" << majorNumber << "'\n";
 		return EXIT_FAILURE;
 	}
+	//std::cout << "Step 3.\n";
 	/* initialize the CUnit test registry */
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
@@ -910,13 +918,13 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 	
-	if ((NULL == CU_add_test(pSuite, "Criterios de comparación", testComparators_v100)))
+	if ((NULL == CU_add_test(pSuite, "Criterios de comparación semver v1.0.0", testComparators_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 			
-	if ((NULL == CU_add_test(pSuite, "Validacion de parseo v1.0.0", testParseString_v100)))
+	if ((NULL == CU_add_test(pSuite, "Validacion de parseo semver v1.0.0", testParseString_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

@@ -32,12 +32,14 @@ namespace semver
 	{
 		std::string filename;
 #ifdef OCTETOS_CORE_SANDBOX
-		filename = "Debug/src/.libs/liboctetos-semver-";
-		//std::cout << "filename:" << filename << "\n";
+		filename = "Debug/src/.libs/liboctetos-semver-";		
 #else
 		filename = "liboctetos-semver-";
 #endif
-		filename = filename + sufix + ".so";		
+		filename = filename + sufix + ".so";	
+#ifdef OCTETOS_CORE_SANDBOX
+		//std::cout << "filename:" << filename << "\n";
+#endif
 		handle = dlopen(filename.c_str(), RTLD_LAZY);
 		if(!handle)
 		{
@@ -75,9 +77,16 @@ namespace semver
         octetos_core_Tray ty;
 		ty.dysplay_erro = 0;
 		ty.version = this;
-		std::string cmdstr = "extract all from ";
-		cmdstr += str;
-        int ret = parser(&ty,cmdstr.c_str());
+		//std::string cmdstr = "extract all from ";
+		//cmdstr += str;
+		if(!parser) 
+		{
+			std::string msgErr ="No se encontro una fucion parser:\n" ;
+			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
+			core::Error::write(err);
+			return false;
+		}
+        int ret = parser(&ty,str.c_str());
 		
         if(ret == 0) return true;
         return false;

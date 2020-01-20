@@ -90,6 +90,8 @@ build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = v0$(EXEEXT) v1$(EXEEXT)
 @WITH_SANDBOX_TRUE@am__append_1 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+@WITH_SANDBOX_TRUE@am__append_2 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+@WITH_SANDBOX_TRUE@am__append_3 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -118,7 +120,7 @@ v1_OBJECTS = $(am_v1_OBJECTS)
 v1_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(top_builddir)/src/liboctetos-core.la
 v1_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(v1_CXXFLAGS) \
 	$(CXXFLAGS) $(v1_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -375,8 +377,9 @@ v0_CPPFLAGS = -I$(top_srcdir)/src
 v0_SOURCES = v0.cc 
 v1_LDFLAGS = 
 v1_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl
-v1_CFLAGS = -I$(top_srcdir)/src 
-v1_CPPFLAGS = -I$(top_srcdir)/src $(am__append_1)
+v1_CFLAGS = -I$(top_srcdir)/src $(am__append_1)
+v1_CPPFLAGS = -I$(top_srcdir)/src $(am__append_2)
+v1_CXXFLAGS = -I$(top_srcdir)/src $(am__append_3)
 v1_SOURCES = v1.cc 
 all: all-am
 
@@ -480,18 +483,18 @@ v0-v0.obj: v0.cc
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-v0.obj `if test -f 'v0.cc'; then $(CYGPATH_W) 'v0.cc'; else $(CYGPATH_W) '$(srcdir)/v0.cc'; fi`
 
 v1-v1.o: v1.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v1-v1.o -MD -MP -MF $(DEPDIR)/v1-v1.Tpo -c -o v1-v1.o `test -f 'v1.cc' || echo '$(srcdir)/'`v1.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(v1_CXXFLAGS) $(CXXFLAGS) -MT v1-v1.o -MD -MP -MF $(DEPDIR)/v1-v1.Tpo -c -o v1-v1.o `test -f 'v1.cc' || echo '$(srcdir)/'`v1.cc
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v1-v1.Tpo $(DEPDIR)/v1-v1.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='v1.cc' object='v1-v1.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v1-v1.o `test -f 'v1.cc' || echo '$(srcdir)/'`v1.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(v1_CXXFLAGS) $(CXXFLAGS) -c -o v1-v1.o `test -f 'v1.cc' || echo '$(srcdir)/'`v1.cc
 
 v1-v1.obj: v1.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v1-v1.obj -MD -MP -MF $(DEPDIR)/v1-v1.Tpo -c -o v1-v1.obj `if test -f 'v1.cc'; then $(CYGPATH_W) 'v1.cc'; else $(CYGPATH_W) '$(srcdir)/v1.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(v1_CXXFLAGS) $(CXXFLAGS) -MT v1-v1.obj -MD -MP -MF $(DEPDIR)/v1-v1.Tpo -c -o v1-v1.obj `if test -f 'v1.cc'; then $(CYGPATH_W) 'v1.cc'; else $(CYGPATH_W) '$(srcdir)/v1.cc'; fi`
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v1-v1.Tpo $(DEPDIR)/v1-v1.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='v1.cc' object='v1-v1.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v1-v1.obj `if test -f 'v1.cc'; then $(CYGPATH_W) 'v1.cc'; else $(CYGPATH_W) '$(srcdir)/v1.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(v1_CXXFLAGS) $(CXXFLAGS) -c -o v1-v1.obj `if test -f 'v1.cc'; then $(CYGPATH_W) 'v1.cc'; else $(CYGPATH_W) '$(srcdir)/v1.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

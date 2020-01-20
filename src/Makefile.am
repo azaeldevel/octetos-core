@@ -25,10 +25,12 @@ semver-200.c : semver-200.l
 
 liboctetos_semver_100_la_CFLAGS = -fPIC
 liboctetos_semver_100_la_CPPFLAGS = -fPIC
-if WITH_SANDBOX
-liboctetos_semver_100_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-endif
 liboctetos_semver_100_la_CXXFLAGS = -fPIC
+if WITH_SANDBOX
+liboctetos_semver_100_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+liboctetos_semver_100_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+liboctetos_semver_100_la_CXXFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+endif
 liboctetos_semver_100_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32
 liboctetos_semver_100_la_LDFLAGS += -no-undefined
@@ -43,11 +45,13 @@ liboctetos_semver_100_la_SOURCES = \
 	common.c
 
 liboctetos_semver_200_la_CFLAGS = -fPIC
-liboctetos_semver_100_la_CPPFLAGS = -fPIC
-if WITH_SANDBOX
-liboctetos_semver_100_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-endif
+liboctetos_semver_200_la_CPPFLAGS = -fPIC
 liboctetos_semver_200_la_CXXFLAGS = -fPIC
+if WITH_SANDBOX
+liboctetos_semver_200_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+liboctetos_semver_200_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+liboctetos_semver_200_la_CXXFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+endif
 liboctetos_semver_200_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32
 liboctetos_semver_200_la_LDFLAGS += -no-undefined
@@ -63,12 +67,11 @@ liboctetos_semver_200_la_SOURCES = \
 
 liboctetos_core_la_CFLAGS = -fPIC
 liboctetos_core_la_CPPFLAGS = -fPIC
-if WITH_SANDBOX
-liboctetos_core_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-endif
 liboctetos_core_la_CXXFLAGS = -fPIC
 if WITH_SANDBOX
-liboctetos_core_la_CXXFLAGS += -DSANDBOX
+liboctetos_core_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+liboctetos_core_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+liboctetos_core_la_CXXFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 endif
 liboctetos_core_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32

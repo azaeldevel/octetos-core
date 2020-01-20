@@ -11,17 +11,17 @@ namespace core
 	 **/
 	std::string getPakageName();
 
-        /**
-         * \brief Clase base común de toolkit.
-         * \private en desarrollo
-         * */
-        class Object
-        {
-        public:        
-                /**
-                 * \brief Contrucctor por default
-                 * */
-                Object();
+	/**
+	* \brief Clase base común de toolkit.
+	* \private en desarrollo
+	* */
+	class Object
+	{
+	public:        
+		/**
+		* \brief Contrucctor por default
+		* */
+		Object();
                 /**
                  * \brief Destructor
                  * */
