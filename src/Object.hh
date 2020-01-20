@@ -1,11 +1,6 @@
 #ifndef OCTETOS_CORE_OBJECT_HH
 #define OCTETOS_CORE_OBJECT_HH
 
-#ifdef DEBUG
-        #define COLLETION_ASSISTANT
-#endif
-
-
 namespace octetos
 {
 namespace core

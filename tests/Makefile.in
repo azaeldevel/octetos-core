@@ -88,7 +88,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = v0$(EXEEXT)
+noinst_PROGRAMS = v0$(EXEEXT) v1$(EXEEXT)
+@WITH_SANDBOX_TRUE@am__append_1 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -112,6 +113,13 @@ am__v_lt_1 =
 v0_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(v0_LDFLAGS) $(LDFLAGS) -o $@
+am_v1_OBJECTS = v1-v1.$(OBJEXT)
+v1_OBJECTS = $(am_v1_OBJECTS)
+v1_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+	$(top_builddir)/src/liboctetos-core.la
+v1_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(v1_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -127,7 +135,7 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/v0-v0.Po
+am__depfiles_remade = ./$(DEPDIR)/v0-v0.Po ./$(DEPDIR)/v1-v1.Po
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -147,8 +155,8 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(v0_SOURCES)
-DIST_SOURCES = $(v0_SOURCES)
+SOURCES = $(v0_SOURCES) $(v1_SOURCES)
+DIST_SOURCES = $(v0_SOURCES) $(v1_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -362,8 +370,14 @@ AM_CFLAGS = \
 
 v0_LDFLAGS = 
 v0_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl
+v0_CFLAGS = -I$(top_srcdir)/src 
 v0_CPPFLAGS = -I$(top_srcdir)/src 
 v0_SOURCES = v0.cc 
+v1_LDFLAGS = 
+v1_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl
+v1_CFLAGS = -I$(top_srcdir)/src 
+v1_CPPFLAGS = -I$(top_srcdir)/src $(am__append_1)
+v1_SOURCES = v1.cc 
 all: all-am
 
 .SUFFIXES:
@@ -411,6 +425,10 @@ v0$(EXEEXT): $(v0_OBJECTS) $(v0_DEPENDENCIES) $(EXTRA_v0_DEPENDENCIES)
 	@rm -f v0$(EXEEXT)
 	$(AM_V_CXXLD)$(v0_LINK) $(v0_OBJECTS) $(v0_LDADD) $(LIBS)
 
+v1$(EXEEXT): $(v1_OBJECTS) $(v1_DEPENDENCIES) $(EXTRA_v1_DEPENDENCIES) 
+	@rm -f v1$(EXEEXT)
+	$(AM_V_CXXLD)$(v1_LINK) $(v1_OBJECTS) $(v1_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -418,6 +436,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v0-v0.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/v1-v1.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -459,6 +478,20 @@ v0-v0.obj: v0.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='v0.cc' object='v0-v0.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v0_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v0-v0.obj `if test -f 'v0.cc'; then $(CYGPATH_W) 'v0.cc'; else $(CYGPATH_W) '$(srcdir)/v0.cc'; fi`
+
+v1-v1.o: v1.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v1-v1.o -MD -MP -MF $(DEPDIR)/v1-v1.Tpo -c -o v1-v1.o `test -f 'v1.cc' || echo '$(srcdir)/'`v1.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v1-v1.Tpo $(DEPDIR)/v1-v1.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='v1.cc' object='v1-v1.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v1-v1.o `test -f 'v1.cc' || echo '$(srcdir)/'`v1.cc
+
+v1-v1.obj: v1.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT v1-v1.obj -MD -MP -MF $(DEPDIR)/v1-v1.Tpo -c -o v1-v1.obj `if test -f 'v1.cc'; then $(CYGPATH_W) 'v1.cc'; else $(CYGPATH_W) '$(srcdir)/v1.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/v1-v1.Tpo $(DEPDIR)/v1-v1.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='v1.cc' object='v1-v1.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(v1_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o v1-v1.obj `if test -f 'v1.cc'; then $(CYGPATH_W) 'v1.cc'; else $(CYGPATH_W) '$(srcdir)/v1.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -592,6 +625,7 @@ clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
 
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/v0-v0.Po
+	-rm -f ./$(DEPDIR)/v1-v1.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -638,6 +672,7 @@ installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/v0-v0.Po
+	-rm -f ./$(DEPDIR)/v1-v1.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

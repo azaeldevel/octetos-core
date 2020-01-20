@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#ifdef SANDBOX
+#ifdef OCTETOS_CORE_SANDBOX
 #include <iostream> //for test
 #endif
 #include <dlfcn.h>
@@ -31,7 +31,7 @@ namespace semver
 	bool Semver::loadParser(const char* sufix)
 	{
 		std::string filename;
-#ifdef SANDBOX
+#ifdef OCTETOS_CORE_SANDBOX
 		filename = "Debug/src/.libs/liboctetos-semver-";
 		//std::cout << "filename:" << filename << "\n";
 #else

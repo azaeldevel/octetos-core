@@ -96,9 +96,7 @@ AC_ARG_WITH([examples], AS_HELP_STRING([--with-examples], [Compilando con soport
 
 AM_CONDITIONAL(WITH_SANDBOX, test x"$with_sandbox" = "xyes")
 AC_ARG_WITH([sandbox], AS_HELP_STRING([--with-sandbox], [Compilando con soporte para desarrollo.]))
-if test "x$with_sandbox" = "xyes"; then 
-	AC_DEFINE([SANDBOX],[1],[Hace que 'dlopen' habra la libreria en el sandbox en vez de la instalada])
-fi
+
 
 
 AC_OUTPUT([
