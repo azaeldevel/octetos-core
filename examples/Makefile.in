@@ -89,6 +89,9 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = verinfo$(EXEEXT)
+@WITH_SANDBOX_TRUE@am__append_1 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+@WITH_SANDBOX_TRUE@am__append_2 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+@WITH_SANDBOX_TRUE@am__append_3 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 subdir = examples
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -360,9 +363,9 @@ AM_CFLAGS = \
 
 verinfo_LDFLAGS = 
 verinfo_LDADD = $(top_builddir)/src/liboctetos-core.la -ldl
-verinfo_CFLAGS = -I$(top_srcdir)/src
-verinfo_CPPFLAGS = -I$(top_srcdir)/src
-verinfo_CXXFLAGS = -I$(top_srcdir)/src 
+verinfo_CFLAGS = -I$(top_srcdir)/src $(am__append_1)
+verinfo_CPPFLAGS = -I$(top_srcdir)/src $(am__append_2)
+verinfo_CXXFLAGS = -I$(top_srcdir)/src $(am__append_3)
 verinfo_SOURCES = verinfo.cc 
 all: all-am
 

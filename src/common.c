@@ -72,15 +72,14 @@ const char* octetos_core_Semver_toString(const struct octetos_core_Semver* versi
 		free((void*)numberStr);
 		return numberStr;
 	}
-
 		
 	int prereleaseLeng = version->prerelease ? strlen(version->prerelease) : 0;//se agrega la longitus de stage mas el espacio del guion
 	int buildLeng = version->build ? strlen(version->build) : 0;
-	
-	int verstrLeng = numberLeng + prereleaseLeng + buildLeng + 1;//terminalcion NULL
+
+	int verstrLeng = numberLeng + prereleaseLeng + 1;//terminalcion NULL
 	verstrLeng += version->prerelease ? 1 : 0;//mas guion
-	buildLeng += version->build ? 1 : 0;// mas '+'
-	
+	verstrLeng += version->build ? 1 : 0;// mas '+'
+
 	char* verstr = malloc(verstrLeng);
 	strcpy(verstr,numberStr);
 	if(prereleaseLeng > 0)
@@ -93,9 +92,9 @@ const char* octetos_core_Semver_toString(const struct octetos_core_Semver* versi
 		strcat(verstr,"+");
 		strcat(verstr,(char*)version->build);
 	}
-	
+
 	free((void*)numberStr);
-	
+
 	return verstr;
 }
 

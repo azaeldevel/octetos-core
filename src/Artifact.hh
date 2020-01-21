@@ -20,9 +20,13 @@ namespace core
 	};
 
 	/**
-	 * \brief retorna la informacion del paquete usese ne lugar getPakageVersion y getPakageName
+	 * \brief retorna la informacion del paquete
 	 **/
-	Artifact getPackageInfo();
+	__attribute__((deprecated)) Artifact getPackageInfo();
+	/**
+	 * \brief retorna la informacion del paquete
+	 **/
+	bool getPackageInfo(Artifact&);
 }
 }
 

@@ -1,8 +1,8 @@
-	#Descripciún
+	#Descripción
 Es un conjunto de clases comunes a diversos proyectos. Su principal función
-radica en la implemetación de semver(https://semver.org/), actualmente cuenta
-con una implmetación para 1.0.0 y esta en desarrollo la versión 2.0.0. Encontrará
-un ejemplo de su uso en examples/verinfo.cc. Agregó algúnas operaciones 
+radica en la implementación de semver(https://semver.org/), actualmente cuenta
+con una implementación para 1.0.0 y esta en desarrollo la versión 2.0.0. Encontrará
+un ejemplo de su uso en examples/verinfo.cc. Agregó algunas operaciones 
 validas aquí.
 
 	octetos::core::Semver ver(0,20,0)
@@ -27,3 +27,9 @@ validas aquí.
 	.
 	.
 	}
+
+
+	#Idiomas
+Para escribir este paquete use español e ingles. Primero español es el lenguaje 
+que uso para la documentación, comentarios y demás descripciones, el ingles 
+solo lo uso en la escritura del código fuente.

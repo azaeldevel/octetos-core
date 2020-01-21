@@ -21,18 +21,25 @@ namespace semver
 	}
     v100* v100::version = new v100(1,0,0);
 
-	
+	v100::v100(const v100& obj) : Semver( obj)
+	{
+		suffix = "100";
+		loadParser(suffix);	
+	}
 	v100::v100()
 	{     
-		loadParser("100"); 
+		suffix = "100";
+		loadParser(suffix); 
 	}
-	v100::v100(short major,short minor,short patch) : semver::Semver(major,minor,patch)
+	v100::v100(short major,short minor,short patch) : Semver(major,minor,patch)
     { 
-		loadParser("100");
+		suffix = "100";
+		loadParser(suffix);
     }	
-	v100::v100(short major,short minor) : semver::Semver(major,minor)
+	v100::v100(short major,short minor) : Semver(major,minor)
     {
-		loadParser("100");
+		suffix = "100";
+		loadParser(suffix);
     }
     v100::~v100()
     {

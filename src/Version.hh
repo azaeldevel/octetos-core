@@ -46,8 +46,10 @@ namespace core
 		private:
 			int (*parser)(struct octetos_core_Tray*,const char*);
 			void* handle;
+			
 		protected:
 			bool loadParser(const char* sufix);
+			const char* suffix;
 			
 		public:
 			/**
@@ -107,7 +109,8 @@ namespace core
 		    * */
 			std::string toString(FormatString formato = FormatString::FullString) const;
 			operator std::string();
-			virtual ~Semver();			
+			virtual ~Semver();	
+			Semver(const Semver&);		
 			Semver();
 		    /**
 		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
@@ -150,6 +153,7 @@ namespace core
 		    * \brief Simple mente limpa las variables intenas
 		    * */
 		    virtual ~v100();
+			v100(const v100&);
 			v100();
 		    /**
 		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
@@ -183,6 +187,7 @@ namespace core
 		    * \brief Simple mente limpa las variables intenas
 		    * */
 		    virtual ~v200();
+			v200(const v200&);
 			v200();
 		    /**
 		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.

@@ -24,20 +24,27 @@ namespace semver
 	
 	v200::v200()
 	{
-		loadParser("200");
+		suffix = "200";
+		loadParser(suffix);
 	}
-	v200::v200(short major,short minor,short patch) : semver::Semver(major,minor,patch)
+	v200::v200(short major,short minor,short patch) : Semver(major,minor,patch)
     {
-		loadParser("200");
+		suffix = "200";
+		loadParser(suffix);
     }	
-	v200::v200(short major,short minor) : semver::Semver(major,minor)
+	v200::v200(short major,short minor) : Semver(major,minor)
     {
-		loadParser("200");
+		suffix = "200";
+		loadParser(suffix);
     }
     v200::~v200()
     {
-    }
-	
+    }	
+	v200::v200(const v200& obj) : semver::Semver( obj)
+	{
+		suffix = "200";
+		loadParser(suffix);	
+	}
 
     bool v200::operator !=(const Version& obj)const
     {

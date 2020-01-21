@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #ifdef OCTETOS_CORE_SANDBOX
 #include <iostream> //for test
@@ -128,17 +129,33 @@ namespace semver
     }
 	const Semver& Semver::operator =(const Semver& v)
 	{
-        octetos_core_Semver& v1 = *this;
-		v1 = v;
+		if(!handle) dlclose(handle);
+		parser = NULL;
+		handle = NULL;
+		strcpy((char*)suffix,v.suffix);
+		loadParser (suffix);	
+		
+		this->major = v.major;
+		this->minor = v.minor;
+		this->patch = v.patch;
+		octetos_core_Semver_setPrerelease(this,v.prerelease);
+		octetos_core_Semver_setBuild(this,v.build);		
+		
 		return *this;
 	}
 	const octetos_core_Semver& Semver::operator =(const octetos_core_Semver& v)
 	{
+		if(!handle) dlclose(handle);
+		parser = NULL;
+		handle = NULL;
+		loadParser (suffix);
+		
 		this->major = v.major;
 		this->minor = v.minor;
 		this->patch = v.patch;
-		this->prerelease = v.prerelease;
-                
+		octetos_core_Semver_setPrerelease(this,v.prerelease);
+		octetos_core_Semver_setBuild(this,v.build);
+		
 		return *this;
 	}
     void Semver::set(Number major,Number minor,Number patch, const std::string& prerelease)
@@ -199,6 +216,8 @@ namespace semver
 	Semver::~Semver()
 	{
 		if(!handle) dlclose(handle); 
+		free((void*)prerelease);
+		free((void*)build);
 	}
 	Semver::Semver()
 	{
@@ -217,6 +236,19 @@ namespace semver
 		this->major = major;
 		this->minor = minor;
     }
+	Semver::Semver(const Semver& obj)
+	{
+		init();
+		if(!handle) dlclose(handle);
+		strcpy((char*)suffix,obj.suffix);
+		loadParser (suffix);
+		
+		major = obj.major;
+		minor = obj.minor;
+		patch = obj.patch;
+		octetos_core_Semver_setPrerelease(this,obj.prerelease);
+		octetos_core_Semver_setBuild(this,obj.build);
+	}
 }
 }
 }

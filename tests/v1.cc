@@ -890,14 +890,12 @@ int main(int argc, char *argv[])
 #else
 	std::cout << "Collention Assitan is not enabled.\n";	
 #endif
-	//std::cout << "Step 1.\n";
 	octetos::core::Artifact packinfo = octetos::core::getPackageInfo(); 	
 	if(octetos::core::Error::check())
 	{
 		std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
 		return EXIT_FAILURE;
 	}
-	//std::cout << "Step 2.\n"; 
 	CU_pSuite pSuite = NULL;
 	int majorNumber = 1;
 	if(majorNumber != packinfo.version.getMajor())
@@ -905,7 +903,6 @@ int main(int argc, char *argv[])
 		std::cerr << "Este conjunto de pruebas estan Deseñado para la version mayor '" << majorNumber << "'\n";
 		return EXIT_FAILURE;
 	}
-	//std::cout << "Step 3.\n";
 	/* initialize the CUnit test registry */
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
