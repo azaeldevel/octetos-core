@@ -890,7 +890,8 @@ int main(int argc, char *argv[])
 #else
 	std::cout << "Collention Assitan is not enabled.\n";	
 #endif
-	octetos::core::Artifact packinfo = octetos::core::getPackageInfo(); 	
+	octetos::core::Artifact packinfo;
+	octetos::core::getPackageInfo(packinfo);
 	if(octetos::core::Error::check())
 	{
 		std::cerr << (const std::string&)octetos::core::Error::get() << "\n";

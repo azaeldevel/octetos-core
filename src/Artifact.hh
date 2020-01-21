@@ -22,7 +22,7 @@ namespace core
 	/**
 	 * \brief retorna la informacion del paquete
 	 **/
-	__attribute__((deprecated)) Artifact getPackageInfo();
+	//__attribute__((deprecated)) Artifact getPackageInfo();
 	/**
 	 * \brief retorna la informacion del paquete
 	 **/

@@ -6,7 +6,8 @@
 int main(int argc, char *argv[])
 {
 	//octetos usa esta fucion estandar para retornar informacion de su paquete
-	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();
+	octetos::core::Artifact packinfo;
+	octetos::core::getPackageInfo(packinfo);
 	// la version del paquete esta en octetos::core::Artifact::version
 	octetos::core::Semver& ver = packinfo.version;
 	std::cout << "Estamos trabajando con la version '" << (std::string)ver << "' del paquete.\n";

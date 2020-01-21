@@ -875,7 +875,8 @@ void testComparators_v100()
 
 int main(int argc, char *argv[])
 {  
-	octetos::core::Artifact packinfo = octetos::core::getPackageInfo();  
+	octetos::core::Artifact packinfo;
+	octetos::core::getPackageInfo(packinfo);  
 	CU_pSuite pSuite = NULL;
 	int majorDevelop = 0;
 	if(majorDevelop != packinfo.version.getMajor())
