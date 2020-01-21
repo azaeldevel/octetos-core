@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	}
 	if(ver >= ver100)
 	{
-		std::cout << "La API de '" << packinfo.name_decorated << "' está en fase estable para la version '" <<  ver.getMajor () << "'\n";
+		std::cout << "La API de '" << packinfo.name_decorated << "' está en fase estable para  v" <<  ver.getMajor () << ".\n";
 	}
 	
 	return EXIT_SUCCESS;
