@@ -872,6 +872,22 @@ void testComparators_v100()
     }
 }
 
+void testOperations_v100()
+{
+	octetos::core::semver::v100 ver1;
+	octetos::core::semver::v100 ver2;
+	
+	ver2.setNumbers(1,3);
+	ver1 = ver2;
+	if(ver1 == ver2)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+}
 
 int main(int argc, char *argv[])
 {  
@@ -933,12 +949,18 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}	*/
 	
-	if ((NULL == CU_add_test(pSuite, "Validacion de Imports", testImports_v100)))
+	if ((NULL == CU_add_test(pSuite, "Validacion de Imports semver v1.0.0", testOperations_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-		
+
+	
+	if ((NULL == CU_add_test(pSuite, "Validacion de Operaciones semver v1.0.0", testImports_v100)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
 	
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);

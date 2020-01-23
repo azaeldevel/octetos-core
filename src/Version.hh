@@ -141,7 +141,7 @@ namespace core
 		{		
 		private:
 			static v100* version;
-						    
+			
 		public:
 		    virtual bool operator ==(const Version& v)const;
 		    virtual bool operator !=(const Version& v)const;
@@ -172,10 +172,10 @@ namespace core
 		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v2.0.0.html.
 		 **/
 		class v200: public Semver
-		{	
+		{
 		private:
 			static v200* version;
-							    
+		
 		public:
 		    virtual bool operator ==(const Version& v)const;
 		    virtual bool operator !=(const Version& v)const;

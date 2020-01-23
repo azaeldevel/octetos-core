@@ -11,10 +11,12 @@ const char* octetos_core_Semver_setBuild(struct octetos_core_Semver* version,con
 	{
 		free((void*)version->build);
 	}
-	const char* temp = build;
-	version->build = (const char*)malloc(strlen(temp));
-	strcpy((char*)version->build,temp);
-
+	if(build)
+	{
+		version->build = (const char*)malloc(strlen(build));
+		strcpy((char*)version->build,build);
+	}
+	
 	return version->build;
 }
 const char* octetos_core_Semver_setPrerelease(struct octetos_core_Semver* version,const char* prerelease)
@@ -23,10 +25,12 @@ const char* octetos_core_Semver_setPrerelease(struct octetos_core_Semver* versio
 	{
 		free((void*)version->prerelease);
 	}
-	const char* temp = prerelease;
-	version->prerelease = (const char*)malloc(strlen(temp));
-	strcpy((char*)version->prerelease,temp);
-
+	if(prerelease)
+	{
+		version->prerelease = (const char*)malloc(strlen(prerelease));
+		strcpy((char*)version->prerelease,prerelease);
+	}
+	
 	return version->prerelease;
 }
 void octetos_core_Semver_init(struct octetos_core_Semver* version)

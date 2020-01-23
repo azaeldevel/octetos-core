@@ -129,17 +129,27 @@ namespace semver
     }
 	const Semver& Semver::operator =(const Semver& v)
 	{
+		if(strcmp(typeid(*this).name(),typeid(&v).name()) == 0 )
+		{
+      		std::string msgErr ="Asignacion no equivalente, el obejto destino es '";
+            msgErr += typeid(*this).name();
+			msgErr += "', minetras que el origne es '";
+			msgErr += typeid(&v).name();
+			msgErr += "'";
+            core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
+           	core::Error::write(err);
+			return *this;
+		}
+		
 		if(!handle) dlclose(handle);
 		parser = NULL;
 		handle = NULL;
-		strcpy((char*)suffix,v.suffix);
 		loadParser (suffix);	
-		
 		this->major = v.major;
 		this->minor = v.minor;
 		this->patch = v.patch;
-		octetos_core_Semver_setPrerelease(this,v.prerelease);
-		octetos_core_Semver_setBuild(this,v.build);		
+		if(v.prerelease) octetos_core_Semver_setPrerelease(this,v.prerelease);
+		if(v.build) octetos_core_Semver_setBuild(this,v.build);		
 		
 		return *this;
 	}

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <iostream> //for test
-
+#include  <typeinfo>
 
 #include "Version.hh"
 #include "Error.hh"
