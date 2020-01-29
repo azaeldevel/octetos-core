@@ -163,8 +163,8 @@ namespace semver
 		this->major = v.major;
 		this->minor = v.minor;
 		this->patch = v.patch;
-		octetos_core_Semver_setPrerelease(this,v.prerelease);
-		octetos_core_Semver_setBuild(this,v.build);
+		if(v.prerelease) octetos_core_Semver_setPrerelease(this,v.prerelease);
+		if(v.build) octetos_core_Semver_setBuild(this,v.build);
 		
 		return *this;
 	}
@@ -173,7 +173,6 @@ namespace semver
         this->major = major;
         this->minor = minor;
         this->patch = patch;
-		octetos_core_Semver_setPrerelease(this,prerelease.c_str());
     }
         void Semver::setNumbers(Number major,Number minor,Number patch)
         {
@@ -226,8 +225,8 @@ namespace semver
 	Semver::~Semver()
 	{
 		if(!handle) dlclose(handle); 
-		free((void*)prerelease);
-		free((void*)build);
+		if(prerelease) free((void*)prerelease);
+		if(build) free((void*)build);
 	}
 	Semver::Semver()
 	{
@@ -256,8 +255,8 @@ namespace semver
 		major = obj.major;
 		minor = obj.minor;
 		patch = obj.patch;
-		octetos_core_Semver_setPrerelease(this,obj.prerelease);
-		octetos_core_Semver_setBuild(this,obj.build);
+		if(prerelease) octetos_core_Semver_setPrerelease(this,obj.prerelease);
+		if(build) octetos_core_Semver_setBuild(this,obj.build);
 	}
 }
 }

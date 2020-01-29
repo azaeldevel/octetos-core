@@ -887,6 +887,24 @@ void testOperations_v100()
 	{
 		CU_ASSERT(false);
 	}
+	
+	/*octetos::core::semver::v100 ver3;
+	octetos::core::semver::v100 ver4;
+	if(!ver3.set("1.23.12-betarelsease+4141414121"))
+	{
+		if(!ver4.extractNumbers("1.23.12-betarelsease+4141414121"))
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}*/
 }
 
 int main(int argc, char *argv[])

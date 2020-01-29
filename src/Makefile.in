@@ -16,6 +16,7 @@
 
 
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -94,17 +95,21 @@ host_triplet = @host@
 @WITH_SANDBOX_TRUE@am__append_2 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 @WITH_SANDBOX_TRUE@am__append_3 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 @PLATFORM_WIN32_TRUE@am__append_4 = -no-undefined
-@NATIVE_WIN32_TRUE@am__append_5 = -export-dynamic
+@NATIVE_WIN32_TRUE@am__append_5 = -export-dynamic -export-dynamic
 @WITH_SANDBOX_TRUE@am__append_6 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 @WITH_SANDBOX_TRUE@am__append_7 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 @WITH_SANDBOX_TRUE@am__append_8 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 @PLATFORM_WIN32_TRUE@am__append_9 = -no-undefined
-@NATIVE_WIN32_TRUE@am__append_10 = -export-dynamic
+@WITH_SANDBOX_TRUE@am__append_10 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 @WITH_SANDBOX_TRUE@am__append_11 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 @WITH_SANDBOX_TRUE@am__append_12 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-@WITH_SANDBOX_TRUE@am__append_13 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-@PLATFORM_WIN32_TRUE@am__append_14 = -no-undefined
-@NATIVE_WIN32_TRUE@am__append_15 = -export-dynamic
+@PLATFORM_WIN32_TRUE@am__append_13 = -no-undefined
+@NATIVE_WIN32_TRUE@am__append_14 = -export-dynamic
+@WITH_SANDBOX_TRUE@am__append_15 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+@WITH_SANDBOX_TRUE@am__append_16 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+@WITH_SANDBOX_TRUE@am__append_17 = -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+@PLATFORM_WIN32_TRUE@am__append_18 = -no-undefined
+@NATIVE_WIN32_TRUE@am__append_19 = -export-dynamic
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -143,7 +148,8 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
+	"$(DESTDIR)$(pkgconfigdir)" \
 	"$(DESTDIR)$(octetos_core_includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 liboctetos_core_la_LIBADD =
@@ -185,6 +191,19 @@ liboctetos_semver_200_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(liboctetos_semver_200_la_CFLAGS) $(CFLAGS) \
 	$(liboctetos_semver_200_la_LDFLAGS) $(LDFLAGS) -o $@
+liboctetos_semver_java_100_la_DEPENDENCIES =
+am_liboctetos_semver_java_100_la_OBJECTS =  \
+	liboctetos_semver_java_100_la-semver-100.tab.lo \
+	liboctetos_semver_java_100_la-semver-100.lo \
+	liboctetos_semver_java_100_la-common.lo \
+	liboctetos_semver_java_100_la-semver-parser-java.lo
+liboctetos_semver_java_100_la_OBJECTS =  \
+	$(am_liboctetos_semver_java_100_la_OBJECTS)
+liboctetos_semver_java_100_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(liboctetos_semver_java_100_la_CFLAGS) $(CFLAGS) \
+	$(liboctetos_semver_java_100_la_LDFLAGS) $(LDFLAGS) -o $@
+SCRIPTS = $(bin_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -239,10 +258,12 @@ am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(liboctetos_core_la_SOURCES) \
 	$(liboctetos_semver_100_la_SOURCES) \
-	$(liboctetos_semver_200_la_SOURCES)
+	$(liboctetos_semver_200_la_SOURCES) \
+	$(liboctetos_semver_java_100_la_SOURCES)
 DIST_SOURCES = $(liboctetos_core_la_SOURCES) \
 	$(liboctetos_semver_100_la_SOURCES) \
-	$(liboctetos_semver_200_la_SOURCES)
+	$(liboctetos_semver_200_la_SOURCES) \
+	$(liboctetos_semver_java_100_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -457,7 +478,8 @@ AM_CFLAGS = \
 	 -Wall\
 	 -g
 
-lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-semver-200.la liboctetos-core.la
+lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-semver-java-100.la liboctetos-semver-200.la liboctetos-core.la
+bin_SCRIPTS = 
 liboctetos_semver_100_la_CFLAGS = -fPIC $(am__append_1)
 liboctetos_semver_100_la_CPPFLAGS = -fPIC $(am__append_2)
 liboctetos_semver_100_la_CXXFLAGS = -fPIC $(am__append_3)
@@ -469,22 +491,36 @@ liboctetos_semver_100_la_SOURCES = \
 	semver-100.c \
 	common.c
 
-liboctetos_semver_200_la_CFLAGS = -fPIC $(am__append_6)
-liboctetos_semver_200_la_CPPFLAGS = -fPIC $(am__append_7)
-liboctetos_semver_200_la_CXXFLAGS = -fPIC $(am__append_8)
-liboctetos_semver_200_la_LDFLAGS = -shared -fPIC $(am__append_9) \
-	$(am__append_10)
+liboctetos_semver_java_100_la_CFLAGS = -fPIC \
+	-I/usr/lib/jvm/java-8-openjdk-amd64/include \
+	-I/usr/lib/jvm/java-8-openjdk-amd64/include/linux \
+	$(am__append_6)
+liboctetos_semver_java_100_la_CPPFLAGS = -fPIC $(am__append_7)
+liboctetos_semver_java_100_la_CXXFLAGS = -fPIC $(am__append_8)
+liboctetos_semver_java_100_la_LDFLAGS = -shared -fPIC $(am__append_9)
+liboctetos_semver_java_100_la_LIBADD = -ldl 
+liboctetos_semver_java_100_la_SOURCES = \
+	semver-100.tab.c \
+	semver-100.c \
+	common.c \
+	semver-parser-java.c
+
+liboctetos_semver_200_la_CFLAGS = -fPIC $(am__append_10)
+liboctetos_semver_200_la_CPPFLAGS = -fPIC $(am__append_11)
+liboctetos_semver_200_la_CXXFLAGS = -fPIC $(am__append_12)
+liboctetos_semver_200_la_LDFLAGS = -shared -fPIC $(am__append_13) \
+	$(am__append_14)
 liboctetos_semver_200_la_LIBADD = -ldl
 liboctetos_semver_200_la_SOURCES = \
 	semver-200.tab.c \
 	semver-200.c \
 	common.c
 
-liboctetos_core_la_CFLAGS = -fPIC $(am__append_11)
-liboctetos_core_la_CPPFLAGS = -fPIC $(am__append_12)
-liboctetos_core_la_CXXFLAGS = -fPIC $(am__append_13)
-liboctetos_core_la_LDFLAGS = -shared -fPIC $(am__append_14) \
-	$(am__append_15)
+liboctetos_core_la_CFLAGS = -fPIC $(am__append_15)
+liboctetos_core_la_CPPFLAGS = -fPIC $(am__append_16)
+liboctetos_core_la_CXXFLAGS = -fPIC $(am__append_17)
+liboctetos_core_la_LDFLAGS = -shared -fPIC $(am__append_18) \
+	$(am__append_19)
 liboctetos_core_la_LIBDADD = -ldl
 liboctetos_core_la_SOURCES = \
 	common.c \
@@ -499,11 +535,25 @@ liboctetos_core_la_SOURCES = \
 	version-semver-200.cc
 
 
-#noinst_PROGRAMS = develop
+#bin_SCRIPTS += develop.js
 
-#develop_LDADD = $(CUNIT_LIBS)  liboctetos-core.la -ldl
-#develop_CPPFLAGS =
-#develop_SOURCES = develop.cc
+#developdir = $(pythondir)/develop
+
+#develop_PYTHON = common.py
+
+#jsdir = $(pkgdatadir)
+
+#js_DATA = develop.js
+
+#CLASSPATH_ENV = 
+
+#AM_JAVACFLAGS =
+
+#JAVAROOT = $(top_builddir)/src
+
+#developdir = $(libdir)/develop
+
+#develop_JAVA = Tray.java Semver.java Develop.java
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = semver-parser.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
 pkgconfigdir = $(libdir)/pkgconfig
@@ -591,6 +641,44 @@ liboctetos-semver-100.la: $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semve
 liboctetos-semver-200.la: $(liboctetos_semver_200_la_OBJECTS) $(liboctetos_semver_200_la_DEPENDENCIES) $(EXTRA_liboctetos_semver_200_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(liboctetos_semver_200_la_LINK) -rpath $(libdir) $(liboctetos_semver_200_la_OBJECTS) $(liboctetos_semver_200_la_LIBADD) $(LIBS)
 
+liboctetos-semver-java-100.la: $(liboctetos_semver_java_100_la_OBJECTS) $(liboctetos_semver_java_100_la_DEPENDENCIES) $(EXTRA_liboctetos_semver_java_100_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(liboctetos_semver_java_100_la_LINK) -rpath $(libdir) $(liboctetos_semver_java_100_la_OBJECTS) $(liboctetos_semver_java_100_la_LIBADD) $(LIBS)
+install-binSCRIPTS: $(bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	@list='$(bin_SCRIPTS)'; test -n "$(bindir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(bindir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(bindir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f "$$d$$p"; then echo "$$d$$p"; echo "$$p"; else :; fi; \
+	done | \
+	sed -e 'p;s,.*/,,;n' \
+	    -e 'h;s|.*|.|' \
+	    -e 'p;x;s,.*/,,;$(transform)' | sed 'N;N;N;s,\n, ,g' | \
+	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1; } \
+	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
+	    if ($$2 == $$4) { files[d] = files[d] " " $$1; \
+	      if (++n[d] == $(am__install_max)) { \
+		print "f", d, files[d]; n[d] = 0; files[d] = "" } } \
+	    else { print "f", d "/" $$4, $$1 } } \
+	  END { for (d in files) print "f", d, files[d] }' | \
+	while read type dir files; do \
+	     if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
+	     test -z "$$files" || { \
+	       echo " $(INSTALL_SCRIPT) $$files '$(DESTDIR)$(bindir)$$dir'"; \
+	       $(INSTALL_SCRIPT) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
+	     } \
+	; done
+
+uninstall-binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_SCRIPTS)'; test -n "$(bindir)" || exit 0; \
+	files=`for p in $$list; do echo "$$p"; done | \
+	       sed -e 's,.*/,,;$(transform)'`; \
+	dir='$(DESTDIR)$(bindir)'; $(am__uninstall_files_from_dir)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -613,6 +701,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_200_la-common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_200_la-semver-200.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_200_la-semver-200.tab.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_java_100_la-common.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_java_100_la-semver-100.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_java_100_la-semver-100.tab.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_java_100_la-semver-parser-java.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -683,6 +775,34 @@ liboctetos_semver_200_la-common.lo: common.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='common.c' object='liboctetos_semver_200_la-common.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_200_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_200_la_CFLAGS) $(CFLAGS) -c -o liboctetos_semver_200_la-common.lo `test -f 'common.c' || echo '$(srcdir)/'`common.c
+
+liboctetos_semver_java_100_la-semver-100.tab.lo: semver-100.tab.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_java_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_java_100_la_CFLAGS) $(CFLAGS) -MT liboctetos_semver_java_100_la-semver-100.tab.lo -MD -MP -MF $(DEPDIR)/liboctetos_semver_java_100_la-semver-100.tab.Tpo -c -o liboctetos_semver_java_100_la-semver-100.tab.lo `test -f 'semver-100.tab.c' || echo '$(srcdir)/'`semver-100.tab.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_semver_java_100_la-semver-100.tab.Tpo $(DEPDIR)/liboctetos_semver_java_100_la-semver-100.tab.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='semver-100.tab.c' object='liboctetos_semver_java_100_la-semver-100.tab.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_java_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_java_100_la_CFLAGS) $(CFLAGS) -c -o liboctetos_semver_java_100_la-semver-100.tab.lo `test -f 'semver-100.tab.c' || echo '$(srcdir)/'`semver-100.tab.c
+
+liboctetos_semver_java_100_la-semver-100.lo: semver-100.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_java_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_java_100_la_CFLAGS) $(CFLAGS) -MT liboctetos_semver_java_100_la-semver-100.lo -MD -MP -MF $(DEPDIR)/liboctetos_semver_java_100_la-semver-100.Tpo -c -o liboctetos_semver_java_100_la-semver-100.lo `test -f 'semver-100.c' || echo '$(srcdir)/'`semver-100.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_semver_java_100_la-semver-100.Tpo $(DEPDIR)/liboctetos_semver_java_100_la-semver-100.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='semver-100.c' object='liboctetos_semver_java_100_la-semver-100.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_java_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_java_100_la_CFLAGS) $(CFLAGS) -c -o liboctetos_semver_java_100_la-semver-100.lo `test -f 'semver-100.c' || echo '$(srcdir)/'`semver-100.c
+
+liboctetos_semver_java_100_la-common.lo: common.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_java_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_java_100_la_CFLAGS) $(CFLAGS) -MT liboctetos_semver_java_100_la-common.lo -MD -MP -MF $(DEPDIR)/liboctetos_semver_java_100_la-common.Tpo -c -o liboctetos_semver_java_100_la-common.lo `test -f 'common.c' || echo '$(srcdir)/'`common.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_semver_java_100_la-common.Tpo $(DEPDIR)/liboctetos_semver_java_100_la-common.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='common.c' object='liboctetos_semver_java_100_la-common.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_java_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_java_100_la_CFLAGS) $(CFLAGS) -c -o liboctetos_semver_java_100_la-common.lo `test -f 'common.c' || echo '$(srcdir)/'`common.c
+
+liboctetos_semver_java_100_la-semver-parser-java.lo: semver-parser-java.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_java_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_java_100_la_CFLAGS) $(CFLAGS) -MT liboctetos_semver_java_100_la-semver-parser-java.lo -MD -MP -MF $(DEPDIR)/liboctetos_semver_java_100_la-semver-parser-java.Tpo -c -o liboctetos_semver_java_100_la-semver-parser-java.lo `test -f 'semver-parser-java.c' || echo '$(srcdir)/'`semver-parser-java.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_semver_java_100_la-semver-parser-java.Tpo $(DEPDIR)/liboctetos_semver_java_100_la-semver-parser-java.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='semver-parser-java.c' object='liboctetos_semver_java_100_la-semver-parser-java.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_java_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_java_100_la_CFLAGS) $(CFLAGS) -c -o liboctetos_semver_java_100_la-semver-parser-java.lo `test -f 'semver-parser-java.c' || echo '$(srcdir)/'`semver-parser-java.c
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -900,9 +1020,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(SCRIPTS) $(DATA) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(octetos_core_includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(octetos_core_includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -965,7 +1085,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-libLTLIBRARIES
+install-exec-am: install-binSCRIPTS install-libLTLIBRARIES
 
 install-html: install-html-am
 
@@ -1005,8 +1125,9 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES \
-	uninstall-octetos_core_includeHEADERS uninstall-pkgconfigDATA
+uninstall-am: uninstall-binSCRIPTS uninstall-libLTLIBRARIES \
+	uninstall-local uninstall-octetos_core_includeHEADERS \
+	uninstall-pkgconfigDATA
 
 .MAKE: install-am install-strip
 
@@ -1014,16 +1135,17 @@ uninstall-am: uninstall-libLTLIBRARIES \
 	clean-libLTLIBRARIES clean-libtool cscopelist-am ctags \
 	ctags-am distclean distclean-compile distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES install-man \
-	install-octetos_core_includeHEADERS install-pdf install-pdf-am \
-	install-pkgconfigDATA install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES \
+	html-am info info-am install install-am install-binSCRIPTS \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-libLTLIBRARIES \
+	install-man install-octetos_core_includeHEADERS install-pdf \
+	install-pdf-am install-pkgconfigDATA install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-binSCRIPTS uninstall-libLTLIBRARIES uninstall-local \
 	uninstall-octetos_core_includeHEADERS uninstall-pkgconfigDATA
 
 .PRECIOUS: Makefile
@@ -1038,6 +1160,13 @@ semver-200.tab.c semver-200.h : semver-200.y
 	bison -d -o $@ $<
 semver-200.c : semver-200.l
 	flex -o $@ $<
+
+semver-parser-java.c semver-parser-java.h : semver-parser.h 
+	javah -jni Tray.java
+#	$(js_DATA)
+
+uninstall-local:
+	-rm -r $(jsdir)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -138,7 +138,7 @@ namespace core
 		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 		 **/
 		class v100: public Semver
-		{		
+		{	
 		private:
 			static v100* version;
 			
