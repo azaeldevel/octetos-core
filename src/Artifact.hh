@@ -17,6 +17,9 @@ namespace core
 		std::string url;
 		Semver version;
 		Licence licence;
+		
+		bool write(const std::string&);
+		bool read(const std::string&);
 	};
 
 	/**

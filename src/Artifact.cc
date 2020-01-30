@@ -1,3 +1,7 @@
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <libconfig.h++>
 
 #include "config.h"
 #include "Artifact.hh"
@@ -6,6 +10,73 @@ namespace octetos
 {
 namespace core
 {
+	bool Artifact::read(const std::string& file)
+	{
+  		libconfig::Config cfg;
+
+	  	// Read the file. If there is an error, report it and exit.
+	  	try
+	  	{
+			cfg.readFile(file.c_str());
+	  	}
+	  	catch(const libconfig::FileIOException &fioex)
+	  	{
+			return false;
+	  	}
+	  	catch(const libconfig::ParseException &pex)
+	  	{
+			return false;
+	  	}
+
+		/*try
+  		{
+    		std::string name = cfg.lookup("name");
+  		}
+  		catch(const libconfig::SettingNotFoundException &nfex)
+  		{
+			return false;
+  		}*/
+		
+		const libconfig::Setting& root = cfg.getRoot();
+		//name = root["package"]["name"];
+		//name_decorated = root["package"]["name_decorated"];
+		//brief = root["package"]["brief"];
+		//url = root["package"]["url"];
+		version.set(root["package"]["version"]);
+		//name = root["package"]["name"];
+		//std::cout << "version : " << (std::string)version << "\n";
+		
+		return false;
+	}
+	bool Artifact::write(const std::string& file)
+	{
+  		libconfig::Config cfg;
+	  	libconfig::Setting &root = cfg.getRoot();		
+	  	libconfig::Setting &package = root.add("package", libconfig::Setting::TypeGroup);
+
+	  	package.add("name", libconfig::Setting::TypeString) = name;
+	  	package.add("name_decorated", libconfig::Setting::TypeString) = name_decorated;
+	  	package.add("brief", libconfig::Setting::TypeString) = brief;
+	  	package.add("url", libconfig::Setting::TypeString) = url;
+	  	package.add("version", libconfig::Setting::TypeString) = (std::string)version;
+	  	if(!licence.write(package)) return false;
+		
+		try
+		{
+			cfg.writeFile(file.c_str());
+		}
+		catch(libconfig::FileIOException ex)
+		{
+			return false;
+		}
+		catch(libconfig::SettingTypeException ex)
+		{
+			return false;
+		}
+		
+		
+		return true;
+	}
 	/*Artifact getPackageInfo()
 	{
 		Artifact packinfo;

@@ -105,7 +105,9 @@ CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am_verinfo_OBJECTS = verinfo-verinfo.$(OBJEXT)
 verinfo_OBJECTS = $(am_verinfo_OBJECTS)
-verinfo_DEPENDENCIES = $(top_builddir)/src/liboctetos-core.la
+am__DEPENDENCIES_1 =
+verinfo_DEPENDENCIES = $(top_builddir)/src/liboctetos-core.la \
+	$(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -238,6 +240,8 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LEXLIB = @LEXLIB@
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+LIBCONFIG_CFLAGS = @LIBCONFIG_CFLAGS@
+LIBCONFIG_LIBS = @LIBCONFIG_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
@@ -362,7 +366,7 @@ AM_CFLAGS = \
 	 -g
 
 verinfo_LDFLAGS = 
-verinfo_LDADD = $(top_builddir)/src/liboctetos-core.la -ldl
+verinfo_LDADD = $(top_builddir)/src/liboctetos-core.la -ldl $(LIBCONFIG_LIBS)
 verinfo_CFLAGS = -I$(top_srcdir)/src $(am__append_1)
 verinfo_CPPFLAGS = -I$(top_srcdir)/src $(am__append_2)
 verinfo_CXXFLAGS = -I$(top_srcdir)/src $(am__append_3)

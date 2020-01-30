@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <Artifact.hh>
+#include <time.h>
 
 #include "config.h"
 #include "semver-parser.h"
@@ -905,6 +906,24 @@ void testOperations_v100()
 	{
 		CU_ASSERT(false);
 	}*/
+	
+	time_t seconds = time (NULL);
+	octetos::core::Artifact packinfo;
+	octetos::core::getPackageInfo(packinfo);
+	std::string str = std::to_string(seconds);
+	std::string filename = packinfo.name;
+	filename += "-" + str + ".cfg"; 
+	if(packinfo.write(filename))
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+
+	//octetos::core::Artifact pk;
+	//pk.read (filename);
 }
 
 int main(int argc, char *argv[])
@@ -942,7 +961,7 @@ int main(int argc, char *argv[])
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
 	std::string& pkName = packinfo.name;
-	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getBrief() + "\n" + packinfo.brief + "\n";
+	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
 	pSuite = CU_add_suite(headerTest.c_str(), init, clean);
 	if (NULL == pSuite) 
 	{

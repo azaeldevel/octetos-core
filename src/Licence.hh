@@ -1,5 +1,9 @@
 #ifndef OCTETOS_CORE_LICENCE_HH
 #define OCTETOS_CORE_LICENCE_HH
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <libconfig.h++>
 
 #include "Version.hh"
 
@@ -14,6 +18,7 @@ namespace core
 		enum Type
 		{
 			GPL,
+            GPLv1,
             GPLv2,
             GPLv3,
 			LGPL
@@ -25,7 +30,8 @@ namespace core
 		std::string name_public;
         std::string contact;
 		
-		std::string getBrief() const;
+		std::string getText() const;
+		bool write(libconfig::Setting &root);
 	};
 	
 }

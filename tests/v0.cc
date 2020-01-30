@@ -888,7 +888,7 @@ int main(int argc, char *argv[])
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
 	std::string& pkName = packinfo.name;
-	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getBrief() + "\n" + packinfo.brief + "\n";
+	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
 	pSuite = CU_add_suite(headerTest.c_str(), init, clean);
 	if (NULL == pSuite) 
 	{

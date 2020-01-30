@@ -14,7 +14,7 @@ AM_CFLAGS = \
 noinst_PROGRAMS = verinfo
 
 verinfo_LDFLAGS =
-verinfo_LDADD = $(top_builddir)/src/liboctetos-core.la -ldl
+verinfo_LDADD = $(top_builddir)/src/liboctetos-core.la -ldl $(LIBCONFIG_LIBS)
 verinfo_CFLAGS = -I$(top_srcdir)/src
 verinfo_CPPFLAGS = -I$(top_srcdir)/src
 verinfo_CXXFLAGS = -I$(top_srcdir)/src

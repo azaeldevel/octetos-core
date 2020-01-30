@@ -106,8 +106,8 @@ PROGRAMS = $(noinst_PROGRAMS)
 am_v0_OBJECTS = v0-v0.$(OBJEXT)
 v0_OBJECTS = $(am_v0_OBJECTS)
 am__DEPENDENCIES_1 =
-v0_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(top_builddir)/src/liboctetos-core.la
+v0_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(top_builddir)/src/liboctetos-core.la $(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -117,8 +117,8 @@ v0_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(CXXFLAGS) $(v0_LDFLAGS) $(LDFLAGS) -o $@
 am_v1_OBJECTS = v1-v1.$(OBJEXT)
 v1_OBJECTS = $(am_v1_OBJECTS)
-v1_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(top_builddir)/src/liboctetos-core.la
+v1_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(top_builddir)/src/liboctetos-core.la $(am__DEPENDENCIES_1)
 v1_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(v1_CXXFLAGS) \
 	$(CXXFLAGS) $(v1_LDFLAGS) $(LDFLAGS) -o $@
@@ -247,6 +247,8 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LEXLIB = @LEXLIB@
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+LIBCONFIG_CFLAGS = @LIBCONFIG_CFLAGS@
+LIBCONFIG_LIBS = @LIBCONFIG_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
@@ -371,12 +373,12 @@ AM_CFLAGS = \
 	 -g
 
 v0_LDFLAGS = 
-v0_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl
+v0_LDADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl $(LIBCONFIG_LIBS)
 v0_CFLAGS = -I$(top_srcdir)/src 
 v0_CPPFLAGS = -I$(top_srcdir)/src 
 v0_SOURCES = v0.cc 
 v1_LDFLAGS = 
-v1_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl
+v1_LDADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl $(LIBCONFIG_LIBS)
 v1_CFLAGS = -I$(top_srcdir)/src $(am__append_1)
 v1_CPPFLAGS = -I$(top_srcdir)/src $(am__append_2)
 v1_CXXFLAGS = -I$(top_srcdir)/src $(am__append_3)

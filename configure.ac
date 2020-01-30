@@ -13,13 +13,6 @@ AM_PROG_LEX
 AM_PATH_PYTHON
 
 
-#AC_ENABLE_SHARED
-#AC_ENABLE_STATIC
-#AC_PROG_LIBTOOL(libtool)
-
-#AC_SUBST(LIBTOOL_DEPS)
-#AC_LTDL_DLLIB
-
 dnl ***************************************************************************
 dnl Internationalization
 dnl ***************************************************************************
@@ -57,7 +50,7 @@ AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 
 LT_INIT([win32-dll])
 
-#PKG_CHECK_MODULES(DL,dl)
+PKG_CHECK_MODULES(LIBCONFIG,libconfig++)
 
 AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
 AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Pruebas.]))

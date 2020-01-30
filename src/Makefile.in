@@ -152,7 +152,9 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
 	"$(DESTDIR)$(pkgconfigdir)" \
 	"$(DESTDIR)$(octetos_core_includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-liboctetos_core_la_LIBADD =
+am__DEPENDENCIES_1 =
+@NATIVE_WIN32_TRUE@liboctetos_core_la_DEPENDENCIES =  \
+@NATIVE_WIN32_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_liboctetos_core_la_OBJECTS = liboctetos_core_la-common.lo \
 	liboctetos_core_la-Artifact.lo liboctetos_core_la-Error.lo \
 	liboctetos_core_la-Message.lo liboctetos_core_la-Object.lo \
@@ -356,6 +358,8 @@ LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LEXLIB = @LEXLIB@
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+LIBCONFIG_CFLAGS = @LIBCONFIG_CFLAGS@
+LIBCONFIG_LIBS = @LIBCONFIG_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
@@ -470,7 +474,8 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign 1.4
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
-	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
+	-DPACKAGE_SRC_DIR=\""$(srcdir). \
+	$(CUNIT_CFLAGS)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	$(all_includes)
 
@@ -521,6 +526,7 @@ liboctetos_core_la_CPPFLAGS = -fPIC $(am__append_16)
 liboctetos_core_la_CXXFLAGS = -fPIC $(am__append_17)
 liboctetos_core_la_LDFLAGS = -shared -fPIC $(am__append_18) \
 	$(am__append_19)
+@NATIVE_WIN32_TRUE@liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS)
 liboctetos_core_la_LIBDADD = -ldl
 liboctetos_core_la_SOURCES = \
 	common.c \

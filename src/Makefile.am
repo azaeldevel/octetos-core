@@ -2,7 +2,8 @@ AUTOMAKE_OPTIONS=foreign 1.4
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
-	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
+	-DPACKAGE_SRC_DIR=\""$(srcdir). \
+	$(CUNIT_CFLAGS)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	$(all_includes)
 
@@ -105,6 +106,8 @@ liboctetos_core_la_LDFLAGS += -no-undefined
 endif
 if NATIVE_WIN32
 liboctetos_core_la_LDFLAGS += -export-dynamic
+
+liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS)
 endif
 liboctetos_core_la_LIBDADD = -ldl
 liboctetos_core_la_SOURCES = \

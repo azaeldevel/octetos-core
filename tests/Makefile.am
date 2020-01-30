@@ -14,13 +14,13 @@ AM_CFLAGS = \
 noinst_PROGRAMS = v0 v1
 
 v0_LDFLAGS =
-v0_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl
+v0_LDADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl $(LIBCONFIG_LIBS)
 v0_CFLAGS = -I$(top_srcdir)/src 
 v0_CPPFLAGS = -I$(top_srcdir)/src 
 v0_SOURCES = v0.cc 
 
 v1_LDFLAGS =
-v1_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl
+v1_LDADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl $(LIBCONFIG_LIBS)
 v1_CFLAGS = -I$(top_srcdir)/src 
 v1_CPPFLAGS = -I$(top_srcdir)/src 
 v1_CXXFLAGS = -I$(top_srcdir)/src 
