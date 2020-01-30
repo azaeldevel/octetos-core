@@ -1,7 +1,19 @@
 #ifndef OCTETOS_CORE_COMMON_H
 #define OCTETOS_CORE_COMMON_H
 
-
+enum octetos_core_Stage {
+    unknown,
+    developing,
+    snapshot,  
+    alpha,
+    beta,
+    betarelease,
+    rc,
+    prerelease,
+    release,
+    rtm,
+    ga
+};
 /**
 * \brief Paramaetro pasado a la funcion toString para determinar el formato de texto geneerado
 * */
@@ -20,6 +32,9 @@ struct octetos_core_Semver {
 	octetos_core_semver_Number minor;
 	octetos_core_semver_Number patch;
 	const char* prerelease;
+	enum octetos_core_Stage prStage;
+	const char* prStringStage;
+	octetos_core_semver_Number prNumber;
 	const char* build;
 };
 

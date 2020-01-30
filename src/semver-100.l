@@ -13,7 +13,7 @@
 #include "semver-100.tab.h"
 
 %}
-NUMBER			[0-9]{1,5}
+NUMBER			[0-9]+
 PRERELEASE_ID	[a-zA-Z][0-9A-Za-z-]+
 
 %s scPRERELEASE

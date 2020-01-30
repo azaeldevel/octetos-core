@@ -34,7 +34,7 @@ namespace core
 	{						
 		typedef octetos_core_Semver_FormatString FormatString;
 		typedef octetos_core_semver_Number Number;
-	
+		typedef octetos_core_Stage Stage; 
 		enum ImportCode
 		{
 			MySQL,
@@ -70,8 +70,10 @@ namespace core
 			Number getPatch() const;
 			
 			std::string getPrerelease() const;
+			
+			Stage getPrereleaseStage() const;
 		    
-			bool isDevelopingStage() const;
+			//bool isDevelopingStage() const;
 			
 		    /**
 		    * \brief Asigna todos los campos de version.

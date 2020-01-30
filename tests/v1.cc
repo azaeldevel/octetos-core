@@ -78,13 +78,13 @@ void testImports_v100()
 void testParseString_v100()
 {
 	octetos::core::semver::v100 ver1,ver2,ver3;
-
+	
 	if(octetos::core::Error::check())
 	{
 		CU_ASSERT(false);
-		std::cerr << (std::string)octetos::core::Error::get() << "\n";
+		//std::cerr << (std::string)octetos::core::Error::get() << "\n";
 		return;
-	} 
+	}
 	
 	ver1.set("1.6.55-alpha"); 
     if(ver1.getMajor() == 1)

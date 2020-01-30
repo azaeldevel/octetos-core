@@ -17,6 +17,10 @@ namespace core
 {
 namespace semver
 {
+	Stage Semver::getPrereleaseStage() const
+	{
+				
+	}
 	bool Semver::extractNumbers(const std::string& str)
 	{
         octetos_core_Tray ty;
@@ -69,7 +73,10 @@ namespace semver
 	}
 	std::string Semver::getPrerelease() const
 	{
-		return prerelease;
+		if(prerelease)
+		{
+			return prerelease;
+		}
 	}
 	
 	
