@@ -11,7 +11,7 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-semver-java-100.la liboctetos-semver-200.la liboctetos-core.la
+lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-semver-200.la liboctetos-core.la
 
 bin_SCRIPTS =
 

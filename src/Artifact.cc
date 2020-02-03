@@ -38,13 +38,11 @@ namespace core
   		}*/
 		
 		const libconfig::Setting& root = cfg.getRoot();
-		//name = root["package"]["name"];
-		//name_decorated = root["package"]["name_decorated"];
-		//brief = root["package"]["brief"];
-		//url = root["package"]["url"];
+		name = (const std::string&)root["package"]["name"];
+		name_decorated = (const std::string&)root["package"]["name_decorated"];
+		brief = (const std::string&)root["package"]["brief"];
+		url = (const std::string&)root["package"]["url"];
 		version.set(root["package"]["version"]);
-		//name = root["package"]["name"];
-		//std::cout << "version : " << (std::string)version << "\n";
 		
 		return false;
 	}
