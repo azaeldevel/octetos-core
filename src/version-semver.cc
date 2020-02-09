@@ -30,7 +30,7 @@ namespace semver
 		cmdstr += str;
         int ret = parser(&ty,cmdstr.c_str());
 		
-        if(ret == 0) return true;
+        if(!ret) return true;
         return false;
 	}
 	bool Semver::loadParser(const char* sufix)
@@ -85,8 +85,8 @@ namespace semver
         octetos_core_Tray ty;
 		ty.dysplay_erro = 0;
 		ty.version = this;
-		//std::string cmdstr = "extract all from ";
-		//cmdstr += str;
+		std::string cmdstr = "extract all from ";
+		cmdstr += str;
 		if(!parser) 
 		{
 			std::string msgErr ="No se encontro una fucion parser:\n" ;
@@ -94,7 +94,7 @@ namespace semver
 			core::Error::write(err);
 			return false;
 		}
-        int ret = parser(&ty,str.c_str());
+        int ret = parser(&ty,cmdstr.c_str());
 		
         if(ret == 0) return true;
         return false;

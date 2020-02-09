@@ -1,15 +1,5 @@
 AUTOMAKE_OPTIONS=foreign 1.4
 
-AM_CPPFLAGS = \
-	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
-	-DPACKAGE_SRC_DIR=\""$(srcdir). \
-	$(CUNIT_CFLAGS)"\" \
-	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
-	$(all_includes)
-
-AM_CFLAGS =\
-	 -Wall\
-	 -g
 
 lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-semver-200.la liboctetos-core.la
 
@@ -28,9 +18,9 @@ semver-200.c : semver-200.l
 semver-parser-java.c semver-parser-java.h : semver-parser.h 
 	javah -jni Tray.java
 	
-liboctetos_semver_100_la_CFLAGS = -fPIC
-liboctetos_semver_100_la_CPPFLAGS = -fPIC
-liboctetos_semver_100_la_CXXFLAGS = -fPIC
+liboctetos_semver_100_la_CFLAGS = -fPIC $(AM_CFLAGS)
+liboctetos_semver_100_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
+liboctetos_semver_100_la_CXXFLAGS = -fPIC $(AM_CPPFLAGS)
 if WITH_SANDBOX
 liboctetos_semver_100_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 liboctetos_semver_100_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
@@ -49,9 +39,9 @@ liboctetos_semver_100_la_SOURCES = \
 	semver-100.c \
 	common.c
 
-liboctetos_semver_java_100_la_CFLAGS = -fPIC -I/usr/lib/jvm/java-8-openjdk-amd64/include -I/usr/lib/jvm/java-8-openjdk-amd64/include/linux
-liboctetos_semver_java_100_la_CPPFLAGS = -fPIC
-liboctetos_semver_java_100_la_CXXFLAGS = -fPIC
+liboctetos_semver_java_100_la_CFLAGS = -fPIC $(AM_CFLAGS) -I/usr/lib/jvm/java-8-openjdk-amd64/include -I/usr/lib/jvm/java-8-openjdk-amd64/include/linux
+liboctetos_semver_java_100_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
+liboctetos_semver_java_100_la_CXXFLAGS = -fPIC $(AM_CPPFLAGS)
 if WITH_SANDBOX
 liboctetos_semver_java_100_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 liboctetos_semver_java_100_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
@@ -71,9 +61,9 @@ liboctetos_semver_java_100_la_SOURCES = \
 	common.c \
 	semver-parser-java.c
 
-liboctetos_semver_200_la_CFLAGS = -fPIC
-liboctetos_semver_200_la_CPPFLAGS = -fPIC
-liboctetos_semver_200_la_CXXFLAGS = -fPIC
+liboctetos_semver_200_la_CFLAGS = -fPIC $(AM_CFLAGS)
+liboctetos_semver_200_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
+liboctetos_semver_200_la_CXXFLAGS = -fPIC $(AM_CPPFLAGS)
 if WITH_SANDBOX
 liboctetos_semver_200_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 liboctetos_semver_200_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
@@ -92,9 +82,9 @@ liboctetos_semver_200_la_SOURCES = \
 	semver-200.c \
 	common.c
 
-liboctetos_core_la_CFLAGS = -fPIC
-liboctetos_core_la_CPPFLAGS = -fPIC
-liboctetos_core_la_CXXFLAGS = -fPIC
+liboctetos_core_la_CFLAGS = -fPIC  $(AM_CFLAGS)
+liboctetos_core_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
+liboctetos_core_la_CXXFLAGS = -fPIC $(AM_CPPFLAGS)
 if WITH_SANDBOX
 liboctetos_core_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 liboctetos_core_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
@@ -122,7 +112,7 @@ liboctetos_core_la_SOURCES = \
 	version-semver-100.cc \
 	version-semver-200.cc
 
-#bin_SCRIPTS += develop.js
+#bin_SCRIPTS += develop
 
 #developdir = $(pythondir)/develop
 
