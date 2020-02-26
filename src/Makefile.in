@@ -175,12 +175,13 @@ liboctetos_semver_100_la_DEPENDENCIES =
 am_liboctetos_semver_100_la_OBJECTS =  \
 	liboctetos_semver_100_la-semver-100.tab.lo \
 	liboctetos_semver_100_la-semver-100.lo \
-	liboctetos_semver_100_la-common.lo
+	liboctetos_semver_100_la-common.lo \
+	liboctetos_semver_100_la-Buffer.lo
 liboctetos_semver_100_la_OBJECTS =  \
 	$(am_liboctetos_semver_100_la_OBJECTS)
-liboctetos_semver_100_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(liboctetos_semver_100_la_CFLAGS) $(CFLAGS) \
+liboctetos_semver_100_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(liboctetos_semver_100_la_CXXFLAGS) $(CXXFLAGS) \
 	$(liboctetos_semver_100_la_LDFLAGS) $(LDFLAGS) -o $@
 liboctetos_semver_200_la_DEPENDENCIES =
 am_liboctetos_semver_200_la_OBJECTS =  \
@@ -219,6 +220,7 @@ am__depfiles_remade = ./$(DEPDIR)/liboctetos_core_la-Artifact.Plo \
 	./$(DEPDIR)/liboctetos_core_la-version-semver-100.Plo \
 	./$(DEPDIR)/liboctetos_core_la-version-semver-200.Plo \
 	./$(DEPDIR)/liboctetos_core_la-version-semver.Plo \
+	./$(DEPDIR)/liboctetos_semver_100_la-Buffer.Plo \
 	./$(DEPDIR)/liboctetos_semver_100_la-common.Plo \
 	./$(DEPDIR)/liboctetos_semver_100_la-semver-100.Plo \
 	./$(DEPDIR)/liboctetos_semver_100_la-semver-100.tab.Plo \
@@ -485,8 +487,9 @@ liboctetos_semver_100_la_LDFLAGS = -shared -fPIC $(am__append_4) \
 liboctetos_semver_100_la_LIBADD = -ldl
 liboctetos_semver_100_la_SOURCES = \
 	semver-100.tab.c \
-	semver-100.c \
-	common.c
+	semver-100.cc \
+	common.c \
+	Buffer.cc
 
 liboctetos_semver_java_100_la_CFLAGS = -fPIC $(AM_CFLAGS) \
 	-I/usr/lib/jvm/java-8-openjdk-amd64/include \
@@ -638,7 +641,7 @@ liboctetos-core.la: $(liboctetos_core_la_OBJECTS) $(liboctetos_core_la_DEPENDENC
 	$(AM_V_CXXLD)$(liboctetos_core_la_LINK) -rpath $(libdir) $(liboctetos_core_la_OBJECTS) $(liboctetos_core_la_LIBADD) $(LIBS)
 
 liboctetos-semver-100.la: $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_DEPENDENCIES) $(EXTRA_liboctetos_semver_100_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(liboctetos_semver_100_la_LINK) -rpath $(libdir) $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_LIBADD) $(LIBS)
+	$(AM_V_CXXLD)$(liboctetos_semver_100_la_LINK) -rpath $(libdir) $(liboctetos_semver_100_la_OBJECTS) $(liboctetos_semver_100_la_LIBADD) $(LIBS)
 
 liboctetos-semver-200.la: $(liboctetos_semver_200_la_OBJECTS) $(liboctetos_semver_200_la_DEPENDENCIES) $(EXTRA_liboctetos_semver_200_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(liboctetos_semver_200_la_LINK) -rpath $(libdir) $(liboctetos_semver_200_la_OBJECTS) $(liboctetos_semver_200_la_LIBADD) $(LIBS)
@@ -694,6 +697,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_la-version-semver-100.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_la-version-semver-200.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_core_la-version-semver.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_100_la-Buffer.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_100_la-common.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_100_la-semver-100.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liboctetos_semver_100_la-semver-100.tab.Plo@am__quote@ # am--include-marker
@@ -741,13 +745,6 @@ liboctetos_semver_100_la-semver-100.tab.lo: semver-100.tab.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='semver-100.tab.c' object='liboctetos_semver_100_la-semver-100.tab.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_100_la_CFLAGS) $(CFLAGS) -c -o liboctetos_semver_100_la-semver-100.tab.lo `test -f 'semver-100.tab.c' || echo '$(srcdir)/'`semver-100.tab.c
-
-liboctetos_semver_100_la-semver-100.lo: semver-100.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_100_la_CFLAGS) $(CFLAGS) -MT liboctetos_semver_100_la-semver-100.lo -MD -MP -MF $(DEPDIR)/liboctetos_semver_100_la-semver-100.Tpo -c -o liboctetos_semver_100_la-semver-100.lo `test -f 'semver-100.c' || echo '$(srcdir)/'`semver-100.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_semver_100_la-semver-100.Tpo $(DEPDIR)/liboctetos_semver_100_la-semver-100.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='semver-100.c' object='liboctetos_semver_100_la-semver-100.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_100_la_CFLAGS) $(CFLAGS) -c -o liboctetos_semver_100_la-semver-100.lo `test -f 'semver-100.c' || echo '$(srcdir)/'`semver-100.c
 
 liboctetos_semver_100_la-common.lo: common.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_100_la_CFLAGS) $(CFLAGS) -MT liboctetos_semver_100_la-common.lo -MD -MP -MF $(DEPDIR)/liboctetos_semver_100_la-common.Tpo -c -o liboctetos_semver_100_la-common.lo `test -f 'common.c' || echo '$(srcdir)/'`common.c
@@ -860,6 +857,20 @@ liboctetos_core_la-version-semver-200.lo: version-semver-200.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='version-semver-200.cc' object='liboctetos_core_la-version-semver-200.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_core_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_core_la_CXXFLAGS) $(CXXFLAGS) -c -o liboctetos_core_la-version-semver-200.lo `test -f 'version-semver-200.cc' || echo '$(srcdir)/'`version-semver-200.cc
+
+liboctetos_semver_100_la-semver-100.lo: semver-100.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_100_la_CXXFLAGS) $(CXXFLAGS) -MT liboctetos_semver_100_la-semver-100.lo -MD -MP -MF $(DEPDIR)/liboctetos_semver_100_la-semver-100.Tpo -c -o liboctetos_semver_100_la-semver-100.lo `test -f 'semver-100.cc' || echo '$(srcdir)/'`semver-100.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_semver_100_la-semver-100.Tpo $(DEPDIR)/liboctetos_semver_100_la-semver-100.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='semver-100.cc' object='liboctetos_semver_100_la-semver-100.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_100_la_CXXFLAGS) $(CXXFLAGS) -c -o liboctetos_semver_100_la-semver-100.lo `test -f 'semver-100.cc' || echo '$(srcdir)/'`semver-100.cc
+
+liboctetos_semver_100_la-Buffer.lo: Buffer.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_100_la_CXXFLAGS) $(CXXFLAGS) -MT liboctetos_semver_100_la-Buffer.lo -MD -MP -MF $(DEPDIR)/liboctetos_semver_100_la-Buffer.Tpo -c -o liboctetos_semver_100_la-Buffer.lo `test -f 'Buffer.cc' || echo '$(srcdir)/'`Buffer.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/liboctetos_semver_100_la-Buffer.Tpo $(DEPDIR)/liboctetos_semver_100_la-Buffer.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Buffer.cc' object='liboctetos_semver_100_la-Buffer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctetos_semver_100_la_CPPFLAGS) $(CPPFLAGS) $(liboctetos_semver_100_la_CXXFLAGS) $(CXXFLAGS) -c -o liboctetos_semver_100_la-Buffer.lo `test -f 'Buffer.cc' || echo '$(srcdir)/'`Buffer.cc
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1047,6 +1058,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/liboctetos_core_la-version-semver-100.Plo
 	-rm -f ./$(DEPDIR)/liboctetos_core_la-version-semver-200.Plo
 	-rm -f ./$(DEPDIR)/liboctetos_core_la-version-semver.Plo
+	-rm -f ./$(DEPDIR)/liboctetos_semver_100_la-Buffer.Plo
 	-rm -f ./$(DEPDIR)/liboctetos_semver_100_la-common.Plo
 	-rm -f ./$(DEPDIR)/liboctetos_semver_100_la-semver-100.Plo
 	-rm -f ./$(DEPDIR)/liboctetos_semver_100_la-semver-100.tab.Plo
@@ -1109,6 +1121,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/liboctetos_core_la-version-semver-100.Plo
 	-rm -f ./$(DEPDIR)/liboctetos_core_la-version-semver-200.Plo
 	-rm -f ./$(DEPDIR)/liboctetos_core_la-version-semver.Plo
+	-rm -f ./$(DEPDIR)/liboctetos_semver_100_la-Buffer.Plo
 	-rm -f ./$(DEPDIR)/liboctetos_semver_100_la-common.Plo
 	-rm -f ./$(DEPDIR)/liboctetos_semver_100_la-semver-100.Plo
 	-rm -f ./$(DEPDIR)/liboctetos_semver_100_la-semver-100.tab.Plo
@@ -1157,10 +1170,8 @@ uninstall-am: uninstall-binSCRIPTS uninstall-libLTLIBRARIES \
 .PRECIOUS: Makefile
 
 
-semver-100.tab.c semver-100.h : semver-100.y
+semver-100.tab.c : semver-100.y
 	bison -d -o $@ $<
-semver-100.c : semver-100.l
-	flex -o $@ $<
 
 semver-200.tab.c semver-200.h : semver-200.y
 	bison -d -o $@ $<

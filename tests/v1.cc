@@ -926,6 +926,11 @@ void testOperations_v100()
 	//pk.read (filename);
 }
 
+void testTemporally()
+{
+	octetos::core::Semver_v100 ver;
+	ver.set("1.0.2-alpha");
+}
 int main(int argc, char *argv[])
 {  
 #ifdef OCTETOS_CORE_SANDBOX
@@ -943,6 +948,7 @@ int main(int argc, char *argv[])
 #else
 	std::cout << "Collention Assitan is not enabled.\n";	
 #endif
+	/*
 	octetos::core::Artifact packinfo;
 	octetos::core::getPackageInfo(packinfo);
 	if(octetos::core::Error::check())
@@ -950,26 +956,28 @@ int main(int argc, char *argv[])
 		std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
 		return EXIT_FAILURE;
 	}
-	CU_pSuite pSuite = NULL;
+	
 	int majorNumber = 1;
 	if(majorNumber != packinfo.version.getMajor())
 	{
 		std::cerr << "Este conjunto de pruebas estan Deseñado para la version mayor '" << majorNumber << "'\n";
 		return EXIT_FAILURE;
 	}
+	*/
 	/* initialize the CUnit test registry */
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
-	std::string& pkName = packinfo.name;
-	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
-	pSuite = CU_add_suite(headerTest.c_str(), init, clean);
+	//std::string& pkName = packinfo.name;
+	//std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
+	CU_pSuite pSuite = NULL;
+	pSuite = CU_add_suite("Testing..", init, clean);
 	if (NULL == pSuite) 
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 	
-	if ((NULL == CU_add_test(pSuite, "Criterios de comparación semver v1.0.0", testComparators_v100)))
+	/*if ((NULL == CU_add_test(pSuite, "Criterios de comparación semver v1.0.0", testComparators_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
@@ -979,21 +987,18 @@ int main(int argc, char *argv[])
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
-	}		
-	/*if ((NULL == CU_add_test(pSuite, "Validacion de parseo v2.0.0", testParseString_v200)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}	*/
-	
+	}			
 	if ((NULL == CU_add_test(pSuite, "Validacion de Imports semver v1.0.0", testOperations_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-
-	
 	if ((NULL == CU_add_test(pSuite, "Validacion de Operaciones semver v1.0.0", testImports_v100)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}*/
+	if ((NULL == CU_add_test(pSuite, "Prueba temporal..", testTemporally)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

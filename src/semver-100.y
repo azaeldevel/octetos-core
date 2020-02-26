@@ -6,16 +6,6 @@
 
 #include "semver-parser.h"
 
-extern int yylex(struct octetos_core_Tray* ty);
-extern int yyparse(struct octetos_core_Tray* ty);
-//int parse_string(struct Tray* ty, const char* in);
-extern FILE* yyin;
-const char* strStage;
-void yyerror(struct octetos_core_Tray* ty, const char* s);
-//void set_input_string(const char* in);
-//void end_lexical_scan(void);
-
-
 %}
 
 %lex-param {struct octetos_core_Tray* ty}
@@ -174,9 +164,6 @@ void yyerror(struct octetos_core_Tray* ty,const char* s) {
 void set_input_string(const char* in);
 void end_lexical_scan(void);
 int parse_string(struct octetos_core_Tray* ty,const char* in) {
-  set_input_string(in);
-  int rv = yyparse(ty);
-  end_lexical_scan();
-  return rv;
+  return yyparse(ty);
 }
 

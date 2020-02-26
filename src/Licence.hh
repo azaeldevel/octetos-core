@@ -17,13 +17,66 @@ namespace core
 	public:
 		enum Type
 		{
-			GPL,
+            GPL,
             GPLv1,
             GPLv2,
             GPLv3,
-			LGPL
+            LGPLv21,
+            LGPL,
+            LGPLv3,
+			AGPLv3,
+			GNU_PERMISSIVE,
+			Apachev2,
+			ArtisticLicensev2,
+			ClarifiedArtistic,
+			BerkeleyDB,
+			Boost,
+			ModifiedBSD,
+			CeCILLv2,
+			ClearBSD,
+			CryptixGeneralLicense,
+			eCosv2,
+			ECLv2,	
+			Eiffelv2,
+			EUDataGrid,
+			Expat,
+			FreeBSD,
+			Freetype,
+			HPND,
+			iMatix,
+			imlib,
+			ijg,
+			informal,
+			intel,
+			ISC,
+			MPLv2,
+			NCSA,
+			NetscapeJavaScript,
+			NewOpenLDAPv27,
+			PerlLicense,
+			PublicDomain,
+			Python,
+			Ruby,
+			SGIFreeB,
+			StandardMLofNJ,
+			Unicode,
+			UPL,
+			Unlicense,
+			Vim,
+			W3C,
+			WebM,
+			WTFPLv2,
+			Wx,
+			Wxwind,
+			X11,
+			XFree86v11,
+			ZLib,
+			Zopev20,			
+			Zopev21
 		};
-		
+
+		static bool gnu_compatible(Type);		
+
 		Type type;
 		short year;
 		std::string owner;

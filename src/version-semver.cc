@@ -26,9 +26,18 @@ namespace semver
         octetos_core_Tray ty;
 		ty.dysplay_erro = 0;
 		ty.version = this;
+		ty.buffer = NULL;
 		std::string cmdstr = "extract numbers from ";
 		cmdstr += str;
-        int ret = parser(&ty,cmdstr.c_str());
+		if(!parser) 
+		{
+			std::string msgErr ="No se encontro una fucion parser:\n" ;
+			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
+			core::Error::write(err);
+			return false;
+		}
+		ty.str = cmdstr.c_str();
+        int ret = parser(&ty,NULL);
 		
         if(!ret) return true;
         return false;
@@ -85,6 +94,7 @@ namespace semver
         octetos_core_Tray ty;
 		ty.dysplay_erro = 0;
 		ty.version = this;
+		ty.buffer = NULL;
 		std::string cmdstr = "extract all from ";
 		cmdstr += str;
 		if(!parser) 
@@ -94,7 +104,8 @@ namespace semver
 			core::Error::write(err);
 			return false;
 		}
-        int ret = parser(&ty,cmdstr.c_str());
+		ty.str = cmdstr.c_str();
+        int ret = parser(&ty,NULL);
 		
         if(ret == 0) return true;
         return false;

@@ -90,7 +90,7 @@ namespace core
 		
 		packinfo.version.set(VERSION);
 		
-		packinfo.licence.type = Licence::Type::GPL;		
+		packinfo.licence.type = Licence::Type::GPLv3;		
 		packinfo.licence.name_public = PACKAGE;
 		packinfo.licence.owner = "Azael Reyes";
 		packinfo.licence.year = 2019;

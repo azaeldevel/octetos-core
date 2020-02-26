@@ -5,10 +5,8 @@ lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-semver-200.la liboctetos-c
 
 bin_SCRIPTS =
 
-semver-100.tab.c semver-100.h : semver-100.y
+semver-100.tab.c : semver-100.y
 	bison -d -o $@ $<
-semver-100.c : semver-100.l
-	flex -o $@ $<
 
 semver-200.tab.c semver-200.h : semver-200.y
 	bison -d -o $@ $<
@@ -36,8 +34,9 @@ endif
 liboctetos_semver_100_la_LIBADD = -ldl
 liboctetos_semver_100_la_SOURCES = \
 	semver-100.tab.c \
-	semver-100.c \
-	common.c
+	semver-100.cc \
+	common.c \
+	Buffer.cc
 
 liboctetos_semver_java_100_la_CFLAGS = -fPIC $(AM_CFLAGS) -I/usr/lib/jvm/java-8-openjdk-amd64/include -I/usr/lib/jvm/java-8-openjdk-amd64/include/linux
 liboctetos_semver_java_100_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
