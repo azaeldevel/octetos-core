@@ -44,7 +44,7 @@ namespace core
 		class Semver : protected octetos_core_Semver , public core::Version
 		{
 		private:
-			int (*parser)(struct octetos_core_Tray*,const char*);
+			int (*parser)(struct octetos_core_Tray*);
 			void* handle;
 			
 		protected:

@@ -15,8 +15,7 @@ struct octetos_core_Tray
 #ifdef __cplusplus  
 extern "C" {
 #endif 
-    int parse_string(struct octetos_core_Tray* ty, const char* in);
-	int parse_tray(struct octetos_core_Tray* ty);
+    int parse_string(struct octetos_core_Tray* ty);
 #ifdef __cplusplus 
 } 
 #endif

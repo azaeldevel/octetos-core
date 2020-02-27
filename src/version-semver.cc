@@ -38,7 +38,7 @@ namespace semver
 			return false;
 		}
 		ty.str = cmdstr.c_str();
-        int ret = parser(&ty,NULL);
+        int ret = parser(&ty);
 		
         if(!ret) return true;
         return false;
@@ -65,7 +65,7 @@ namespace semver
 			core::Error::write(err);
 			return false;
 		}
-		parser = (int (*)(struct octetos_core_Tray*,const char*))dlsym(handle, "parse_string");
+		parser = (int (*)(struct octetos_core_Tray*))dlsym(handle, "parse_string");
 		if(!parser)
 		{                    
 			std::string msgErr ="dlsym fallo con parse_string:\n" ;
@@ -107,7 +107,7 @@ namespace semver
 			return false;
 		}
 		ty.str = cmdstr.c_str();
-        int ret = parser(&ty,NULL);
+        int ret = parser(&ty);
 		
         if(ret == 0) return true;
         return false;
@@ -237,9 +237,16 @@ namespace semver
 	Semver::operator std::string()
 	{
 		const char* verbuf = octetos_core_Semver_toString(this,FormatString::FullString);
-		std::string ver = verbuf;
-		free((void*)verbuf);
-		return ver;
+		if(!verbuf)
+		{
+			std::string ver = verbuf;
+			free((void*)verbuf);
+			return ver;
+		}
+		else
+		{
+			return "";
+		}
 	}
 
 	Semver::~Semver()

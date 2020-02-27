@@ -5,13 +5,12 @@ lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-semver-200.la liboctetos-c
 
 bin_SCRIPTS =
 
-semver-100.tab.c : semver-100.y
+semver-100.tab.c : semver-100.y semver-100.h 
 	bison -d -o $@ $<
 
-semver-200.tab.c semver-200.h : semver-200.y
+semver-200.tab.c : semver-200.y semver-200.h 
 	bison -d -o $@ $<
-semver-200.c : semver-200.l
-	flex -o $@ $<
+
 
 semver-parser-java.c semver-parser-java.h : semver-parser.h 
 	javah -jni Tray.java
@@ -78,8 +77,9 @@ endif
 liboctetos_semver_200_la_LIBADD = -ldl
 liboctetos_semver_200_la_SOURCES = \
 	semver-200.tab.c \
-	semver-200.c \
-	common.c
+	semver-200.cc \
+	common.c \
+	Buffer.cc
 
 liboctetos_core_la_CFLAGS = -fPIC  $(AM_CFLAGS)
 liboctetos_core_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)

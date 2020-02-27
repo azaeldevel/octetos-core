@@ -164,7 +164,7 @@ void yyerror(struct octetos_core_Tray* ty,const char* s) {
 /* Declarations */
 void set_input_string(const char* in);
 void end_lexical_scan(void);
-int parse_string(struct octetos_core_Tray* ty,const char* in) {
+int parse_string(struct octetos_core_Tray* ty) {
   return yyparse(ty);
 }
 

@@ -302,6 +302,22 @@ void testParseString_v100()
 			return;
 		}
 	}
+
+	octetos::core::semver::v100 ver8;
+	if(ver8.set("1.2.0-alpha"))
+	{
+		//std::cerr << "Str :" << (std::string)ver8 << "\n";
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
 }
 
 void testParseString_v200()
@@ -313,10 +329,9 @@ void testParseString_v200()
 		CU_ASSERT(false);
 		std::cerr << (std::string)octetos::core::Error::get() << "\n";
 		return;
-	} 
+	}	
 	
-	ver1.set("1.6.55-alpha"); 
-    if(ver1.getMajor() == 1)
+    if(ver1.set("1.6.55-alpha"))
 	{
 		CU_ASSERT(true);
 	}
@@ -483,7 +498,7 @@ void testParseString_v200()
 		}
 	}
 
-	octetos::core::semver::v200 ver5;
+	/*octetos::core::semver::v200 ver5;
 	ver5.set("1.6.55+20190102"); 
     if(ver5.getMajor() == 1)
 	{
@@ -499,7 +514,7 @@ void testParseString_v200()
 			return;
 		}
 	}
-    /*if(ver1.getMinor() == 6)
+    if(ver1.getMinor() == 6)
 	{
 		CU_ASSERT(true);
 	}
@@ -539,6 +554,8 @@ void testParseString_v200()
 		}
 	}*/
 }
+
+
 
 void testComparators_v100()
 {
@@ -1025,7 +1042,12 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}*/
-	
+		
+	if ((NULL == CU_add_test(pSuite, "Validacion de parseo semver v2.0.0", testParseString_v200)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
