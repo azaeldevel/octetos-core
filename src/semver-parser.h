@@ -9,6 +9,7 @@ struct octetos_core_Tray
     int dysplay_erro;
 	void* buffer;
 	const char* str;
+	int state;
 };
 
 #ifdef __cplusplus  

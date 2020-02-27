@@ -1,9 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h> 
 #include <string.h>
 
 #include "Buffer.hh"
 
-const char* ::Buffer::get_text() const
+void Buffer::unget()
+{
+	forward--;
+}
+const char* Buffer::get_text() const
 {
 	return text;
 }
@@ -21,11 +26,11 @@ void Buffer::proceed()
 	{
 		delete text;
 	}
-	short len = forward - begin;
-	text = new char[len + 1];
+	short len = forward - begin + 1;
+	text = (char*)malloc(len);
 	memcpy(text,&(buffer1[begin]),len);
 	text[len] = 0;
-	begin = forward;
+	begin = forward + 1;
 }
 char Buffer::get_char()
 {
@@ -37,7 +42,7 @@ Buffer::Buffer(const char* str)
 	bsize = strlen(str);
 	short fullsize = bsize*2;
 	
-	buffer1 = new char[fullsize];
+	buffer1 = (char*)malloc(fullsize);
 	buffer2 = NULL;
 	begin = 0;
 	forward = -1;

@@ -13,6 +13,7 @@ private:
 public:
 	Buffer(const char*);
 	char get_char();
+	void unget();
 	char check_char(short);
 	void proceed();
 	void back();

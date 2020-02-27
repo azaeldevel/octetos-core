@@ -27,6 +27,7 @@ namespace semver
 		ty.dysplay_erro = 0;
 		ty.version = this;
 		ty.buffer = NULL;
+		ty.state = 0;
 		std::string cmdstr = "extract numbers from ";
 		cmdstr += str;
 		if(!parser) 
@@ -95,6 +96,7 @@ namespace semver
 		ty.dysplay_erro = 0;
 		ty.version = this;
 		ty.buffer = NULL;
+		ty.state = 0;
 		std::string cmdstr = "extract all from ";
 		cmdstr += str;
 		if(!parser) 

@@ -7,11 +7,116 @@
 
 #include "semver-100.tab.h"
 
+
+bool is_numbers_keyword(Buffer* buffer)
+{
+	char c;
+
+	c = buffer->get_char();
+	if(c != 'n') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
+	if(c != 'u') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
+	if(c != 'm') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
+	if(c != 'b') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
+	if(c != 'e') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
+	if(c != 'r') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
+	if(c != 's') 
+	{
+		buffer->back();
+		return false;
+	}
+
+	c = buffer->check_char(1);
+	if(c != ' ') 
+	{
+		buffer->back();
+		return false;
+	}
+		
+	buffer->proceed();
+	return true;
+}
+
+bool is_from_keyword(Buffer* buffer)
+{
+	char c;
+
+	c = buffer->get_char();
+	if(c != 'f') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
+	if(c != 'r') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
+	if(c != 'o') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
+	if(c != 'm') 
+	{
+		buffer->back();
+		return false;
+	}
+
+	c = buffer->check_char(1);
+	if(c != ' ') 
+	{
+		buffer->back();
+		return false;
+	}
+		
+	buffer->proceed();
+	return true;
+}
+
 bool is_all_keyword(Buffer* buffer)
 {
 	char c;
 
 	c = buffer->get_char();
+	if(c != 'a') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
 	if(c != 'l') 
 	{
 		buffer->back();
@@ -24,7 +129,6 @@ bool is_all_keyword(Buffer* buffer)
 		return false;
 	}
 
-	//fin de la palabra
 	c = buffer->check_char(1);
 	if(c != ' ') 
 	{
@@ -37,46 +141,45 @@ bool is_all_keyword(Buffer* buffer)
 }
 bool is_extract_keyword(Buffer* buffer)
 {
-	//std::cout << "is_extract_keyword()\n";
 	char c;
 
 	c = buffer->get_char();
-	//std::cout << "c:" << c << "\n";
+	if(c != 'e') 
+	{
+		buffer->back();
+		return false;
+	}
+	c = buffer->get_char();
 	if(c != 'x') 
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->get_char();
-	//std::cout << "c:" << c << "\n";
 	if(c != 't')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->get_char();
-	//std::cout << "c:" << c << "\n";
 	if(c != 'r')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->get_char();
-	//std::cout << "c:" << c << "\n";
 	if(c != 'a') 
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->get_char();
-	//std::cout << "c:" << c << "\n";
 	if(c != 'c') 
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->get_char();
-	//std::cout << "c:" << c << "\n";
 	if(c != 't') 
 	{
 		buffer->back();
@@ -87,16 +190,10 @@ bool is_extract_keyword(Buffer* buffer)
 	c = buffer->check_char(1);
 	if(c != ' ') 
 	{
-		//std::cout << "Espacio: '" << c << "'\n";
 		buffer->back();
 		return false;
 	}
-	else
-	{
-		
-	}
-
-	std::cout << "Preceding: yes\n";
+	//std::cout << "Proceding : yes\n";
 	buffer->proceed();
 	return true;
 }
@@ -113,95 +210,157 @@ bool is_digit(char c)
 }
 extern "C" int yylex(struct octetos_core_Tray* ty)
 {
-	std::cout << "yylex --> Step 1: \n";
+	//std::cout << "yylex --> Step 1: \n";
 	if(!ty->buffer)
 	{
 		ty->buffer = new Buffer(ty->str); 
 	}
-	std::cout << "yylex --> Step 2: \n";
+	//std::cout << "yylex --> Step 2: \n";
 	Buffer* buffer = (Buffer*)ty->buffer;
-	std::cout << "yylex --> Step 3: \n";
+	//std::cout << "yylex --> Step 3: \n";
 	char c = buffer->get_char();
-	std::cout << "yylex --> Step 4: \n";
-	int state = 0;
+	//std::cout << "yylex --> Step 4: \n";
 	
 	while (true)
-	{
-		//std::cout << c << " \n";
-		//std::cout << "Estado " << state << "\n";
-		switch(state)
+	{		
+		while(c == ' ')
+		{// consume los porximos espacios en blanco
+			buffer->proceed();
+			c = buffer->get_char();
+		}
+		if(c != ' ')
+		{
+			buffer->unget();
+		}
+		//std::cout << "Estado " << ty->state << "--" << c << "-->\n";
+		switch(ty->state)
 		{
 			case 0:
+				//std::cout << "Estado : Inicial\n";
 				if(is_letter(c)) 
 				{
-					//std::cout << c << " --> es letra";
 					if(c == 'e')
 					{
-						state = EXTRACT_KW;
+						ty->state = EXTRACT_KW;
 					}
 					else if(c == 'f')
 					{
-						state = FROM_KW;
+						ty->state = FROM_KW;
 					}
 					else if(c == 'n')
 					{
-						state = NUMBERS_KW;
+						ty->state = NUMBERS_KW;
 					}
 					else if(c == 'a')
 					{
-						state = ALL_KW;
+						ty->state = ALL_KW;
 					}
 				}
 				else if(is_digit(c))
 				{
-					state = NUMBER_VALUE;
+					ty->state = NUMBER_VALUE;
 				}
 				else
 				{
-					state = -1;
+					ty->state = -1;
 				}
 				break;
 			case EXTRACT_KW:
+				//std::cout << "Estado : EXTRACT_KW\n";
 				if(is_extract_keyword(buffer))
 				{
-					std::cout << "keyword " << buffer->get_text() << "\n";
+					//std::cout << "keyword '" << buffer->get_text() << "'\n";
+					ty->state = 0;
 					return EXTRACT_KW;
 				}
 				break;
 			case ALL_KW:
+				//std::cout << "Estado : ALL_KW\n";
 				if(is_all_keyword(buffer)) 
 				{
-					std::cout << " EXTRACT \n";
+					//std::cout << "keyword '" << buffer->get_text() << "'\n";
+					ty->state = 0;
 					return ALL_KW;
 				}
 				break;
-			case NUMBERS_KW:
-				if(is_letter(c)) 
-				{
-					//std::cout << " --> es letra";
-				}
-				//std::cout << "\n";
-				break;
 			case FROM_KW:
-				if(is_letter(c)) 
+				//std::cout << "Estado : FROM_KW\n";
+				if(is_from_keyword(buffer)) 
 				{
-					//std::cout << " --> es letra";
+					//std::cout << "keyword '" << buffer->get_text() << "'\n";
+					ty->state = 0;
+					return FROM_KW;
+				}
+				break;
+			case NUMBERS_KW:
+				//std::cout << "Estado : NUMBERS_KW\n";
+				if(is_numbers_keyword(buffer)) 
+				{
+					//std::cout << "keyword '" << buffer->get_text() << "'\n";
+					ty->state = 0;
+					return NUMBERS_KW;
 				}
 				break;
 			case NUMBER_VALUE:
-				//std::cout << "Char : " << c;
-				if(is_digit(c))  
+				//std::cout << "Estado : NUMBER_VALUE\n";
+				c = buffer->get_char();
+				if(is_digit(c))
 				{
-					//std::cout << " --> es digito";
+					while(is_digit(c))  
+					{
+						c = buffer->get_char();
+					}
+					buffer->unget();
+					buffer->proceed();
+					yylval.sval=(short)atoi(buffer->get_text());
+					//std::cout << "Number '" << buffer->get_text() << "'\n";
+					return NUMBER_VALUE;
+				}	
+				
+				if(c == '.')
+				{
+					//c = buffer->get_char(); //se hizo unget
+					buffer->proceed();
+					return '.';
 				}
-				//std::cout << "\n";
+				else if(c == '-')
+				{
+					ty->state = PRERELEASE_VALUE;
+					buffer->proceed();
+					return '-';
+				}				
 				break;
+			case PRERELEASE_VALUE:
+			{
+				//std::cout << "Estado : PRERELEASE_VALUE\n";
+				//std::cout << "C1: '" << c << "'\n";
+				c = buffer->get_char();
+				//std::cout << "C2: '" << c << "'\n";
+				if(c != 0)
+				{
+					while (is_digit(c) || is_letter(c) || c == '-' || c == '.' )
+					{
+						c = buffer->get_char();
+					}
+				}				
+				if(c == 0)
+				{
+					buffer->unget();
+				}
+				buffer->proceed();
+				//std::cout << "Prerelease '" << buffer->get_text() << "'\n";
+				short strl = strlen(buffer->get_text());
+				yylval.str = (char*)malloc(strl+1);
+				strcpy((char*)(yylval.str),buffer->get_text());
+				ty->state = ENDOFINPUT;
+				return PRERELEASE_VALUE;
+			}
+			case ENDOFINPUT:	
+				return ENDOFINPUT;
 			default:
-				return -1;
+				return 0;
 		}
 	}
-	
-	std::cout << "yylex --> Step 5: \n";
 	
 	return 0;
 }

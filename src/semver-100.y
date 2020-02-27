@@ -102,6 +102,7 @@
 	prerelease : 
 	'-'  PRERELEASE_VALUE
 	{
+		//printf("PR: %s\n",$2);
 		octetos_core_Semver_setPrerelease(ty->version,$2);
 	};
 
