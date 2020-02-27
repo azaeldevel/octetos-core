@@ -8,6 +8,7 @@
 #include "config.h"
 #include "semver-parser.h"
 
+static std::string bdir;
 
 int init(void)
 {
@@ -906,46 +907,15 @@ void testComparators_v100()
 }
 
 void testOperations_v100()
-{
-	octetos::core::semver::v100 ver1;
-	octetos::core::semver::v100 ver2;
-	
-	ver2.setNumbers(1,3);
-	ver1 = ver2;
-	if(ver1 == ver2)
-	{
-		CU_ASSERT(true);
-	}
-	else
-	{
-		CU_ASSERT(false);
-	}
-	
-	/*octetos::core::semver::v100 ver3;
-	octetos::core::semver::v100 ver4;
-	if(!ver3.set("1.23.12-betarelsease+4141414121"))
-	{
-		if(!ver4.extractNumbers("1.23.12-betarelsease+4141414121"))
-		{
-			CU_ASSERT(true);
-		}
-		else
-		{
-			CU_ASSERT(false);
-		}
-	}
-	else
-	{
-		CU_ASSERT(false);
-	}*/
-	
+{	
 	time_t seconds = time (NULL);
 	octetos::core::Artifact packinfo;
 	octetos::core::getPackageInfo(packinfo);
 	std::string str = std::to_string(seconds);
 	std::string filename = packinfo.name;
 	filename += "-" + str + ".cfg"; 
-	if(packinfo.write(filename))
+	std::string fullName = bdir + "/" + filename;
+	if(packinfo.write(fullName))
 	{
 		CU_ASSERT(true);
 	}
@@ -964,6 +934,8 @@ void testTemporally()
 	ver.set("1.0.2-alpha");
 	//std::cout << "Str ver :" << (std::string)ver << "\n";
 }
+
+
 int main(int argc, char *argv[])
 {  
 #ifdef OCTETOS_CORE_SANDBOX
@@ -981,7 +953,24 @@ int main(int argc, char *argv[])
 #else
 	std::cout << "Collention Assitan is not enabled.\n";	
 #endif
-	
+	bdir = "";
+	std::string option;
+	for(int i = 1 ; i < argc; i++)
+	{
+		option = argv[i];
+		//bdir
+		int bdirIndex = option.compare(0, 7, "--bdir=");
+		if(!bdirIndex)
+		{
+			bdir = option.substr(7,option.size());
+			std::cout << "bdir es '" << bdir << "'.\n";
+		}
+		int helpIndex = option.compare("--help");
+		if(!helpIndex)
+		{
+			std::cout << "--bdir=[directory]		Directorio de contrución";
+		}
+	}
 	octetos::core::Artifact packinfo;
 	octetos::core::getPackageInfo(packinfo);
 	if(octetos::core::Error::check())
@@ -1021,7 +1010,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}			
-	if ((NULL == CU_add_test(pSuite, "Validacion de Imports semver v1.0.0", testOperations_v100)))
+	if ((NULL == CU_add_test(pSuite, "Operaciones genéricas", testOperations_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
