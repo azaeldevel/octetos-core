@@ -12,8 +12,8 @@ private:
 	char* text;
 public:
 	Buffer(const char*);
-	char get_char();
-	void unget();
+	char next_char();
+	void prev_char();
 	char check_char(short);
 	void proceed();
 	void back();

@@ -4,7 +4,7 @@
 
 #include "Buffer.hh"
 
-void Buffer::unget()
+void Buffer::prev_char()
 {
 	forward--;
 }
@@ -32,7 +32,7 @@ void Buffer::proceed()
 	text[len] = 0;
 	begin = forward + 1;
 }
-char Buffer::get_char()
+char Buffer::next_char()
 {
 	forward++;
 	return buffer1[forward];	 

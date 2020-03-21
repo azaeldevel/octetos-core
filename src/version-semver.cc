@@ -237,16 +237,9 @@ namespace semver
 	Semver::operator std::string()
 	{
 		const char* verbuf = octetos_core_Semver_toString(this,FormatString::FullString);
-		if(!verbuf)
-		{
-			std::string ver = verbuf;
-			free((void*)verbuf);
-			return ver;
-		}
-		else
-		{
-			return "";
-		}
+		std::string ver = verbuf;
+		free((void*)verbuf);
+		return ver;
 	}
 
 	Semver::~Semver()

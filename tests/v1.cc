@@ -318,6 +318,55 @@ void testParseString_v100()
 			return;
 		}
 	}
+
+	octetos::core::semver::v100 ver9;
+	if(ver9.set("1.2.0-alpha1"))
+	{
+		//std::cerr << "Str :" << (std::string)ver8 << "\n";
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+
+	octetos::core::semver::v100 ver10;
+	if(ver10.set("1.2.0-alpha.1"))
+	{
+		//std::cerr << "Str :" << (std::string)ver8 << "\n";
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+	/*
+	octetos::core::semver::v100 ver11;
+	if(ver11.set("1.2.0-alpha1+500"))
+	{
+		//std::cerr << "Str :" << (std::string)ver8 << "\n";
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+	*/
 }
 
 void testParseString_v200()

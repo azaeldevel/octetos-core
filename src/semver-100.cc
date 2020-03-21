@@ -12,43 +12,43 @@ bool is_numbers_keyword(Buffer* buffer)
 {
 	char c;
 
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'n') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'u') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'm') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'b') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'e') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'r') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 's') 
 	{
 		buffer->back();
@@ -70,25 +70,25 @@ bool is_from_keyword(Buffer* buffer)
 {
 	char c;
 
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'f') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'r') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'o') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'm') 
 	{
 		buffer->back();
@@ -110,19 +110,19 @@ bool is_all_keyword(Buffer* buffer)
 {
 	char c;
 
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'a') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'l') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'l') 
 	{
 		buffer->back();
@@ -143,43 +143,43 @@ bool is_extract_keyword(Buffer* buffer)
 {
 	char c;
 
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'e') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'x') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 't')
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'r')
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'a') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 'c') 
 	{
 		buffer->back();
 		return false;
 	}
-	c = buffer->get_char();
+	c = buffer->next_char();
 	if(c != 't') 
 	{
 		buffer->back();
@@ -218,7 +218,7 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 	//std::cout << "yylex --> Step 2: \n";
 	Buffer* buffer = (Buffer*)ty->buffer;
 	//std::cout << "yylex --> Step 3: \n";
-	char c = buffer->get_char();
+	char c = buffer->next_char();
 	//std::cout << "yylex --> Step 4: \n";
 	
 	while (true)
@@ -226,11 +226,11 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 		while(c == ' ')
 		{// consume los porximos espacios en blanco
 			buffer->proceed();
-			c = buffer->get_char();
+			c = buffer->next_char();
 		}
 		if(c != ' ')
 		{
-			buffer->unget();
+			buffer->prev_char();
 		}
 		//std::cout << "Estado " << ty->state << "--" << c << "-->\n";
 		switch(ty->state)
@@ -303,14 +303,14 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 				break;
 			case NUMBER_VALUE:
 				//std::cout << "Estado : NUMBER_VALUE\n";
-				c = buffer->get_char();
+				c = buffer->next_char();
 				if(is_digit(c))
 				{
 					while(is_digit(c))  
 					{
-						c = buffer->get_char();
+						c = buffer->next_char();
 					}
-					buffer->unget();
+					buffer->prev_char();
 					buffer->proceed();
 					yylval.sval=(short)atoi(buffer->get_text());
 					//std::cout << "Number '" << buffer->get_text() << "'\n";
@@ -319,7 +319,7 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 				
 				if(c == '.')
 				{
-					//c = buffer->get_char(); //se hizo unget
+					//c = buffer->next_char(); //se hizo unget
 					buffer->proceed();
 					return '.';
 				}
@@ -333,19 +333,20 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 			case PRERELEASE_VALUE:
 			{
 				//std::cout << "Estado : PRERELEASE_VALUE\n";
-				//std::cout << "C1: '" << c << "'\n";
-				c = buffer->get_char();
-				//std::cout << "C2: '" << c << "'\n";
-				if(c != 0)
+				//std::cout << "PRER- '" << c << "'\n";
+				nextChartPreR:
+				c = buffer->next_char();
+				if(is_digit(c) || is_letter(c) || c == '-' || c == '.' )
 				{
-					while (is_digit(c) || is_letter(c) || c == '-' || c == '.' )
-					{
-						c = buffer->get_char();
-					}
-				}				
-				if(c == 0)
+					goto nextChartPreR;
+				}		
+				else if (c == 0)
 				{
-					buffer->unget();
+					buffer->prev_char();
+				}
+				else
+				{
+					return ENDOFINPUT;
 				}
 				buffer->proceed();
 				//std::cout << "Prerelease '" << buffer->get_text() << "'\n";
