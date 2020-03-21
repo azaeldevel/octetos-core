@@ -17,9 +17,160 @@ namespace core
 {
 namespace semver
 {
+
+    bool Semver::operator !=(const Version& obj)const
+    {
+        if(major != ((Semver&)obj).getMajor() or minor != ((Semver&)obj).getMinor() or patch != ((Semver&)obj).getPatch())
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    bool Semver::operator ==(const Version& obj)const
+    {
+        if(major == ((Semver&)obj).getMajor() && minor == ((Semver&)obj).getMinor() && patch == ((Semver&)obj).getPatch())
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    bool Semver::operator <(const Version& obj)const
+    {                  
+		
+		if(major < 0 or ((Semver&)obj).getMajor() < 0)
+		{
+			throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
+		}
+        else if(major > ((Semver&)obj).getMajor())
+        {
+            return false;  
+        }
+		else if(major < ((Semver&)obj).getMajor())
+        {
+            return true;  
+        }
+
+        if(minor < 0 and ((Semver&)obj).getMinor() < 0)
+        {
+            return false;
+        }
+        else if(minor < 0 and ((Semver&)obj).getMinor() > -1)
+        {
+            return false;
+        }
+        else if(minor > ((Semver&)obj).getMinor())
+        {
+            return false;
+        } 
+		else if(minor < ((Semver&)obj).getMinor())
+        {
+            return true;
+        } 
+        
+        if(patch < 0 and ((Semver&)obj).getPatch() < 0)
+        {
+            return false;
+        }
+        else if(patch < 0 and ((Semver&)obj).getPatch() > -1)
+        {
+            return false;
+        }
+        else if(patch > ((Semver&)obj).getPatch())
+        {
+            return false;
+        }
+        else if(patch < ((Semver&)obj).getPatch())
+        {
+            return true;
+        }
+                
+        return false;
+    }
+	bool Semver::operator >(const Version& obj)const
+    {
+        if(major < 0 or ((Semver&)obj).getMajor() < 0)
+		{
+			throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
+		}
+        else if(major < ((Semver&)obj).getMajor())
+        {
+            return false;
+        }
+        else if(major > ((Semver&)obj).getMajor())
+        {
+            return true;
+        }
+		
+        
+        if(minor < 0 and ((Semver&)obj).getMinor() < 0)
+        {
+            return false;
+        }
+        else if(minor < 0 and ((Semver&)obj).getMinor() > -1)
+        {
+            return true;
+        }
+        else if(minor > ((Semver&)obj).getMinor())
+        {
+            return true;
+        }
+        else if(minor < ((Semver&)obj).getMinor())
+        {
+            return false;
+        }
+        
+        if(patch < 0 and ((Semver&)obj).getPatch() < 0)
+        {
+            return true;
+        }
+        else if(patch < 0 and ((Semver&)obj).getPatch() > -1)
+        {
+            return true;
+        }
+        else if(patch > ((Semver&)obj).getPatch())
+        {
+            return true;
+        }
+        else if(patch < ((Semver&)obj).getPatch())
+        {
+            return false;
+        }
+                
+        //std::cout << "no cumple" << std::endl;
+        return false;
+    }
+    bool Semver::operator <=(const Version& obj)const
+    {
+        if((*this) == ((Semver&)obj) or (*this) < ((Semver&)obj))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    bool Semver::operator >=(const Version& obj)const
+    {
+        if((*this) == ((Semver&)obj) or (*this) > ((Semver&)obj))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+	
+	const Semver& Semver::getVersion() const
+	{
+		return Semver(1,0,0);
+	}
 	Stage Semver::getPrereleaseStage() const
 	{
-				
+		;		
 	}
 	bool Semver::extractNumbers(const std::string& str)
 	{
@@ -30,20 +181,20 @@ namespace semver
 		ty.state = 0;
 		std::string cmdstr = "extract numbers from ";
 		cmdstr += str;
-		if(!parser) 
+		/*if(!parser) 
 		{
 			std::string msgErr ="No se encontro una fucion parser:\n" ;
 			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
 			core::Error::write(err);
 			return false;
-		}
+		}*/
 		ty.str = cmdstr.c_str();
-        int ret = parser(&ty);
+        int ret = parse_string(&ty);
 		
         if(!ret) return true;
         return false;
 	}
-	bool Semver::loadParser(const char* sufix)
+	/*bool Semver::loadParser(const char* sufix)
 	{
 		std::string filename;
 #ifdef OCTETOS_CORE_SANDBOX
@@ -76,7 +227,7 @@ namespace semver
 		}
 
 		return true;
-	}
+	}*/
 	void Semver::setPrerelease(const std::string& str)
 	{
 		octetos_core_Semver_setPrerelease(this,str.c_str());
@@ -99,15 +250,15 @@ namespace semver
 		ty.state = 0;
 		std::string cmdstr = "extract all from ";
 		cmdstr += str;
-		if(!parser) 
+		/*if(!parser) 
 		{
 			std::string msgErr ="No se encontro una fucion parser:\n" ;
 			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
 			core::Error::write(err);
 			return false;
-		}
+		}*/
 		ty.str = cmdstr.c_str();
-        int ret = parser(&ty);
+        int ret = parse_string(&ty);
 		
         if(ret == 0) return true;
         return false;
@@ -144,8 +295,8 @@ namespace semver
     void Semver::init()
     {
 		octetos_core_Semver_init(this);
-		parser = NULL;
-		handle = NULL;
+		//parser = NULL;
+		//handle = NULL;
     }
 	const Semver& Semver::operator =(const Semver& v)
 	{
@@ -161,10 +312,10 @@ namespace semver
 			return *this;
 		}
 		
-		if(!handle) dlclose(handle);
-		parser = NULL;
-		handle = NULL;
-		loadParser (suffix);	
+		//if(!handle) dlclose(handle);
+		//parser = NULL;
+		//handle = NULL;
+		//loadParser (suffix);	
 		this->major = v.major;
 		this->minor = v.minor;
 		this->patch = v.patch;
@@ -175,10 +326,10 @@ namespace semver
 	}
 	const octetos_core_Semver& Semver::operator =(const octetos_core_Semver& v)
 	{
-		if(!handle) dlclose(handle);
-		parser = NULL;
-		handle = NULL;
-		loadParser (suffix);
+		//if(!handle) dlclose(handle);
+		//parser = NULL;
+		//handle = NULL;
+		//loadParser (suffix);
 		
 		this->major = v.major;
 		this->minor = v.minor;
@@ -244,7 +395,7 @@ namespace semver
 
 	Semver::~Semver()
 	{
-		if(!handle) dlclose(handle); 
+		//if(!handle) dlclose(handle); 
 		if(prerelease) free((void*)prerelease);
 		if(build) free((void*)build);
 	}
@@ -268,9 +419,9 @@ namespace semver
 	Semver::Semver(const Semver& obj)
 	{
 		init();
-		if(!handle) dlclose(handle);
-		strcpy((char*)suffix,obj.suffix);
-		loadParser (suffix);
+		//if(!handle) dlclose(handle);
+		//strcpy((char*)suffix,obj.suffix);
+		//loadParser (suffix);
 		
 		major = obj.major;
 		minor = obj.minor;

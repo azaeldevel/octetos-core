@@ -8,7 +8,10 @@ namespace octetos
 {
 namespace core
 {
-
+	namespace semver
+	{
+	}
+		
 	InvalidComparison::InvalidComparison(const std::string& msg):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON)
 	{
 	}

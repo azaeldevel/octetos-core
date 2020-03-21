@@ -1,39 +1,37 @@
 AUTOMAKE_OPTIONS=foreign 1.4
 
 
-lib_LTLIBRARIES = liboctetos-semver-100.la liboctetos-semver-200.la liboctetos-core.la
+lib_LTLIBRARIES = liboctetos-core.la
 
 bin_SCRIPTS =
 
-semver-100.tab.c : semver-100.y semver-100.h 
+semver.tab.c : semver.y semver.h 
 	bison -d -o $@ $<
 
-semver-200.tab.c : semver-200.y semver-200.h 
-	bison -d -o $@ $<
 
 
 semver-parser-java.c semver-parser-java.h : semver-parser.h 
 	javah -jni Tray.java
-	
-liboctetos_semver_100_la_CFLAGS = -fPIC $(AM_CFLAGS)
-liboctetos_semver_100_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
-liboctetos_semver_100_la_CXXFLAGS = -fPIC $(AM_CPPFLAGS)
+
+liboctetos_semver_la_CFLAGS = -fPIC $(AM_CFLAGS)
+liboctetos_semver_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
+liboctetos_semver_la_CXXFLAGS = -fPIC $(AM_CPPFLAGS)
 if WITH_SANDBOX
-liboctetos_semver_100_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-liboctetos_semver_100_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-liboctetos_semver_100_la_CXXFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+liboctetos_semver_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+liboctetos_semver_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
+liboctetos_semver_la_CXXFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
 endif
-liboctetos_semver_100_la_LDFLAGS = -shared -fPIC
+liboctetos_semver_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32
-liboctetos_semver_100_la_LDFLAGS += -no-undefined
+liboctetos_semver_la_LDFLAGS += -no-undefined
 endif
 if NATIVE_WIN32
-liboctetos_semver_100_la_LDFLAGS += -export-dynamic
+liboctetos_semver_la_LDFLAGS += -export-dynamic
 endif
-liboctetos_semver_100_la_LIBADD = -ldl
-liboctetos_semver_100_la_SOURCES = \
-	semver-100.tab.c \
-	semver-100.cc \
+liboctetos_semver_la_LIBADD = -ldl
+liboctetos_semver_la_SOURCES = \
+	semver.tab.c \
+	semver.cc \
 	common.c \
 	Buffer.cc
 
@@ -50,45 +48,19 @@ if PLATFORM_WIN32
 liboctetos_semver_java_100_la_LDFLAGS += -no-undefined
 endif
 if NATIVE_WIN32
-liboctetos_semver_100_la_LDFLAGS += -export-dynamic 
+liboctetos_semver_java_100_la_LDFLAGS += -export-dynamic 
 endif
-liboctetos_semver_java_100_la_LIBADD = -ldl 
+liboctetos_semver_java_100_la_LIBADD = 
 liboctetos_semver_java_100_la_SOURCES = \
 	semver-100.tab.c \
 	semver-100.c \
 	common.c \
 	semver-parser-java.c
 
-liboctetos_semver_200_la_CFLAGS = -fPIC $(AM_CFLAGS)
-liboctetos_semver_200_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
-liboctetos_semver_200_la_CXXFLAGS = -fPIC $(AM_CPPFLAGS)
-if WITH_SANDBOX
-liboctetos_semver_200_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-liboctetos_semver_200_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-liboctetos_semver_200_la_CXXFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-endif
-liboctetos_semver_200_la_LDFLAGS = -shared -fPIC
-if PLATFORM_WIN32
-liboctetos_semver_200_la_LDFLAGS += -no-undefined
-endif
-if NATIVE_WIN32
-liboctetos_semver_200_la_LDFLAGS += -export-dynamic
-endif
-liboctetos_semver_200_la_LIBADD = -ldl
-liboctetos_semver_200_la_SOURCES = \
-	semver-200.tab.c \
-	semver-200.cc \
-	common.c \
-	Buffer.cc
 
 liboctetos_core_la_CFLAGS = -fPIC  $(AM_CFLAGS)
 liboctetos_core_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
 liboctetos_core_la_CXXFLAGS = -fPIC $(AM_CPPFLAGS)
-if WITH_SANDBOX
-liboctetos_core_la_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-liboctetos_core_la_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-liboctetos_core_la_CXXFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-endif
 liboctetos_core_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32
 liboctetos_core_la_LDFLAGS += -no-undefined
@@ -98,7 +70,7 @@ liboctetos_core_la_LDFLAGS += -export-dynamic
 
 liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS)
 endif
-liboctetos_core_la_LIBDADD = -ldl
+liboctetos_core_la_LIBDADD =
 liboctetos_core_la_SOURCES = \
 	common.c \
 	Artifact.cc \
@@ -108,8 +80,9 @@ liboctetos_core_la_SOURCES = \
 	Licence.cc \
 	Version.cc \
 	version-semver.cc \
-	version-semver-100.cc \
-	version-semver-200.cc
+	semver.tab.c \
+	semver.cc \
+	Buffer.cc
 
 #bin_SCRIPTS += develop
 

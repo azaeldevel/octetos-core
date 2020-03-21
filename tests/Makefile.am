@@ -11,22 +11,11 @@ AM_CFLAGS = \
 	 -Wall \
 	 -g
 
-noinst_PROGRAMS = v0 v1
-
-v0_LDFLAGS =
-v0_LDADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl $(LIBCONFIG_LIBS)
-v0_CFLAGS = -I$(top_srcdir)/src 
-v0_CPPFLAGS = -I$(top_srcdir)/src 
-v0_SOURCES = v0.cc 
+noinst_PROGRAMS = v1
 
 v1_LDFLAGS =
-v1_LDADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(top_builddir)/src/liboctetos-core.la -ldl $(LIBCONFIG_LIBS)
+v1_LDADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(top_builddir)/src/liboctetos-core.la  $(LIBCONFIG_LIBS)
 v1_CFLAGS = -I$(top_srcdir)/src 
 v1_CPPFLAGS = -I$(top_srcdir)/src 
 v1_CXXFLAGS = -I$(top_srcdir)/src 
-if WITH_SANDBOX
-v1_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-v1_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-v1_CXXFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-endif
 v1_SOURCES = v1.cc 

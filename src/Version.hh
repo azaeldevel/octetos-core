@@ -41,15 +41,19 @@ namespace core
 			PostgreSQL,
 		};
 
+		/**
+		 * \brief Implemete un subconjuto de semver v1.0.0
+		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
+		 **/
 		class Semver : protected octetos_core_Semver , public core::Version
 		{
 		private:
-			int (*parser)(struct octetos_core_Tray*);
-			void* handle;
+			//int (*parser)(struct octetos_core_Tray*);
+			//void* handle;
 			
 		protected:
-			bool loadParser(const char* sufix);
-			const char* suffix;
+			//bool loadParser(const char* sufix);
+			//const char* suffix;
 			
 		public:
 			/**
@@ -130,81 +134,24 @@ namespace core
 			/**
 			*\brief Indica la version semver implemetada.
 			**/
-			virtual const Semver& getVersion() const = 0;
+			const Semver& getVersion() const;
 		
 			bool extractNumbers(const std::string&);
+
+
+			virtual bool operator ==(const Version&)const;
+			virtual bool operator !=(const Version&)const;
+			virtual bool operator >(const Version&)const;
+			virtual bool operator <(const Version&)const;
+			virtual bool operator >=(const Version&)const;
+			virtual bool operator <=(const Version&)const;
 		};
 
-		/**
-		 * \brief Implemete un subconjuto de semver v1.0.0
-		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
-		 **/
-		class v100: public Semver
-		{	
-		private:
-			static v100* version;
-			
-		public:
-		    virtual bool operator ==(const Version& v)const;
-		    virtual bool operator !=(const Version& v)const;
-			virtual bool operator >=(const Version& v)const;
-		    virtual bool operator >(const Version& v)const;
-		    virtual bool operator <=(const Version& v)const;
-			virtual bool operator <(const Version& v)const; 		            
-		    /**
-		    * \brief Simple mente limpa las variables intenas
-		    * */
-		    virtual ~v100();
-			v100(const v100&);
-			v100();
-		    /**
-		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
-		    * */
-			v100(short major,short minor);
-		    /**
-		    * \brief Asigna numero major, menor y patch, los restantas datos son limpiados
-		    * */
-			v100(short major,short minor,short patch);
-
-			virtual const Semver& getVersion() const;
-		};
-
-		/**
-		 * \brief Implemete un subconjuto de semver v2.0.0
-		 * \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v2.0.0.html.
-		 **/
-		class v200: public Semver
-		{
-		private:
-			static v200* version;
-		
-		public:
-		    virtual bool operator ==(const Version& v)const;
-		    virtual bool operator !=(const Version& v)const;
-			virtual bool operator >=(const Version& v)const;
-		    virtual bool operator >(const Version& v)const;
-		    virtual bool operator <=(const Version& v)const;
-			virtual bool operator <(const Version& v)const; 		            
-		    /**
-		    * \brief Simple mente limpa las variables intenas
-		    * */
-		    virtual ~v200();
-			v200(const v200&);
-			v200();
-		    /**
-		    * \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
-		    * */
-			v200(short major,short minor);
-		    /**
-		    * \brief Asigna numero major, menor y patch, los restantas datos son limpiados
-		    * */
-			v200(short major,short minor,short patch);	
-
-			virtual const Semver& getVersion() const;	
-		};
+		typedef Semver v100;
+		typedef Semver v200;
 	}
 
-	typedef semver::v100 Semver;
+	typedef semver::Semver Semver;
 	typedef semver::v100 Semver_v100;
 	typedef semver::v200 Semver_v200;
 	

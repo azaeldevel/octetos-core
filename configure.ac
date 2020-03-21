@@ -87,6 +87,7 @@ AM_COND_IF([CHECK_DOXYGEN], [AC_CONFIG_FILES([docs/Makefile])])
 AM_CONDITIONAL(WITH_EXAMPLES, test x"$with_examples" = "xyes")
 AC_ARG_WITH([examples], AS_HELP_STRING([--with-examples], [Compilando con soporte para Ejemplos.]))
 
+#remover en version major 2.
 AM_CONDITIONAL(WITH_SANDBOX, test x"$with_sandbox" = "xyes")
 AC_ARG_WITH([sandbox], AS_HELP_STRING([--with-sandbox], [Compilando con soporte para desarrollo.]))
 

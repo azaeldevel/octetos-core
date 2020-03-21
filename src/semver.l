@@ -10,7 +10,7 @@
 
 #define YY_DECL int yylex(struct octetos_core_Tray* ty)
 
-#include "semver-100.tab.h"
+#include "semver.tab.h"
 
 %}
 NUMBER			[0-9]+

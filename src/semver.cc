@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "semver-100.h"
+#include "semver.h"
 #include "Buffer.hh"
 #include <iostream>
 
-#include "semver-100.tab.h"
+#include "semver.tab.h"
 
 
 bool is_numbers_keyword(Buffer* buffer)
