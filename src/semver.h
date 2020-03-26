@@ -1,5 +1,5 @@
-#ifndef SEMVER_LEXER_H
-#define SEMVER_LEXER_H
+#ifndef OCTETOS_CORE_SEMVER_LEXER_H
+#define OCTETOS_CORE_SEMVER_LEXER_H
 /**
  * 
  *  This file is part of octetos-core.

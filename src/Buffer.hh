@@ -1,5 +1,5 @@
-#ifndef BUFFER_HH
-#define BUFFER_HH
+#ifndef OCTETOS_CORE_BUFFER_HH
+#define OCTETOS_CORE_BUFFER_HH
 
 /**
  * 
