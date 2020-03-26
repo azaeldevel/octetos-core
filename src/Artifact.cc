@@ -1,7 +1,7 @@
 /**
  * 
  *  This file is part of octetos-core.
- *  octetos-core is a C/C++ library to mainly provider implmetation Semver.
+ *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
  * 
  *  This program is free software: you can redistribute it and/or modify

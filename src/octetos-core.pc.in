@@ -6,7 +6,7 @@ datadir=@datadir@
 includedir=@prefix@/include
 
 Name: octetos-core
-Description: C/C++ library to mainly provider implmetation Semver.
+Description: C/C++ library to mainly provide Semantic Versioned inplmetation.
 Version: @VERSION@
 Requires: 
 Libs: -L${libdir} -loctetos-core -ldl -lconfig++
