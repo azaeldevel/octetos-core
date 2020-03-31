@@ -21,9 +21,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef OCTETOS_CORE_SANDBOX
-#include <iostream> //for test
-#endif
 #include <dlfcn.h>
 #include <dirent.h>
 
@@ -34,9 +31,6 @@ namespace octetos
 {
 namespace core
 {
-namespace semver
-{
-
     bool Semver::operator !=(const Version& obj)const
     {
         if(major != ((Semver&)obj).getMajor() or minor != ((Semver&)obj).getMinor() or patch != ((Semver&)obj).getPatch())
@@ -183,14 +177,6 @@ namespace semver
         }
     }
 	
-	const Semver& Semver::getVersion() const
-	{
-		return Semver(1,0,0);
-	}
-	Stage Semver::getPrereleaseStage() const
-	{
-		;		
-	}
 	bool Semver::extractNumbers(const std::string& str)
 	{
         octetos_core_Tray ty;
@@ -213,40 +199,6 @@ namespace semver
         if(!ret) return true;
         return false;
 	}
-	/*bool Semver::loadParser(const char* sufix)
-	{
-		std::string filename;
-#ifdef OCTETOS_CORE_SANDBOX
-		filename = "Debug/src/.libs/liboctetos-semver-";		
-#else
-		filename = "liboctetos-semver-";
-#endif
-		filename = filename + sufix + ".so";	
-#ifdef OCTETOS_CORE_SANDBOX
-		//std::cout << "filename:" << filename << "\n";
-#endif
-		handle = dlopen(filename.c_str(), RTLD_LAZY);
-		if(!handle)
-		{
-			std::string msgErr ="dlopen fallo con '" ;
-			msgErr += filename + "' : ";
-          	msgErr = msgErr + dlerror();
-			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
-			core::Error::write(err);
-			return false;
-		}
-		parser = (int (*)(struct octetos_core_Tray*))dlsym(handle, "parse_string");
-		if(!parser)
-		{                    
-			std::string msgErr ="dlsym fallo con parse_string:\n" ;
-			msgErr = msgErr + "\t" + dlerror();
-			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
-			core::Error::write(err);
-			return false;
-		}
-
-		return true;
-	}*/
 	void Semver::setPrerelease(const std::string& str)
 	{
 		octetos_core_Semver_setPrerelease(this,str.c_str());
@@ -448,6 +400,5 @@ namespace semver
 		if(prerelease) octetos_core_Semver_setPrerelease(this,obj.prerelease);
 		if(build) octetos_core_Semver_setBuild(this,obj.build);
 	}
-}
 }
 }

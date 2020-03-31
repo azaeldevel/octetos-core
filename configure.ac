@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
-AC_INIT(octetos-core, 1.2.2-br, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.0.0-br, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign])
 AM_SILENT_RULES([yes])
@@ -9,7 +9,6 @@ AM_SILENT_RULES([yes])
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_YACC
-#AM_PROG_LEX
 AM_PATH_PYTHON
 
 
@@ -86,10 +85,6 @@ AM_COND_IF([CHECK_DOXYGEN], [AC_CONFIG_FILES([docs/Makefile])])
 
 AM_CONDITIONAL(WITH_EXAMPLES, test x"$with_examples" = "xyes")
 AC_ARG_WITH([examples], AS_HELP_STRING([--with-examples], [Compilando con soporte para Ejemplos.]))
-
-#remover en version major 2.
-AM_CONDITIONAL(WITH_SANDBOX, test x"$with_sandbox" = "xyes")
-AC_ARG_WITH([sandbox], AS_HELP_STRING([--with-sandbox], [Compilando con soporte para desarrollo.]))
 
 
 

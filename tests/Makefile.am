@@ -11,11 +11,11 @@ AM_CFLAGS = \
 	 -Wall \
 	 -g
 
-noinst_PROGRAMS = v1
+noinst_PROGRAMS = v2
 
-v1_LDFLAGS =
-v1_LDADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(top_builddir)/src/liboctetos-core.la  $(LIBCONFIG_LIBS)
-v1_CFLAGS = -I$(top_srcdir)/src 
-v1_CPPFLAGS = -I$(top_srcdir)/src 
-v1_CXXFLAGS = -I$(top_srcdir)/src 
-v1_SOURCES = v1.cc 
+v2_LDFLAGS =
+v2_LDADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(top_builddir)/src/liboctetos-core.la  $(LIBCONFIG_LIBS)
+v2_CFLAGS = -I$(top_srcdir)/src 
+v2_CPPFLAGS = -I$(top_srcdir)/src 
+v2_CXXFLAGS = -I$(top_srcdir)/src 
+v2_SOURCES = v2.cc 

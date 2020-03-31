@@ -17,10 +17,5 @@ verinfo_LDFLAGS =
 verinfo_LDADD = $(top_builddir)/src/liboctetos-core.la -ldl $(LIBCONFIG_LIBS)
 verinfo_CFLAGS = -I$(top_srcdir)/src
 verinfo_CPPFLAGS = -I$(top_srcdir)/src
-verinfo_CXXFLAGS = -I$(top_srcdir)/src
-if WITH_SANDBOX
-verinfo_CFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-verinfo_CPPFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-verinfo_CXXFLAGS += -DDEBUG -DOCTETOS_CORE_SANDBOX -DCOLLETION_ASSISTANT
-endif 
+verinfo_CXXFLAGS = -I$(top_srcdir)/src 
 verinfo_SOURCES = verinfo.cc 

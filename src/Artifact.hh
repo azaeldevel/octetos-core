@@ -42,11 +42,7 @@ namespace core
 		bool write(const std::string&);
 		bool read(const std::string&);
 	};
-
-	/**
-	 * \brief retorna la informacion del paquete
-	 **/
-	//__attribute__((deprecated)) Artifact getPackageInfo();
+	
 	/**
 	 * \brief retorna la informacion del paquete
 	 **/

@@ -21,6 +21,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * */
+namespace octetos
+{
+namespace core
+{
 
 class Buffer
 {
@@ -41,4 +45,6 @@ public:
 	const char* get_text() const;
 };
 
+}
+}
 #endif

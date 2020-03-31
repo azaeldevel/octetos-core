@@ -95,12 +95,8 @@ namespace core
 		
 		return true;
 	}
-	/*Artifact getPackageInfo()
-	{
-		Artifact packinfo;
-		getPackageInfo(packinfo);
-		return packinfo;
-	}*/
+
+	
 	bool getPackageInfo(Artifact& packinfo)
 	{
 		packinfo.name = PACKAGE;

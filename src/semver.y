@@ -15,7 +15,6 @@
 	short sval;
 	unsigned long ulval;
 	const char* str;
-	enum octetos_core_Stage stage;
 }
 
 %token
@@ -106,57 +105,7 @@
 		octetos_core_Semver_setPrerelease(ty->version,$2);
 	};
 
-	stage : 
-	'-' VALUE_DEVELOPING
-	{
-		ty->version->prStage = $2;
-	}
-	|
-	'-' VALUE_SNAPSHOT
-	{
-		ty->version->prStage = $2;
-	}
-	| 
-	'-' VALUE_ALPHA
-	{
-		ty->version->prStage = $2;
-	}
-	| 
-	'-' VALUE_BETA
-	{
-		ty->version->prStage = $2;
-	} 
-	|
-	'-' VALUE_BETARELEASE
-	{
-		ty->version->prStage = $2;
-	}
-	| 
-	'-' VALUE_RC
-	{
-		ty->version->prStage = $2;
-	}
-	| 
-	'-' VALUE_PRERELEASE
-	{
-		ty->version->prStage = $2;
-	}
-	| 
-	'-' VALUE_RELEASE
-	{
-		ty->version->prStage = $2;
-	}
-	| 
-	'-' VALUE_RTM
-	{
-		ty->version->prStage = $2;
-	}
-	| 
-	'-' VALUE_GA
-	{
-		ty->version->prStage = $2;
-	}
-	;	
+		
 %%
 void yyerror(struct octetos_core_Tray* ty,const char* s) {
 	if(ty->dysplay_erro > 0) fprintf(stderr, "Parse error: %s\n", s);
