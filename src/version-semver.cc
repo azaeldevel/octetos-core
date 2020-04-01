@@ -186,13 +186,6 @@ namespace core
 		ty.state = 0;
 		std::string cmdstr = "extract numbers from ";
 		cmdstr += str;
-		/*if(!parser) 
-		{
-			std::string msgErr ="No se encontro una fucion parser:\n" ;
-			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
-			core::Error::write(err);
-			return false;
-		}*/
 		ty.str = cmdstr.c_str();
         int ret = parse_string(&ty);
 		
@@ -221,13 +214,6 @@ namespace core
 		ty.state = 0;
 		std::string cmdstr = "extract all from ";
 		cmdstr += str;
-		/*if(!parser) 
-		{
-			std::string msgErr ="No se encontro una fucion parser:\n" ;
-			core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
-			core::Error::write(err);
-			return false;
-		}*/
 		ty.str = cmdstr.c_str();
         int ret = parse_string(&ty);
 		

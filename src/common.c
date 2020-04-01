@@ -22,9 +22,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #include "common.h"
+#include "semver-parser.h"
 
+int octetos_core_toObject(const char* strver,struct octetos_core_Semver* v)
+{
+	struct octetos_core_Tray ty;
+	ty.dysplay_erro = 0;
+	ty.version = v;
+	octetos_core_Semver_init(v);
+	ty.buffer = NULL;
+	ty.state = 0;
+	const char* cmdstr = "extract all from ";
+	int leng = strlen(cmdstr) + strlen(strver) + 1;
+	char* strproc = malloc(leng);
+	strcpy(strproc,cmdstr);
+	strcat(strproc,strver);
+	ty.str = (const char*)strproc;
+
+	int ret = parse_string(&ty);		
+   	if(ret == 0) return 1;
+   	return 0;
+}
 const char* octetos_core_Semver_setBuild(struct octetos_core_Semver* version,const char* build)
 {
 	if(version->build)

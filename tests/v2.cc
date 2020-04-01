@@ -14,11 +14,6 @@ int init(void)
 {
 	return 0;
 }
-
-/* The suite cleanup function.
- * Closes the temporary file used by the tests.
- * Returns zero on success, non-zero otherwise.
- */
 int clean(void)
 {
 	return 0;
@@ -994,6 +989,44 @@ void testOperations_v100()
 	//pk.read (filename);
 }
 
+void testsemverc()
+{
+	const char *strver1 = "1.0.2-alpha";
+	octetos_core_Semver ver1;
+	if(octetos_core_toObject(strver1,&ver1))
+	{
+		if(ver1.major == 1)
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+		
+		if(ver1.minor == 0)
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+		
+		if(ver1.patch == 2)
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+}
 void testTemporally()
 {
 	octetos::core::Semver ver;
@@ -1060,6 +1093,12 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 	
+	if ((NULL == CU_add_test(pSuite, "Semver for C.", testsemverc)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+	
 	if ((NULL == CU_add_test(pSuite, "Criterios de comparación semver v1.0.0", testComparators_v100)))
 	{
 		CU_cleanup_registry();
@@ -1070,7 +1109,7 @@ int main(int argc, char *argv[])
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
-	}			
+	}		
 	if ((NULL == CU_add_test(pSuite, "Operaciones genéricas", testOperations_v100)))
 	{
 		CU_cleanup_registry();
@@ -1086,7 +1125,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}*/
-		
+	
 	if ((NULL == CU_add_test(pSuite, "Validacion de parseo semver v2.0.0", testParseString_v200)))
 	{
 		CU_cleanup_registry();
