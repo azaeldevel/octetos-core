@@ -58,7 +58,7 @@ namespace core
 	* \brief Implemete un subconjuto de semver v1.0.0
 	* \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 	**/
-	class Semver : protected octetos_core_Semver , public core::Version
+	class Semver : private octetos_core_Semver , public core::Version
 	{
 	public:
 		enum ImportCode
@@ -66,9 +66,6 @@ namespace core
 			MySQL,
 			PostgreSQL,
 		};
-	protected:
-			//bool loadParser(const char* sufix);
-			//const char* suffix;
 				
 	public:
 		/**
@@ -132,11 +129,11 @@ namespace core
 		/**
 		* \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
 		* */
-		Semver(short major,short minor);
+		Semver(Number major,Number minor);
 		/**
 		* \brief Asigna numero major, menor y patch, los restantas datos son limpiado
 		* */
-		Semver(short major,short minor,short patch);
+		Semver(Number major,Number minor,Number patch);
 		/**
 		* \brief Hace una copia del objecto version.
 		* */

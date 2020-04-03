@@ -192,7 +192,7 @@ CSCOPE = cscope
 DIST_SUBDIRS = src po tests docs examples
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in AUTHORS \
 	COPYING ChangeLog INSTALL NEWS README compile config.guess \
-	config.sub install-sh ltmain.sh missing py-compile
+	config.sub depcomp install-sh ltmain.sh missing py-compile
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -399,6 +399,7 @@ program_transform_name = @program_transform_name@
 psdir = @psdir@
 pyexecdir = @pyexecdir@
 pythondir = @pythondir@
+runstatedir = @runstatedir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
