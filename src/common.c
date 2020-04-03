@@ -39,8 +39,9 @@ int octetos_core_toObject(const char* strver,struct octetos_core_Semver* v)
 	strcpy(strproc,cmdstr);
 	strcat(strproc,strver);
 	ty.str = (const char*)strproc;
-
-	int ret = parse_string(&ty);		
+	int ret = parse_string(&ty);
+	free(ty.str);
+	
    	if(ret == 0) return 1;
    	return 0;
 }
