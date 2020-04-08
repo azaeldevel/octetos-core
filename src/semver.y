@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "semver-parser.h"
+#include "semver-lexer.h"
 
 %}
 
@@ -27,20 +27,10 @@
 ;
 %token EXTRACT_KW FROM_KW NUMBERS_KW ALL_KW
 
-%token <stage> VALUE_DEVELOPING
-%token <stage> VALUE_SNAPSHOT
-%token <stage> VALUE_PREALPHA
-%token <stage> VALUE_ALPHA
-%token <stage> VALUE_BETA
-%token <stage> VALUE_BETARELEASE
-%token <stage> VALUE_RC 
-%token <stage> VALUE_PRERELEASE 
-%token <stage> VALUE_RELEASE 
-%token <stage> VALUE_RTM
-%token <stage> VALUE_GA
 
 %token <sval> NUMBER_VALUE
 %token <str> PRERELEASE_VALUE
+%token <str> BUILD_VALUE
 
 
 %locations
@@ -59,7 +49,7 @@
 		YYACCEPT;
 	}
 	|
-	EXTRACT_KW NUMBERS_KW FROM_KW numbers_value
+	EXTRACT_KW NUMBERS_KW FROM_KW numbers_value ENDOFINPUT
 	{
 		YYACCEPT;
 	}
@@ -74,7 +64,7 @@
 	{
 	};
 	
-	numbers_value : one_number | two_numbers | three_numbers | four_numbers;
+	numbers_value : one_number | two_numbers | three_numbers;
 
 	one_number : NUMBER_VALUE
 	{
@@ -92,11 +82,11 @@
 		ty->version->patch = $5;
 		//printf("N1: %d\n",ty->version.major);
 	};
-	four_numbers : NUMBER_VALUE '.' NUMBER_VALUE '.' NUMBER_VALUE '.' NUMBER_VALUE
+	/*four_numbers : NUMBER_VALUE '.' NUMBER_VALUE '.' NUMBER_VALUE '.' NUMBER_VALUE
 	{
 		yyerror(ty,"Solo está permitido 3 números.");
 		//YYERROR;
-	};
+	};*/
 
 	prerelease : 
 	'-'  PRERELEASE_VALUE

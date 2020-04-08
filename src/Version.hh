@@ -27,7 +27,7 @@
 #include "Error.hh"
 #include "Object.hh"
 #include "common.h"
-#include "semver-parser.h"
+#include "semver-lexer.h"
 
 namespace octetos
 {

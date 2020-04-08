@@ -29,18 +29,31 @@ liboctetos_core_la_SOURCES = \
 	Version.cc \
 	version-semver.cc \
 	semver.tab.c \
-	semver-parser.cc \
+	semver-lexer.cc \
 	Buffer.cc
 
 
 octetos_core_includedir = $(includedir)/octetos/core
-octetos_core_include_HEADERS = semver-parser.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
+octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = octetos-core.pc
 
-EXTRA_DIST = \
-	octetos-core.pc.in
+EXTRA_DIST = octetos-core.pc.in
+
+
+
+
+
+## The main script
+bin_SCRIPTS = test.py
+
+## Directory where .class files will be installed
+testdir = $(pythondir)/test
+
+test_PYTHON = \
+	test.py
+
 
 uninstall-local:
 	-rm -r $(jsdir)

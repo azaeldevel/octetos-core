@@ -23,7 +23,7 @@
 #include <string.h>
 
 #include "common.h"
-#include "semver-parser.h"
+#include "semver-lexer.h"
 
 int octetos_core_toObject(const char* strver,struct octetos_core_Semver* v)
 {

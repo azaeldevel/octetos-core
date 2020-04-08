@@ -37,7 +37,13 @@ private:
 	char* text;
 public:
 	Buffer(const char*);
+	/**
+	*\brief Avanca un caracter al centinela
+	*/
 	char next_char();
+	/**
+	*\brief Retucede un caracter al centinela
+	*/
 	void prev_char();
 	char check_char(short);
 	void proceed();

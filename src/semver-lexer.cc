@@ -23,7 +23,7 @@
 #include <stdlib.h>
 
 
-#include "semver-parser.h"
+#include "semver-lexer.h"
 #include "Buffer.hh"
 #include <iostream>
 
@@ -37,7 +37,7 @@ namespace core
 bool is_numbers_keyword(Buffer* buffer)
 {
 	char c;
-
+	
 	c = buffer->next_char();
 	if(c != 'n') 
 	{
@@ -346,7 +346,7 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 					yylval.sval=(short)atoi(buffer->get_text());
 					//std::cout << "Number '" << buffer->get_text() << "'\n";
 					return NUMBER_VALUE;
-				}	
+				}
 				
 				if(c == '.')
 				{
@@ -360,13 +360,24 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 					buffer->proceed();
 					return c;
 				}	
+				else if(c == '+')
+				{
+					ty->state = BUILD_VALUE;
+					buffer->proceed();
+					return c;
+				}
 				else if(c == ' ')
 				{
 					goto nextStep;
 				}
+				else if(c == 0 )
+				{
+					ty->state = ENDOFINPUT;
+					return ENDOFINPUT;
+				}
 				else
 				{
-					std::cout << "Output: '" << c << "'\n";
+					//std::cout << "Output: '" << c << "'\n";
 					ty->state = ENDOFINPUT;
 					return c;
 				}
@@ -394,18 +405,52 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 				short strl = strlen(buffer->get_text());
 				yylval.str = (char*)malloc(strl+1);
 				strcpy((char*)(yylval.str),buffer->get_text());
-				ty->state = ENDOFINPUT;
+
+				c = buffer->next_char();
+				if(c == '+')
+				{
+					std::cout << "Build + : " << c << "\n";
+					ty->state = BUILD_VALUE;
+				}
+				else
+				{
+					ty->state = ENDOFINPUT;
+				}
 				return PRERELEASE_VALUE;
 			}
+			case BUILD_VALUE:
+			{
+				nextCharB:
+				c = buffer->next_char();
+				std::cout << "Build : " << c << "\n";
+				if(is_digit(c) || is_letter(c) || c == '.' )
+				{
+					goto nextCharB;
+				}
+				else if (c != 0)
+				{
+					return c;
+				}
+				
+				buffer->prev_char();//por que el último carácter no es parte del token que se activara.
+				buffer->proceed();
+				//std::cout << "Build : " << buffer->get_text() << "\n";
+				short strl = strlen(buffer->get_text());
+				yylval.str = (char*)malloc(strl+1);
+				strcpy((char*)(yylval.str),buffer->get_text());
+				ty->state = ENDOFINPUT;
+				
+				return BUILD_VALUE;
+			}
 			case ENDOFINPUT:	
-				return ENDOFINPUT;
-			default:
 				return ENDOFINPUT;
 		}
 	}
 	
 	return 0;
 }
+
+
 
 }
 }

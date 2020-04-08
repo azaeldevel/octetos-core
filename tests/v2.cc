@@ -6,7 +6,7 @@
 #include <time.h>
 
 #include "config.h"
-#include "semver-parser.h"
+#include "semver-lexer.h"
 
 static std::string bdir;
 
@@ -235,8 +235,8 @@ void testParseString_v100()
 		}
 	}
 	octetos::core::Semver ver4;
-	ver4.set("7.6.23-betar1-2");
-	if(ver4.getPrerelease().compare("betar1-2") == 0)
+	ver4.set("7.6.23-betar12");
+	if(ver4.getPrerelease().compare("betar12") == 0)
 	{
 		CU_ASSERT(true);
 	}
@@ -251,7 +251,7 @@ void testParseString_v100()
 	}
 	
 	octetos::core::Semver ver5;
-	if(ver5.extractNumbers("7.6.23-betar1-2"))
+	if(ver5.extractNumbers("7.6.23"))
 	{
 		//std::cerr << "Extracted :" << (std::string)ver5 << "\n";
 		CU_ASSERT(true);
@@ -267,7 +267,7 @@ void testParseString_v100()
 	}
 	
 	octetos::core::Semver ver6;
-	if(ver6.extractNumbers("7.6.23-betar1.2"))
+	if(ver6.extractNumbers("7.6.23"))
 	{
 		//std::cerr << "Extracted :" << (std::string)ver6 << "\n";
 		CU_ASSERT(true);
@@ -401,6 +401,7 @@ void testParseString_v200()
 			return;
 		}
 	}
+	
     if(ver1.getPatch() == 55)
 	{
 		CU_ASSERT(true);
@@ -428,7 +429,7 @@ void testParseString_v200()
 		}
 	}
     
-	ver2.set("7.6.23-alpha-1"); 
+	ver2.set("7.6.23-alpha"); 
 	if(ver2.getMajor() == 7)
 	{
 		CU_ASSERT(true);
@@ -463,7 +464,7 @@ void testParseString_v200()
 			return;
 		}
 	}
-    if(strcmp(ver2.getPrerelease().c_str(),"alpha-1") == 0)
+    if(strcmp(ver2.getPrerelease().c_str(),"alpha") == 0)
 	{
 		CU_ASSERT(true);
 	}
@@ -478,7 +479,7 @@ void testParseString_v200()
 	}
 	
     
-	ver3.set("7.6.23-alpha5-2");     
+	ver3.set("7.6.23-alpha5");     
 	if(ver3.getMajor() == 7)
 	{
 		CU_ASSERT(true);
@@ -513,7 +514,7 @@ void testParseString_v200()
 			return;
 		}
 	}
-    if(strcmp(ver3.getPrerelease().c_str(),"alpha5-2") == 0)
+    if(strcmp(ver3.getPrerelease().c_str(),"alpha5") == 0)
 	{
 		CU_ASSERT(true);
 	}
@@ -527,8 +528,8 @@ void testParseString_v200()
 		}
 	}
 	octetos::core::Semver ver4;
-	ver4.set("7.6.23-betar1-2");
-	if(ver4.getPrerelease().compare("betar1-2") == 0)
+	ver4.set("7.6.23-betar1");
+	if(ver4.getPrerelease().compare("betar1") == 0)
 	{
 		CU_ASSERT(true);
 	}
@@ -541,62 +542,6 @@ void testParseString_v200()
 			return;
 		}
 	}
-
-	/*octetos::core::semver::v200 ver5;
-	ver5.set("1.6.55+20190102"); 
-    if(ver5.getMajor() == 1)
-	{
-		std::cout << "["<< (std::string)ver5 << "]: pass \n";
-		CU_ASSERT(true);
-	}
-	else
-	{
-		CU_ASSERT(false);
-		if(octetos::core::Error::check())
-		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
-			return;
-		}
-	}
-    if(ver1.getMinor() == 6)
-	{
-		CU_ASSERT(true);
-	}
-	else
-	{
-		CU_ASSERT(false);
-		if(octetos::core::Error::check())
-		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
-			return;
-		}
-	}
-    if(ver1.getPatch() == 55)
-	{
-		CU_ASSERT(true);
-	}
-	else
-	{
-		CU_ASSERT(false);
-		if(octetos::core::Error::check())
-		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
-			return;
-		}
-	}
-    if(strcmp(ver1.getPrerelease().c_str(),"alpha") == 0)
-	{
-		CU_ASSERT(true);
-	}
-	else
-	{
-		CU_ASSERT(false);
-		if(octetos::core::Error::check())
-		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
-			return;
-		}
-	}*/
 }
 
 
