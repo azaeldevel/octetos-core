@@ -282,6 +282,10 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 					{
 						ty->state = ALL_KW;
 					}
+					else
+					{
+						return c;
+					}
 				}
 				else if(c == ' ')
 				{
@@ -290,7 +294,11 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 				else if(is_digit(c))
 				{
 					ty->state = NUMBER_VALUE;
-				}				
+				}	
+				else if(is_letter(c))
+				{
+					return c;
+				}
 				else
 				{
 					ty->state = -1;
@@ -374,6 +382,10 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 				{
 					ty->state = ENDOFINPUT;
 					return ENDOFINPUT;
+				}
+				else if(is_letter(c))
+				{
+					return c;
 				}
 				else
 				{

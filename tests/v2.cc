@@ -345,9 +345,9 @@ void testParseString_v100()
 			return;
 		}
 	}
-	/*
-	octetos::core::semver::v100 ver11;
-	if(ver11.set("1.2.0-alpha1+500"))
+	
+	octetos::core::Semver ver11;
+	if(ver11.set("1.2.0"))
 	{
 		//std::cerr << "Str :" << (std::string)ver8 << "\n";
 		CU_ASSERT(true);
@@ -361,19 +361,34 @@ void testParseString_v100()
 			return;
 		}
 	}
-	*/
+	
+	octetos::core::Semver ver12;
+	if(ver12.set("1.2.0"))//no deve aceptar letras en la secion numerica
+	{
+		//std::cerr << "Str :" << (std::string)ver8 << "\n";
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
 }
 
 void testParseString_v200()
 {
 	octetos::core::Semver ver1,ver2,ver3;
-
+	
 	if(octetos::core::Error::check())
 	{
 		CU_ASSERT(false);
 		std::cerr << (std::string)octetos::core::Error::get() << "\n";
 		return;
-	}	
+	}
 	
     if(ver1.set("1.6.55-alpha"))
 	{
