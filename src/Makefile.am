@@ -42,18 +42,5 @@ pkgconfig_DATA = octetos-core.pc
 EXTRA_DIST = octetos-core.pc.in
 
 
-
-
-
-## The main script
-bin_SCRIPTS = test.py
-
-## Directory where .class files will be installed
-testdir = $(pythondir)/test
-
-test_PYTHON = \
-	test.py
-
-
 uninstall-local:
 	-rm -r $(jsdir)
