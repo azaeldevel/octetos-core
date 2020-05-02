@@ -9,5 +9,5 @@ Name: octetos-core
 Description: C/C++ library to mainly provide Semantic Versioned inplmetation.
 Version: @VERSION@
 Requires: 
-Libs: -L${libdir} -loctetos-core -ldl -lconfig++
+Libs: -L${libdir} -loctetos-core -lconfig++
 Cflags: -I${includedir}
