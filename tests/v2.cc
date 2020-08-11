@@ -377,6 +377,37 @@ void testParseString_v100()
 			return;
 		}
 	}
+
+	octetos::core::Semver ver13;
+    if(ver13.set("0.1.0-alpha"))
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
+
+	
+	octetos::core::Semver ver14;
+    if(ver14.extractNumbers("0.1.0-alpha"))
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
 }
 
 void testParseString_v200()

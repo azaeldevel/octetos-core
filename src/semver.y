@@ -49,7 +49,7 @@
 		YYACCEPT;
 	}
 	|
-	EXTRACT_KW NUMBERS_KW FROM_KW numbers_value ENDOFINPUT
+	EXTRACT_KW NUMBERS_KW FROM_KW numbers_value
 	{
 		YYACCEPT;
 	}

@@ -189,7 +189,7 @@ namespace core
 		ty.str = cmdstr.c_str();
         int ret = parse_string(&ty);
 		
-        if(!ret) return true;
+        if(ret==0) return true;
         return false;
 	}
 	void Semver::setPrerelease(const std::string& str)
