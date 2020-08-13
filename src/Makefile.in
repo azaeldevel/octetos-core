@@ -97,7 +97,7 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(octetos_core_include_HEADERS) \
+DIST_COMMON = $(srcdir)/Makefile.am $(include_HEADERS) \
 	$(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -131,7 +131,7 @@ am__uninstall_files_from_dir = { \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
-	"$(DESTDIR)$(octetos_core_includedir)"
+	"$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 @NATIVE_WIN32_TRUE@liboctetos_core_la_DEPENDENCIES =  \
@@ -224,7 +224,7 @@ am__can_run_installinfo = \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
 DATA = $(pkgconfig_DATA)
-HEADERS = $(octetos_core_include_HEADERS)
+HEADERS = $(include_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -411,6 +411,7 @@ program_transform_name = @program_transform_name@
 psdir = @psdir@
 pyexecdir = @pyexecdir@
 pythondir = @pythondir@
+runstatedir = @runstatedir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
@@ -421,9 +422,9 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign 1.4
 lib_LTLIBRARIES = liboctetos-core.la
-liboctetos_core_la_CFLAGS = -fPIC  $(AM_CFLAGS)
-liboctetos_core_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
-liboctetos_core_la_CXXFLAGS = -fPIC $(AM_CPPFLAGS)
+liboctetos_core_la_CFLAGS = -fPIC
+liboctetos_core_la_CPPFLAGS = -fPIC
+liboctetos_core_la_CXXFLAGS = -fPIC
 liboctetos_core_la_LDFLAGS = -shared -fPIC $(am__append_1) \
 	$(am__append_2)
 @NATIVE_WIN32_TRUE@liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS)
@@ -441,8 +442,10 @@ liboctetos_core_la_SOURCES = \
 	semver-lexer.cc \
 	Buffer.cc
 
-octetos_core_includedir = $(includedir)/octetos/core
-octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh
+
+#octetos_core_includedir = $(includedir)/octetos/core
+#octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh
+include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = octetos-core.pc
 EXTRA_DIST = octetos-core.pc.in
@@ -689,27 +692,27 @@ uninstall-pkgconfigDATA:
 	@list='$(pkgconfig_DATA)'; test -n "$(pkgconfigdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(pkgconfigdir)'; $(am__uninstall_files_from_dir)
-install-octetos_core_includeHEADERS: $(octetos_core_include_HEADERS)
+install-includeHEADERS: $(include_HEADERS)
 	@$(NORMAL_INSTALL)
-	@list='$(octetos_core_include_HEADERS)'; test -n "$(octetos_core_includedir)" || list=; \
+	@list='$(include_HEADERS)'; test -n "$(includedir)" || list=; \
 	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(octetos_core_includedir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(octetos_core_includedir)" || exit 1; \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(includedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(includedir)" || exit 1; \
 	fi; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(octetos_core_includedir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(octetos_core_includedir)" || exit $$?; \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(includedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(includedir)" || exit $$?; \
 	done
 
-uninstall-octetos_core_includeHEADERS:
+uninstall-includeHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(octetos_core_include_HEADERS)'; test -n "$(octetos_core_includedir)" || list=; \
+	@list='$(include_HEADERS)'; test -n "$(includedir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(octetos_core_includedir)'; $(am__uninstall_files_from_dir)
+	dir='$(DESTDIR)$(includedir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -800,7 +803,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(octetos_core_includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -866,8 +869,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-octetos_core_includeHEADERS \
-	install-pkgconfigDATA
+install-data-am: install-includeHEADERS install-pkgconfigDATA
 
 install-dvi: install-dvi-am
 
@@ -923,8 +925,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES uninstall-local \
-	uninstall-octetos_core_includeHEADERS uninstall-pkgconfigDATA
+uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES \
+	uninstall-local uninstall-pkgconfigDATA
 
 .MAKE: install-am install-strip
 
@@ -934,15 +936,15 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-local \
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES install-man \
-	install-octetos_core_includeHEADERS install-pdf install-pdf-am \
+	install-exec-am install-html install-html-am \
+	install-includeHEADERS install-info install-info-am \
+	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
 	install-pkgconfigDATA install-ps install-ps-am install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES \
-	uninstall-local uninstall-octetos_core_includeHEADERS \
+	tags tags-am uninstall uninstall-am uninstall-includeHEADERS \
+	uninstall-libLTLIBRARIES uninstall-local \
 	uninstall-pkgconfigDATA
 
 .PRECIOUS: Makefile

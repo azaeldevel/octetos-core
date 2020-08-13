@@ -6,9 +6,9 @@ lib_LTLIBRARIES = liboctetos-core.la
 semver.tab.c : semver.y 
 	bison -d -o $@ $<
 
-liboctetos_core_la_CFLAGS = -fPIC  $(AM_CFLAGS)
-liboctetos_core_la_CPPFLAGS = -fPIC $(AM_CPPFLAGS)
-liboctetos_core_la_CXXFLAGS = -fPIC $(AM_CPPFLAGS)
+liboctetos_core_la_CFLAGS = -fPIC
+liboctetos_core_la_CPPFLAGS = -fPIC
+liboctetos_core_la_CXXFLAGS = -fPIC
 liboctetos_core_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32
 liboctetos_core_la_LDFLAGS += -no-undefined
@@ -33,8 +33,9 @@ liboctetos_core_la_SOURCES = \
 	Buffer.cc
 
 
-octetos_core_includedir = $(includedir)/octetos/core
-octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh
+#octetos_core_includedir = $(includedir)/octetos/core
+#octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh
+include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = octetos-core.pc
