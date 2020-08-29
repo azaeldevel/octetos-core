@@ -1,5 +1,7 @@
 2020-08-29 Azael Reyes <azael.devel@gmail.com>
+2.4.0-alpha
 	- Se agrego opción 'make check'
+	- Refactory
 
 2020-08-24 Azael Reyes <azael.devel@gmail.com>
 version 2.3.3

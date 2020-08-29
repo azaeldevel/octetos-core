@@ -1,0 +1,4 @@
+Azael Reyes <azael.devel@gmail.com>
+	- Agregar Soporte para Python 
+	- Agregar la capacidad a la clase packages de parsear un string para
+		optener nombre y version.
