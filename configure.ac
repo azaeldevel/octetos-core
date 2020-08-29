@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
-AC_INIT(octetos-core,2.3.3-beta, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.4.0-beta, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign])
 AM_SILENT_RULES([yes])
@@ -15,12 +15,12 @@ AM_PATH_PYTHON
 dnl ***************************************************************************
 dnl Internationalization
 dnl ***************************************************************************
-IT_PROG_INTLTOOL([0.35.0])
+#IT_PROG_INTLTOOL([0.35.0])
 
-GETTEXT_PACKAGE=octetos-core
-AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
-AM_GLIB_GNU_GETTEXT
+#GETTEXT_PACKAGE=octetos-core
+#AC_SUBST(GETTEXT_PACKAGE)
+#AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
+#AM_GLIB_GNU_GETTEXT
 
 
 
@@ -51,16 +51,7 @@ LT_INIT([win32-dll])
 
 PKG_CHECK_MODULES(LIBCONFIG,libconfig++)
 
-AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
-AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Pruebas.]))
-if test "x$with_tests" = "xyes"; then
-	PKG_CHECK_MODULES(CUNIT,cunit)
-	#AC_CHECK_PROG([VERSION],[version])
-	#if test -z "$VERSION"; then
-	#   AC_MSG_ERROR([Es necesario instalar 'version', pertenece al paquete octeos-software, puede descargarlo en https://github.com/azaeldevel/octetos-software.git])
-	#fi	
-fi
-#AM_CONDITIONAL([HAVE_VERSION], [test -n "$VERSION"])
+PKG_CHECK_MODULES(CUNIT,cunit)
 
 
 AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")
@@ -93,5 +84,4 @@ Makefile
 src/octetos-core.pc
 src/Makefile
 tests/Makefile
-examples/Makefile
-po/Makefile.in])
+examples/Makefile])

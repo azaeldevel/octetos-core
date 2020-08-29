@@ -1,9 +1,7 @@
 AUTOMAKE_OPTIONS=foreign 1.4
 
-SUBDIRS = src po 
-if WITH_TESTS
-SUBDIRS += tests
-endif
+SUBDIRS = src tests
+
 if WITH_DOCS
 SUBDIRS +=  docs
 endif
@@ -29,8 +27,7 @@ EXTRA_DIST = \
 
 DISTCLEANFILES = intltool-extract \
 	intltool-merge \
-	intltool-update \
-	po/.intltool-merge-cache
+	intltool-update 
 
 
 # Remove doc directory on uninstall

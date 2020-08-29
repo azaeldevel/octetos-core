@@ -1,9 +1,14 @@
-v0.5.0 - Azael Reyes
+2020-08-29 Azael Reyes <azael.devel@gmail.com>
+	- Se agrego opción 'make check'
+
+2020-08-24 Azael Reyes <azael.devel@gmail.com>
+version 2.3.3
+	Soporte para Sematic Version
+version 0.5.0
 	- Adaptación para pkgconfig
 	- Se cambia el nombre de core::Version hacia core::Semver y se crea la 
 	  clase bastracta core::Version.
 	- Implemetación de documentación.
-
-v0.0.1 - Azael Reyes
+version 0.0.1
 	Creación de proyecto apartir de toolkit::common v6.10
 
