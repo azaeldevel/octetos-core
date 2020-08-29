@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS=foreign 1.4
 
 
-lib_LTLIBRARIES = liboctetos-core.la libshmem.la
+lib_LTLIBRARIES = liboctetos-core.la
 
 semver.tab.c : semver.y 
 	bison -d -o $@ $<
