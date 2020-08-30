@@ -354,10 +354,8 @@ workaround:
    'configure' recognizes the following options to control how it
 operates.
 
-
---with-tests 		Crea pruebas.
+--with-docs			Crea la documentacion con doxygen
 --with-examples		Crea ejemplos.
---with-sandbox 		Activa algunas caracteristicas de soporte a desarrollo.
 
 '--help'
 '-h'
