@@ -57,6 +57,10 @@ namespace core
 			* \brief Cuando el se detecta un error generado fuera del alcance del manejador.
 			**/
 			ERROR_NOTADDRESSED,
+			ERROR_ARTIFACT,
+			EROOR_BUFFER,
+			ERROR_LICENCE,
+			ERROR_OBJECT,
 			/**
 			* \brief Codigo generico usado para la clase Version.
 			* */

@@ -112,6 +112,20 @@ namespace core
 				lc.add("type", libconfig::Setting::TypeString) = "LGPL";
 				break;
 			default:
+				std::string msg;
+				if(type >=GPL and Zopev21 <= type)
+				{
+					msg = "Aún se trabaja en el soporte para esta licencia.";
+				}
+				else
+				{
+					msg = "No se conoce el tipo de licensia especificado.";
+				}
+#ifdef DEBUG
+				Error::write(Error(msg,Error::Codes::ERROR_LECENCE,__FILE__,__LINE__));
+#else
+				Error::write(Error(msg,Error::Codes::ERROR_LECENCE));
+#endif
 				return false;
 		}
 		lc.add("owner", libconfig::Setting::TypeString) = owner;

@@ -23,8 +23,12 @@
 #include <cstdlib>
 #include <libconfig.h++>
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
 #include "Artifact.hh"
+#include "Error.hh"
+
 
 namespace octetos
 {
@@ -41,10 +45,22 @@ namespace core
 	  	}
 	  	catch(const libconfig::FileIOException &fioex)
 	  	{
+			std::string msg = fioex.what();
+#ifdef DEBUG
+			Error::write(Error(msg,errno,__FILE__,__LINE__));
+#else
+			Error::write(Error(msg,errno));
+#endif
 			return false;
 	  	}
 	  	catch(const libconfig::ParseException &pex)
-	  	{
+	  	{	
+			std::string msg = pex.what();
+#ifdef DEBUG
+			Error::write(Error(msg,Error::Codes::ERROR_ARTIFACT,__FILE__,__LINE__));
+#else
+			Error::write(Error(msg,Error::Codes::ERROR_ARTIFACT));
+#endif
 			return false;
 	  	}
 
@@ -64,7 +80,7 @@ namespace core
 		url = (const std::string&)root["package"]["url"];
 		version.set(root["package"]["version"]);
 		
-		return false;
+		return true;
 	}
 	bool Artifact::write(const std::string& file)
 	{
@@ -85,10 +101,22 @@ namespace core
 		}
 		catch(libconfig::FileIOException ex)
 		{
+			std::string msg = ex.what();
+#ifdef DEBUG
+			octetos::core::Error::write(octetos::core::Error(msg,Error::Codes::ERROR_ARTIFACT,__FILE__,__LINE__));
+#else
+			octetos::core::Error::write(octetos::core::Error(msg,Error::Codes::ERROR_ARTIFACT));
+#endif
 			return false;
 		}
 		catch(libconfig::SettingTypeException ex)
 		{
+			std::string msg = ex.what();
+#ifdef DEBUG
+			Error::write(Error(msg,Error::Codes::ERROR_ARTIFACT,__FILE__,__LINE__));
+#else
+			Error::write(Error(msg,Error::Codes::ERROR_ARTIFACT));
+#endif
 			return false;
 		}
 		
