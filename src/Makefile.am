@@ -6,15 +6,15 @@ lib_LTLIBRARIES = liboctetos-core.la
 semver.tab.c : semver.y 
 	bison -d -o $@ $<
 
-liboctetos_core_la_CFLAGS = -fPIC
-liboctetos_core_la_CPPFLAGS = -fPIC
-liboctetos_core_la_CXXFLAGS = -fPIC
-liboctetos_core_la_LDFLAGS = -shared -fPIC
+liboctetos_core_la_CFLAGS = 
+liboctetos_core_la_CPPFLAGS = 
+liboctetos_core_la_CXXFLAGS = 
+liboctetos_core_la_LDFLAGS = -static
 if PLATFORM_WIN32
-liboctetos_core_la_LDFLAGS += -no-undefined
+liboctetos_core_la_LDFLAGS +=
 endif
 if NATIVE_WIN32
-liboctetos_core_la_LDFLAGS += -export-dynamic
+liboctetos_core_la_LDFLAGS +=
 
 liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS)
 endif
