@@ -588,6 +588,22 @@ void testParseString_v200()
 			return;
 		}
 	}
+
+	
+	octetos::core::Semver ver5;
+	if(ver4.set("5.0.0-alpha"))
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+		if(octetos::core::Error::check())
+		{
+			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			return;
+		}
+	}
 }
 
 
