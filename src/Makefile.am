@@ -1,5 +1,6 @@
 AUTOMAKE_OPTIONS=foreign 1.4
 
+
 if DEBUG
 AM_CFLAGS = -g3 -O0
 AM_CXXFLAGS = -g3 -O0
@@ -9,7 +10,7 @@ endif
 lib_LTLIBRARIES = liboctetos-core.la
 
 semver.tab.c : semver.y 
-	bison -d -o $@ $<
+	bison --debug -d -o $@ $<
 
 liboctetos_core_la_CFLAGS = 
 liboctetos_core_la_CPPFLAGS = 
