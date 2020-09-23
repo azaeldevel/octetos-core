@@ -98,7 +98,7 @@ const char* octetos_core_Semver_toString(const struct octetos_core_Semver* versi
 		int leng = sprintf(buffer,"%d.%d",version->major,version->minor);
 		numberStr = malloc(leng +1);
 		strcpy(numberStr, buffer);
-	}	
+	}
 	else if(version->major > -1)
 	{
 		char* buffer[7];

@@ -591,7 +591,7 @@ void testParseString_v200()
 
 	
 	octetos::core::Semver ver5;
-	if(ver4.set("5.0.0-alpha"))
+	if(ver5.set("5.0.0-alpha\n"))
 	{
 		CU_ASSERT(true);
 	}

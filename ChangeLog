@@ -1,4 +1,8 @@
-2020-08-29 Azael Reyes <azael.devel@gmail.com>
+2020-09-23 Azael Reyes <azael.devel@gmail.com>
+2.7.2-alpha
+	- Se agrega --enable-debug
+
+2020-08-05 Azael Reyes <azael.devel@gmail.com>
 2.7.1-alpha
 	- Se elimina enlazado con librerias en las pruebas.
 

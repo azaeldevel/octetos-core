@@ -176,7 +176,21 @@ namespace core
             return false;
         }
     }
-	
+	bool Semver::set(const std::string& str)
+	{
+        octetos_core_Tray ty;
+		ty.dysplay_erro = 0;
+		ty.version = this;
+		ty.buffer = NULL;
+		ty.state = 0;
+		std::string cmdstr = "extract all from ";
+		cmdstr += str;
+		ty.str = cmdstr.c_str();
+        int ret = parse_string(&ty);
+		
+        if(ret == 0) return true;
+        return false;
+	}
 	bool Semver::extractNumbers(const std::string& str)
 	{
         octetos_core_Tray ty;
@@ -202,24 +216,9 @@ namespace core
 		{
 			return prerelease;
 		}
-	}
-	
-	
-	bool Semver::set(const std::string& str)
-	{
-        octetos_core_Tray ty;
-		ty.dysplay_erro = 0;
-		ty.version = this;
-		ty.buffer = NULL;
-		ty.state = 0;
-		std::string cmdstr = "extract all from ";
-		cmdstr += str;
-		ty.str = cmdstr.c_str();
-        int ret = parse_string(&ty);
-		
-        if(ret == 0) return true;
-        return false;
-	}	
+
+		return "";
+	}		
 	bool Semver::set(unsigned long ver,ImportCode import)
 	{
 		if(import == ImportCode::MySQL)

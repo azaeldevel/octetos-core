@@ -4,3 +4,5 @@ Azael Reyes <azael.devel@gmail.com>
 		optener nombre y version.
 	- Agregar traduciones
 	- Nomalizar mensajes de error con bandera Debug
+	- Agregar liboctetos-core.pc
+	- Eliminar octetos-core.pc
