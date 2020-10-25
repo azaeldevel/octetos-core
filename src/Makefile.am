@@ -1,10 +1,6 @@
 AUTOMAKE_OPTIONS=foreign 1.4
 
 
-if DEBUG
-AM_CFLAGS = -g3 -O0
-AM_CXXFLAGS = -g3 -O0
-endif
 
 
 lib_LTLIBRARIES = liboctetos-core.la
@@ -15,7 +11,7 @@ semver.tab.c : semver.y
 liboctetos_core_la_CFLAGS = 
 liboctetos_core_la_CPPFLAGS = 
 liboctetos_core_la_CXXFLAGS = 
-liboctetos_core_la_LDFLAGS = -shared -fPIC
+liboctetos_core_la_LDFLAGS = -static
 if PLATFORM_WIN32
 liboctetos_core_la_LDFLAGS +=
 endif
@@ -43,7 +39,6 @@ libshmem_la_CFLAGS = -fPIC
 
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh
-include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = octetos-core.pc

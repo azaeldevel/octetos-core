@@ -3,7 +3,7 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 datarootdir=@datarootdir@
 datadir=@datadir@
-includedir=@prefix@/include/octetos/core
+includedir=@prefix@/include
 
 Name: octetos-core
 Description: C/C++ library to mainly provide Semantic Versioned inplmetation.

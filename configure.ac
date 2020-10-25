@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
-AC_INIT(octetos-core,2.7.5-alpha, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.8.0-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign gnu subdir-objects])
 AM_SILENT_RULES([yes])
@@ -88,7 +88,6 @@ AS_HELP_STRING([--enable-debug],
 esac],
 [debug=false])
 
-AM_CONDITIONAL(DEBUG, test x"$debug" = x"true")
 
 
 AC_OUTPUT([

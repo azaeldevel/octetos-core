@@ -1,20 +1,6 @@
 AUTOMAKE_OPTIONS=foreign 1.4
 
-if DEBUG
-AM_CFLAGS = -g3 -O0
-AM_CXXFLAGS = -g3 -O0
-endif
 
-AM_CPPFLAGS = \
-	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
-	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
-	$(CUNIT_CFLAGS) \
-	$(all_includes)
-
-AM_CFLAGS = \
-	 -Wall \
-	 -g
 
 
 check_PROGRAMS = v2
