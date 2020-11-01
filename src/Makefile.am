@@ -11,7 +11,7 @@ semver.tab.c : semver.y
 liboctetos_core_la_CFLAGS = 
 liboctetos_core_la_CPPFLAGS = 
 liboctetos_core_la_CXXFLAGS = 
-liboctetos_core_la_LDFLAGS = -static -fPIC
+liboctetos_core_la_LDFLAGS = -shared -fPIC
 if PLATFORM_WIN32
 liboctetos_core_la_LDFLAGS +=
 endif
