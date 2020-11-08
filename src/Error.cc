@@ -29,6 +29,10 @@ namespace octetos
 {
 namespace core
 {	
+	const Error* Error::see()
+	{
+		return error;
+	}
 	Error::operator const std::string&()
 	{
 		return full;
@@ -63,6 +67,11 @@ namespace core
                 error = new Error(e);
                 return true;
         }
+	Error::Error(const Error& e) throw()
+	{
+		full = e.full;
+		code = e.code;
+	}
 	Error::Error(const std::string& brief, int code,std::string filename,int lineNumber) throw()
 	{
 		full = filename + " : " + std::to_string(lineNumber) + ", Codigo (" + std::to_string(code) + "):" + "\n" + brief;

@@ -108,11 +108,19 @@ namespace core
 		/**
 		* \brief Returna una copia del objeto error y limpa el registro
 		* */
+		/**
+		* \brief Especifica en el mensaje  una descricion y codigo de error.
+		* */
+		Error(const Error&) throw();
 		operator const std::string&();                
 		/**
 		* \brief Retorna el error si lo hay
 		* */
 		static Error get();                
+		/**
+		* \brief Retorna el error si lo hay
+		* */
+		static const Error* see() ;               
 		/**
 		* \brief Verifica si hay error en el registro.
 		* \details Esta funcion no modifica el registro. Usela al inciar una funcion si retorna true termine su funcion con error pero sin escribir uno nuevo. Una vez que la funcion apropiada reciba de nuevo el control prodra usará get para determinar el error causado.

@@ -6,7 +6,7 @@ AUTOMAKE_OPTIONS=foreign 1.4
 lib_LTLIBRARIES = liboctetos-core.la
 
 semver.tab.c : semver.y 
-	bison --debug -d -o $@ $<
+	bison  -d -o $@ $<
 
 liboctetos_core_la_CFLAGS = 
 liboctetos_core_la_CPPFLAGS = 
@@ -34,8 +34,7 @@ liboctetos_core_la_SOURCES = \
 	semver-lexer.cc \
 	Buffer.cc
 
-libshmem_la_SOURCES = dummy.c
-libshmem_la_CFLAGS = -fPIC
+
 
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh
