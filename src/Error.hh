@@ -143,7 +143,7 @@ namespace core
 		* \brief Almacena el codifo de error actual.
 		* */
 		static const Error* error;
-	};
+	}__attribute__ ((deprecated));
 }
 }
 

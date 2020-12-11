@@ -52,7 +52,7 @@ namespace core
         {
                 this->activities += activities;
         }
-        void ActivityProgress::step(const Error& msg)
+        void ActivityProgress::step(const Exception& msg)
         {
                 steps++;
                 add(msg);

@@ -32,7 +32,8 @@ liboctetos_core_la_SOURCES = \
 	version-semver.cc \
 	semver.tab.c \
 	semver-lexer.cc \
-	Buffer.cc
+	Buffer.cc \
+	Exception.cc
 
 
 
