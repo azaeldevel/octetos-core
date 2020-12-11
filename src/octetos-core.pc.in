@@ -8,6 +8,6 @@ includedir=@prefix@/include
 Name: octetos-core
 Description: C/C++ library to mainly provide Semantic Versioned inplmetation.
 Version: @VERSION@
-Requires: libconfig++
+Requires: libconfig++ openssl
 Libs: -L${libdir} -loctetos-core 
 Cflags: -I${includedir}
