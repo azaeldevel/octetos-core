@@ -39,8 +39,8 @@ namespace core
 		Semver version;
 		Licence licence;
 		
-		bool write(const std::string&);
-		bool read(const std::string&);
+		bool write(const std::string&)__attribute__ ((deprecated));
+		bool read(const std::string&)__attribute__ ((deprecated));
 	};
 	
 	/**

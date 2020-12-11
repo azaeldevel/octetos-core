@@ -1,4 +1,4 @@
-AC_INIT(octetos-core,2.9.0-beta, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.10.0-beta, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign gnu subdir-objects])
 AM_SILENT_RULES([yes])
@@ -49,6 +49,8 @@ LT_INIT([win32-dll])
 PKG_CHECK_MODULES(LIBCONFIG,libconfig++)
 
 PKG_CHECK_MODULES(CUNIT,cunit)
+
+PKG_CHECK_MODULES(OPENSSL,openssl)
 
 
 AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")

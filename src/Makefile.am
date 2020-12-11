@@ -18,7 +18,7 @@ endif
 if NATIVE_WIN32
 liboctetos_core_la_LDFLAGS +=
 
-liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS)
+liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)
 endif
 liboctetos_core_la_LIBDADD =
 liboctetos_core_la_SOURCES = \
@@ -33,12 +33,13 @@ liboctetos_core_la_SOURCES = \
 	semver.tab.c \
 	semver-lexer.cc \
 	Buffer.cc \
-	Exception.cc
+	Exception.cc \
+	MD5sum.cc
 
 
 
 octetos_core_includedir = $(includedir)/octetos/core
-octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh
+octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh MD5sum.hh
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = octetos-core.pc

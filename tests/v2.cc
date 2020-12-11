@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <Artifact.hh>
 #include <time.h>
+#include <MD5sum.hh>
+
 
 #include "config.h"
 #include "semver-lexer.h"
@@ -17,6 +19,21 @@ int init(void)
 int clean(void)
 {
 	return 0;
+}
+
+
+void testCrypto()
+{
+	octetos::core::MD5sum md5("1");
+	//std::cout << "MD5 = " << (const std::string&)md5 << "\n";
+	if(md5.compare("c4ca4238a0b923820dcc509a6f75849b") == 0)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
 }
 
 void testImports_v100()
@@ -591,7 +608,7 @@ void testParseString_v200()
 
 	
 	octetos::core::Semver ver5;
-	if(ver5.set("5.0.0-alpha\n"))
+	if(ver5.set("5.0.0-alpha"))
 	{
 		CU_ASSERT(true);
 	}
@@ -976,7 +993,7 @@ void testComparators_v100()
 
 void testOperations_v100()
 {	
-	time_t seconds = time (NULL);
+	/*time_t seconds = time (NULL);
 	octetos::core::Artifact packinfo;
 	octetos::core::getPackageInfo(packinfo);
 	std::string str = std::to_string(seconds);
@@ -990,7 +1007,7 @@ void testOperations_v100()
 	else
 	{
 		CU_ASSERT(false);
-	}
+	}*/
 
 	//octetos::core::Artifact pk;
 	//pk.read (filename);
@@ -1131,13 +1148,18 @@ int main(int argc, char *argv[])
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
-	}*/
-	
+	}*/	
 	if ((NULL == CU_add_test(pSuite, "Validacion de parseo semver v2.0.0", testParseString_v200)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+	if ((NULL == CU_add_test(pSuite, "Testing MD5 component.", testCrypto)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+	
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
