@@ -2,11 +2,11 @@
 #define OCTETOS_CORE_ARTIFACT_HH
 
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -19,17 +19,19 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
+
 
 #include "Version.hh"
 #include "Licence.hh"
+
 
 namespace octetos
 {
 namespace core
 {
-	class Artifact : public Object
+	class DECLSPCE_DLL Artifact : public Object
 	{
 	public:
 		std::string name;
@@ -38,16 +40,18 @@ namespace core
 		std::string url;
 		Semver version;
 		Licence licence;
-		
+
 		bool write(const std::string&);
 		bool read(const std::string&);
 	};
-	
+
 	/**
 	 * \brief retorna la informacion del paquete
 	 **/
 	bool getPackageInfo(Artifact&);
 }
 }
+
+
 
 #endif

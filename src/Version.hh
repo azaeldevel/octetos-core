@@ -1,11 +1,12 @@
 #ifndef OCTETOS_CORE_VERSION_HH
 #define OCTETOS_CORE_VERSION_HH
+
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -18,8 +19,11 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
+
+
+
 
 #include <string>
 #include <vector>
@@ -29,18 +33,20 @@
 #include "common.h"
 #include "semver-lexer.h"
 
+
+
 namespace octetos
 {
 namespace core
 {
-	class InvalidComparison : public Error
+	class DECLSPCE_DLL InvalidComparison : public Error
 	{
 	public:
 		InvalidComparison(const std::string& msg ,std::string filename,int lineNumber);
 		InvalidComparison(const std::string& msg);
 	};
 
-	class Version
+	class DECLSPCE_DLL Version
 	{
 	public:
 		virtual bool operator ==(const Version&)const = 0;
@@ -58,7 +64,7 @@ namespace core
 	* \brief Implemete un subconjuto de semver v1.0.0
 	* \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 	**/
-	class Semver : private octetos_core_Semver , public core::Version
+	class DECLSPCE_DLL Semver : private octetos_core_Semver , public core::Version
 	{
 	public:
 		enum ImportCode
@@ -66,7 +72,7 @@ namespace core
 			MySQL,
 			PostgreSQL,
 		};
-				
+
 	public:
 		/**
 		* \brief Limpia todos los datos
@@ -84,9 +90,9 @@ namespace core
 		* \brief Retorna el número patch
 		* */
 		Number getPatch() const;
-				
+
 		std::string getPrerelease() const;
-				
+
 		/**
 		* \brief Asigna todos los campos de version.
 		* */
@@ -123,8 +129,8 @@ namespace core
 		* */
 		std::string toString(FormatString formato = FormatString::FullString) const;
 		operator std::string();
-		virtual ~Semver();	
-		Semver(const Semver&);		
+		virtual ~Semver();
+		Semver(const Semver&);
 		Semver();
 		/**
 		* \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
@@ -138,7 +144,7 @@ namespace core
 		* \brief Hace una copia del objecto version.
 		* */
 		const octetos_core_Semver& operator =(const octetos_core_Semver& v);
-		const Semver& operator =(const Semver& v);		
+		const Semver& operator =(const Semver& v);
 		bool extractNumbers(const std::string&);
 
 
@@ -149,7 +155,8 @@ namespace core
 		virtual bool operator >=(const Version&)const;
 		virtual bool operator <=(const Version&)const;
 	};
-	
+
 }
 }
+
 #endif

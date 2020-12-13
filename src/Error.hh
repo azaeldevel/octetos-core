@@ -1,11 +1,11 @@
 #ifndef OCTETOS_CORE_ERROR_HH
 #define OCTETOS_CORE_ERROR_HH
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -18,12 +18,16 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
+
+
+
 
 #include <string>
 #include <exception>
 
+#include "defines.hh"
 
 namespace octetos
 {
@@ -33,7 +37,7 @@ namespace core
 	* \brief Clase dedicda a la gestion de errores
     * \details Aunque se puede comportar como una exception estandar, su pricipal capacidad radica en sus metodo get, chech y write (staticos). Unaves escrito un mesaje mediante write esta dispoble para el retos del modulo mediante la funcion get. Use chech para determinar si hay alguno error registrado sin leer.
     * */
-	class Error : public std::exception
+	class DECLSPCE_DLL Error : public std::exception
 	{
 	public:
 		/**
@@ -65,9 +69,9 @@ namespace core
 			* \brief Codigo generico usado para la clase Version.
 			* */
 			ERROR_VERSION,
-			ERROR_VERSION_INVALID_COMPARISON, 
-			ERROR_VERSION_PARSING,                       
-			ERROR_LECENCE,                
+			ERROR_VERSION_INVALID_COMPARISON,
+			ERROR_VERSION_PARSING,
+			ERROR_LECENCE,
 			ERROR_PACKAGE,
 			ERROR_DB_CONNECTION = 1000,
 			ERROR_DB_QUERY,
@@ -78,15 +82,15 @@ namespace core
 			* \brief Cada modulo que implemete gestion de error deve asignar el valor de inicio de su enumeracion con este valor para evitar conflictos.
 			* */
 			ROOFCODE = 3001
-		};                
+		};
 		/**
 		* \brief requerido por std::exception
 		* */
-		virtual ~Error() throw();       
+		virtual ~Error() throw();
 		/**
 		* \brief requerido por std::exception
 		* */
-		virtual const char* what() const throw();                       
+		virtual const char* what() const throw();
 		/**
 		* \brief retorna un obejto std::string con la descripcion del error.
 		* \details Basicamente es la misma informacion retornado por el metodo what, sin enbargo en este caso se retorna una referencia al objeto intenor que matenien la informacion
@@ -104,7 +108,7 @@ namespace core
 		/**
 		* \brief Especifica en el mensaje  un comentario, codigo de error, nombre de archivo y linea.
 		* */
-		Error(const std::string&, int code,std::string filename,int lineNumber) throw(); 
+		Error(const std::string&, int code,std::string filename,int lineNumber) throw();
 		/**
 		* \brief Returna una copia del objeto error y limpa el registro
 		* */
@@ -112,21 +116,21 @@ namespace core
 		* \brief Especifica en el mensaje  una descricion y codigo de error.
 		* */
 		Error(const Error&) throw();
-		operator const std::string&();                
+		operator const std::string&();
 		/**
 		* \brief Retorna el error si lo hay
 		* */
-		static Error get();                
+		static Error get();
 		/**
 		* \brief Retorna el error si lo hay
 		* */
-		static const Error* see() ;               
+		static const Error* see() ;
 		/**
 		* \brief Verifica si hay error en el registro.
 		* \details Esta funcion no modifica el registro. Usela al inciar una funcion si retorna true termine su funcion con error pero sin escribir uno nuevo. Una vez que la funcion apropiada reciba de nuevo el control prodra usará get para determinar el error causado.
 		* \return returna true si hay un error en el registro o falso en otro caso.
 		* */
-		static bool check();    
+		static bool check();
 		/**
 		* \brief Registra un nuevo error
 		* \details Si hay un error registrado la funcion retronara de inmediato con valor false, de otra forma escribira el error y retornara con valor true.
@@ -146,5 +150,6 @@ namespace core
 	}__attribute__ ((deprecated));
 }
 }
+
 
 #endif
