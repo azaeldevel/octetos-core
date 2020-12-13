@@ -1,9 +1,9 @@
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
 #include <iostream>
 //#include <iostream>
@@ -25,13 +25,17 @@
 //#include <string.h>
 //#include <string>
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+    #include "config.h"
+#elif defined WINDOWS_MINGW && defined CODEBLOCK
+    #include "config-cb.h"
+#endif
 #include "Object.hh"
 
 namespace octetos
 {
 namespace core
-{	
+{
 	bool Object::checkCollectionAssistant()const
 	{
 #ifdef COLLETION_ASSISTANT
@@ -50,10 +54,10 @@ namespace core
                 if(countChilds > 0)
                 {
                         std::cerr << "Una instacia de '" << typeid(*this).name() << "' termino sin que todos sus hijos terminaran  primero" << std::endl;
-                } 
+                }
 #endif
         }
-        
+
         Object::Object()
         {
 #ifdef COLLETION_ASSISTANT
@@ -61,7 +65,7 @@ namespace core
                 parent = NULL;
 #endif
         }
-        
+
 #ifdef COLLETION_ASSISTANT
         unsigned int Object::getCountChilds()
         {

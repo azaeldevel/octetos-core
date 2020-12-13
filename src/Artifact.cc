@@ -1,9 +1,9 @@
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
 #include <iostream>
 #include <iomanip>
@@ -24,8 +24,12 @@
 #include <libconfig.h++>
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+    #include "config.h"
+#elif defined WINDOWS_MINGW && defined CODEBLOCK
+    #include "config-cb.h"
 #endif
+
+
 #include "Artifact.hh"
 #include "Error.hh"
 
@@ -54,7 +58,7 @@ namespace core
 			return false;
 	  	}
 	  	catch(const libconfig::ParseException &pex)
-	  	{	
+	  	{
 			std::string msg = pex.what();
 #ifdef DEBUG
 			Error::write(Error(msg,Error::Codes::ERROR_ARTIFACT,__FILE__,__LINE__));
@@ -72,20 +76,20 @@ namespace core
   		{
 			return false;
   		}*/
-		
+
 		const libconfig::Setting& root = cfg.getRoot();
 		name = (const std::string&)root["package"]["name"];
 		name_decorated = (const std::string&)root["package"]["name_decorated"];
 		brief = (const std::string&)root["package"]["brief"];
 		url = (const std::string&)root["package"]["url"];
 		version.set(root["package"]["version"]);
-		
+
 		return true;
 	}
 	bool Artifact::write(const std::string& file)
 	{
   		libconfig::Config cfg;
-	  	libconfig::Setting &root = cfg.getRoot();		
+	  	libconfig::Setting &root = cfg.getRoot();
 	  	libconfig::Setting &package = root.add("package", libconfig::Setting::TypeGroup);
 
 	  	package.add("name", libconfig::Setting::TypeString) = name;
@@ -94,7 +98,7 @@ namespace core
 	  	package.add("url", libconfig::Setting::TypeString) = url;
 	  	package.add("version", libconfig::Setting::TypeString) = (std::string)version;
 	  	if(!licence.write(package)) return false;
-		
+
 		try
 		{
 			cfg.writeFile(file.c_str());
@@ -119,28 +123,28 @@ namespace core
 #endif
 			return false;
 		}
-		
-		
+
+
 		return true;
 	}
 
-	
+
 	bool getPackageInfo(Artifact& packinfo)
 	{
 		packinfo.name = PACKAGE;
 		packinfo.brief = "Libreria Core de Octetos.";
 		packinfo.url = "https://github.com/azaeldevel/octetos-core.git";
 		packinfo.name_decorated = "Libreria Core de Octetos";
-		
+
 		packinfo.version.set(VERSION);
-		
-		packinfo.licence.type = Licence::Type::GPLv3;		
+
+		packinfo.licence.type = Licence::Type::GPLv3;
 		packinfo.licence.name_public = PACKAGE;
 		packinfo.licence.owner = "Azael Reyes";
 		packinfo.licence.year = 2019;
         packinfo.licence.contact = "azael.devel@gmail.com";
-		
-		return true;	
+
+		return true;
 	}
 }
 }

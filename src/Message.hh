@@ -1,11 +1,11 @@
 #ifndef OCTETOS_CORE_MESSAGE_HH
 #define OCTETOS_CORE_MESSAGE_HH
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -18,11 +18,13 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
 
 
 #include "Exception.hh"
+
+#include "defines.hh"
 
 
 namespace octetos
@@ -32,20 +34,20 @@ namespace core
         /**
          * \brief Entendida como clase base para tranmitir mensajes.
          * */
-        class Message
+        class DECLSPCE_DLL Message
         {
         public:
                 virtual std::string getBrief() const throw();
                 Message(const std::string& brief);
-                
+
         private:
-                std::string brief;                
+                std::string brief;
         };
-        
+
         /**
          * \brief Mensajes de comfirmacion de operacion.
          * */
-        class Confirmation: public Message
+        class DECLSPCE_DLL Confirmation: public Message
         {
         public:
                 /**
@@ -53,11 +55,11 @@ namespace core
                  * */
                 Confirmation(const std::string& brief);
         };
-        
+
         /**
          * \brief Mensaje de advertencias.
          * */
-        class Warning: public Message
+        class DECLSPCE_DLL Warning: public Message
         {
         public:
                 /**
@@ -65,14 +67,14 @@ namespace core
                  * */
                 Warning(const std::string& brief);
         };
-        
+
         /**
          * \brief Interface dedicada a la centralizacion de mesnajes.
          * */
-        class ActivityProgress
+        class DECLSPCE_DLL ActivityProgress
         {
         public:
-                
+
                 /**
                  * \brief Contructor del objeto
                  * \param activities Indica el total de actividades programadas
@@ -83,8 +85,8 @@ namespace core
                  * \param activities La cantiad de actividad a agregar.
                  * */
                 void addActivities(int activities);
-                
-                
+
+
                 /**
                  * \brief Indica que en una actividad surgio un error y agrega una descripcion del mismo
                  * */
