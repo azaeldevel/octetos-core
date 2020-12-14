@@ -31,3 +31,5 @@ mingw.*
 src/semver.tab.*
 obj/
 bin/
+*.depend
+*.layout
