@@ -35,14 +35,16 @@ namespace core
 
 class DECLSPCE_DLL Exception : public std::exception
 {
-private:
+protected:
     int line;
     const char* filename;
     std::string message;
     std::string text;
 public:
+	Exception();
     Exception(const char* fn,int line, const std::string& msg);
     Exception(const std::string& msg,const char* fn,int line);
+    Exception(const std::string& msg);
     virtual const char* what () const throw ();
 };
 

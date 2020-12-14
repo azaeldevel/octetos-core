@@ -1,5 +1,6 @@
 #ifndef OCTETOS_CORE_ERROR_HH
 #define OCTETOS_CORE_ERROR_HH
+
 /**
  *
  *  This file is part of octetos-core.
@@ -21,13 +22,11 @@
  *
  * */
 
-
-
-
 #include <string>
 #include <exception>
 
 #include "defines.hh"
+#include "Exception.hh"
 
 namespace octetos
 {
@@ -37,7 +36,7 @@ namespace core
 	* \brief Clase dedicda a la gestion de errores
     * \details Aunque se puede comportar como una exception estandar, su pricipal capacidad radica en sus metodo get, chech y write (staticos). Unaves escrito un mesaje mediante write esta dispoble para el retos del modulo mediante la funcion get. Use chech para determinar si hay alguno error registrado sin leer.
     * */
-	class DECLSPCE_DLL Error : public std::exception
+	class DECLSPCE_DLL Error : public Exception
 	{
 	public:
 		/**
@@ -141,7 +140,7 @@ namespace core
 		/**
 		* \brief el mesaje de error es contruido durante la contruccion del objeto y se almacena aquí.
 		* */
-		std::string full;
+		//std::string full;
 		int code;
 		/**
 		* \brief Almacena el codifo de error actual.

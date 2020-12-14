@@ -35,7 +35,7 @@ namespace core
 	}
 	Error::operator const std::string&()
 	{
-		return full;
+		return text;
 	}
 	const Error* Error::error = NULL;
         
@@ -69,22 +69,22 @@ namespace core
         }
 	Error::Error(const Error& e) throw()
 	{
-		full = e.full;
+		//full = e.full;
 		code = e.code;
 	}
-	Error::Error(const std::string& brief, int code,std::string filename,int lineNumber) throw()
+	Error::Error(const std::string& brief, int code,std::string filename,int lineNumber) throw() : Exception(brief,filename.c_str(),lineNumber)
 	{
-		full = filename + " : " + std::to_string(lineNumber) + ", Codigo (" + std::to_string(code) + "):" + "\n" + brief;
+		//full = filename + " : " + std::to_string(lineNumber) + ", Codigo (" + std::to_string(code) + "):" + "\n" + brief;
 		this->code = code;
 	}
-	Error::Error(const std::string& brief) throw()
+	Error::Error(const std::string& brief) throw()  : Exception(brief)
 	{
-		full = brief;
+		//full = brief;
 		this->code = Codes::NOTCODED;
 	}
-	Error::Error(const std::string& brief, int code) throw()
+	Error::Error(const std::string& brief, int code) throw() : Exception(brief)
 	{
-		full = "Codigo (" + std::to_string(code) + "):" + "\n" + brief;
+		//full = "Codigo (" + std::to_string(code) + "):" + "\n" + brief;
 		this->code = code;
 	}
 	Error::~Error() throw()
@@ -92,11 +92,11 @@ namespace core
 	}	
 	const std::string& Error::describe() const throw()
    	{
-		return full;               
+		return text;               
 	}
 	const char* Error::what() const throw()
 	{
-		return this->full.c_str();
+		return this->text.c_str();
 	}
 	int Error::getCode()const
 	{
