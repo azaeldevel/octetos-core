@@ -27,7 +27,6 @@ src/dummy.c
 src/test.py
 test-driver
 py-compile
-mingw.*
 src/semver.tab.*
 obj/
 bin/

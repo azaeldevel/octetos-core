@@ -17,7 +17,7 @@
 					<Add option="-g" />
 					<Add option="-DBUILDING_DLL" />
 					<Add option="-DWINDOWS_MINGW" />
-					<Add option="-DCODEBLOCK" />
+					<Add option="-DCODEBLOCKS" />
 				</Compiler>
 				<Linker>
 					<Add library="C:/msys64/mingw64/lib/libcunit.a" />
@@ -54,6 +54,8 @@
 		<Unit filename="src/Buffer.hh" />
 		<Unit filename="src/Error.cc" />
 		<Unit filename="src/Error.hh" />
+		<Unit filename="src/Exception.cc" />
+		<Unit filename="src/Exception.hh" />
 		<Unit filename="src/Licence.cc" />
 		<Unit filename="src/Licence.hh" />
 		<Unit filename="src/Message.cc" />
