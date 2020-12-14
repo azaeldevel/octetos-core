@@ -29,3 +29,5 @@ test-driver
 py-compile
 mingw.*
 src/semver.tab.*
+obj/
+bin/

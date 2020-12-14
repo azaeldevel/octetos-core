@@ -4,7 +4,7 @@
 #define MyAppName "octetos-core"
 #define MyAppVersion "2.10.3-beta"
 #define MyAppPublisher "Octetos Software"
-#define MyAppURL "https://github.com/azaeldevel/octetos-core.git"
+#define MyAppURL "https://github.com/azaeldevel"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.

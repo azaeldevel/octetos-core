@@ -2,11 +2,11 @@
 #define OCTETOS_CORE_EXECPTION_HH
 
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -19,19 +19,21 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
 
 
 #include <string>
 #include <exception>
 
+#include "defines.hh"
+
 namespace octetos
 {
 namespace core
 {
 
-class Exception : public std::exception
+class DECLSPCE_DLL Exception : public std::exception
 {
 private:
     int line;

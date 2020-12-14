@@ -25,7 +25,7 @@
 
 #ifdef HAVE_CONFIG_H
     #include "config.h"
-#elif defined WINDOWS_MINGW && defined CODEBLOCK
+#elif defined WINDOWS_MINGW && defined CODEBLOCKS
     #include "config-cb.h"
 #endif
 

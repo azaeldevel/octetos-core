@@ -22,7 +22,7 @@
  * */
 
 
-#include "Exception.hh"
+#include "Error.hh"
 
 #include "defines.hh"
 
@@ -90,7 +90,7 @@ namespace core
                 /**
                  * \brief Indica que en una actividad surgio un error y agrega una descripcion del mismo
                  * */
-                void step(const Exception&);
+                void step(const Error&);
                 /**
                  * \brief Indica que una actividad se realizo y agrega una descripcion
                  * */
@@ -110,7 +110,7 @@ namespace core
                 /**
                  * \brief Agrega un mensage de error
                  * */
-                virtual void add(const Exception&) = 0;
+                virtual void add(const Error&) = 0;
                 /**
                  * \brief Agrega un mensage de notificacion
                  * */
