@@ -39,6 +39,7 @@ private:
     int line;
     const char* filename;
     std::string message;
+    std::string text;
 public:
     Exception(const char* fn,int line, const std::string& msg);
     Exception(const std::string& msg,const char* fn,int line);
