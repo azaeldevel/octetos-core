@@ -38,7 +38,7 @@ liboctetos_core_la_SOURCES = \
 
 
 octetos_core_includedir = $(includedir)/octetos/core
-octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh defines.hh
+octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh Object.hh Artifact.hh Licence.hh Buffer.hh defines.hh Exception.hh
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = octetos-core.pc
