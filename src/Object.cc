@@ -29,6 +29,8 @@
     #include "config.h"
 #elif defined WINDOWS_MINGW && defined CODEBLOCKS
     #include "config-cb.h"
+#elif defined LINUX && defined CODEBLOCKS
+    #include "config-cb.h"
 #endif
 #include "Object.hh"
 

@@ -32,3 +32,4 @@ obj/
 bin/
 *.depend
 *.layout
+*.anjuta

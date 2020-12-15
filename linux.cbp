@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="octetos-core" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/liboctetos-core" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-fPIC" />
+					<Add option="-g" />
+					<Add option="-DLINUX" />
+					<Add option="-DCODEBLOCKS" />
+				</Compiler>
+				<Linker>
+					<Add option="-lcunit" />
+					<Add option="-lconfig" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="bison  -d src/semver.y   -o src/semver.tab.c" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/liboctetos-core" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="src/Artifact.hh" />
+		<Unit filename="src/Buffer.cc" />
+		<Unit filename="src/Buffer.hh" />
+		<Unit filename="src/Error.cc" />
+		<Unit filename="src/Error.hh" />
+		<Unit filename="src/Exception.cc" />
+		<Unit filename="src/Exception.hh" />
+		<Unit filename="src/Licence.cc" />
+		<Unit filename="src/Licence.hh" />
+		<Unit filename="src/Message.cc" />
+		<Unit filename="src/Message.hh" />
+		<Unit filename="src/Object.cc" />
+		<Unit filename="src/Object.hh" />
+		<Unit filename="src/Version.cc" />
+		<Unit filename="src/Version.hh" />
+		<Unit filename="src/common.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/common.h" />
+		<Unit filename="src/config-cb.h" />
+		<Unit filename="src/defines.hh" />
+		<Unit filename="src/semver-lexer.cc" />
+		<Unit filename="src/semver-lexer.h" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
