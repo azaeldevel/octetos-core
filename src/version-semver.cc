@@ -1,9 +1,9 @@
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +36,7 @@ namespace core
         {
             return true;
         }
-        
+
         return false;
     }
     bool Semver::operator ==(const Version& obj)const
@@ -45,23 +45,23 @@ namespace core
         {
             return true;
         }
-        
+
         return false;
     }
     bool Semver::operator <(const Version& obj)const
-    {                  
-		
+    {
+
 		if(major < 0 or ((Semver&)obj).getMajor() < 0)
 		{
 			throw InvalidComparison("Operación invalidad, está comprando objetos Version sin antes asignarles valores.");
 		}
         else if(major > ((Semver&)obj).getMajor())
         {
-            return false;  
+            return false;
         }
 		else if(major < ((Semver&)obj).getMajor())
         {
-            return true;  
+            return true;
         }
 
         if(minor < 0 and ((Semver&)obj).getMinor() < 0)
@@ -75,12 +75,12 @@ namespace core
         else if(minor > ((Semver&)obj).getMinor())
         {
             return false;
-        } 
+        }
 		else if(minor < ((Semver&)obj).getMinor())
         {
             return true;
-        } 
-        
+        }
+
         if(patch < 0 and ((Semver&)obj).getPatch() < 0)
         {
             return false;
@@ -97,7 +97,7 @@ namespace core
         {
             return true;
         }
-                
+
         return false;
     }
 	bool Semver::operator >(const Version& obj)const
@@ -114,8 +114,8 @@ namespace core
         {
             return true;
         }
-		
-        
+
+
         if(minor < 0 and ((Semver&)obj).getMinor() < 0)
         {
             return false;
@@ -132,7 +132,7 @@ namespace core
         {
             return false;
         }
-        
+
         if(patch < 0 and ((Semver&)obj).getPatch() < 0)
         {
             return true;
@@ -149,7 +149,7 @@ namespace core
         {
             return false;
         }
-                
+
         //std::cout << "no cumple" << std::endl;
         return false;
     }
@@ -184,9 +184,9 @@ namespace core
 		ty.state = 0;
 		std::string cmdstr = "extract all from ";
 		cmdstr += str;
-		ty.str = cmdstr.c_str();
+		ty.str = (char*)cmdstr.c_str();
         int ret = parse_string(&ty);
-		
+
         if(ret == 0) return true;
         return false;
 	}
@@ -199,9 +199,9 @@ namespace core
 		ty.state = 0;
 		std::string cmdstr = "extract numbers from ";
 		cmdstr += str;
-		ty.str = cmdstr.c_str();
+		ty.str = (char*)cmdstr.c_str();
         int ret = parse_string(&ty);
-		
+
         if(ret==0) return true;
         return false;
 	}
@@ -217,7 +217,7 @@ namespace core
 		}
 
 		return "";
-	}		
+	}
 	bool Semver::set(unsigned long ver,ImportCode import)
 	{
 		if(import == ImportCode::MySQL)
@@ -228,9 +228,9 @@ namespace core
 			minor = actualVer/100;
 			actualVer -= (100 * minor);
 			patch = actualVer;
-			
+
 			return true;
-		}	
+		}
 		else if(import == ImportCode::PostgreSQL)
 		{
 			unsigned long actualVer = ver;
@@ -239,14 +239,14 @@ namespace core
 			minor = actualVer/100;
 			actualVer -= (100 * minor);
 			patch = actualVer;
-			
+
 			return true;
 		}
 
 		return false;
 	}
-		
-	
+
+
     void Semver::init()
     {
 		octetos_core_Semver_init(this);
@@ -262,21 +262,19 @@ namespace core
 			msgErr += "', minetras que el origne es '";
 			msgErr += typeid(&v).name();
 			msgErr += "'";
-            core::Error err(msgErr,core::Error::ERROR_UNKNOW,__FILE__,__LINE__);            
-           	core::Error::write(err);
-			return *this;
+           	throw Exception(msgErr,__FILE__,__LINE__);
 		}
-		
+
 		//if(!handle) dlclose(handle);
 		//parser = NULL;
 		//handle = NULL;
-		//loadParser (suffix);	
+		//loadParser (suffix);
 		this->major = v.major;
 		this->minor = v.minor;
 		this->patch = v.patch;
 		if(v.prerelease) octetos_core_Semver_setPrerelease(this,v.prerelease);
-		if(v.build) octetos_core_Semver_setBuild(this,v.build);		
-		
+		if(v.build) octetos_core_Semver_setBuild(this,v.build);
+
 		return *this;
 	}
 	const octetos_core_Semver& Semver::operator =(const octetos_core_Semver& v)
@@ -285,17 +283,17 @@ namespace core
 		//parser = NULL;
 		//handle = NULL;
 		//loadParser (suffix);
-		
+
 		this->major = v.major;
 		this->minor = v.minor;
 		this->patch = v.patch;
 		if(v.prerelease) octetos_core_Semver_setPrerelease(this,v.prerelease);
 		if(v.build) octetos_core_Semver_setBuild(this,v.build);
-		
+
 		return *this;
 	}
     void Semver::set(Number major,Number minor,Number patch, const std::string& prerelease)
-    {                
+    {
         this->major = major;
         this->minor = minor;
         this->patch = patch;
@@ -320,7 +318,7 @@ namespace core
         }
 	Number Semver::getMajor() const
 	{
-		return this->major;		
+		return this->major;
 	}
 
 	Number Semver::getMinor() const
@@ -334,7 +332,7 @@ namespace core
 	}
 
 	std::string Semver::toString(FormatString formato) const
-	{		
+	{
 		const char* verbuf = octetos_core_Semver_toString(this,formato);
 		std::string ver = verbuf;
 		free((void*)verbuf);
@@ -350,7 +348,7 @@ namespace core
 
 	Semver::~Semver()
 	{
-		//if(!handle) dlclose(handle); 
+		//if(!handle) dlclose(handle);
 		if(prerelease) free((void*)prerelease);
 		if(build) free((void*)build);
 	}
@@ -377,7 +375,7 @@ namespace core
 		//if(!handle) dlclose(handle);
 		//strcpy((char*)suffix,obj.suffix);
 		//loadParser (suffix);
-		
+
 		major = obj.major;
 		minor = obj.minor;
 		patch = obj.patch;
