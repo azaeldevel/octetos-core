@@ -1,9 +1,9 @@
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +16,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
 #include <iostream>
 #include <iomanip>
@@ -87,7 +87,7 @@ namespace core
 			case X11:
 			case XFree86v11:
 			case ZLib:
-			case Zopev20:	
+			case Zopev20:
 			case Zopev21:
 				return true;
 		}
@@ -124,7 +124,7 @@ namespace core
 #ifdef DEBUG
 				Error::write(Error(msg,Error::Codes::ERROR_LECENCE,__FILE__,__LINE__));
 #else
-				Error::write(Error(msg,Error::Codes::ERROR_LECENCE));
+				throw Exception(msg);
 #endif
 				return false;
 		}
@@ -132,27 +132,27 @@ namespace core
 		lc.add("name_public", libconfig::Setting::TypeString) = name_public;
 		lc.add("year", libconfig::Setting::TypeInt) = year;
 		lc.add("contact", libconfig::Setting::TypeString) = contact;
-		
+
 		return true;
 	}
-	
+
 	std::string Licence::getText()const
 	{
 		std::string brief;
 		if(type >= Type::GPL or type <= Type::GNU_PERMISSIVE)
 		{
-			if(!name_public.empty()) brief += name_public + " ";		
+			if(!name_public.empty()) brief += name_public + " ";
 			brief += "Copyright (C) ";
 			if(year > 0) brief += std::to_string(year) + " ";
 			if(!owner.empty()) brief += owner;
 			brief += "\nThis program comes with ABSOLUTELY NO WARRANTY.";
-		}		
-		
+		}
+
 		return brief;
 	}
-	
-	
-	
-	
+
+
+
+
 }
 }
