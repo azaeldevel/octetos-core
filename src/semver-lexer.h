@@ -1,11 +1,11 @@
 #ifndef OCTETOS_CORE_SEMVER_PARSER_H
 #define OCTETOS_CORE_SEMVER_PARSER_H
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -18,7 +18,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
 
 
@@ -29,18 +29,18 @@ struct octetos_core_Tray
 	struct octetos_core_Semver* version;
     int dysplay_erro;
 	void* buffer;
-	const char* str;
+	char* str;
 	int state;
 };
 
-#ifdef __cplusplus  
+#ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
     int parse_string(struct octetos_core_Tray* ty);
-#ifdef __cplusplus 
-} 
+#ifdef __cplusplus
+}
 #endif
 
 #endif
 
- 
+
