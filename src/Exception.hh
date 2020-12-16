@@ -45,6 +45,7 @@ public:
     Exception(const char* fn,int line, const std::string& msg);
     Exception(const std::string& msg,const char* fn,int line);
     Exception(const std::string& msg);
+	~Exception();
     virtual const char* what () const throw ();
 };
 

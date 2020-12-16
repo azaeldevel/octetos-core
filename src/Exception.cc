@@ -32,6 +32,9 @@ namespace core
         text = filename;
         text = text + " : "+ std::to_string(line) + " -> " + msg;
     }
+	Exception::~Exception()
+    {
+    }
     const char* Exception::what () const throw ()
     {
         return text.c_str();
