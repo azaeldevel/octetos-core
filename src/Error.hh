@@ -25,7 +25,6 @@
 #include <string>
 #include <exception>
 
-#include "defines.hh"
 #include "Exception.hh"
 
 namespace octetos

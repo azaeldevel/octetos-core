@@ -2,7 +2,6 @@
 #define OCTETOS_CORE_EXECPTION_HH
 
 /**
- *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
@@ -19,7 +18,6 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  * */
 
 
@@ -40,12 +38,19 @@ protected:
     const char* filename;
     std::string message;
     std::string text;
+	
 public:
 	Exception();
     Exception(const char* fn,int line, const std::string& msg);
     Exception(const std::string& msg,const char* fn,int line);
     Exception(const std::string& msg);
-	~Exception();
+
+	//getter
+	const std::string& getMessage()const;
+	const char* getFilename()const;
+	int getLine()const;
+
+	//functions
     virtual const char* what () const throw ();
 };
 

@@ -24,6 +24,7 @@ liboctetos_core_la_LIBDADD =
 liboctetos_core_la_SOURCES = \
 	common.c \
 	Artifact.cc \
+	Exception.cc \
 	Error.cc \
 	Message.cc \
 	Object.cc \
@@ -32,8 +33,7 @@ liboctetos_core_la_SOURCES = \
 	version-semver.cc \
 	semver.tab.c \
 	semver-lexer.cc \
-	Buffer.cc \
-	Exception.cc
+	Buffer.cc 
 
 
 
