@@ -23,6 +23,7 @@
 
 
 #include "Error.hh"
+#include "Exception.hh"
 
 #include "defines.hh"
 
@@ -112,6 +113,10 @@ namespace core
                  * */
                 virtual void add(const Error&) = 0;
                 /**
+                 * \brief Agrega un mensage de error
+                 * */
+                virtual void add(const Exception&) = 0;
+                /**
                  * \brief Agrega un mensage de notificacion
                  * */
                 virtual void add(const Confirmation&) = 0;
@@ -119,6 +124,8 @@ namespace core
                  * \brief Agrega un mensage de notificacion
                  * */
                 virtual void add(const Warning&) = 0;
+
+
         private:
                 /**
                  * \brief indica el total de actividades programadas
