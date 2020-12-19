@@ -9,16 +9,7 @@ semver.tab.c : semver.y
 	bison  -d -o $@ $<
 
 liboctetos_core_la_CXXFLAGS = $(CUNIT_CFLGAS) $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS)
-liboctetos_core_la_LDFLAGS = -shared -fPIC
-if PLATFORM_WIN32
-liboctetos_core_la_LDFLAGS +=
-endif
-if NATIVE_WIN32
-liboctetos_core_la_LDFLAGS +=
-
 liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)
-endif
-liboctetos_core_la_LIBDADD =
 liboctetos_core_la_SOURCES = \
 	common.c \
 	Artifact.cc \
