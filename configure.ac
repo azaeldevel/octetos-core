@@ -1,4 +1,4 @@
-AC_INIT(octetos-core,2.19.0-beta, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.20.0-beta, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign gnu subdir-objects])
 AM_SILENT_RULES([yes])
@@ -21,34 +21,16 @@ dnl ***************************************************************************
 
 
 
-dnl ***************************************************************************
-dnl Check for Windows
-dnl ***************************************************************************
-AC_CANONICAL_HOST
 
-case $host_os in
-  *mingw*)
-    platform_win32=yes
-    native_win32=yes
-    ;;
-  pw32* | *cygwin*)
-    platform_win32=yes
-    native_win32=no
-    ;;
-  *)
-    platform_win32=no
-    native_win32=no
-    ;;
-esac
-AM_CONDITIONAL(PLATFORM_WIN32, test x"$platform_win32" = "xyes")
-AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
-
-
-LT_INIT([win32-dll])
+LT_INIT
 
 PKG_CHECK_MODULES(LIBCONFIG,libconfig++)
 
-PKG_CHECK_MODULES(CUNIT,cunit)
+AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
+AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Tests]))
+if test "x$with_tests" = "xyes"; then 
+	PKG_CHECK_MODULES(CUNIT,cunit)
+fi
 
 PKG_CHECK_MODULES(OPENSSL,openssl)
 
