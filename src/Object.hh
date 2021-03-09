@@ -44,33 +44,33 @@ namespace core
 		* \brief Contrucctor por default
 		* */
 		Object();
-                /**
-                 * \brief Destructor
-                 * */
+        /**
+        * \brief Destructor
+        * */
 		virtual ~Object();
 		bool checkCollectionAssistant()const;
 
 #ifdef COLLETION_ASSISTANT
         protected:
-                /**
-                 * \brief registra el objeto pasado como hijo.
-                 * */
-                void addChild(Object*);
-                /**
-                 * \brief Borra el objeto indicdo como hijo
-                 * */
-                void removeChild(Object*);
-                /**
-                 * \brief Retorna un contador de hijos registrado
-                 * */
-                unsigned int getCountChilds();
-        private:
-                unsigned int countChilds;
-                Object* parent;
-                const char* createdFile;
-                unsigned int line;
+        /**
+        * \brief registra el objeto pasado como hijo.
+        * */
+        void addChild(Object*);
+        /**
+        * \brief Borra el objeto indicdo como hijo
+        * */
+        void removeChild(Object*);
+        /**
+        * \brief Retorna un contador de hijos registrado
+        * */
+        unsigned int getCountChilds();
+    private:
+        unsigned int countChilds;
+        Object* parent;
+        const char* createdFile;
+        unsigned int line;
 #endif
-        };
+    };
 }
 }
 

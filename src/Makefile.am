@@ -26,7 +26,6 @@ liboctetos_core_la_SOURCES = \
 	MD5sum.cc
 
 
-
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh \
 	Object.hh Artifact.hh Licence.hh Buffer.hh defines.hh Exception.hh \
@@ -40,3 +39,8 @@ EXTRA_DIST = octetos-core.pc.in
 
 uninstall-local:
 	-rm -r $(jsdir)
+
+noinst_PROGRAMS = develop
+
+develop_SOURCES = develop.cc Mail.cc
+develop_LDADD = $(LIBCURL_LIBS)
