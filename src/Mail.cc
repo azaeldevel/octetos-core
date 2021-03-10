@@ -27,6 +27,7 @@
  
 
 
+
 namespace octetos::core
 {
 	
@@ -42,10 +43,12 @@ namespace octetos::core
 		{}
 		stringdata(std::string &m) = delete;
 	};
+
 	struct upload_status 
 	{
   		int lines_read;
 	};
+
 
 
 
@@ -78,6 +81,7 @@ namespace octetos::core
 
 	
 
+
 	const char * SMTP::payload_text[] = 
 	{
 	  "To: " TO_MAIL "\r\n",
@@ -85,13 +89,16 @@ namespace octetos::core
 	  "Sender: " SENDER_MAIL "\r\n",
 	  "Message-ID: <arm2>\r\n",
 	  "Subject: SMTP example message\r\n",
-	  "\r\n", 
+	  "\r\n", /* empty line to divide headers from body, see RFC5322 */ 
 	  "The body of the message starts here.\r\n",
 	  "\r\n",
 	  "It could be a lot of lines, could be MIME encoded, whatever.\r\n",
 	  "Check RFC5322.\r\n",
 	  NULL
 	};
+
+	
+
 	size_t SMTP::payload_source(char *ptr, size_t size, size_t nmemb, void *userp)
 	{
 	  	struct upload_status *upload_ctx = (struct upload_status *)userp;
@@ -114,6 +121,7 @@ namespace octetos::core
 	 
 	  	return 0;
 	}
+
 	SMTP::SMTP()
 	{
 		curl = curl_easy_init();
@@ -135,6 +143,7 @@ namespace octetos::core
 			curl_easy_setopt(curl, CURLOPT_URL, "smtps://smtp.gmail.com:465");
 			curl_easy_setopt(curl, CURLOPT_USERNAME, "azael.devel@gmail.com");
 			curl_easy_setopt(curl, CURLOPT_PASSWORD, "---"); 
+
 			curl_easy_setopt(curl, CURLOPT_SASL_AUTHZID, "ursel");
 			curl_easy_setopt(curl, CURLOPT_LOGIN_OPTIONS, "AUTH=*");
 			curl_easy_setopt(curl, CURLOPT_MAIL_FROM, FROM_ADDR);
@@ -152,14 +161,14 @@ namespace octetos::core
 			curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
 		 	
 			res = curl_easy_perform(curl);
-		 	
+
 			if(res != CURLE_OK) 
 			{
 				fprintf(stderr, "curl_easy_perform() failed: %s\n",
 				curl_easy_strerror(res));
 			}
-		 	
 			curl_slist_free_all(recipients);
+
 	  	}		
 	}
 }
