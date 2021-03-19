@@ -1,6 +1,6 @@
 
-#ifndef MUPOSYS_MAIL_HH
-#define MUPOSYS_MAIL_HH
+#ifndef OCTETOS_CORE_MAIL_HH
+#define OCTETOS_CORE_MAIL_HH
 
 #include <string>
 #include <vector>
@@ -12,15 +12,6 @@
 namespace octetos::core
 {
 
-class Message
-{
-public:
-	Message();
-	static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp);
-private:
-	
-};
-
 class SMTP
 {
 private:
@@ -30,11 +21,12 @@ private:
 	std::string username;
 	std::string password;
 	static const char *payload_text[];
+	void readConfig(const std::string& filename)const;
 public:
 	//
 	SMTP();
 	~SMTP();
-	void send(const Message* msg = NULL);
+	void send();
 	static size_t payload_source(char *ptr, size_t size, size_t nmemb, void *userp);
 };
 

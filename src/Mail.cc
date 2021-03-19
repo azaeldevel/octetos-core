@@ -1,4 +1,14 @@
 
+
+
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlreader.h>
+
+#include <iostream>
+
+
+#include "Error.hh"
 #include "Mail.hh"
 
 
@@ -30,19 +40,6 @@
 
 namespace octetos::core
 {
-	
-	
-	class stringdata 
-	{
-	public:
-		std::string msg;
-		size_t bytesleft;
-
-		stringdata(std::string &&m) 
-		    : msg{m}, bytesleft{msg.size()}
-		{}
-		stringdata(std::string &m) = delete;
-	};
 
 	struct upload_status 
 	{
@@ -50,29 +47,6 @@ namespace octetos::core
 	};
 
 
-
-
-
-	Message::Message()
-	{
-	}
-	size_t Message::payload_source(void *ptr, size_t size, size_t nmemb, void *userp)
-	{
-		stringdata *text = reinterpret_cast<stringdata *>(userp);
-		
-		if ((size == 0) || (nmemb == 0) || ((size*nmemb) < 1) || (text->bytesleft == 0)) 
-		{
-		    return 0;
-		}
-		
-		if ((nmemb * size) >= text->msg.size()) 
-		{
-		    text->bytesleft = 0;
-		    return text->msg.copy(reinterpret_cast<char *>(ptr), text->msg.size());
-		}
-		
-		return 0;
-	}
 
 
 
@@ -98,7 +72,49 @@ namespace octetos::core
 	};
 
 	
+	void SMTP::readConfig(const std::string& filename)const
+	{
+		xmlTextReaderPtr reader;
+		int ret;
+        reader = xmlReaderForFile(filename.c_str(), NULL, 0);
+        if (reader != NULL)
+        {
+            ret = xmlTextReaderRead(reader);
+			if(ret == -1)
+			{
+				std::string msg = "Fallo en la lectura de los nodos XML.";
+				throw core::Error(msg,0,__FILE__,__LINE__);
+			}
+            if(xmlTextReaderNodeType(reader) == 1) //es d apertura?
+		    {
+		        ///std::cout << "ConfigureProject::processNode: Step 1.1\n";
+				bool flagEnd = false;
+				/*std::string valxml;
+		        while(!flagEnd)
+				{
+					xmlTextReaderRead(reader);
+					valxml = (const char*)xmlTextReaderConstName(reader);
+					std::cout << valxml << "\n";
+				}*/
+				
+				std::cout << (const char*)xmlTextReaderConstValue(reader) << "\n";
+				
+		    }
+		    else if( xmlTextReaderNodeType(reader) == 15) //es d cerradura?
+		    {
+		            //stack.pop_front();
+		    }
+            xmlFreeTextReader(reader);
+        }
+        else
+        {
+			std::string msg = "Fallo al abrir el archivo '";
+			msg += msg + filename + "'";
+            throw core::Error(msg,0,__FILE__,__LINE__);
+        }
 
+		
+	}
 	size_t SMTP::payload_source(char *ptr, size_t size, size_t nmemb, void *userp)
 	{
 	  	struct upload_status *upload_ctx = (struct upload_status *)userp;
@@ -125,12 +141,13 @@ namespace octetos::core
 	SMTP::SMTP()
 	{
 		curl = curl_easy_init();
+		readConfig("config.xml");
 	}
 	SMTP::~SMTP()
 	{
 		curl_easy_cleanup(curl);
 	}
-	void SMTP::send(const Message* msg)
+	void SMTP::send()
 	{
   		CURLcode res = CURLE_OK;
 	  	struct curl_slist *recipients = NULL;
@@ -149,14 +166,7 @@ namespace octetos::core
 			curl_easy_setopt(curl, CURLOPT_MAIL_FROM, FROM_ADDR);
 			recipients = curl_slist_append(recipients, TO_ADDR);
 			curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
-			if(msg)
-			{
-				curl_easy_setopt(curl, CURLOPT_READFUNCTION, Message::payload_source);
-			}
-			else
-			{
-				curl_easy_setopt(curl, CURLOPT_READFUNCTION, payload_source);
-			}
+			curl_easy_setopt(curl, CURLOPT_READFUNCTION, payload_source);
 			curl_easy_setopt(curl, CURLOPT_READDATA, &upload_ctx);
 			curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
 		 	

@@ -59,6 +59,8 @@ AC_ARG_WITH([examples], AS_HELP_STRING([--with-examples], [Compilando con soport
 
 PKG_CHECK_MODULES(LIBCURL, [libcurl])
 
+PKG_CHECK_MODULES(LIBXML2, [libxml-2.0])
+
 AC_OUTPUT([
 Makefile
 src/octetos-core.pc

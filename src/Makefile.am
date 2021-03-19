@@ -8,8 +8,8 @@ lib_LTLIBRARIES = liboctetos-core.la
 semver.tab.c : semver.y 
 	bison  -d -o $@ $<
 
-liboctetos_core_la_CXXFLAGS = $(CUNIT_CFLGAS) $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS)
-liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)
+liboctetos_core_la_CXXFLAGS = $(CUNIT_CFLGAS) $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS) $(LIBCURL_CFLAGS) $(LIBXML2_CFLAGS)
+liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS) $(LIBCURL_LIBS) $(LIBXML2_LIBS) 
 liboctetos_core_la_SOURCES = \
 	common.c \
 	Artifact.cc \
@@ -23,13 +23,14 @@ liboctetos_core_la_SOURCES = \
 	semver.tab.c \
 	semver-lexer.cc \
 	Buffer.cc \
-	MD5sum.cc
+	MD5sum.cc \
+	Mail.cc
 
 
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh \
 	Object.hh Artifact.hh Licence.hh Buffer.hh defines.hh Exception.hh \
-	MD5sum.hh
+	MD5sum.hh Mail.hh
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = octetos-core.pc
@@ -42,5 +43,5 @@ uninstall-local:
 
 noinst_PROGRAMS = develop
 
-develop_SOURCES = develop.cc Mail.cc
-develop_LDADD = $(LIBCURL_LIBS)
+develop_SOURCES = develop.cc 
+develop_LDADD = liboctetos-core.la
