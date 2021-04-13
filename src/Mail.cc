@@ -144,7 +144,7 @@ namespace octetos::core
 			curl_easy_setopt(curl, CURLOPT_USERNAME, "azael.devel@gmail.com");
 			curl_easy_setopt(curl, CURLOPT_PASSWORD, "---"); 
 
-			curl_easy_setopt(curl, CURLOPT_SASL_AUTHZID, "ursel");
+			//curl_easy_setopt(curl, CURLOPT_SASL_AUTHZID, "ursel");
 			curl_easy_setopt(curl, CURLOPT_LOGIN_OPTIONS, "AUTH=*");
 			curl_easy_setopt(curl, CURLOPT_MAIL_FROM, FROM_ADDR);
 			recipients = curl_slist_append(recipients, TO_ADDR);
