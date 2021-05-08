@@ -2,13 +2,10 @@
 #include <iostream>
 
 #include "Mail.hh"
-
+#include "data.hh"
 
 int main()
 {
-	std::cout << "Sending ...";
+	octetos::core::Array<int> numbers(3);
 	
-	octetos::core::SMTP smtp;
-	//smtp.send();
-	std::cout << " sended.\n";
 }

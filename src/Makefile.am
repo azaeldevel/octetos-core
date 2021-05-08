@@ -1,7 +1,3 @@
-AUTOMAKE_OPTIONS=foreign 1.4
-
-
-
 
 lib_LTLIBRARIES = liboctetos-core.la
 
@@ -24,13 +20,14 @@ liboctetos_core_la_SOURCES = \
 	semver-lexer.cc \
 	Buffer.cc \
 	MD5sum.cc \
-	Mail.cc
+	Mail.cc \
+	memory.cc
 
 
 octetos_core_includedir = $(includedir)/octetos/core
 octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh \
 	Object.hh Artifact.hh Licence.hh Buffer.hh defines.hh Exception.hh data.hh \
-	MD5sum.hh
+	MD5sum.hh memory.hh
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = octetos-core.pc
