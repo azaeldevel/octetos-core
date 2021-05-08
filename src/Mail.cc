@@ -83,7 +83,7 @@ namespace octetos::core
 			if(ret == -1)
 			{
 				std::string msg = "Fallo en la lectura de los nodos XML.";
-				throw core::Error(msg,0,__FILE__,__LINE__);
+				throw core::Exception(msg,__FILE__,__LINE__);
 			}
             if(xmlTextReaderNodeType(reader) == 1) //es d apertura?
 		    {
@@ -110,7 +110,7 @@ namespace octetos::core
         {
 			std::string msg = "Fallo al abrir el archivo '";
 			msg += msg + filename + "'";
-            throw core::Error(msg,0,__FILE__,__LINE__);
+            throw core::Exception(msg,__FILE__,__LINE__);
         }
 
 		
@@ -161,7 +161,7 @@ namespace octetos::core
 			curl_easy_setopt(curl, CURLOPT_USERNAME, "azael.devel@gmail.com");
 			curl_easy_setopt(curl, CURLOPT_PASSWORD, "---"); 
 
-			curl_easy_setopt(curl, CURLOPT_SASL_AUTHZID, "ursel");
+			//curl_easy_setopt(curl, CURLOPT_SASL_AUTHZID, "ursel");
 			curl_easy_setopt(curl, CURLOPT_LOGIN_OPTIONS, "AUTH=*");
 			curl_easy_setopt(curl, CURLOPT_MAIL_FROM, FROM_ADDR);
 			recipients = curl_slist_append(recipients, TO_ADDR);
