@@ -23,7 +23,7 @@ public:
 	Memory(unsigned short size)
 	{
 		head = new T[size];
-		if(!head) throw core::Exception("Fallo la adquisicion de meoria.",__FILE__,__LINE__);
+		if(!head) throw core::Exception("Fallo la adquisicion de memoria.",__FILE__,__LINE__);
 		this->size = size;
 	}
 	virtual ~Memory()
@@ -59,12 +59,13 @@ protected:
 	unsigned short size;
 };
 
+
+
+
 struct FlagsDS
 {
 	unsigned short OwnMemory : 1;
 };
-
-
 template<typename T> class Array : public Memory<T>
 {
 public:
