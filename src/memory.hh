@@ -50,6 +50,9 @@ public:
 	Array(T* h,unsigned short sz ) : Memory(h,sz)
 	{
 	}
+	Array(unsigned short objsize,unsigned short objcount) : Memory(objsize,objcount)
+	{
+	}
 	virtual ~Array()
 	{
 	}
@@ -63,6 +66,26 @@ public:
 	
 protected:
 	
+};
+
+template<typename T> class DoubleBlock
+{
+private:
+	template<typename U> struct Element
+	{
+		U e;
+		bool use;
+	};
+public:
+	DoubleBlock(unsigned short size) : main(size),second(size)
+	{
+	}
+	virtual ~DoubleBlock()
+	{
+	}
+	
+private:
+	Array<Element<T>> main, second;
 };
 
 }
