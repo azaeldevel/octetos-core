@@ -8,13 +8,8 @@
 namespace octetos::core
 {
 
-class Allocable
-{
 
-public:
-	
-};
-
+typedef unsigned short MemorySize;
 
 struct FlagsMemory
 {
@@ -22,18 +17,15 @@ struct FlagsMemory
 };
 class Memory
 {
-public:
-	Memory(unsigned short size);
-	Memory(void* h,unsigned short sz );
-	Memory(unsigned short objsize,unsigned short objcount);
+protected:
+	Memory(MemorySize size);
+	Memory(void* h,MemorySize sz );
 	virtual ~Memory();
 
-	void resize(unsigned short size);
-	unsigned short getSize()const;
-
-protected:
+	void resize(MemorySize size);
+	MemorySize getSize()const;
+	
 	Memory();
-
 	//
 	void* head;
 	unsigned short size;
@@ -41,51 +33,97 @@ protected:
 };
 
 
-template<typename T> class Array : public Memory
+template<typename T> class Block : public Memory
 {
 public:
-	Array(unsigned short size) : Memory(size)
+	Block(MemorySize size) : Memory(size * sizeof(T))
 	{		
 	}
-	Array(T* h,unsigned short sz ) : Memory(h,sz)
-	{
-	}
-	Array(unsigned short objsize,unsigned short objcount) : Memory(objsize,objcount)
-	{
-	}
-	virtual ~Array()
+	virtual ~Block()
 	{
 	}
 
-	T& operator [](unsigned short index)
+	//getters
+	MemorySize getSize()const
+	{
+		return Memory::getSize()/sizeof(T);
+	};
+
+	T& operator [](MemorySize index)
 	{
 		if(not head) throw core::Exception("El valor del indice apunta fuera del arreglo.",__FILE__,__LINE__);
 		
 		return ((T*)head)[index];
 	};
+
 	
 protected:
 	
 };
 
-template<typename T> class DoubleBlock
+template<typename T> class MiniGC
 {
 private:
-	template<typename U> struct Element
+	struct Element
 	{
-		U e;
+		T obj;//deve ser el primer miembro para que fucione correctamtne create
 		bool use;
 	};
+	
 public:
-	DoubleBlock(unsigned short size) : main(size),second(size)
+	MiniGC(MemorySize size) : block(size)
+	{
+		lastCreated = 0;
+		full = false;
+		for(MemorySize i = 0; i < size; i++)
+		{
+			block[i].use = false;
+		}
+	}
+	virtual ~MiniGC()
 	{
 	}
-	virtual ~DoubleBlock()
+
+	T* create()
 	{
-	}
+		if(full) return NULL;
+		bool second = false;
+	repeat:
+		MemorySize max = block.getSize();
+		for(MemorySize i = lastCreated; i < max; i++)
+		{
+			if(not block[i].use) 
+			{
+				block[i].use = true;
+				lastCreated = i;
+#ifdef DEBUG
+				if(((void*)&(block[i].obj)) != ((void*)&block[i])) throw core::Exception("Element.obj no esta alineado con el inicion de Element.",__FILE__,__LINE__);
+#endif
+				return &block[i].obj;
+			}
+		}
+
+		if(not second)
+		{
+			lastCreated = 0;
+			second = true;
+			goto repeat;
+		}
+
+		full = true;
+		return NULL;
+	};
+	void destroy(T* t)
+	{
+		Element* e = reinterpret_cast<Element*>(t);
+		e->use = false;
+		full = false;
+	};
 	
 private:
-	Array<Element<T>> main, second;
+	Block<Element> block;
+	MemorySize lastCreated;
+	bool full;
 };
 
 }

@@ -9,6 +9,9 @@ namespace octetos::core
 
 	Memory::Memory()
 	{
+		flags.OwnMemory = false;
+		size = 0;
+		head = NULL;
 	}
 	Memory::Memory(unsigned short size)
 	{
@@ -20,12 +23,6 @@ namespace octetos::core
 	Memory::Memory(void* h,unsigned short sz ) : head(h),size(sz)
 	{
 		flags.OwnMemory = false;
-	}
-	Memory::Memory(unsigned short objsize,unsigned short objcount)
-	{
-		flags.OwnMemory = true;
-		size = objsize * objcount;
-		head = malloc(size);
 	}
 	Memory::~Memory()
 	{
