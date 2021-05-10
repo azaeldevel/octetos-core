@@ -16,83 +16,53 @@ public:
 };
 
 
-
-template<typename T> class Memory
-{
-public:
-	Memory(unsigned short size)
-	{
-		head = new T[size];
-		if(!head) throw core::Exception("Fallo la adquisicion de memoria.",__FILE__,__LINE__);
-		this->size = size;
-	}
-	virtual ~Memory()
-	{
-		if(head) 
-		{
-			delete[] head;
-			head = NULL;
-		}
-	}
-	T& operator [](unsigned short index)
-	{
-		if(not head) throw core::Exception("El valor del indice apunta fuera del arreglo.",__FILE__,__LINE__);
-		
-		return head[index];
-	};
-
-	unsigned short getSize()const
-	{
-		return size;
-	}
-	operator T* ()
-	{
-		return head;
-	};
-protected:
-	Memory()
-	{
-	};
-
-	//
-	T* head;
-	unsigned short size;
-};
-
-
-
-
-struct FlagsDS
+struct FlagsMemory
 {
 	unsigned short OwnMemory : 1;
 };
-template<typename T> class Array : public Memory<T>
+class Memory
 {
 public:
-	Array(unsigned short size) : Memory<T>(size)
-	{
-		flags.OwnMemory = true;
+	Memory(unsigned short size);
+	Memory(void* h,unsigned short sz );
+	Memory(unsigned short objsize,unsigned short objcount);
+	virtual ~Memory();
+
+	void resize(unsigned short size);
+	unsigned short getSize()const;
+
+protected:
+	Memory();
+
+	//
+	void* head;
+	unsigned short size;
+	FlagsMemory flags;
+};
+
+
+template<typename T> class Array : public Memory
+{
+public:
+	Array(unsigned short size) : Memory(size)
+	{		
 	}
-	Array(T* h,unsigned short sz )
+	Array(T* h,unsigned short sz ) : Memory(h,sz)
 	{
-		Memory<T>::head = h;
-		Memory<T>::size = sz;
-		flags.OwnMemory = false;
 	}
 	virtual ~Array()
 	{
 	}
 
-	void resize(unsigned short size)
+	T& operator [](unsigned short index)
 	{
-		if(not flags.OwnMemory) throw core::Exception("No es posible redimensionar un arreglo cuya memoria no es propia",__FILE__,__LINE__);
-		if(Memory<T>::head) delete [] Memory<T>::head;
-		Memory<T>::head = new T[Memory<T>::size];
-		if(!Memory<T>::head) throw core::Exception("Fallo la adquisizion de meoria.",__FILE__,__LINE__);
-		this->size = size;
-	}
+		if(not head) throw core::Exception("El valor del indice apunta fuera del arreglo.",__FILE__,__LINE__);
+		
+		return ((T*)head)[index];
+	};
+	
 protected:
-	FlagsDS flags;
+	
 };
 
 }
