@@ -378,6 +378,11 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 				{
 					goto nextStep;
 				}
+				else if(c == '\n')
+				{
+					ty->state = ENDOFINPUT;
+					return c;
+				}
 				else if(c == 0 )
 				{
 					ty->state = ENDOFINPUT;
@@ -404,7 +409,7 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 				{
 					goto nextChartPreR;
 				}		
-				else if (c == 0)
+				else if (c == 0 || c == '\n')
 				{
 					buffer->prev_char();
 				}
@@ -421,7 +426,7 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 				c = buffer->next_char();
 				if(c == '+')
 				{
-					std::cout << "Build + : " << c << "\n";
+					//std::cout << "Build + : " << c << "\n";
 					ty->state = BUILD_VALUE;
 				}
 				else
@@ -434,7 +439,7 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 			{
 				nextCharB:
 				c = buffer->next_char();
-				std::cout << "Build : " << c << "\n";
+				//std::cout << "Build : " << c << "\n";
 				if(is_digit(c) || is_letter(c) || c == '.' )
 				{
 					goto nextCharB;
