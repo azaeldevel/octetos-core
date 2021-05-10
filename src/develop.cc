@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include <chrono>
+#include <time.h>
 #include <math.h>
 #include <fstream>
 
@@ -16,7 +16,7 @@ int main()
 {
 	
 	int* segment1;
-	auto start1 = std::chrono::high_resolution_clock::now();
+	clock_t start1 = clock();
 	for(unsigned short test = 0; test < TESTS; test++)
 	{
 		segment1 = new int[LENGTH];
@@ -26,12 +26,12 @@ int main()
 		}
 		delete [] segment1;
 	}
-	auto stop1 = std::chrono::high_resolution_clock::now();
-	auto duration1 = std::chrono::duration_cast<std::chrono::microseconds>(stop1 - start1);
+	clock_t stop1 = clock();
+	clock_t duration1 = stop1 - start1;
 
 	
 	int* segment2[LENGTH];	
-	auto start2 = std::chrono::high_resolution_clock::now();
+	clock_t start2 = clock();
 	for(unsigned short test = 0; test < TESTS; test++)
 	{
 		for(int i = 0; i < LENGTH; i++)
@@ -44,14 +44,14 @@ int main()
 			delete segment2[i];
 		}
 	}
-	auto stop2 = std::chrono::high_resolution_clock::now();
-	auto duration2 = std::chrono::duration_cast<std::chrono::microseconds>(stop2 - start2);
-	float speed2 = duration2.count()/duration1.count();
-	std::cout  << "Lentiud 2 : " << duration2.count() << "/" << duration1.count() << "=" << speed2 << "\n";
+	clock_t stop2 = clock();
+	clock_t duration2 = stop2 - start2;
+	float speed2 = duration2/duration1;
+	std::cout  << "Lentiud 2 : " << duration2 << "/" << duration1 << "=" << speed2 << "\n";
 
 
 	int* segment3[LENGTH];
-	auto start3 = std::chrono::high_resolution_clock::now();
+	clock_t start3 = clock();
 	octetos::core::MiniGC<int> minigc(LENGTH);	
 	for(unsigned short test = 0; test < TESTS; test++)
 	{
@@ -65,17 +65,17 @@ int main()
 			minigc.destroy(segment3[i]);
 		}		
 	}
-	auto stop3 = std::chrono::high_resolution_clock::now();	
-	auto duration3 = std::chrono::duration_cast<std::chrono::microseconds>(stop3 - start3);
-	float speed3 = duration3.count()/duration1.count();
-	std::cout << "Lentiud 3 : " << duration3.count() << "/" << duration1.count() << "=" << speed3 << "\n";
+	clock_t stop3 = clock();
+	clock_t duration3 = stop3 - start3;
+	float speed3 = duration3/duration1;
+	std::cout << "Lentiud 3 : " << duration3 << "/" << duration1 << "=" << speed3 << "\n";
 
 	float speed = speed3/speed2;
-	float ventaja = fabs(100 * speed);
-	if(speed < 1) std::cout << "Hay una ventaj del " << ventaja << "%\n";
+	float ventaja = 1.0 - speed;
+	if(speed < 1.0) std::cout << "Hay una ventaj del " << 100.0 * ventaja << "%\n";
 	else if(fabs(speed - 1.0) <= 0.001) std::cout << "No hay efecto\n";
-	else std::cout << "Hay una desventaja del " << ventaja << "%\n";
+	else std::cout << "Hay una desventaja del " << fabs(100.0 * ventaja) << "%\n";
 
-	std::ofstream fn("statics.csv");
+	std::ofstream fn("statics.csv",std::ios::app | std::ios::in | std::ios::ate);
 	fn << speed2 << "," << speed3 << "," << ventaja << "\n";
 }
