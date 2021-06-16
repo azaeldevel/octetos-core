@@ -4,7 +4,7 @@
 #include <math.h>
 #include <fstream>
 
-#include "Mail.hh"
+//#include "Mail.hh"
 #include "data.hh"
 #include "memory.hh"
 

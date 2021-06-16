@@ -4,7 +4,7 @@
 
 #include "memory.hh"
 
-namespace octetos::core
+namespace oct::core
 {
 
 	Memory::Memory()

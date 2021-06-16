@@ -5,7 +5,7 @@
 
 #include "Exception.hh"
 
-namespace octetos::core
+namespace oct::core
 {
 
 

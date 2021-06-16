@@ -4,8 +4,8 @@ lib_LTLIBRARIES = liboctetos-core.la
 semver.tab.c : semver.y 
 	bison  -d -o $@ $<
 
-liboctetos_core_la_CXXFLAGS = $(CUNIT_CFLGAS) $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS) $(LIBCURL_CFLAGS) $(LIBXML2_CFLAGS)
-liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS) $(LIBCURL_LIBS) $(LIBXML2_LIBS) 
+liboctetos_core_la_CXXFLAGS = $(CUNIT_CFLGAS) $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS) 
+liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)  
 liboctetos_core_la_SOURCES = \
 	common.c \
 	Artifact.cc \
@@ -20,7 +20,6 @@ liboctetos_core_la_SOURCES = \
 	semver-lexer.cc \
 	Buffer.cc \
 	MD5sum.cc \
-	Mail.cc \
 	memory.cc
 
 
