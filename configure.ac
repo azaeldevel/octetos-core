@@ -32,7 +32,7 @@ if test "x$with_tests" = "xyes"; then
 	PKG_CHECK_MODULES(CUNIT,cunit)
 fi
 
-PKG_CHECK_MODULES(OPENSSL,openssl)
+#PKG_CHECK_MODULES(OPENSSL,openssl)
 
 AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")
 AC_ARG_WITH([docs], AS_HELP_STRING([--with-docs], [Compilando con soporte para Documentación.]))
