@@ -3,7 +3,10 @@
 
 #include <string>
 
-namespace octetos::core
+
+#include "defines.hh"
+
+namespace oct::core
 {
 
 class MD5sum : public std::string
@@ -16,6 +19,7 @@ public:
 	//operators
 	const MD5sum& operator =(const MD5sum&);
 	const MD5sum& operator =(const char* md5sum);
+	const MD5sum& operator =(const std::string&);
 
 	//funtions
 	void set(const std::string& str);
@@ -23,6 +27,11 @@ public:
 };
 
 
+}
+
+namespace octetos::core
+{
+	typedef oct::core::MD5sum MD5sum DEPRECATED;
 }
 
 #endif

@@ -5,7 +5,7 @@
 #include "MD5sum.hh"
 
 
-namespace octetos::core
+namespace oct::core
 {
 
 	//contructors
@@ -26,7 +26,12 @@ namespace octetos::core
 	}	
 	const MD5sum& MD5sum::operator =(const char* m)
 	{
-		std::string::operator = (m);
+		set(m);
+		return *this;
+	}	
+	const MD5sum& MD5sum::operator =(const std::string& m)
+	{
+		set(m);
 		return *this;
 	}
 
