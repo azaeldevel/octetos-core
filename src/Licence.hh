@@ -33,9 +33,7 @@
 
 
 
-namespace octetos
-{
-namespace core
+namespace oct::core
 {
 	class DECLSPCE_DLL Licence : public Object
 	{
@@ -112,8 +110,12 @@ namespace core
 		bool write(libconfig::Setting &root);
 	};
 
-}
+
 }
 
+namespace octetos::core
+{
+	typedef oct::core::Licence Licence DEPRECATED;
+}
 
 #endif

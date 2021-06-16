@@ -9,4 +9,11 @@
     #define DECLSPCE_DLL
 #endif
 
+
+#ifdef __GNUG__
+	#define DEPRECATED __attribute__ ((deprecated))
+#else
+	#define DEPRECATED
+#endif
+
 #endif

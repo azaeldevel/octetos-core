@@ -34,9 +34,7 @@
 #endif
 #include "Object.hh"
 
-namespace octetos
-{
-namespace core
+namespace oct::core
 {
 	bool Object::checkCollectionAssistant()const
 	{
@@ -91,5 +89,5 @@ namespace core
 	{
 		return PACKAGE;
 	}
-}
+
 }

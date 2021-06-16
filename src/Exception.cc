@@ -2,10 +2,9 @@
 #include "Exception.hh"
 
 
-namespace octetos
+namespace oct::core
 {
-namespace core
-{	
+	
 	Exception::Exception()
 	{
 
@@ -55,5 +54,5 @@ namespace core
         return text.c_str();
     }
 
-}
+
 }

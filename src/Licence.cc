@@ -25,9 +25,7 @@
 
 #include "Licence.hh"
 
-namespace octetos
-{
-namespace core
+namespace oct::core
 {
 	bool Licence::gnu_compatible(Type t)
 	{
@@ -154,5 +152,4 @@ namespace core
 
 
 
-}
 }

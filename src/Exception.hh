@@ -26,9 +26,7 @@
 
 #include "defines.hh"
 
-namespace octetos
-{
-namespace core
+namespace oct::core
 {
 
 class DECLSPCE_DLL Exception : public std::exception
@@ -55,7 +53,12 @@ public:
 };
 
 
+
 }
+
+namespace octetos::core
+{
+	typedef oct::core::Exception Exception DEPRECATED;
 }
 
 #endif

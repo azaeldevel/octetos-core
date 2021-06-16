@@ -27,9 +27,7 @@
 
 #include "Exception.hh"
 
-namespace octetos
-{
-namespace core
+namespace oct::core
 {
 	/**
 	* \brief Clase dedicda a la gestion de errores
@@ -146,8 +144,12 @@ namespace core
 		* */
 		static const Error* error;
 	}__attribute__ ((deprecated));
-}
+
 }
 
+namespace octetos::core
+{
+	typedef oct::core::Error Error DEPRECATED;
+}
 
 #endif

@@ -23,9 +23,7 @@
 
 #include "defines.hh"
 
-namespace octetos
-{
-namespace core
+namespace oct::core
 {
 
 	/**
@@ -71,10 +69,13 @@ namespace core
         unsigned int line;
 #endif
     };
+
 }
+
+
+namespace octetos::core
+{
+	typedef oct::core::Object Object DEPRECATED;
 }
-
-
-
 
 #endif

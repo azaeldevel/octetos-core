@@ -6,6 +6,8 @@
 #include <time.h>
 #include <memory.hh>
 #include <fstream>
+#include <unistd.h>
+#include <limits.h>
 
 #include "config.h"
 #include "semver-lexer.h"
@@ -1104,10 +1106,12 @@ void testMemory()
 	//else if(fabs(speed - 1.0) <= 0.001) std::cout << "No hay efecto\n";
 	//else std::cout << "Hay una desventaja del " << fabs(100.0 * ventaja) << "%\n";
 
+	char hostname[HOST_NAME_MAX + 1];
+  	gethostname(hostname, HOST_NAME_MAX + 1);
 	std::string filename = SRCDIRTEST;
 	filename = filename + "/statics.csv";
 	std::ofstream fn(filename,std::ios::app | std::ios::in | std::ios::ate);
-	fn << speed2 << "," << speed3 << "," << ventaja << "\n";
+	fn << speed2 << "," << speed3 << "," << ventaja << "," << hostname << "\n";
 	
 }
 

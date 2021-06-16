@@ -28,10 +28,9 @@
 #include "defines.hh"
 
 
-namespace octetos
+namespace oct::core
 {
-namespace core
-{
+
         /**
          * \brief Entendida como clase base para tranmitir mensajes.
          * */
@@ -136,7 +135,15 @@ namespace core
                  * */
                 int steps;
         };
+
 }
+
+namespace octetos::core
+{
+	typedef oct::core::Message Message DEPRECATED;
+	typedef oct::core::Confirmation Confirmation DEPRECATED;
+	typedef oct::core::Warning Warning DEPRECATED;
+	typedef oct::core::ActivityProgress ActivityProgress DEPRECATED;
 }
 
 #endif

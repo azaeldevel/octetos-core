@@ -25,10 +25,9 @@
 #include "Error.hh"
 
 
-namespace octetos
+namespace oct::core
 {
-namespace core
-{	
+
 	const Error* Error::see()
 	{
 		return error;
@@ -103,5 +102,5 @@ namespace core
 		return code;
 	}
         
-}
+
 }

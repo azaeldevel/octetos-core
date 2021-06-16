@@ -20,10 +20,9 @@
  * */
 #include "Message.hh"
 
-namespace octetos
+namespace oct::core
 {
-namespace core
-{
+
 
         Warning::Warning(const std::string& brief): Message(brief)
         {}
@@ -69,5 +68,5 @@ namespace core
                 this->activities = activities;
         }
 
-}
+
 }
