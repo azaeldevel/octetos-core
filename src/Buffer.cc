@@ -24,11 +24,9 @@
 
 #include "Buffer.hh"
 
-namespace octetos
+namespace oct::core
 {
-namespace core
-{
-	 
+ 
 void Buffer::prev_char()
 {
 	forward--;
@@ -77,5 +75,4 @@ Buffer::Buffer(const char* str)
 }
 
 
-}
 }

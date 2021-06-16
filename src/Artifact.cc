@@ -34,10 +34,9 @@
 #include "Error.hh"
 
 
-namespace octetos
+namespace oct::core
 {
-namespace core
-{
+
 	bool Artifact::read(const std::string& file)
 	{
   		libconfig::Config cfg;
@@ -146,5 +145,5 @@ namespace core
 
 		return true;
 	}
-}
+
 }

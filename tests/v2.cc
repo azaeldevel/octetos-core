@@ -25,13 +25,13 @@ int clean(void)
 
 void testImports_v100()
 {
-	octetos::core::Semver verPQ;
-	if(octetos::core::Error::check())
+	oct::core::Semver verPQ;
+	if(oct::core::Error::check())
 	{
-		std::cerr << (std::string)octetos::core::Error::get() << "\n";
+		std::cerr << (std::string)oct::core::Error::get() << "\n";
 		return;
 	}
-	verPQ.set(80105,octetos::core::Semver::ImportCode::PostgreSQL);
+	verPQ.set(80105,oct::core::Semver::ImportCode::PostgreSQL);
 	if(verPQ.getMajor() == 8)
 	{
 		CU_ASSERT(true);
@@ -39,9 +39,9 @@ void testImports_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -52,9 +52,9 @@ void testImports_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -65,9 +65,9 @@ void testImports_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -77,12 +77,12 @@ void testImports_v100()
 
 void testParseString_v100()
 {
-	octetos::core::Semver ver1,ver2,ver3;
+	oct::core::Semver ver1,ver2,ver3;
 	
-	if(octetos::core::Error::check())
+	if(oct::core::Error::check())
 	{
 		CU_ASSERT(false);
-		//std::cerr << (std::string)octetos::core::Error::get() << "\n";
+		//std::cerr << (std::string)oct::core::Error::get() << "\n";
 		return;
 	}
 	
@@ -94,9 +94,9 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -107,9 +107,9 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -120,9 +120,9 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -133,9 +133,9 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -148,9 +148,9 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -169,9 +169,9 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -182,9 +182,9 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -198,9 +198,9 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -219,9 +219,9 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -232,13 +232,13 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
-	octetos::core::Semver ver4;
+	oct::core::Semver ver4;
 	ver4.set("7.6.23-betar12");
 	if(ver4.getPrerelease().compare("betar12") == 0)
 	{
@@ -247,14 +247,14 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 	
-	octetos::core::Semver ver5;
+	oct::core::Semver ver5;
 	if(ver5.extractNumbers("7.6.23"))
 	{
 		//std::cerr << "Extracted :" << (std::string)ver5 << "\n";
@@ -263,14 +263,14 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 	
-	octetos::core::Semver ver6;
+	oct::core::Semver ver6;
 	if(ver6.extractNumbers("7.6.23"))
 	{
 		//std::cerr << "Extracted :" << (std::string)ver6 << "\n";
@@ -279,14 +279,14 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 	
-	octetos::core::Semver ver7;
+	oct::core::Semver ver7;
 	if(ver7.set("7.6.23-betar1.2"))
 	{
 		//std::cerr << "Str :" << (std::string)ver7 << "\n";
@@ -295,14 +295,14 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 
-	octetos::core::Semver ver8;
+	oct::core::Semver ver8;
 	if(ver8.set("1.2.0-alpha"))
 	{
 		//std::cerr << "Str :" << (std::string)ver8 << "\n";
@@ -311,14 +311,14 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 
-	octetos::core::Semver ver9;
+	oct::core::Semver ver9;
 	if(ver9.set("1.2.0-alpha1"))
 	{
 		//std::cerr << "Str :" << (std::string)ver8 << "\n";
@@ -327,14 +327,14 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 
-	octetos::core::Semver ver10;
+	oct::core::Semver ver10;
 	if(ver10.set("1.2.0-alpha.1"))
 	{
 		//std::cerr << "Str :" << (std::string)ver8 << "\n";
@@ -343,14 +343,14 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 	
-	octetos::core::Semver ver11;
+	oct::core::Semver ver11;
 	if(ver11.set("1.2.0"))
 	{
 		//std::cerr << "Str :" << (std::string)ver8 << "\n";
@@ -359,14 +359,14 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 	
-	octetos::core::Semver ver12;
+	oct::core::Semver ver12;
 	if(ver12.set("1.2.0"))//no deve aceptar letras en la secion numerica
 	{
 		//std::cerr << "Str :" << (std::string)ver8 << "\n";
@@ -375,14 +375,14 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 
-	octetos::core::Semver ver13;
+	oct::core::Semver ver13;
     if(ver13.set("0.1.0-alpha"))
 	{
 		CU_ASSERT(true);
@@ -390,15 +390,15 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 
 	
-	octetos::core::Semver ver14;
+	oct::core::Semver ver14;
     if(ver14.extractNumbers("0.1.0-alpha"))
 	{
 		CU_ASSERT(true);
@@ -406,9 +406,9 @@ void testParseString_v100()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -416,12 +416,12 @@ void testParseString_v100()
 
 void testParseString_v200()
 {
-	octetos::core::Semver ver1,ver2,ver3;
+	oct::core::Semver ver1,ver2,ver3;
 	
-	if(octetos::core::Error::check())
+	if(oct::core::Error::check())
 	{
 		CU_ASSERT(false);
-		std::cerr << (std::string)octetos::core::Error::get() << "\n";
+		std::cerr << (std::string)oct::core::Error::get() << "\n";
 		return;
 	}
 	
@@ -432,9 +432,9 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -445,9 +445,9 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -459,9 +459,9 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -472,9 +472,9 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -487,9 +487,9 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -508,9 +508,9 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -521,9 +521,9 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -537,9 +537,9 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -558,9 +558,9 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
@@ -571,13 +571,13 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
-	octetos::core::Semver ver4;
+	oct::core::Semver ver4;
 	ver4.set("7.6.23-betar1");
 	if(ver4.getPrerelease().compare("betar1") == 0)
 	{
@@ -586,15 +586,15 @@ void testParseString_v200()
 	else
 	{
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
 	}
 
 	
-	octetos::core::Semver ver5;
+	oct::core::Semver ver5;
 	if(ver5.set("5.0.0-alpha\n"))
 	{
 		CU_ASSERT(true);
@@ -609,8 +609,8 @@ void testParseString_v200()
 
 void testComparators_v100()
 {
-        octetos::core::Semver ver1;
-        octetos::core::Semver ver2;
+        oct::core::Semver ver1;
+        oct::core::Semver ver2;
         
         ver1.setNumbers(1,2,3);
         ver2.setNumbers(1,2,5);
@@ -618,9 +618,9 @@ void testComparators_v100()
         if(ver1 >= ver2)
         {
 			CU_ASSERT(false);
-			if(octetos::core::Error::check())
+			if(oct::core::Error::check())
 			{
-				std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+				std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 				return;
 			}
         }
@@ -636,9 +636,9 @@ void testComparators_v100()
         else
         {
                 CU_ASSERT(false);
-			if(octetos::core::Error::check())
+			if(oct::core::Error::check())
 			{
-				std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+				std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 				return;
 			}
         }
@@ -653,9 +653,9 @@ void testComparators_v100()
         else
         {
                 CU_ASSERT(false);
-			if(octetos::core::Error::check())
+			if(oct::core::Error::check())
 			{
-				std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+				std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 				return;
 			}
         }
@@ -667,9 +667,9 @@ void testComparators_v100()
         else
         {
                 CU_ASSERT(false);
-			if(octetos::core::Error::check())
+			if(oct::core::Error::check())
 			{
-				std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+				std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 				return;
 			}
         }
@@ -685,9 +685,9 @@ void testComparators_v100()
         else
         {
                 CU_ASSERT(false);
-			if(octetos::core::Error::check())
+			if(oct::core::Error::check())
 			{
-				std::cerr << (std::string)octetos::core::Error::get() << "\n";
+				std::cerr << (std::string)oct::core::Error::get() << "\n";
 				return;
 			}
         }
@@ -695,9 +695,9 @@ void testComparators_v100()
         if(ver2 >= ver1)
         {
                 CU_ASSERT(false);
-			if(octetos::core::Error::check())
+			if(oct::core::Error::check())
 			{
-				std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+				std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 				return;
 			}
         }
@@ -707,8 +707,8 @@ void testComparators_v100()
         }   
         
     //x simepre es amjor que x.y
-    octetos::core::Semver ver3;
-    octetos::core::Semver ver4;
+    oct::core::Semver ver3;
+    oct::core::Semver ver4;
     ver3.setNumbers(1);
     ver4.setNumbers(1,50);
     if(ver3 >= ver4) 
@@ -718,9 +718,9 @@ void testComparators_v100()
     else 
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
@@ -731,18 +731,18 @@ void testComparators_v100()
     else 
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
     }
     if(ver3 <= ver4) 
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
@@ -757,9 +757,9 @@ void testComparators_v100()
     else 
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
@@ -770,18 +770,18 @@ void testComparators_v100()
     else 
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
     }
     if(ver3 < ver4) 
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
@@ -794,8 +794,8 @@ void testComparators_v100()
     
     
     //x simepre es amjor que x.y
-    octetos::core::Semver ver5;
-    octetos::core::Semver ver6;
+    oct::core::Semver ver5;
+    oct::core::Semver ver6;
     ver5.setNumbers(1,50);
     ver6.setNumbers(1,50,100);
     if(ver5 >= ver6) 
@@ -805,9 +805,9 @@ void testComparators_v100()
     else 
     {
 		CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
@@ -818,18 +818,18 @@ void testComparators_v100()
     else 
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
     }
     if(ver5 < ver6) 
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
@@ -842,9 +842,9 @@ void testComparators_v100()
     if(ver5 == ver6)
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
@@ -859,16 +859,16 @@ void testComparators_v100()
     else
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
     
-    octetos::core::Semver verMin;
-    octetos::core::Semver verMax;
-    octetos::core::Semver verVal;
+    oct::core::Semver verMin;
+    oct::core::Semver verMax;
+    oct::core::Semver verVal;
     verMin.setNumbers(1,2,0);
     verVal.setNumbers(1,2,3);
     verMax.setNumbers(3,9,0);
@@ -879,9 +879,9 @@ void testComparators_v100()
     else
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
@@ -892,15 +892,15 @@ void testComparators_v100()
     else
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
     
-    octetos::core::Semver ver7;
-    octetos::core::Semver ver8;
+    oct::core::Semver ver7;
+    oct::core::Semver ver8;
     ver7.setNumbers(4,4,20);
     ver8.setNumbers(3,2);
     if(ver7 >= ver8)
@@ -910,64 +910,64 @@ void testComparators_v100()
     else
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
 
-	octetos::core::Semver ver9;
-    octetos::core::Semver ver10;
+	oct::core::Semver ver9;
+    oct::core::Semver ver10;
     ver9.setNumbers(2);
     ver10.setNumbers(2);
     if(ver9 < ver10)
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
-	octetos::core::Semver ver11;
-    octetos::core::Semver ver12;
+	oct::core::Semver ver11;
+    oct::core::Semver ver12;
     ver11.setNumbers(2);
     ver12.setNumbers(2);
     if(ver11 > ver12)
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
 	
-	octetos::core::Semver ver13;
-    octetos::core::Semver ver14;
+	oct::core::Semver ver13;
+    oct::core::Semver ver14;
     ver13.setNumbers(2,1);
     ver14.setNumbers(2,1);
     if(ver13 < ver14)
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+			std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 			return;
 		}
     }
 	
-	octetos::core::Semver ver15;
-    octetos::core::Semver ver16;
+	oct::core::Semver ver15;
+    oct::core::Semver ver16;
     ver15.setNumbers(2,1);
     ver16.setNumbers(2,1);
     if(ver15 < ver16)
     {
         CU_ASSERT(false);
-		if(octetos::core::Error::check())
+		if(oct::core::Error::check())
 		{
-			std::cerr << (std::string)octetos::core::Error::get() << "\n";
+			std::cerr << (std::string)oct::core::Error::get() << "\n";
 			return;
 		}
     }
@@ -976,8 +976,8 @@ void testComparators_v100()
 void testOperations_v100()
 {	
 	/*time_t seconds = time (NULL);
-	octetos::core::Artifact packinfo;
-	octetos::core::getPackageInfo(packinfo);
+	oct::core::Artifact packinfo;
+	oct::core::getPackageInfo(packinfo);
 	std::string str = std::to_string(seconds);
 	std::string filename = packinfo.name;
 	filename += "-" + str + ".cfg"; 
@@ -991,7 +991,7 @@ void testOperations_v100()
 		CU_ASSERT(false);
 	}*/
 
-	//octetos::core::Artifact pk;
+	//oct::core::Artifact pk;
 	//pk.read (filename);
 }
 
@@ -1035,7 +1035,7 @@ void testsemverc()
 }
 void testTemporally()
 {
-	octetos::core::Semver ver;
+	oct::core::Semver ver;
 	ver.set("1.0.2-alpha");
 	//std::cout << "Str ver :" << (std::string)ver << "\n";
 }
@@ -1082,7 +1082,7 @@ void testMemory()
 
 	int* segment3[LENGTH];
 	clock_t start3 = clock();
-	octetos::core::MiniGC<int> minigc(LENGTH);	
+	oct::core::MiniGC<int> minigc(LENGTH);	
 	for(unsigned short test = 0; test < TESTS; test++)
 	{
 		for(unsigned short i = 0; i < LENGTH; i++)
@@ -1145,11 +1145,11 @@ int main(int argc, char *argv[])
 			std::cout << "--bdir=[directory]		Directorio de contrución";
 		}
 	}
-	octetos::core::Artifact packinfo;
-	octetos::core::getPackageInfo(packinfo);
-	if(octetos::core::Error::check())
+	oct::core::Artifact packinfo;
+	oct::core::getPackageInfo(packinfo);
+	if(oct::core::Error::check())
 	{
-		std::cerr << (const std::string&)octetos::core::Error::get() << "\n";
+		std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 		return EXIT_FAILURE;
 	}
 	

@@ -38,7 +38,7 @@
 
 
 
-namespace octetos::core
+namespace oct::core
 {
 
 	struct upload_status 

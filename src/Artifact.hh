@@ -27,10 +27,9 @@
 #include "Licence.hh"
 
 
-namespace octetos
+namespace oct::core
 {
-namespace core
-{
+
 	class DECLSPCE_DLL Artifact : public Object
 	{
 	public:
@@ -49,9 +48,13 @@ namespace core
 	 * \brief retorna la informacion del paquete
 	 **/
 	bool getPackageInfo(Artifact&);
-}
+
 }
 
-
+namespace octetos::core
+{
+	typedef oct::core::Artifact Artifact DEPRECATED;
+	bool getPackageInfo(Artifact& p){return oct::core::getPackageInfo(p);};
+}
 
 #endif

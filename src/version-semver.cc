@@ -26,10 +26,9 @@
 #include "Version.hh"
 #include "Error.hh"
 
-namespace octetos
+namespace oct::core
 {
-namespace core
-{
+
     bool Semver::operator !=(const Version& obj)const
     {
         if(major != ((Semver&)obj).getMajor() or minor != ((Semver&)obj).getMinor() or patch != ((Semver&)obj).getPatch())
@@ -382,5 +381,5 @@ namespace core
 		if(prerelease) octetos_core_Semver_setPrerelease(this,obj.prerelease);
 		if(build) octetos_core_Semver_setBuild(this,obj.build);
 	}
-}
+
 }

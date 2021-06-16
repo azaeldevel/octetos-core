@@ -35,10 +35,9 @@
 
 
 
-namespace octetos
+namespace oct::core
 {
-namespace core
-{
+
 	class DECLSPCE_DLL InvalidComparison : public Error
 	{
 	public:
@@ -156,7 +155,15 @@ namespace core
 		virtual bool operator <=(const Version&)const;
 	};
 
+
 }
+
+
+namespace octetos::core
+{
+	typedef oct::core::InvalidComparison InvalidComparison DEPRECATED;
+	typedef oct::core::Version Version DEPRECATED;
+	typedef oct::core::Semver Semver DEPRECATED;
 }
 
 #endif

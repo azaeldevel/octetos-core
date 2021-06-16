@@ -27,9 +27,7 @@
 
 #include "defines.hh"
 
-namespace octetos
-{
-namespace core
+namespace oct::core
 {
 
 class DECLSPCE_DLL Buffer
@@ -57,7 +55,13 @@ public:
 	const char* get_text() const;
 };
 
+
 }
+
+
+namespace octetos::core
+{
+	typedef oct::core::Buffer Buffer DEPRECATED;
 }
 
 #endif

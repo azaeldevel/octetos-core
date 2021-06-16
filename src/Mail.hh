@@ -9,7 +9,7 @@
 #include <curl/curl.h>
 
 
-namespace octetos::core
+namespace oct::core
 {
 
 class SMTP
