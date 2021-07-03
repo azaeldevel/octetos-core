@@ -54,7 +54,7 @@ namespace oct::core
 namespace octetos::core
 {
 	typedef oct::core::Artifact Artifact DEPRECATED;
-	bool getPackageInfo(Artifact& p){return oct::core::getPackageInfo(p);};
+	bool getPackageInfo(Artifact& p);
 }
 
 #endif

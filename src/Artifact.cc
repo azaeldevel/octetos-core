@@ -147,3 +147,11 @@ namespace oct::core
 	}
 
 }
+
+namespace octetos::core
+{
+	bool getPackageInfo(Artifact& p)
+	{
+		return oct::core::getPackageInfo(p);
+	};
+}
