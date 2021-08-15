@@ -30,7 +30,7 @@ protected:
 	void* head;
 	unsigned short size;
 	FlagsMemory flags;
-};
+}DEPRECATED;
 
 
 template<typename T> class Block : public Memory
@@ -59,7 +59,7 @@ public:
 	
 protected:
 	
-};
+}DEPRECATED;
 
 template<typename T> class MiniGC
 {
@@ -124,7 +124,7 @@ private:
 	Block<Element> block;
 	MemorySize lastCreated;
 	bool full;
-};
+}DEPRECATED;
 
 }
 

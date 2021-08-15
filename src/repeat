@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+  then
+    echo "No hay argumentos"
+	exit
+fi
+if [ -z "$1" ]
+  then
+	echo "Indique el prigrama a repetir"
+fi
+if [ -z "$2" ]
+  then
+	echo "Indique el prigrama la cantidad de veces a repetir"
+fi
+
+for i in {1..$2}; do 
+
+	time $1
+
+done

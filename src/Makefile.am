@@ -36,7 +36,13 @@ EXTRA_DIST = octetos-core.pc.in
 uninstall-local:
 	-rm -r $(jsdir)
 
-noinst_PROGRAMS = develop
+noinst_PROGRAMS = develop testArrayCpp testArrayClass
 
 develop_SOURCES = develop.cc 
 develop_LDADD = liboctetos-core.la
+
+testArrayCpp_SOURCES = testArrayC++.cc 
+testArrayCpp_LDADD = liboctetos-core.la
+
+testArrayClass_SOURCES = testArrayClass.cc 
+testArrayClass_LDADD = liboctetos-core.la

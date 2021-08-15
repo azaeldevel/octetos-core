@@ -8,6 +8,8 @@
 #include <fstream>
 #include <unistd.h>
 #include <limits.h>
+#include <data.hh>
+
 
 #include "config.h"
 #include "semver-lexer.h"
@@ -1115,6 +1117,28 @@ void testMemory()
 	
 }
 
+void testData()
+{
+	oct::core::Wall<int> wall1(5);
+	wall1[0] = 1;
+	wall1[1] = 2;
+	wall1[2] = 3;
+	wall1[3] = 4;
+	wall1[4] = 5;
+	
+	for(unsigned int i = 0; i < wall1.get_size(); i++)
+	{
+		if(wall1[i] = i + 1)
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+	}
+}
+
 int main(int argc, char *argv[])
 {  
 #ifdef DEBUG
@@ -1213,6 +1237,13 @@ int main(int argc, char *argv[])
 	}
 
 	if ((NULL == CU_add_test(pSuite, "Memory modules", testMemory)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+	
+	
+	if ((NULL == CU_add_test(pSuite, "Data modules", testData)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
