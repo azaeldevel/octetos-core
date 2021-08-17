@@ -1115,6 +1115,77 @@ void testMemory()
 	std::ofstream fn(filename,std::ios::app | std::ios::in | std::ios::ate);
 	fn << speed2 << "," << speed3 << "," << ventaja << "," << hostname << "\n";
 	
+	
+	oct::core::Allocation<int> alloc1(100);
+		
+	oct::core::Allocation<int>::List list1;
+	list1.push_back(0);
+	list1.push_back(1);
+	list1.push_back(2);
+	list1.push_back(3);
+	list1.push_back(4);
+	list1.push_back(5);
+	list1.push_back(6);
+	list1.push_back(7);
+	list1.push_back(8);
+	list1.push_back(9);
+	if(list1.get_size() == 10)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+	if(list1.begin().object == 0)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+	if(list1.end().object == 9)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
+	}
+	
+	oct::core::Allocation<int>::Node* node1 = &list1.begin();
+	int node1_count = 0;	
+	while(node1 != NULL)
+	{
+		if(node1_count == node1->object)
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+		node1 = node1->post;
+		node1_count++;
+	}
+	
+	node1 = &list1.end();
+	node1_count = 9;
+	while(node1 != NULL)
+	{
+		if(node1_count == node1->object)
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+		node1 = node1->prev;
+		node1_count--;
+	}
+	
 }
 
 void testData()
@@ -1248,6 +1319,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+	
 	
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);

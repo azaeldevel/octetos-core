@@ -2,6 +2,7 @@
 #ifndef OCTETO_CORE_MEMORY_HH
 #define OCTETO_CORE_MEMORY_HH
 
+#include <vector>
 
 #include "Exception.hh"
 
@@ -125,6 +126,111 @@ private:
 	MemorySize lastCreated;
 	bool full;
 }DEPRECATED;
+
+template<typename T, typename I = unsigned int> class Allocation
+{
+public:
+	struct Node
+	{
+		Node* prev;
+		T object;
+		Node* post;
+		
+		Node()
+		{
+			prev = NULL;
+			post = NULL;
+		}
+	};
+	class List
+	{
+	public:
+		List()
+		{
+			node_begin = NULL;
+			node_end = NULL;
+			size = 0;
+		}
+		Node* push_back(T& object)
+		{
+			Node* newlast = new Node;
+			newlast->object = object;
+
+			newlast->prev = node_end;	
+			//newlast->post = NULL;por defualt en contruccion
+			if(not node_end) node_end = newlast;
+			
+			if(not node_begin) node_begin = newlast;
+			node_end = newlast;
+			size++;
+			return newlast;
+		}
+		Node* push_back(T object)
+		{
+			Node* newNode = new Node;
+			newNode->object = object;
+
+			if(not node_begin and not node_end)//es el primero
+			{
+				node_begin = newNode;
+				node_end  = newNode;
+			}
+			else
+			{
+				Node* oldend = node_end;
+				oldend->post = newNode;
+				newNode->prev = oldend;
+				newNode->post = NULL;
+				node_end  = newNode;
+			}
+			size++;
+			return newNode;
+		}
+		Node& begin()
+		{
+			if(not node_begin)throw Exception("Lista vacia",__FILE__,__LINE__);
+
+			return *node_begin;
+		}
+		Node& end()
+		{
+			if(not node_end)throw Exception("Lista vacia",__FILE__,__LINE__);
+
+			return *node_end;
+		}
+		I get_size()
+		{
+			return size;
+		}
+	private:
+		Node *node_end,*node_begin;
+		I size;
+	};
+public:
+	Allocation(I size)
+	{
+	}
+	~Allocation()
+	{
+		free();
+	}
+	
+	T* get()
+	{
+	}
+	void free(T* obj)
+	{
+	}
+	void free()
+	{
+	}
+	void resize(I newsize)
+	{
+	}
+private:
+	
+};
+
 
 }
 
