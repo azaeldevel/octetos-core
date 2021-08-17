@@ -3,6 +3,7 @@
 #define OCTETO_CORE_MEMORY_HH
 
 #include <vector>
+#include <iostream>
 
 #include "Exception.hh"
 
@@ -130,17 +131,40 @@ private:
 template<typename T, typename I = unsigned int> class Allocation
 {
 public:
-	struct Node
+	class List;
+
+	class Node
 	{
-		Node* prev;
-		T object;
-		Node* post;
-		
-		Node()
+	friend class List;
+
+	public:
+		Node(List* listOwner)
 		{
-			prev = NULL;
-			post = NULL;
+			previous = NULL;
+			posteriory = NULL;
+			owner = listOwner;
 		}
+		
+		List& get_owner()
+		{
+			return *owner;
+		}
+		Node* get_previous()
+		{
+			return previous;
+		}
+		Node* get_posteriory()
+		{
+			return posteriory;
+		}
+	public:
+		T object;
+
+	private:
+		Node* previous;
+		Node* posteriory;
+		List* owner;
+		
 	};
 	class List
 	{
@@ -152,9 +176,9 @@ public:
 			size = 0;
 		}
 
-		Node* push_back(T& object)
+		Node& push_back(T& object)
 		{
-			Node* newNode = new Node;
+			Node* newNode = new Node(this);
 			newNode->object = object;
 
 			if(not node_first and not node_last)//es el primero
@@ -164,18 +188,17 @@ public:
 			}
 			else
 			{
-				Node* oldend = node_last;
-				oldend->post = newNode;
-				newNode->prev = oldend;
-				newNode->post = NULL;
-				node_last  = newNode;
+				newNode->previous = node_last; 
+				newNode->posteriory = NULL;
+				node_last->posteriory = newNode;
+				node_last = newNode;
 			}
 			size++;
-			return newNode;
+			return *newNode;
 		}
-		Node* push_back(T object)
+		Node& push_back(T object)
 		{
-			Node* newNode = new Node;
+			Node* newNode = new Node(this);
 			newNode->object = object;
 
 			if(not node_first and not node_last)//es el primero
@@ -185,15 +208,36 @@ public:
 			}
 			else
 			{
-				Node* oldend = node_last;
-				oldend->post = newNode;
-				newNode->prev = oldend;
-				newNode->post = NULL;
-				node_last  = newNode;
+				newNode->previous = node_last; 
+				newNode->posteriory = NULL;
+				node_last->posteriory = newNode;
+				node_last = newNode;
+			}
+			size++;
+			return *newNode;
+		}
+		Node& push_back(Node& newNode)
+		{
+			newNode.owner = this;
+
+			if(size == 0)//es el primero
+			{
+				node_first = &newNode;
+				node_last  = &newNode;
+				newNode.previous = NULL; 
+				newNode.posteriory = NULL;
+			}
+			else
+			{
+				newNode.previous = node_last; 
+				newNode.posteriory = NULL;
+				node_last->posteriory = &newNode;
+				node_last = &newNode;
 			}
 			size++;
 			return newNode;
 		}
+		
 		Node& first()
 		{
 			if(not node_first)throw Exception("Lista vacia",__FILE__,__LINE__);
@@ -206,18 +250,70 @@ public:
 
 			return *node_last;
 		}
-		Node& end()
-		{
-			if(not node_last)throw Exception("Lista vacia",__FILE__,__LINE__);
-
-			return *node_last;
-		}
 		I get_size()
 		{
 			return size;
 		}
+		Node& pull(Node& node)
+		{
+			node.get_owner().remove(node);
+			return push_back(node);
+		}
+		void remove(Node& node)
+		{
+			//std::cout << " void List::remove(..) step 1\n";
+			if(size == 0)
+			{
+				throw Exception("Lista vacia",__FILE__,__LINE__);
+			}
+			if(not isOwner(node)) throw Exception("El nodo indicado no pertenece a esta lista",__FILE__,__LINE__);
+			
+			//std::cout << " void List::remove(..) step 2\n";
+			if(size == 1)
+			{
+				node_last = NULL;
+				node_first = NULL;
+			}
+			else
+			{
+				//std::cout << " void List::remove(..) step 2.1\n";
+				if(node.previous) node.previous->posteriory = node.posteriory;
+				else 
+				{
+					//std::cout << " void List::remove(..) step 2.2.1\n";
+					node.posteriory->previous = NULL;
+					node_first = node.posteriory;
+				}
+				if(node.posteriory) node.posteriory->previous = node.previous;
+				else 
+				{
+					//std::cout << " void List::remove(..) step 2.2.1\n";
+					node.previous->posteriory = NULL;
+					node_last = node.previous;
+				}
+			}
+			
+			node.owner = NULL;
+			node.previous = NULL;
+			node.posteriory = NULL;			
+			size--;
+		}
+		bool isOwner(Node& node)
+		{
+			if(node.previous != NULL)
+			{
+				if(node.previous->owner != this ) return false;
+			}
+			
+			if(node.posteriory != NULL)
+			{
+				if(node.posteriory->owner != this ) return false;
+			}
+			
+			return true;
+		}
 	private:
-		Node *node_last,*node_first;
+		Node *node_last, *node_first;
 		I size;
 	};
 public:

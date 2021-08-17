@@ -1137,7 +1137,7 @@ void testMemory()
 	{
 		CU_ASSERT(false);
 	}
-	if(list1.begin().object == 0)
+	if(list1.first().object == 0)
 	{
 		CU_ASSERT(true);
 	}
@@ -1154,7 +1154,7 @@ void testMemory()
 		CU_ASSERT(false);
 	}
 	
-	oct::core::Allocation<int>::Node* node1 = &list1.begin();
+	oct::core::Allocation<int>::Node* node1 = &list1.first();
 	int node1_count = 0;	
 	while(node1 != NULL)
 	{
@@ -1166,7 +1166,7 @@ void testMemory()
 		{
 			CU_ASSERT(false);
 		}
-		node1 = node1->post;
+		node1 = node1->get_posteriory();
 		node1_count++;
 	}
 	
@@ -1182,11 +1182,74 @@ void testMemory()
 		{
 			CU_ASSERT(false);
 		}
-		node1 = node1->prev;
+		node1 = node1->get_previous();
 		node1_count--;
 	}
 	
 	
+	oct::core::Allocation<int>::List list2,list3;
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+	list2.push_back(5);
+	list2.push_back(6);
+	list2.push_back(7);
+	list2.push_back(8);
+	list2.push_back(9);
+	while(list2.get_size() > 0)
+	{
+		list3.pull(list2.last());
+	}
+	node1 = &list3.first();
+	node1_count = 9;
+	while(node1 != NULL)
+	{
+		//std::cout << "Number : " << node1->object << "\n";
+		if(node1_count == node1->object)
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+		node1 = node1->get_posteriory();
+		node1_count--;
+	}
+	
+	oct::core::Allocation<int>::List list4,list5;
+	list4.push_back(0);
+	list4.push_back(1);
+	list4.push_back(2);
+	list4.push_back(3);
+	list4.push_back(4);
+	list4.push_back(5);
+	list4.push_back(6);
+	list4.push_back(7);
+	list4.push_back(8);
+	list4.push_back(9);
+	while(list4.get_size() > 0)
+	{
+		list5.pull(list4.first());
+	}
+	node1 = &list5.first();
+	node1_count = 0;
+	while(node1 != NULL)
+	{
+		//std::cout << "Number : " << node1->object << "\n";
+		if(node1_count == node1->object)
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+		node1 = node1->get_posteriory();
+		node1_count++;
+	}
 }
 
 void testData()
