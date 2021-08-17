@@ -151,6 +151,7 @@ public:
 			node_last = NULL;
 			size = 0;
 		}
+
 		Node* push_back(T& object)
 		{
 			Node* newNode = new Node;
@@ -200,6 +201,12 @@ public:
 			return *node_begin;
 		}
 		Node& last()
+		{
+			if(not node_last)throw Exception("Lista vacia",__FILE__,__LINE__);
+
+			return *node_last;
+		}
+		Node& end()
 		{
 			if(not node_last)throw Exception("Lista vacia",__FILE__,__LINE__);
 
