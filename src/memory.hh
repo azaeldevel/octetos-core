@@ -147,7 +147,7 @@ public:
 	public:
 		List()
 		{
-			node_begin = NULL;
+			node_first = NULL;
 			node_last = NULL;
 			size = 0;
 		}
@@ -157,9 +157,9 @@ public:
 			Node* newNode = new Node;
 			newNode->object = object;
 
-			if(not node_begin and not node_last)//es el primero
+			if(not node_first and not node_last)//es el primero
 			{
-				node_begin = newNode;
+				node_first = newNode;
 				node_last  = newNode;
 			}
 			else
@@ -178,9 +178,9 @@ public:
 			Node* newNode = new Node;
 			newNode->object = object;
 
-			if(not node_begin and not node_last)//es el primero
+			if(not node_first and not node_last)//es el primero
 			{
-				node_begin = newNode;
+				node_first = newNode;
 				node_last  = newNode;
 			}
 			else
@@ -194,11 +194,11 @@ public:
 			size++;
 			return newNode;
 		}
-		Node& begin()
+		Node& first()
 		{
-			if(not node_begin)throw Exception("Lista vacia",__FILE__,__LINE__);
+			if(not node_first)throw Exception("Lista vacia",__FILE__,__LINE__);
 
-			return *node_begin;
+			return *node_first;
 		}
 		Node& last()
 		{
@@ -217,7 +217,7 @@ public:
 			return size;
 		}
 	private:
-		Node *node_last,*node_begin;
+		Node *node_last,*node_first;
 		I size;
 	};
 public:
