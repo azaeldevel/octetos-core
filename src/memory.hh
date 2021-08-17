@@ -148,40 +148,47 @@ public:
 		List()
 		{
 			node_begin = NULL;
-			node_end = NULL;
+			node_last = NULL;
 			size = 0;
 		}
 		Node* push_back(T& object)
 		{
-			Node* newlast = new Node;
-			newlast->object = object;
+			Node* newNode = new Node;
+			newNode->object = object;
 
-			newlast->prev = node_end;	
-			//newlast->post = NULL;por defualt en contruccion
-			if(not node_end) node_end = newlast;
-			
-			if(not node_begin) node_begin = newlast;
-			node_end = newlast;
+			if(not node_begin and not node_last)//es el primero
+			{
+				node_begin = newNode;
+				node_last  = newNode;
+			}
+			else
+			{
+				Node* oldend = node_last;
+				oldend->post = newNode;
+				newNode->prev = oldend;
+				newNode->post = NULL;
+				node_last  = newNode;
+			}
 			size++;
-			return newlast;
+			return newNode;
 		}
 		Node* push_back(T object)
 		{
 			Node* newNode = new Node;
 			newNode->object = object;
 
-			if(not node_begin and not node_end)//es el primero
+			if(not node_begin and not node_last)//es el primero
 			{
 				node_begin = newNode;
-				node_end  = newNode;
+				node_last  = newNode;
 			}
 			else
 			{
-				Node* oldend = node_end;
+				Node* oldend = node_last;
 				oldend->post = newNode;
 				newNode->prev = oldend;
 				newNode->post = NULL;
-				node_end  = newNode;
+				node_last  = newNode;
 			}
 			size++;
 			return newNode;
@@ -192,18 +199,18 @@ public:
 
 			return *node_begin;
 		}
-		Node& end()
+		Node& last()
 		{
-			if(not node_end)throw Exception("Lista vacia",__FILE__,__LINE__);
+			if(not node_last)throw Exception("Lista vacia",__FILE__,__LINE__);
 
-			return *node_end;
+			return *node_last;
 		}
 		I get_size()
 		{
 			return size;
 		}
 	private:
-		Node *node_end,*node_begin;
+		Node *node_last,*node_begin;
 		I size;
 	};
 public:

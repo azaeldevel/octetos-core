@@ -1145,7 +1145,7 @@ void testMemory()
 	{
 		CU_ASSERT(false);
 	}
-	if(list1.end().object == 9)
+	if(list1.last().object == 9)
 	{
 		CU_ASSERT(true);
 	}
@@ -1170,7 +1170,7 @@ void testMemory()
 		node1_count++;
 	}
 	
-	node1 = &list1.end();
+	node1 = &list1.last();
 	node1_count = 9;
 	while(node1 != NULL)
 	{
@@ -1185,6 +1185,7 @@ void testMemory()
 		node1 = node1->prev;
 		node1_count--;
 	}
+	
 	
 }
 
