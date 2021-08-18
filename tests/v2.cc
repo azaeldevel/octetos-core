@@ -1044,7 +1044,7 @@ void testTemporally()
 
 void testMemory()
 {
-	unsigned short LENGTH = 1000;
+	/*unsigned short LENGTH = 1000;
 	unsigned short TESTS = 10000;
 	
 	int* segment1;
@@ -1113,12 +1113,9 @@ void testMemory()
 	std::string filename = SRCDIRTEST;
 	filename = filename + "/statics.csv";
 	std::ofstream fn(filename,std::ios::app | std::ios::in | std::ios::ate);
-	fn << speed2 << "," << speed3 << "," << ventaja << "," << hostname << "\n";
+	fn << speed2 << "," << speed3 << "," << ventaja << "," << hostname << "\n";*/
 	
-	
-	oct::core::Allocation<int> alloc1(100);
-		
-	oct::core::Allocation<int>::List list1;
+	oct::core::Allocator<int>::List list1;
 	list1.push_back(0);
 	list1.push_back(1);
 	list1.push_back(2);
@@ -1154,7 +1151,7 @@ void testMemory()
 		CU_ASSERT(false);
 	}
 	
-	oct::core::Allocation<int>::Node* node1 = &list1.first();
+	oct::core::Allocator<int>::Node* node1 = &list1.first();
 	int node1_count = 0;	
 	while(node1 != NULL)
 	{
@@ -1168,6 +1165,18 @@ void testMemory()
 		}
 		node1 = node1->get_posteriory();
 		node1_count++;
+	}
+	
+	node1 = &list1.first();
+	//std::cout << "pMember : " << &node1->object << "\n";
+	//std::cout << "pObject " << node1 << "\n";
+	if((void*)&node1->object == (void*)node1)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
 	}
 	
 	node1 = &list1.last();
@@ -1187,7 +1196,7 @@ void testMemory()
 	}
 	
 	
-	oct::core::Allocation<int>::List list2,list3;
+	oct::core::Allocator<int>::List list2,list3;
 	list2.push_back(0);
 	list2.push_back(1);
 	list2.push_back(2);
@@ -1219,7 +1228,7 @@ void testMemory()
 		node1_count--;
 	}
 	
-	oct::core::Allocation<int>::List list4,list5;
+	oct::core::Allocator<int>::List list4,list5;
 	list4.push_back(0);
 	list4.push_back(1);
 	list4.push_back(2);
@@ -1238,7 +1247,6 @@ void testMemory()
 	node1_count = 0;
 	while(node1 != NULL)
 	{
-		//std::cout << "Number : " << node1->object << "\n";
 		if(node1_count == node1->object)
 		{
 			CU_ASSERT(true);
@@ -1249,6 +1257,59 @@ void testMemory()
 		}
 		node1 = node1->get_posteriory();
 		node1_count++;
+	}
+	
+	std::vector<int*> alloc1_datas(10);
+	oct::core::Allocator<int> alloc1;
+	for(unsigned int i = 0; i < alloc1_datas.size(); i++)
+	{
+		alloc1_datas[i] = alloc1.create();
+		*alloc1_datas[i] = i;
+	}
+	for(unsigned int i = 0; i < alloc1_datas.size(); i++)
+	{
+		if(*alloc1_datas[i] == i)
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+	}
+	
+	std::vector<int*> alloc2_datas(10);
+	oct::core::Allocator<int> alloc2;
+	for(unsigned int i = 0; i < alloc1_datas.size(); i++)
+	{
+		alloc2_datas[i] = alloc2.create();
+		*alloc2_datas[i] = i;
+	}
+	for(unsigned int i = 0; i < alloc2_datas.size(); i++)
+	{
+		if(*alloc1_datas[i] == i)
+		{
+			CU_ASSERT(true);
+		}
+		else
+		{
+			CU_ASSERT(false);
+		}
+	}	
+	
+	oct::core::Allocator<int>::List& list6 = alloc2.get_used();
+	unsigned int sizePrev = list6.get_size();
+	alloc2.destroy(alloc2_datas[3]);
+	unsigned int sizePost = list6.get_size();
+	//std::cout << "sizePrev = " << sizePrev << "\n";
+	//std::cout << "sizePost = " << sizePost << "\n";
+	if(sizePrev == sizePost + 1)
+	{
+		CU_ASSERT(true);
+	}
+	else
+	{
+		CU_ASSERT(false);
 	}
 }
 
