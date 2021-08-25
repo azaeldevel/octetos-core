@@ -9,7 +9,9 @@
 #include <unistd.h>
 #include <limits.h>
 #include <data.hh>
-
+#include <shell.hh>
+#include <list>
+#include <algorithm>
 
 #include "config.h"
 #include "semver-lexer.h"
@@ -1035,12 +1037,7 @@ void testsemverc()
 		CU_ASSERT(false);
 	}
 }
-void testTemporally()
-{
-	oct::core::Semver ver;
-	ver.set("1.0.2-alpha");
-	//std::cout << "Str ver :" << (std::string)ver << "\n";
-}
+
 
 void testMemory()
 {
@@ -1334,7 +1331,16 @@ void testData()
 		}
 	}
 }
-
+void testTemporally()
+{
+	oct::core::Shell shell;
+	std::list<std::string> dirs;
+	std::string toFind = "configure.ac";
+	shell.ls(dirs);
+	std::list<std::string>::iterator itFind = std::find(dirs.begin(),dirs.end(),toFind);
+	if(itFind != dirs.end()) CU_ASSERT(true)
+	else CU_ASSERT(false);
+}
 int main(int argc, char *argv[])
 {  
 #ifdef DEBUG
@@ -1420,11 +1426,6 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	/*if ((NULL == CU_add_test(pSuite, "Prueba temporal..", testTemporally)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}*/
 	
 	if ((NULL == CU_add_test(pSuite, "Validacion de parseo semver v2.0.0", testParseString_v200)))
 	{
@@ -1438,13 +1439,17 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 	
-	
 	if ((NULL == CU_add_test(pSuite, "Data modules", testData)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 	
+	if ((NULL == CU_add_test(pSuite, "Prueba temporal..", testTemporally)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
 	
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);
