@@ -1,10 +1,10 @@
-AC_INIT(octetos-core,2.28.1-beta, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.28.2-beta, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign gnu subdir-objects])
 AM_SILENT_RULES([yes])
 
 AC_PROG_CC
-AC_PROG_CXX([g++])
+AC_PROG_CXX
 AC_PROG_YACC
 AM_PATH_PYTHON
 
