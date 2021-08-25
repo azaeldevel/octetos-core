@@ -86,23 +86,25 @@ void octetos_core_Semver_init(struct octetos_core_Semver* version)
 const char* octetos_core_Semver_toString(const struct octetos_core_Semver* version,enum octetos_core_Semver_FormatString formato)
 {
 	char* numberStr  = NULL;
+	unsigned int buffer_leng = 20;
+	char* buffer = NULL;
 	if(version->major > -1 && version->minor > -1 && version->patch > -1)
 	{
-		char* buffer[20];
+		buffer = malloc(buffer_leng);
 		int leng = sprintf(buffer,"%d.%d.%d",version->major,version->minor,version->patch);
 		numberStr = malloc(leng +1);
-		strcpy(numberStr, buffer);
+		strcpy(numberStr, buffer);		
 	}
 	else if(version->major > -1 && version->minor > -1)
 	{
-		char* buffer[15];
+		buffer = malloc(buffer_leng);
 		int leng = sprintf(buffer,"%d.%d",version->major,version->minor);
 		numberStr = malloc(leng +1);
 		strcpy(numberStr, buffer);
 	}
 	else if(version->major > -1)
 	{
-		char* buffer[7];
+		buffer = malloc(buffer_leng);
 		int leng = sprintf(buffer,"%d",version->major);
 		numberStr = malloc(leng +1);
 		strcpy(numberStr, buffer);
@@ -111,6 +113,7 @@ const char* octetos_core_Semver_toString(const struct octetos_core_Semver* versi
 	{
 		return NULL;
 	}
+	free(buffer);
 	int numberLeng = strlen(numberStr);
 	if(formato == OnlyNumber)
 	{
