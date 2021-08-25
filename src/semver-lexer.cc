@@ -30,7 +30,7 @@
 
 #include "semver.tab.h"
 
-namespace octetos
+namespace oct
 {
 namespace core
 {

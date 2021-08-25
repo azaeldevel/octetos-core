@@ -29,7 +29,7 @@
 
 namespace oct::core
 {
-	bool Shell::mkdir(const std::string& name, bool recursive)
+	void Shell::mkdir(const std::string& name, bool recursive)
 	{
 		//Precessing
 		std::string stractual;
@@ -75,15 +75,13 @@ namespace oct::core
 		   			{
 			   			std::string msg = "Fail on calling mkdir : '";
 				   		msg += newpath + "'";
-						octetos::core::Exception(msg,__FILE__,__LINE__);
-						return false;
+						throw Exception(msg,__FILE__,__LINE__);
 		   			}
 		   			#endif
 		   		}
 
 		   		newpath += "/";
 		   	}
-		   	return true;
 	   	}
 	   	else
 	   	{
@@ -109,7 +107,7 @@ namespace oct::core
 			   	{
 			   		std::string msg = "No existe el archivo ";
 			   		msg += newpath;
-					throw octetos::core::Exception(msg,__FILE__,__LINE__);
+					throw Exception(msg,__FILE__,__LINE__);
 			   	}
 		   	}
 		   	stractual = newpath;
@@ -118,7 +116,7 @@ namespace oct::core
 		   	#else
 		   	int ret = ::mkdir(name.c_str(),0777);
 		   	#endif // WINDOWS_MINGW
-			if(ret == 0) return true;
+			if(ret == 0) return;
 	   	}
 
 		ERROR:
@@ -158,10 +156,8 @@ namespace oct::core
 					break;
 			}
 
-			throw octetos::core::Exception(msg,__FILE__,__LINE__);
+			throw Exception(msg,__FILE__,__LINE__);
 		}
-
-		return false;
 	}
 
 }

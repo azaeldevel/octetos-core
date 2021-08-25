@@ -28,7 +28,7 @@
 namespace oct::core
 {
 
-	bool Shell::touch(const std::string& name, int options)
+	void Shell::touch(const std::string& name, int options)
 	{
 		if(options == 0)
 		{
@@ -120,8 +120,6 @@ namespace oct::core
 #endif
 			}
 		}
-		
-		return true;
 	}
 	
 }

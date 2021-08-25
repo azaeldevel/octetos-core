@@ -29,7 +29,7 @@
 namespace oct::core
 {
 	
-	template<typename T,typename I> class Mold
+	template<typename T,typename I = unsigned int> class Mold
 	{
 	public:
 		virtual T& operator [](I index) = 0;

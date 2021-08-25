@@ -49,23 +49,11 @@ namespace oct::core
 	  	}
 	  	catch(const libconfig::FileIOException &fioex)
 	  	{
-			std::string msg = fioex.what();
-#ifdef DEBUG
-			Error::write(Error(msg,errno,__FILE__,__LINE__));
-#else
-			Error::write(Error(msg,errno));
-#endif
-			return false;
+			throw Exception(fioex.what(),__FILE__,__LINE__);
 	  	}
 	  	catch(const libconfig::ParseException &pex)
 	  	{
-			std::string msg = pex.what();
-#ifdef DEBUG
-			Error::write(Error(msg,Error::Codes::ERROR_ARTIFACT,__FILE__,__LINE__));
-#else
-			Error::write(Error(msg,Error::Codes::ERROR_ARTIFACT));
-#endif
-			return false;
+			throw Exception(pex.what(),__FILE__,__LINE__);
 	  	}
 
 		/*try
@@ -105,23 +93,11 @@ namespace oct::core
 		}
 		catch(libconfig::FileIOException ex)
 		{
-			std::string msg = ex.what();
-#ifdef DEBUG
-			octetos::core::Error::write(octetos::core::Error(msg,Error::Codes::ERROR_ARTIFACT,__FILE__,__LINE__));
-#else
-			octetos::core::Error::write(octetos::core::Error(msg,Error::Codes::ERROR_ARTIFACT));
-#endif
-			return false;
+			throw Exception(ex.what(),__FILE__,__LINE__);
 		}
 		catch(libconfig::SettingTypeException ex)
 		{
-			std::string msg = ex.what();
-#ifdef DEBUG
-			Error::write(Error(msg,Error::Codes::ERROR_ARTIFACT,__FILE__,__LINE__));
-#else
-			Error::write(Error(msg,Error::Codes::ERROR_ARTIFACT));
-#endif
-			return false;
+			throw Exception(ex.what(),__FILE__,__LINE__);
 		}
 
 

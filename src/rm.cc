@@ -35,35 +35,35 @@
 
 namespace oct::core
 {
-    bool Shell::rm(const std::string& path)
+    void Shell::rm(const std::string& path)
 	{
 		struct stat buf;
 		int fd = open(path.c_str(),O_RDONLY);
 		if(fd == -1)
 		{
-			return false;
+			return;
 		}
 		if(fstat (fd, &buf) == -1)
 		{
-			return false;
+			return;
 		}
 		//close(fd);
 
 #ifdef WINDOWS_MINGW
-        return DeleteFileA(path.c_str());
+        DeleteFileA(path.c_str());
+        return;
 #else
 		if (S_ISLNK(buf.st_mode) or S_ISREG(buf.st_mode))//es link?
 		{//es un link
 			int retRm = unlinkat(fdcwd,path.c_str(),0);
 			if(retRm == 0)
 			{
-				return true;
+				return;
 			}
 			else if(retRm == -1)
 			{
 				std::string msg = "Fallo eliminar link '";
 				msg += path + "'";
-    #if DEBUG
 				msg += "\n\t";
 				switch(errno)
 				{
@@ -104,11 +104,7 @@ namespace oct::core
 						msg += "pathname refers to a file on a read-only file system";
 						break;
 				}
-				octetos::core::Error::write(octetos::core::Error(msg,errno,__FILE__,__LINE__));
-    #else
-				octetos::core::Error::write(octetos::core::Error(msg,errno));
-    #endif
-				return false;
+				throw Exception(msg,__FILE__,__LINE__);
 			}
 		}
 		else if (S_ISDIR(buf.st_mode))//es un directorio?
@@ -116,13 +112,12 @@ namespace oct::core
 			int retRm = rmdir(path.c_str());
 			if(retRm == 0)
 			{
-				return true;
+				return;
 			}
 			else if(retRm == -1)
 			{
 				std::string msg = "Fallo eliminar directorio '";
 				msg += path + "'";
-    #if DEBUG
 				msg += "\n\t";
 				switch(errno)
 				{
@@ -163,24 +158,9 @@ namespace oct::core
 						msg += "pathname refers to a directory on a read-only file system";
 						break;
 				}
-				octetos::core::Error::write(octetos::core::Error(msg,errno,__FILE__,__LINE__));
-    #else
-				octetos::core::Error::write(octetos::core::Error(msg,errno));
-    #endif
-				return false;
+				throw Exception(msg,__FILE__,__LINE__);
 			}
 		}
 #endif
-
-
-		std::string msg = "Tipó de archivo desconocido '";
-		msg += path + "'";
-#if DEBUG
-		octetos::core::Error::write(octetos::core::Error(msg,errno,__FILE__,__LINE__));
-#else
-		octetos::core::Error::write(octetos::core::Error(msg,errno));
-#endif
-		return false;
-
 	}
 }

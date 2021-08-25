@@ -66,20 +66,20 @@ namespace oct::core
 		/**
 		*\brief list files in current work directory
 		*/
-		bool ls(std::list<std::string>&);
-		bool cd(const std::string&);
+		void ls(std::list<std::string>&);
+		void cd(const std::string&);
 		/**
 		*
-		*\return TTRUE if file exists, TNULL is not exists and TFALSE if error.
+		*
 		*/
-		bool mkdir(const std::string&, bool recursive=false);
-		bool rm(const std::string&);
-		bool rename(const std::string&,const std::string&);
-		bool touch(const std::string&, int options = 0);
-		bool ln(const std::string&, int m = 0);
+		void mkdir(const std::string&, bool recursive=false);
+		void rm(const std::string&);
+		void rename(const std::string&,const std::string&);
+		void touch(const std::string&, int options = 0);
+		void ln(const std::string&, int m = 0);
 		/**
 		*
-		*\return TTRUE if file exists, TNULL is not exists and TFALSE if error.
+		*
 		*/
 		bool exists(const std::string&);
 		const std::string& cwd();
@@ -90,9 +90,9 @@ namespace oct::core
 		int chmod(const std::string&,int mode);
 		uid_t uid() const;
 		gid_t gid() const;
-		bool chown(const std::string& fn,uid_t ,gid_t);
-		bool chown(const std::string& fn,uid_t);
-		bool chown(const std::string& fn);
+		void chown(const std::string& fn,uid_t ,gid_t);
+		void chown(const std::string& fn,uid_t);
+		void chown(const std::string& fn);
 		#endif
 
 		void cp(const std::string& o, const std::string& d);

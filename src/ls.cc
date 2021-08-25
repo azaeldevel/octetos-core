@@ -26,7 +26,7 @@
 
 namespace oct::core
 {
-	bool Shell::ls(std::list<std::string>& l)
+	void Shell::ls(std::list<std::string>& l)
 	{
 		DIR* dircwd = opendir(cwd().c_str());;
 		struct dirent *entry;
@@ -35,7 +35,5 @@ namespace oct::core
 		{
 			l.push_back(entry->d_name);
 		}
-	
-		return true;
 	}
 }

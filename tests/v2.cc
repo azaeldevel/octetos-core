@@ -1340,6 +1340,25 @@ void testTemporally()
 	std::list<std::string>::iterator itFind = std::find(dirs.begin(),dirs.end(),toFind);
 	if(itFind != dirs.end()) CU_ASSERT(true)
 	else CU_ASSERT(false);
+	
+	unsigned int idtime1 = oct::core::getTimeID();
+	if(shell.exists(std::to_string(idtime1)))
+	{
+		return; //se omite la prueba, puede ser que haya sido creado por el usuario.
+	}
+	
+	if(shell.exists(std::to_string(idtime1))) CU_ASSERT(false)
+	else CU_ASSERT(true);
+	
+	shell.mkdir(std::to_string(idtime1));
+	
+	if(shell.exists(std::to_string(idtime1))) CU_ASSERT(true)
+	else CU_ASSERT(false);
+	
+	shell.rm(std::to_string(idtime1));
+	
+	if(shell.exists(std::to_string(idtime1))) CU_ASSERT(false)
+	else CU_ASSERT(true);
 }
 int main(int argc, char *argv[])
 {  

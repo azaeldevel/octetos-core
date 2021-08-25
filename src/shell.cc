@@ -34,19 +34,19 @@
 namespace oct::core
 {
     #ifndef WINDOWS_MINGW
-	bool Shell::chown(const std::string& fn,uid_t u)
+	void Shell::chown(const std::string& fn,uid_t u)
 	{
-		return chown(fn,u,gid());
+		chown(fn,u,gid());
 	}
-	bool Shell::chown(const std::string& fn)
+	void Shell::chown(const std::string& fn)
 	{
-		return chown(fn,uid(),gid());
+		chown(fn,uid(),gid());
 	}
 	gid_t Shell::gid() const
 	{
 		return getegid();
 	}
-	bool Shell::chown(const std::string& fn, uid_t u, gid_t g)
+	void Shell::chown(const std::string& fn, uid_t u, gid_t g)
 	{
 
 		/*std::string text = "user :";
@@ -60,7 +60,7 @@ namespace oct::core
 		echo(textg);*/
 
 		int ret = ::chown(fn.c_str(),u,g);
-		if(ret == 0) return true;
+		if(ret == 0) return;
 
 		if(errno != 0)
 		{
@@ -106,7 +106,6 @@ namespace oct::core
 
 		}
 
-		return false;
 	}
 	uid_t Shell::uid() const
 	{

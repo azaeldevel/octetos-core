@@ -26,11 +26,9 @@
 
 namespace oct::core
 {
-    bool Shell::rename(const std::string& oldname,const std::string& newname)
+    void Shell::rename(const std::string& oldname,const std::string& newname)
 	{
-		int retRm = rename(oldname.c_str(),newname.c_str());
-		if(retRm == 0) return true;
-		else if(retRm == -1) return false;
-		else return false;
+		int retRm = ::rename(oldname.c_str(),newname.c_str());
+		if(retRm == -1) throw Exception("Fallo al renonbarar archivo",__FILE__,__LINE__);
 	}
 }

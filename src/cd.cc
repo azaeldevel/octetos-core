@@ -32,10 +32,11 @@
 namespace oct::core
 {
 
-	bool Shell::cd(const std::string& dir)
+	void Shell::cd(const std::string& dir)
 	{
-		int ret = chdir(dir.c_str());
-
+		int ret = ::chdir(dir.c_str());
+		if(ret != 0) throw Exception("Fallo al cambia de directorio", __FILE__,__LINE__);
+		
 		#ifdef WINDOWS_MINGW
 		DWORD len = 2;
 		LPTSTR buf = new char(len);
@@ -47,10 +48,7 @@ namespace oct::core
 		char* buf = get_current_dir_name();
 		#endif
 		strcwd = buf;
-		free((void*)buf);
-
-		if(ret == 0) return true;
-		return false;
+		free((void*)buf);		
 	}
 
 
