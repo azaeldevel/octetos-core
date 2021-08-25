@@ -21,10 +21,10 @@
  * */
 
 
-#include <string>
+
 #include <exception>
 
-#include "defines.hh"
+#include "core.hh"
 
 namespace oct::core
 {

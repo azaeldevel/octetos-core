@@ -1,5 +1,6 @@
 #ifndef OCTETOS_CORE_MESSAGE_HH
 #define OCTETOS_CORE_MESSAGE_HH
+
 /**
  *
  *  This file is part of octetos-core.

@@ -1,5 +1,6 @@
 #ifndef OCTETOS_CORE_OBJECT_HH
 #define OCTETOS_CORE_OBJECT_HH
+
 /**
  *
  *  This file is part of octetos-core.

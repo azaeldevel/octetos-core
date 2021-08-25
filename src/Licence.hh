@@ -1,5 +1,6 @@
 #ifndef OCTETOS_CORE_LICENCE_HH
 #define OCTETOS_CORE_LICENCE_HH
+
 /**
  *
  *  This file is part of octetos-core.

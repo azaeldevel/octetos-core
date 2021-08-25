@@ -1,3 +1,6 @@
+
+#ifndef APISHELL_HH
+#define APISHELL_HH
 /**
  *
  *  This file is part of octetos-coreutils.
@@ -19,8 +22,6 @@
  *
  * */
 
-#ifndef APISHELL_HH
-#define APISHELL_HH
 
 #include <string>
 #include <list>
@@ -37,11 +38,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-//#define TTRUE 1
-//#define TFALSE -1
-//#define TNULL 0
-
-
 namespace oct::core
 {
 	struct Enviroment
@@ -55,7 +51,7 @@ namespace oct::core
 	private:
 
 		std::string strcwd;
-		int fdcwd;
+		int fdcwd;//TODO:verificar si es necesario
 		/**
 		* \brief Inidca si strcdw fua asignada con malloc
 		*/
