@@ -166,7 +166,7 @@ public:
 			else
 			{
 				newNode->previous = node_last; 
-				newNode->posteriory = NULL;
+				//newNode->posteriory = NULL;hecho en el contructor de Node
 				node_last->posteriory = newNode;
 				node_last = newNode;
 			}
@@ -197,10 +197,6 @@ public:
 		void remove(Node& node)
 		{
 			//std::cout << " void List::remove(..) step 1\n";
-			if(size == 0)
-			{
-				throw Exception("Lista vacia",__FILE__,__LINE__);
-			}
 			if(not isOwner(node)) throw Exception("El nodo indicado no pertenece a esta lista",__FILE__,__LINE__);
 			
 			//std::cout << " void List::remove(..) step 2\n";
@@ -209,18 +205,18 @@ public:
 				node_last = NULL;
 				node_first = NULL;
 			}
-			else
+			else if(size > 1)
 			{
 				//std::cout << " void List::remove(..) step 2.1\n";
 				if(node.previous) node.previous->posteriory = node.posteriory;
-				else 
+				else //es el primer nodo
 				{
 					//std::cout << " void List::remove(..) step 2.2.1\n";
 					node.posteriory->previous = NULL;
 					node_first = node.posteriory;
 				}
 				if(node.posteriory) node.posteriory->previous = node.previous;
-				else 
+				else //es el ultimo nodo
 				{
 					//std::cout << " void List::remove(..) step 2.2.1\n";
 					node.previous->posteriory = NULL;
@@ -235,20 +231,7 @@ public:
 		}
 		bool isOwner(Node& node)
 		{
-			//std::cout << "bool List::isOwner(..) step 1\n";
-			if(node.previous != NULL)
-			{
-				if(node.previous->owner != this ) return false;
-			}
-			
-			//std::cout << "bool List::isOwner(..) step 2\n";
-			if(node.posteriory != NULL)
-			{
-				if(node.posteriory->owner != this ) return false;
-			}
-			
-			//std::cout << "bool List::isOwner(..) step 3\n";
-			return true;
+			return node.owner != this ? false : true;			
 		}
 	private:
 		Node *node_last, *node_first;
