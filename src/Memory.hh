@@ -141,8 +141,8 @@ public:
 			{
 				node_first = &newNode;
 				node_last  = &newNode;
-				newNode.previous = NULL; 
-				newNode.posteriory = NULL;
+				//newNode.previous = NULL; realizado al remover el nodo
+				//newNode.posteriory = NULL; realizado al  remover el nodo
 			}
 			else
 			{
