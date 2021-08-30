@@ -1,4 +1,4 @@
-AC_INIT(octetos-core,2.31.0-alpha, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.31.1-beta, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign gnu subdir-objects])
 AM_SILENT_RULES([yes])
@@ -7,7 +7,6 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_YACC
 AM_PATH_PYTHON
-
 
 dnl ***************************************************************************
 dnl Internationalization
@@ -19,9 +18,6 @@ dnl ***************************************************************************
 #AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 #AM_GLIB_GNU_GETTEXT
 
-
-
-
 LT_INIT
 
 PKG_CHECK_MODULES(LIBCONFIG,libconfig++)
@@ -32,7 +28,7 @@ if test "x$with_tests" = "xyes"; then
 	PKG_CHECK_MODULES(CUNIT,cunit)
 fi
 
-#PKG_CHECK_MODULES(OPENSSL,openssl)
+PKG_CHECK_MODULES(OPENSSL,openssl)
 
 AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")
 AC_ARG_WITH([docs], AS_HELP_STRING([--with-docs], [Compilando con soporte para Documentación.]))
