@@ -25,18 +25,14 @@
 
 #include <string>
 #include <list>
-#if defined WINDOWS_MINGW
-    #include <Error.hh>
-    #include <Artifact.hh>
-#else
-    #include <octetos/core/Error.hh>
-    #include <octetos/core/Artifact.hh>
-#endif
 #include <dirent.h>
 #include <stdlib.h>
 #include <iostream>
 #include <sys/types.h>
 #include <unistd.h>
+#include <vector>
+
+#include "Exception.hh"
 
 namespace oct::core
 {
@@ -46,7 +42,7 @@ namespace oct::core
 		std::string value;
 	};
 
-	class DECLSPCE_DLL Shell
+	class Shell
 	{
 	private:
 

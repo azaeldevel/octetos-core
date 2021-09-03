@@ -24,7 +24,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sstream>
 
+#include "Exception.hh"
 #include "shell.hh"
 
 namespace oct::core

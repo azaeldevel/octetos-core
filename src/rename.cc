@@ -23,6 +23,8 @@
 #include <stdio.h>
 
 #include "shell.hh"
+#include "Exception.hh"
+
 
 namespace oct::core
 {

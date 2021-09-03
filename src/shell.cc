@@ -102,7 +102,7 @@ namespace oct::core
 					break;
 			}
 
-			throw octetos::core::Error(msg,errno,__FILE__,__LINE__);
+			throw Exception(msg,__FILE__,__LINE__);
 
 		}
 
