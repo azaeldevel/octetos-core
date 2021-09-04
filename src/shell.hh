@@ -1,11 +1,12 @@
 
 #ifndef APISHELL_HH
 #define APISHELL_HH
+
 /**
  *
- *  This file is part of octetos-coreutils.
- *  octetos-coreutils is a library C++ for coreuitls funtions.
- *  Copyright (C) 2020  Azael Reyes
+ *  This file is part of octetos-core.
+ *  octetos-core is a core C/C++ Octeto's library.
+ *  Copyright (C) 2018  Azael Reyes
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
