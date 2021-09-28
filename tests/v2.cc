@@ -1308,6 +1308,10 @@ void testMemory()
 	{
 		CU_ASSERT(false);
 	}
+	
+	oct::core::Shell  shell1;
+	std::string dm = std::to_string(oct::core::getDayID()) + "/" + std::to_string(oct::core::getTimeID());
+	shell1.mkdir(dm,true);
 }
 
 void testData()

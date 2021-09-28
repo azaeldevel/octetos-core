@@ -43,8 +43,8 @@ namespace oct::core
 		std::tm* now = std::localtime(&t);
 
 		unsigned int v = 0;
-		v += now->tm_hour * 100000;
-		v += now->tm_min * 1000;
+		v += now->tm_hour * 10000;
+		v += now->tm_min * 100;
 		v += now->tm_sec;
 		
 		return v;
