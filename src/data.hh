@@ -29,13 +29,13 @@
 namespace oct::core
 {
 	
-	template<typename T,typename I = unsigned int> class Mold
+	template<typename T,typename I = unsigned int> class [[deprecated(ALPHA_PHASE_ATTRIBUTE)]] Mold
 	{
 	public:
 		virtual T& operator [](I index) = 0;
 	};
 
-	template<typename T,typename I = unsigned int> class Wall : public Mold<T,I>
+	template<typename T,typename I = unsigned int> class [[deprecated(ALPHA_PHASE_ATTRIBUTE)]] Wall : public Mold<T,I>
 	{
 	public:
 		Wall()
