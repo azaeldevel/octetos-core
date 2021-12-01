@@ -17,21 +17,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-#include <unistd.h>
-#ifdef WINDOWS_MINGW
+
+/*#ifdef WINDOWS_MINGW
     #include <windows.h>
     #include <winbase.h>
     #include <winuser.h>
     #include <windef.h>
     #include <setupapi.h>
-#endif
+#endif*/
+#ifdef _GNUC_
+#include <unistd.h>
+#elif _WIN32 || _WIN64
 
+#else
+#error "Pltaforma desconocida"
+#endif
 
 #include "shell.hh"
 
 namespace oct::core
 {
-
+#ifdef _GNUC_
 	void Shell::cd(const std::string& dir)
 	{
 		int ret = ::chdir(dir.c_str());
@@ -50,7 +56,14 @@ namespace oct::core
 		strcwd = buf;
 		free((void*)buf);		
 	}
-
+#elif _WIN32 || _WIN64
+	void Shell::cd(const std::string& dir)
+	{
+		throw Exception("Aun no implemetada", __FILE__, __LINE__);
+	}
+#else
+#error "Pltaforma desconocida"
+#endif
 
 
 }

@@ -22,15 +22,19 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <fcntl.h>
 #include <sstream>
+
+#ifdef _GNUC_
+#include <unistd.h>
+#endif
 
 #include "Exception.hh"
 #include "shell.hh"
 
 namespace oct::core
 {
+#ifdef _GNUC_
 	void Shell::mkdir(const std::string& name, bool recursive)
 	{
 		//Precessing
@@ -161,5 +165,13 @@ namespace oct::core
 			throw Exception(msg,__FILE__,__LINE__);
 		}
 	}
+#elif _WIN32  || _WIN64
+void Shell::mkdir(const std::string& name, bool recursive)
+{
+	throw Exception("Aun no implemetada",__FILE__,__LINE__);
+}
+#else
+	#error "Pltaforma desconocida"
+#endif
 
 }

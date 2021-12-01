@@ -1,6 +1,7 @@
 
-#ifndef APISHELL_HH
-#define APISHELL_HH
+
+#ifndef OCTETOS_CORE_HH
+#define OCTETOS_CORE_HH
 
 /**
  *
@@ -26,12 +27,14 @@
 
 #include <string>
 #include <list>
-#include <dirent.h>
 #include <stdlib.h>
 #include <iostream>
 #include <sys/types.h>
-#include <unistd.h>
 #include <vector>
+#ifdef _GNUC
+#include <dirent.h>
+#include <unistd.h>
+#endif
 
 #include "Exception.hh"
 
@@ -83,14 +86,14 @@ namespace oct::core
 		void set(std::vector<Enviroment*>);
 		int execute(const std::string&);
 		void echo(const std::string&, std::ostream& out = std::cout);
-		#ifndef WINDOWS_MINGW
 		int chmod(const std::string&,int mode);
+#ifdef _GNUC
 		uid_t uid() const;
 		gid_t gid() const;
 		void chown(const std::string& fn,uid_t ,gid_t);
 		void chown(const std::string& fn,uid_t);
 		void chown(const std::string& fn);
-		#endif
+#endif
 
 		void cp(const std::string& o, const std::string& d);
 	};

@@ -19,21 +19,20 @@
  *
  * */
 
-#include <unistd.h>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
-#ifdef HAVE_CONFIG_H
-    #include "config.h"
-#elif defined WINDOWS_MINGW && defined CODEBLOCKS
-    #include "config-cb.h"
+#ifdef _GNUC
+	#include <unistd.h>
+	#include "config.h"
 #endif
+
 #include "shell.hh"
 
 namespace oct::core
 {
-    #ifndef WINDOWS_MINGW
+#ifdef _GNUC
 	void Shell::chown(const std::string& fn,uid_t u)
 	{
 		chown(fn,u,gid());
@@ -111,7 +110,7 @@ namespace oct::core
 	{
 		return geteuid();
 	}
-    #endif
+#endif
 
 	void Shell::echo(const std::string& text, std::ostream& o)
 	{
@@ -125,11 +124,14 @@ namespace oct::core
 	{
 		for(const Enviroment* env : v)
 		{
-            #ifdef WINDOWS_MINGW
-                _putenv((env->name + "=" + env->value).c_str());
-			#else
-                setenv(env->name.c_str(),env->value.c_str(),1);
-		    #endif
+
+#ifdef _GNUC_
+			setenv(env->name.c_str(), env->value.c_str(), 1);
+#elif _WIN32 || _WIN64
+			_putenv((env->name + "=" + env->value).c_str());
+#else
+#error "Pltaforma desconocida"
+#endif
 		}
 	}
 	const std::string& Shell::cwd()

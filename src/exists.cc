@@ -27,6 +27,7 @@
 
 namespace oct::core
 {
+#ifdef _GNUC_
 	bool Shell::exists(const std::string& filename)
 	{
 	   	struct stat info;
@@ -89,4 +90,12 @@ namespace oct::core
 
 		return false;
 	}
+#elif _WIN32 || _WIND64
+	bool Shell::exists(const std::string& filename)
+	{
+		throw Exception("Aun no implemetada", __FILE__, __LINE__);
+	}
+#else
+	#error "Pltaforma desconocida"
+#endif
 }
