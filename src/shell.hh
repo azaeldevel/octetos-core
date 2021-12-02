@@ -76,7 +76,6 @@ namespace oct::core
 		void rm(const std::string&);
 		void rename(const std::string&,const std::string&);
 		void touch(const std::string&, int options = 0);
-		void ln(const std::string&, int m = 0);
 		/**
 		*
 		*
@@ -86,8 +85,9 @@ namespace oct::core
 		void set(std::vector<Enviroment*>);
 		int execute(const std::string&);
 		void echo(const std::string&, std::ostream& out = std::cout);
-		int chmod(const std::string&,int mode);
 #ifdef _GNUC
+		int chmod(const std::string&, int mode);
+		void ln(const std::string&, int m = 0);
 		uid_t uid() const;
 		gid_t gid() const;
 		void chown(const std::string& fn,uid_t ,gid_t);

@@ -145,6 +145,7 @@
     <ClInclude Include="src\core.hh" />
     <ClInclude Include="src\data.hh" />
     <ClInclude Include="src\defines.hh" />
+    <ClInclude Include="src\shell.hh" />
     <ClInclude Include="src\Version.hh" />
   </ItemGroup>
   <ItemGroup>
