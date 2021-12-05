@@ -23,7 +23,11 @@
 #if BUILDING_DLL
 #if _WIN32 || _WIN64 || WINDOWS_MINGW
 #define DECLSPCE_DLL __declspec(dllexport)
-#elif _WIN32 || _WIN64 || WINDOWS_MINGW
+#else
+#define DECLSPCE_DLL 
+#endif
+#else
+#if _WIN32 || _WIN64 || WINDOWS_MINGW
 #define DECLSPCE_DLL __declspec(dllimport)
 #else
 #define DECLSPCE_DLL 
