@@ -46,7 +46,7 @@ namespace oct::core
 		std::string value;
 	};
 
-	class DECLSPCE_DLL Shell
+	class Shell
 	{
 	private:
 
@@ -85,7 +85,7 @@ namespace oct::core
 		void set(std::vector<Enviroment*>);
 		int execute(const std::string&);
 		void echo(const std::string&, std::ostream& out = std::cout);
-#ifdef _GNUC
+#ifdef _GNUG
 		int chmod(const std::string&, int mode);
 		void ln(const std::string&, int m = 0);
 		uid_t uid() const;
