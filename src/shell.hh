@@ -46,7 +46,7 @@ namespace oct::core
 		std::string value;
 	};
 
-	class Shell
+	class DECLSPCE_DLL Shell
 	{
 	private:
 
