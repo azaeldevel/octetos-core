@@ -32,7 +32,7 @@
 
 namespace oct::core
 {
-#ifdef _GNUC
+#ifdef __GNUC__
 	void Shell::chown(const std::string& fn,uid_t u)
 	{
 		chown(fn,u,gid());
@@ -125,7 +125,7 @@ namespace oct::core
 		for(const Enviroment* env : v)
 		{
 
-#ifdef _GNUC_
+#ifdef __GNUC__
 			setenv(env->name.c_str(), env->value.c_str(), 1);
 #elif _WIN32 || _WIN64
 			_putenv((env->name + "=" + env->value).c_str());

@@ -25,7 +25,7 @@
     #include <windef.h>
     #include <setupapi.h>
 #endif*/
-#ifdef _GNUG_
+#ifdef __GNUC__
 #include <unistd.h>
 #elif _WIN32 || _WIN64
 
@@ -37,7 +37,7 @@
 
 namespace oct::core
 {
-#ifdef _GNUG_
+#ifdef __GNUC__
 	void Shell::cd(const std::string& dir)
 	{
 		int ret = ::chdir(dir.c_str());
