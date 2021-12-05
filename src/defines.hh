@@ -33,7 +33,6 @@
 	#define DECLSPCE_DLL 
 	#endif
 #endif*/
-#define DECLSPCE_DLL
 
 #ifdef __GNUG__
 	#define DEPRECATED __attribute__ ((deprecated))

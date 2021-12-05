@@ -36,7 +36,7 @@ namespace oct::core
 	* \brief Clase base común de toolkit.
 	* \private en desarrollo
 	* */
-	class DECLSPCE_DLL Object
+	class Object
 	{
 	public:
 		/**

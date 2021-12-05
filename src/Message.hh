@@ -35,7 +35,7 @@ namespace oct::core
         /**
          * \brief Entendida como clase base para tranmitir mensajes.
          * */
-        class DECLSPCE_DLL Message
+        class Message
         {
         public:
                 virtual std::string getBrief() const throw();
@@ -48,7 +48,7 @@ namespace oct::core
         /**
          * \brief Mensajes de comfirmacion de operacion.
          * */
-        class DECLSPCE_DLL Confirmation: public Message
+        class Confirmation: public Message
         {
         public:
                 /**
@@ -60,7 +60,7 @@ namespace oct::core
         /**
          * \brief Mensaje de advertencias.
          * */
-        class DECLSPCE_DLL Warning: public Message
+        class Warning: public Message
         {
         public:
                 /**
@@ -72,7 +72,7 @@ namespace oct::core
         /**
          * \brief Interface dedicada a la centralizacion de mesnajes.
          * */
-        class DECLSPCE_DLL ActivityProgress
+        class ActivityProgress
         {
         public:
 

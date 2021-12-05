@@ -29,7 +29,7 @@
 namespace oct::core
 {
 
-class DECLSPCE_DLL Exception : public std::exception
+class Exception : public std::exception
 {
 protected:
     int line;
