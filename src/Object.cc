@@ -85,7 +85,7 @@ namespace oct::core
 #endif
 
 
-#ifdef _GNUG_
+#ifdef __GNUC__
 	std::string getPakageName()
 	{
 		return PACKAGE;

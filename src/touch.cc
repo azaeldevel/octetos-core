@@ -27,7 +27,7 @@
 
 namespace oct::core
 {
-#ifdef _GNUC_
+#ifdef __GNUC__
 	void Shell::touch(const std::string& name, int options)
 	{
 		if(options == 0)

@@ -25,7 +25,7 @@
 #include <fcntl.h>
 #include <sstream>
 
-#ifdef _GNUC_
+#ifdef __GNUC__
 	#include <unistd.h>
 #elif _WIN32 || _WIN64
 	#include <windows.h>
@@ -36,7 +36,7 @@
 
 namespace oct::core
 {
-#ifdef _GNUC_
+#ifdef __GNUC__
 	void Shell::mkdir(const std::string& name, bool recursive)
 	{
 		//Precessing

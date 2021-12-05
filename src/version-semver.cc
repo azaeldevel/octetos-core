@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef _GNUC_
+#ifdef __GNUC__
 #include <dirent.h>
 #elif _WIN32 || _WIN64
 #include <typeinfo>
@@ -358,7 +358,7 @@ namespace oct::core
 		if(build) octetos_core_Semver_setBuild(this,obj.build);
 	}
 
-#ifdef _GNUC_
+#ifdef __GNUC__
     bool Semver::set(const std::string& str)
     {
         octetos_core_Tray ty;

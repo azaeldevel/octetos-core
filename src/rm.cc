@@ -23,7 +23,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#ifdef _GNUG_
+#ifdef __GNUC__
 #include <unistd.h>
 #endif
 #include "shell.hh"
