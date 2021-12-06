@@ -22,19 +22,15 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <fcntl.h>
-#ifdef WINDOWS_MINGW
-    #include <windows.h>
-    #include <winuser.h>
-    #include <fileapi.h>
-    #include <windef.h>
-    #include <setupapi.h>
+#ifdef __GNUC__
+#include <unistd.h>
 #endif
 #include "shell.hh"
 
 namespace oct::core
 {
+#ifdef _GNUG_
     void Shell::rm(const std::string& path)
 	{
 		struct stat buf;
@@ -49,10 +45,6 @@ namespace oct::core
 		}
 		//close(fd);
 
-#ifdef WINDOWS_MINGW
-        DeleteFileA(path.c_str());
-        return;
-#else
 		if (S_ISLNK(buf.st_mode) or S_ISREG(buf.st_mode))//es link?
 		{//es un link
 			int retRm = unlinkat(fdcwd,path.c_str(),0);
@@ -161,6 +153,14 @@ namespace oct::core
 				throw Exception(msg,__FILE__,__LINE__);
 			}
 		}
-#endif
+
 	}
+#elif _WIN32 | _WIN64
+	void Shell::rm(const std::string& path)
+	{
+		throw Exception("Aun no implemetada", __FILE__, __LINE__);
+	}
+#else
+	#error "Plataforma desconocida"
+#endif
 }

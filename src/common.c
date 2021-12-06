@@ -26,6 +26,7 @@
 #include "common.h"
 #include "semver-lexer.h"
 
+#ifdef _GNUC_
 int octetos_core_toObject(const char* strver,struct octetos_core_Semver* v)
 {
 	struct octetos_core_Tray ty;
@@ -46,34 +47,16 @@ int octetos_core_toObject(const char* strver,struct octetos_core_Semver* v)
    	if(ret == 0) return 1;
    	return 0;
 }
-const char* octetos_core_Semver_setBuild(struct octetos_core_Semver* version,const char* build)
-{
-	if(version->build)
-	{
-		free((void*)version->build);
-	}
-	if(build)
-	{
-		version->build = (const char*)malloc(strlen(build));
-		strcpy((char*)version->build,build);
-	}
 
-	return version->build;
-}
-const char* octetos_core_Semver_setPrerelease(struct octetos_core_Semver* version,const char* prerelease)
-{
-	if(version->prerelease)
-	{
-		free((void*)version->prerelease);
-	}
-	if(prerelease)
-	{
-		version->prerelease = (const char*)malloc(strlen(prerelease));
-		strcpy((char*)version->prerelease,prerelease);
-	}
 
-	return version->prerelease;
-}
+
+
+#elif _WIN32 || _WIN64
+
+#else
+#error "Pltaforma desconocida"
+#endif
+
 void octetos_core_Semver_init(struct octetos_core_Semver* version)
 {
 	version->major = -1;
@@ -82,31 +65,59 @@ void octetos_core_Semver_init(struct octetos_core_Semver* version)
 	version->prerelease = NULL;
 	version->build = NULL;
 }
-
-const char* octetos_core_Semver_toString(const struct octetos_core_Semver* version,enum octetos_core_Semver_FormatString formato)
+const char* octetos_core_Semver_setBuild(struct octetos_core_Semver* version, const char* build)
 {
-	char* numberStr  = NULL;
+	if (version->build)
+	{
+		free((void*)version->build);
+	}
+	if (build)
+	{
+		version->build = (const char*)malloc(strlen(build));
+		strcpy((char*)version->build, build);
+	}
+
+	return version->build;
+}
+const char* octetos_core_Semver_setPrerelease(struct octetos_core_Semver* version, const char* prerelease)
+{
+	if (version->prerelease)
+	{
+		free((void*)version->prerelease);
+	}
+	if (prerelease)
+	{
+		version->prerelease = (const char*)malloc(strlen(prerelease));
+		strcpy((char*)version->prerelease, prerelease);
+	}
+
+	return version->prerelease;
+}
+
+const char* octetos_core_Semver_toString(const struct octetos_core_Semver* version, enum octetos_core_Semver_FormatString formato)
+{
+	char* numberStr = NULL;
 	unsigned int buffer_leng = 20;
 	char* buffer = NULL;
-	if(version->major > -1 && version->minor > -1 && version->patch > -1)
+	if (version->major > -1 && version->minor > -1 && version->patch > -1)
 	{
 		buffer = malloc(buffer_leng);
-		int leng = sprintf(buffer,"%d.%d.%d",version->major,version->minor,version->patch);
-		numberStr = malloc(leng +1);
-		strcpy(numberStr, buffer);		
-	}
-	else if(version->major > -1 && version->minor > -1)
-	{
-		buffer = malloc(buffer_leng);
-		int leng = sprintf(buffer,"%d.%d",version->major,version->minor);
-		numberStr = malloc(leng +1);
+		int leng = sprintf(buffer, "%d.%d.%d", version->major, version->minor, version->patch);
+		numberStr = malloc(leng + 1);
 		strcpy(numberStr, buffer);
 	}
-	else if(version->major > -1)
+	else if (version->major > -1 && version->minor > -1)
 	{
 		buffer = malloc(buffer_leng);
-		int leng = sprintf(buffer,"%d",version->major);
-		numberStr = malloc(leng +1);
+		int leng = sprintf(buffer, "%d.%d", version->major, version->minor);
+		numberStr = malloc(leng + 1);
+		strcpy(numberStr, buffer);
+	}
+	else if (version->major > -1)
+	{
+		buffer = malloc(buffer_leng);
+		int leng = sprintf(buffer, "%d", version->major);
+		numberStr = malloc(leng + 1);
 		strcpy(numberStr, buffer);
 	}
 	else
@@ -115,7 +126,7 @@ const char* octetos_core_Semver_toString(const struct octetos_core_Semver* versi
 	}
 	free(buffer);
 	int numberLeng = strlen(numberStr);
-	if(formato == OnlyNumber)
+	if (formato == OnlyNumber)
 	{
 		free((void*)numberStr);
 		return numberStr;
@@ -129,21 +140,19 @@ const char* octetos_core_Semver_toString(const struct octetos_core_Semver* versi
 	verstrLeng += version->build ? 1 : 0;// mas '+'
 
 	char* verstr = malloc(verstrLeng);
-	strcpy(verstr,numberStr);
-	if(prereleaseLeng > 0)
+	strcpy(verstr, numberStr);
+	if (prereleaseLeng > 0)
 	{
-		strcat(verstr,"-");
-		strcat(verstr,(char*)version->prerelease);
+		strcat(verstr, "-");
+		strcat(verstr, (char*)version->prerelease);
 	}
-	if(buildLeng > 0)
+	if (buildLeng > 0)
 	{
-		strcat(verstr,"+");
-		strcat(verstr,(char*)version->build);
+		strcat(verstr, "+");
+		strcat(verstr, (char*)version->build);
 	}
 
 	free((void*)numberStr);
 
 	return verstr;
 }
-
-

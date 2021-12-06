@@ -21,8 +21,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef __GNUC__
 #include <dirent.h>
-
+#elif _WIN32 || _WIN64
+#include <typeinfo>
+#else
+#error "Pltaforma desconocida"
+#endif
 #include "Version.hh"
 #include "Error.hh"
 
@@ -154,7 +159,7 @@ namespace oct::core
     }
     bool Semver::operator <=(const Version& obj)const
     {
-        if((*this) == ((Semver&)obj) or (*this) < ((Semver&)obj))
+        if(((Semver&)*this) == ((Semver&)obj) or (*this) < ((Semver&)obj))
         {
             return true;
         }
@@ -165,7 +170,7 @@ namespace oct::core
     }
     bool Semver::operator >=(const Version& obj)const
     {
-        if((*this) == ((Semver&)obj) or (*this) > ((Semver&)obj))
+        if(((Semver&)*this) == ((Semver&)obj) or (*this) > ((Semver&)obj))
         {
             return true;
         }
@@ -174,36 +179,7 @@ namespace oct::core
             return false;
         }
     }
-	bool Semver::set(const std::string& str)
-	{
-        octetos_core_Tray ty;
-		ty.dysplay_erro = 0;
-		ty.version = this;
-		ty.buffer = NULL;
-		ty.state = 0;
-		std::string cmdstr = "extract all from ";
-		cmdstr += str;
-		ty.str = (char*)cmdstr.c_str();
-        int ret = parse_string(&ty);
-
-        if(ret == 0) return true;
-        return false;
-	}
-	bool Semver::extractNumbers(const std::string& str)
-	{
-        octetos_core_Tray ty;
-		ty.dysplay_erro = 0;
-		ty.version = this;
-		ty.buffer = NULL;
-		ty.state = 0;
-		std::string cmdstr = "extract numbers from ";
-		cmdstr += str;
-		ty.str = (char*)cmdstr.c_str();
-        int ret = parse_string(&ty);
-
-        if(ret==0) return true;
-        return false;
-	}
+	
 	void Semver::setPrerelease(const std::string& str)
 	{
 		octetos_core_Semver_setPrerelease(this,str.c_str());
@@ -381,5 +357,42 @@ namespace oct::core
 		if(prerelease) octetos_core_Semver_setPrerelease(this,obj.prerelease);
 		if(build) octetos_core_Semver_setBuild(this,obj.build);
 	}
+
+#ifdef __GNUC__
+    bool Semver::set(const std::string& str)
+    {
+        octetos_core_Tray ty;
+        ty.dysplay_erro = 0;
+        ty.version = this;
+        ty.buffer = NULL;
+        ty.state = 0;
+        std::string cmdstr = "extract all from ";
+        cmdstr += str;
+        ty.str = (char*)cmdstr.c_str();
+        int ret = parse_string(&ty);
+
+        if (ret == 0) return true;
+        return false;
+    }
+    bool Semver::extractNumbers(const std::string& str)
+    {
+        octetos_core_Tray ty;
+        ty.dysplay_erro = 0;
+        ty.version = this;
+        ty.buffer = NULL;
+        ty.state = 0;
+        std::string cmdstr = "extract numbers from ";
+        cmdstr += str;
+        ty.str = (char*)cmdstr.c_str();
+        int ret = parse_string(&ty);
+
+        if (ret == 0) return true;
+        return false;
+    }
+#elif _WIN32 || _WIN64
+
+#else
+#error "Pltaforma desconocida"
+#endif
 
 }

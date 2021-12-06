@@ -38,14 +38,14 @@
 namespace oct::core
 {
 
-	class DECLSPCE_DLL InvalidComparison : public Error
+	class InvalidComparison : public Error
 	{
 	public:
 		InvalidComparison(const std::string& msg ,std::string filename,int lineNumber);
 		InvalidComparison(const std::string& msg);
 	};
 
-	class DECLSPCE_DLL Version
+	class Version
 	{
 	public:
 		virtual bool operator ==(const Version&)const = 0;
@@ -63,7 +63,7 @@ namespace oct::core
 	* \brief Implemete un subconjuto de semver v1.0.0
 	* \details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 	**/
-	class DECLSPCE_DLL Semver : private octetos_core_Semver , public core::Version
+	class Semver : private octetos_core_Semver , public core::Version
 	{
 	public:
 		enum ImportCode

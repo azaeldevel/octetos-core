@@ -27,7 +27,7 @@
 
 namespace oct::core
 {
-
+#ifdef __GNUC__
 	void Shell::touch(const std::string& name, int options)
 	{
 		if(options == 0)
@@ -121,5 +121,13 @@ namespace oct::core
 			}
 		}
 	}
+#elif _WIND32 || _WIN64
+	void Shell::touch(const std::string& name, int options)
+	{
+		throw Exception("Aun no implemetada", __FILE__, __LINE__);
+	}
+#else
+#error "Pltaforma desconocida"
+#endif
 	
 }

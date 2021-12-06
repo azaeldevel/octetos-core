@@ -20,19 +20,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-#if defined BUILDING_DLL && defined WINDOWS_MINGW
-    #define DECLSPCE_DLL __declspec(dllexport)
-#elif WINDOWS_MINGW
-    #define DECLSPCE_DLL __declspec(dllimport)
+/*#if BUILDING_DLL
+	#if _WIN32 || _WIN64 || WINDOWS_MINGW
+	#define DECLSPCE_DLL __declspec(dllexport)
+	#else
+	#define DECLSPCE_DLL 
+	#endif
 #else
-    #define DECLSPCE_DLL
-#endif
-
+	#if _WIN32 || _WIN64 || WINDOWS_MINGW
+	#define DECLSPCE_DLL __declspec(dllimport)
+	#else
+	#define DECLSPCE_DLL 
+	#endif
+#endif*/
 
 #ifdef __GNUG__
 	#define DEPRECATED __attribute__ ((deprecated))
 #else
-	#define DEPRECATED
+	#define DEPRECATED [[deprecated]]
 #endif
 
 #endif

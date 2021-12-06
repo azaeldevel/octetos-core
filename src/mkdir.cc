@@ -22,15 +22,21 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <fcntl.h>
 #include <sstream>
+
+#ifdef __GNUC__
+	#include <unistd.h>
+#elif _WIN32 || _WIN64
+	#include <windows.h>
+#endif
 
 #include "Exception.hh"
 #include "shell.hh"
 
 namespace oct::core
 {
+#ifdef __GNUC__
 	void Shell::mkdir(const std::string& name, bool recursive)
 	{
 		//Precessing
@@ -161,5 +167,37 @@ namespace oct::core
 			throw Exception(msg,__FILE__,__LINE__);
 		}
 	}
+#elif _WIN32  || _WIN64
+	void Shell::mkdir(const std::string& name, bool recursive)
+	{
+		const WCHAR* pwcsName; //LPCWSTR
+
+		// required size
+		int size = MultiByteToWideChar(CP_ACP, 0, name.c_str(), -1, NULL, 0);
+		// allocate it
+		pwcsName = new WCHAR[size];
+		MultiByteToWideChar(CP_ACP, 0, name.c_str(), -1, (LPWSTR)pwcsName, size);
+
+		if (CreateDirectory(pwcsName, NULL))
+		{
+			// Directory created
+		}
+		else if (ERROR_ALREADY_EXISTS == GetLastError())
+		{
+			std::string msg = "Fallo la creacion del archiuvo '";
+			msg += name + "'";
+			throw Exception(msg, __FILE__, __LINE__);
+		}
+		else
+		{
+			std::string msg = "Fallo la creacion del archiuvo '";
+			msg += name + "'";
+			throw Exception(msg, __FILE__, __LINE__);
+		}
+		delete[] pwcsName;
+	}
+#else
+	#error "Pltaforma desconocida"
+#endif
 
 }
