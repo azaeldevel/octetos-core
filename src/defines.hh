@@ -37,4 +37,4 @@
 
 #endif
 
-#define ALPHA_PHASE_ATTRIBUTE "Not use yet, alpha pahse"
+#define ALPHA_PHASE_ATTRIBUTE "Not use yet, alpha phase"
