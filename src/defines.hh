@@ -21,17 +21,21 @@
  * */
 
 #if BUILDING_DLL
-	#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
-	#define DECLSPCE_DLL __declspec(dllexport)
+	#if EXPORTING_DLL
+		#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
+		#define DECLSPCE_DLL __declspec(dllexport)
+		#else
+		#define DECLSPCE_DLL 
+		#endif
 	#else
-	#define DECLSPCE_DLL 
+		#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
+		#define DECLSPCE_DLL __declspec(dllimport)
+		#else
+		#define DECLSPCE_DLL 
+		#endif
 	#endif
 #else
-	#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
-	#define DECLSPCE_DLL __declspec(dllimport)
-	#else
-	#define DECLSPCE_DLL 
-	#endif
+	#define DECLSPCE_DLL
 #endif
 
 #ifdef __GNUG__
