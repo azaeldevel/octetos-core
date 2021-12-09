@@ -31,7 +31,7 @@
 #include <iostream>
 #include <sys/types.h>
 #include <vector>
-#ifdef _GNUC
+#ifdef __GNUC__
 #include <dirent.h>
 #include <unistd.h>
 #endif
@@ -46,11 +46,11 @@ namespace oct::core
 		std::string value;
 	};
 
-	class Shell
+	DECLSPCE_DLL class Shell
 	{
 	private:
 
-		std::string strcwd;
+		String strcwd;
 		int fdcwd;//TODO:verificar si es necesario
 		/**
 		* \brief Inidca si strcdw fua asignada con malloc
@@ -61,13 +61,13 @@ namespace oct::core
 
 	public:
 		Shell();
-		Shell(const std::string&);
+		Shell(const String&);
 		~Shell();
 		/**
 		*\brief list files in current work directory
 		*/
 		void ls(std::list<std::string>&);
-		void cd(const std::string&);
+		void cd(const String&);
 		/**
 		*
 		*
@@ -81,11 +81,11 @@ namespace oct::core
 		*
 		*/
 		bool exists(const std::string&);
-		const std::string& cwd();
+		const String& cwd();
 		void set(std::vector<Enviroment*>);
 		int execute(const std::string&);
 		void echo(const std::string&, std::ostream& out = std::cout);
-#ifdef _GNUG
+#ifdef __GNUG__
 		int chmod(const std::string&, int mode);
 		void ln(const std::string&, int m = 0);
 		uid_t uid() const;

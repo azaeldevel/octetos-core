@@ -23,9 +23,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#ifdef __GNUC__
+#if defined(__GNUG__)
 	#include <unistd.h>
 	#include "config.h"
+#elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
+	#include <locale>
+	#include <codecvt>
+	#include <string>
 #endif
 
 #include "shell.hh"
@@ -127,20 +131,20 @@ namespace oct::core
 
 #ifdef __GNUC__
 			setenv(env->name.c_str(), env->value.c_str(), 1);
-#elif _WIN32 || _WIN64
+#elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
 			_putenv((env->name + "=" + env->value).c_str());
 #else
 #error "Pltaforma desconocida"
 #endif
 		}
 	}
-	const std::string& Shell::cwd()
+	const String& Shell::cwd()
 	{
 		return strcwd;
 	}
 
 
-	Shell::Shell(const std::string& default_dir)
+	Shell::Shell(const String& default_dir)
 	{
 		//strcwd = NULL;
 		cd(default_dir);
@@ -148,7 +152,13 @@ namespace oct::core
 	Shell::Shell()
 	{
 		//strcwd = NULL;
-		cd(".");
+#if defined(__GNUG__)
+		String dir = ".";
+#elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
+		std::string dirTemp = ".";
+		String dir(dirTemp.begin(), dirTemp.end());
+#endif
+		cd(dir);
 	}
 	Shell::~Shell()
 	{

@@ -28,7 +28,9 @@
 #ifdef __GNUC__
 #include <unistd.h>
 #elif _WIN32 || _WIN64
-
+#include <windows.h> 
+#include <stdio.h>
+#include <tchar.h>
 #else
 #error "Pltaforma desconocida"
 #endif
@@ -57,9 +59,16 @@ namespace oct::core
 		free((void*)buf);		
 	}
 #elif _WIN32 || _WIN64
-	void Shell::cd(const std::string& dir)
+	void Shell::cd(const String& dir)
 	{
-		throw Exception("Aun no implemetada", __FILE__, __LINE__);
+		/*TCHAR Buffer[MAX_PATH];
+		DWORD dwRet;
+		_tcscpy(Buffer, A2T(str.c_str()));
+		SetCurrentDirectory(Buffer);
+
+		dwRet = GetCurrentDirectory(MAX_PATH, Buffer);
+
+		strcwd = Buffer;	*/	
 	}
 #else
 #error "Pltaforma desconocida"

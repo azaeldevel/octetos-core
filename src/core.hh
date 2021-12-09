@@ -29,6 +29,11 @@
 
 namespace oct::core
 {
+#if defined(_GNUG_)
+	typedef std::string String;
+#elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
+	typedef std::wstring String;
+#endif
 
 	/**
 	*\brief Genera un numero para identificar la hora
