@@ -36,7 +36,7 @@
 
 namespace oct::core
 {
-#ifdef __GNUC__
+#if defined(__GNUG__) && defined(__linux__)
 	void Shell::mkdir(const std::string& name, bool recursive)
 	{
 		//Precessing
@@ -167,34 +167,141 @@ namespace oct::core
 			throw Exception(msg,__FILE__,__LINE__);
 		}
 	}
-#elif _WIN32  || _WIN64
+#elif defined(__GNUG__) && defined(WINDOWS_MINGW)
 	void Shell::mkdir(const std::string& name, bool recursive)
 	{
-		const WCHAR* pwcsName; //LPCWSTR
+		//Precessing
+		std::string stractual;
+		if(recursive)
+		{
+		   	std::vector<std::string> result;
+		   	std::stringstream s_stream(name); //create string stream from the string
+		   	while(s_stream.good())
+		   	{
+			  	std::string substr;
+			  	getline(s_stream, substr, '/'); //get first string delimited by /
+			  	result.push_back(substr);
+		   	}
 
-		// required size
-		int size = MultiByteToWideChar(CP_ACP, 0, name.c_str(), -1, NULL, 0);
-		// allocate it
-		pwcsName = new WCHAR[size];
-		MultiByteToWideChar(CP_ACP, 0, name.c_str(), -1, (LPWSTR)pwcsName, size);
+		   	std::string newpath ;
+		   	for(const std::string& s : result)
+		   	{
+		   		if(s.empty())
+		   		{
+		   			newpath += "/";
+		   			continue;
+		   		}
+		   		else
+		   		{
+		   			newpath += s;
+		   		}
 
-		if (CreateDirectory(pwcsName, NULL))
+		   		//std::cout << newpath << "\n";
+		   		stractual = newpath;
+		   		//std::cout << "\tstractual :" << stractual << "\n";
+		   		bool ret = exists(newpath);
+		   		if( ret == false )
+		   		{
+		   		    #ifdef WINDOWS_MINGW
+		   			if(::mkdir(newpath.c_str()) == -1)
+		   			{
+			   			std::string msg = "Fail on calling mkdir : '";
+				   		msg += newpath + "'";
+						throw octetos::core::Exception(msg,__FILE__,__LINE__);
+		   			}
+		   			#else
+		   			if(::mkdir(newpath.c_str(),0777) == -1)
+		   			{
+			   			std::string msg = "Fail on calling mkdir : '";
+				   		msg += newpath + "'";
+						throw Exception(msg,__FILE__,__LINE__);
+		   			}
+		   			#endif
+		   		}
+
+		   		newpath += "/";
+		   	}
+	   	}
+	   	else
+	   	{
+	   		//std::cout << "Step 1\n";
+	   		std::vector<std::string> result;
+		   	std::stringstream s_stream(name); //create string stream from the string
+		   	//std::cout << "Step 2\n";
+		   	while(s_stream.good())
+		   	{
+			  	std::string substr;
+			  	getline(s_stream, substr, '/'); //get first string delimited by /
+			  	result.push_back(substr);
+		   	}
+
+		   	//std::cout << "Step 3\n";
+		   	std::string newpath ;
+		   	for(int i = 0; i < result.size() - 1 ; i++)
+		   	{
+		   		newpath += result[i] + "/";
+			   	//std::cout << "Step 4\n";
+			   	bool ret = exists(newpath);
+		   		if( ret == false)
+			   	{
+			   		std::string msg = "No existe el archivo ";
+			   		msg += newpath;
+					throw Exception(msg,__FILE__,__LINE__);
+			   	}
+		   	}
+		   	stractual = newpath;
+		   	#ifdef WINDOWS_MINGW
+                int ret = ::mkdir(name.c_str());
+		   	#else
+		   	int ret = ::mkdir(name.c_str(),0777);
+		   	#endif // WINDOWS_MINGW
+			if(ret == 0) return;
+	   	}
+
+		ERROR:
+		//validacion de error
+		if(errno != 0)
 		{
-			// Directory created
+			std::string msg = "Fail on floor '";
+			msg += stractual + "' \n\t";
+			switch(errno)
+			{
+				case EACCES:
+					msg += "Search permission is denied on a component of the path prefix, or write permission is denied on the parent directory of the directory to be created";
+					break;
+				case EEXIST:
+					msg += "The named file exists";
+					break;
+				case ELOOP:
+					msg += "A loop exists in symbolic links encountered during resolution of the path argument";
+					break;
+				case EMLINK:
+					msg += "The link count of the parent directory would exceed {LINK_MAX}";
+					break;
+				case ENAMETOOLONG:
+					msg += "The length of the path argument exceeds {PATH_MAX} or a pathname component is longer than {NAME_MAX}";
+					break;
+				case ENOENT:
+					msg += "A component of the path prefix specified by path does not name an existing directory or path is an empty string";
+					break;
+				case ENOSPC:
+					msg += "The file system does not contain enough space to hold the contents of the new directory or to extend the parent directory of the new directory";
+					break;
+				case ENOTDIR:
+					msg += "A component of the path prefix is not a directory";
+					break;
+				case EROFS:
+					msg += "The parent directory resides on a read-only file system";
+					break;
+			}
+
+			throw Exception(msg,__FILE__,__LINE__);
 		}
-		else if (ERROR_ALREADY_EXISTS == GetLastError())
-		{
-			std::string msg = "Fallo la creacion del archiuvo '";
-			msg += name + "'";
-			throw Exception(msg, __FILE__, __LINE__);
-		}
-		else
-		{
-			std::string msg = "Fallo la creacion del archiuvo '";
-			msg += name + "'";
-			throw Exception(msg, __FILE__, __LINE__);
-		}
-		delete[] pwcsName;
+	}
+#elif defined(_WIN32) || defined(_WIN64)
+	void Shell::mkdir(const std::string& name, bool recursive)
+	{
+		throw Exception("No implemketado aun.",__FILE__,__LINE__);
 	}
 #else
 	#error "Pltaforma desconocida"

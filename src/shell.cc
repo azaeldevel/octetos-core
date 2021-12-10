@@ -23,7 +23,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#if defined(__GNUG__)
+#if defined(__GNUG__) && defined(__ANJUTA__)
 	#include <unistd.h>
 	#include "config.h"
 #elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
@@ -36,7 +36,7 @@
 
 namespace oct::core
 {
-#ifdef __GNUC__
+#if defined(__GNUG__) && (defined(__linux__) || defined(WINDOWS_MINGW))
 	void Shell::chown(const std::string& fn,uid_t u)
 	{
 		chown(fn,u,gid());
@@ -129,7 +129,7 @@ namespace oct::core
 		for(const Enviroment* env : v)
 		{
 
-#ifdef __GNUC__
+#if defined(__GNUG__) && defined(__linux__)
 			setenv(env->name.c_str(), env->value.c_str(), 1);
 #elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
 			_putenv((env->name + "=" + env->value).c_str());
@@ -152,7 +152,7 @@ namespace oct::core
 	Shell::Shell()
 	{
 		//strcwd = NULL;
-#if defined(__GNUG__)
+#if defined(__GNUG__) && defined(__linux__)
 		String dir = ".";
 #elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
 		std::string dirTemp = ".";

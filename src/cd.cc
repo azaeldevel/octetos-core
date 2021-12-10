@@ -25,26 +25,26 @@
     #include <windef.h>
     #include <setupapi.h>
 #endif*/
-#ifdef __GNUC__
-#include <unistd.h>
-#elif _WIN32 || _WIN64
-#include <windows.h> 
-#include <stdio.h>
-#include <tchar.h>
+#ifdef defined(__GNUG__) && defined(__linux__)
+    #include <unistd.h>
+#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+    #include <windows.h>
+    #include <stdio.h>
+    #include <tchar.h>
 #else
-#error "Pltaforma desconocida"
+    #error "Pltaforma desconocida"
 #endif
 
 #include "shell.hh"
 
 namespace oct::core
 {
-#ifdef __GNUC__
+#if defined(__GNUG__) && defined(__linux__)
 	void Shell::cd(const std::string& dir)
 	{
 		int ret = ::chdir(dir.c_str());
 		if(ret != 0) throw Exception("Fallo al cambia de directorio", __FILE__,__LINE__);
-		
+
 		#ifdef WINDOWS_MINGW
 		DWORD len = 2;
 		LPTSTR buf = new char(len);
@@ -56,22 +56,20 @@ namespace oct::core
 		char* buf = get_current_dir_name();
 		#endif
 		strcwd = buf;
-		free((void*)buf);		
+		free((void*)buf);
 	}
-#elif _WIN32 || _WIN64
+#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
 	void Shell::cd(const String& dir)
 	{
-		/*TCHAR Buffer[MAX_PATH];
-		DWORD dwRet;
-		_tcscpy(Buffer, A2T(str.c_str()));
-		SetCurrentDirectory(Buffer);
-
-		dwRet = GetCurrentDirectory(MAX_PATH, Buffer);
-
-		strcwd = Buffer;	*/	
+		throw Exception("Aun no implemetada", __FILE__, __LINE__);
+	}
+#elif defined(__GNUG__) && defined(__CYGWIN__)
+	void Shell::cd(const String& dir)
+	{
+		throw Exception("Aun no implemetada", __FILE__, __LINE__);
 	}
 #else
-#error "Pltaforma desconocida"
+    #error "Pltaforma desconocida"
 #endif
 
 

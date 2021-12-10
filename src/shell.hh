@@ -85,7 +85,7 @@ namespace oct::core
 		void set(std::vector<Enviroment*>);
 		int execute(const std::string&);
 		void echo(const std::string&, std::ostream& out = std::cout);
-#ifdef __GNUG__
+#if defined(__GNUG__) && (defined(__linux__) || defined(WINDOWS_MINGW))
 		int chmod(const std::string&, int mode);
 		void ln(const std::string&, int m = 0);
 		uid_t uid() const;

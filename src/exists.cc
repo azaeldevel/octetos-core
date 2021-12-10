@@ -37,7 +37,7 @@ namespace oct::core
 	   	{
 	   		return true;
 	   	}
-	   	
+
 	   	if( ret == 0 )
 		{
 		    #ifdef WINDOWS_MINGW
@@ -90,7 +90,7 @@ namespace oct::core
 
 		return false;
 	}
-#elif _WIN32 || _WIND64
+#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIND64))
 	bool Shell::exists(const std::string& filename)
 	{
 		throw Exception("Aun no implemetada", __FILE__, __LINE__);

@@ -179,7 +179,7 @@ namespace oct::core
             return false;
         }
     }
-	
+
 	void Semver::setPrerelease(const std::string& str)
 	{
 		octetos_core_Semver_setPrerelease(this,str.c_str());
@@ -358,7 +358,7 @@ namespace oct::core
 		if(build) octetos_core_Semver_setBuild(this,obj.build);
 	}
 
-#ifdef __GNUC__
+#if defined(__GNUG__) && defined(__linux__)
     bool Semver::set(const std::string& str)
     {
         octetos_core_Tray ty;
@@ -389,10 +389,6 @@ namespace oct::core
         if (ret == 0) return true;
         return false;
     }
-#elif _WIN32 || _WIN64
-
-#else
-#error "Pltaforma desconocida"
 #endif
 
 }

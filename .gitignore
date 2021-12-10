@@ -36,3 +36,4 @@ bin/
 *.layout
 .vs
 packages
+.obj/

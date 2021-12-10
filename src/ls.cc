@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * */
- 
+
 #include <dirent.h>
 #include <sys/types.h>
 
@@ -26,9 +26,10 @@
 
 namespace oct::core
 {
+#if defined(__GNUG__) && defined(__linux__)
 	void Shell::ls(std::list<std::string>& l)
 	{
-		DIR* dircwd = opendir(cwd().c_str());;
+		DIR* dircwd = opendir(cwd().c_str());
 		struct dirent *entry;
 
   		while((entry = readdir(dircwd)))
@@ -36,4 +37,10 @@ namespace oct::core
 			l.push_back(entry->d_name);
 		}
 	}
+#elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
+
+#else
+	#error "Plataforma desconocida"
+#endif
+
 }

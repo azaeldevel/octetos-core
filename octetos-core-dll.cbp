@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="octetos-core-dll" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/octetos-core-dll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="user32" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/octetos-core-dll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="user32" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="src/Version.cc" />
+		<Unit filename="src/Version.hh" />
+		<Unit filename="src/cd.cc" />
+		<Unit filename="src/core.cc" />
+		<Unit filename="src/core.hh" />
+		<Unit filename="src/defines.hh" />
+		<Unit filename="src/exists.cc" />
+		<Unit filename="src/ls.cc" />
+		<Unit filename="src/mkdir.cc" />
+		<Unit filename="src/rename.cc" />
+		<Unit filename="src/rm.cc" />
+		<Unit filename="src/semver-lexer.cc" />
+		<Unit filename="src/shell.cc" />
+		<Unit filename="src/shell.hh" />
+		<Unit filename="src/version-semver.cc" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

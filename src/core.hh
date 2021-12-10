@@ -29,10 +29,12 @@
 
 namespace oct::core
 {
-#if defined(_GNUG_)
+#if defined(__GNUG__) && defined(__linux__)
 	typedef std::string String;
-#elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
-	typedef std::wstring String;
+#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+	typedef std::string String;
+#else
+	#error "Plataforma desconocida"
 #endif
 
 	/**

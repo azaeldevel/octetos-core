@@ -18,15 +18,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * */
- 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "common.h"
+
+#if defined(__GNUG__) && defined(__linux__)
 #include "semver-lexer.h"
 
-#ifdef _GNUC_
 int octetos_core_toObject(const char* strver,struct octetos_core_Semver* v)
 {
 	struct octetos_core_Tray ty;
@@ -51,7 +52,7 @@ int octetos_core_toObject(const char* strver,struct octetos_core_Semver* v)
 
 
 
-#elif _WIN32 || _WIN64
+#elif defined(_WIN32) || defined(_WIND64)
 
 #else
 #error "Pltaforma desconocida"
