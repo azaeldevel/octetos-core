@@ -61,11 +61,7 @@ namespace oct::core
 		strcwd = buf;
 		free((void*)buf);
 	}
-#elif defined(__GNUG__) && defined(__CYGWIN__)
-	void Shell::cd(const std::string& dir)
-	{
-		throw Exception("Aun no implemetada", __FILE__, __LINE__);
-	}
+
 #else
     #error "Pltaforma desconocida"
 #endif

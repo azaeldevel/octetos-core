@@ -25,10 +25,12 @@
 #include <fcntl.h>
 #include <sstream>
 
-#ifdef __GNUC__
-	#include <unistd.h>
-#elif _WIN32 || _WIN64
-	#include <windows.h>
+#ifdef defined(__GNUG__) && defined(__linux__)
+    #include <unistd.h>
+#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+    #include <direct.h>
+#else
+    #error "Pltaforma desconocida"
 #endif
 
 #include "Exception.hh"
@@ -167,8 +169,8 @@ namespace oct::core
 			throw Exception(msg,__FILE__,__LINE__);
 		}
 	}
-#elif defined(__GNUG__) && defined(WINDOWS_MINGW)
-	void Shell::mkdir(const std::string& name, bool recursive)
+#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+void Shell::mkdir(const std::string& name, bool recursive)
 	{
 		//Precessing
 		std::string stractual;
@@ -210,7 +212,7 @@ namespace oct::core
 						throw octetos::core::Exception(msg,__FILE__,__LINE__);
 		   			}
 		   			#else
-		   			if(::mkdir(newpath.c_str(),0777) == -1)
+		   			if(::_mkdir(newpath.c_str()) == -1)
 		   			{
 			   			std::string msg = "Fail on calling mkdir : '";
 				   		msg += newpath + "'";
@@ -242,6 +244,7 @@ namespace oct::core
 		   		newpath += result[i] + "/";
 			   	//std::cout << "Step 4\n";
 			   	bool ret = exists(newpath);
+
 		   		if( ret == false)
 			   	{
 			   		std::string msg = "No existe el archivo ";
@@ -253,7 +256,7 @@ namespace oct::core
 		   	#ifdef WINDOWS_MINGW
                 int ret = ::mkdir(name.c_str());
 		   	#else
-		   	int ret = ::mkdir(name.c_str(),0777);
+		   	int ret = ::_mkdir(name.c_str());
 		   	#endif // WINDOWS_MINGW
 			if(ret == 0) return;
 	   	}

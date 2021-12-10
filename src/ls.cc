@@ -37,8 +37,11 @@ namespace oct::core
 			l.push_back(entry->d_name);
 		}
 	}
-#elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
-
+#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+	void Shell::ls(std::list<std::string>& l)
+	{
+		throw Exception("No implemketado aun.",__FILE__,__LINE__);
+	}
 #else
 	#error "Plataforma desconocida"
 #endif
