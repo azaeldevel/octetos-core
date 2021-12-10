@@ -50,7 +50,7 @@ namespace oct::core
 	{
 	private:
 
-		String strcwd;
+		std::string strcwd;//es necesartio para retronar referencia
 		int fdcwd;//TODO:verificar si es necesario
 		/**
 		* \brief Inidca si strcdw fua asignada con malloc
@@ -61,13 +61,13 @@ namespace oct::core
 
 	public:
 		Shell();
-		Shell(const String&);
+		Shell(const std::string&);
 		~Shell();
 		/**
 		*\brief list files in current work directory
 		*/
 		void ls(std::list<std::string>&);
-		void cd(const String&);
+		void cd(const std::string&);
 		/**
 		*
 		*
@@ -81,7 +81,7 @@ namespace oct::core
 		*
 		*/
 		bool exists(const std::string&);
-		const String& cwd();
+		const std::string& cwd();
 		void set(std::vector<Enviroment*>);
 		int execute(const std::string&);
 		void echo(const std::string&, std::ostream& out = std::cout);

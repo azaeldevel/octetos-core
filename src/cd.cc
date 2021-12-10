@@ -18,19 +18,11 @@
  * */
 
 
-/*#ifdef WINDOWS_MINGW
-    #include <windows.h>
-    #include <winbase.h>
-    #include <winuser.h>
-    #include <windef.h>
-    #include <setupapi.h>
-#endif*/
+
 #ifdef defined(__GNUG__) && defined(__linux__)
     #include <unistd.h>
 #elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
-    #include <windows.h>
-    #include <stdio.h>
-    #include <tchar.h>
+    #include <direct.h>
 #else
     #error "Pltaforma desconocida"
 #endif
@@ -59,12 +51,18 @@ namespace oct::core
 		free((void*)buf);
 	}
 #elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
-	void Shell::cd(const String& dir)
+	void Shell::cd(const std::string& dir)
 	{
-		throw Exception("Aun no implemetada", __FILE__, __LINE__);
+		int ret = ::_chdir(dir.c_str());
+		if(ret != 0) throw Exception("Fallo al cambia de directorio", __FILE__,__LINE__);
+
+		char* buf = _getcwd (NULL,0);
+
+		strcwd = buf;
+		free((void*)buf);
 	}
 #elif defined(__GNUG__) && defined(__CYGWIN__)
-	void Shell::cd(const String& dir)
+	void Shell::cd(const std::string& dir)
 	{
 		throw Exception("Aun no implemetada", __FILE__, __LINE__);
 	}

@@ -138,27 +138,20 @@ namespace oct::core
 #endif
 		}
 	}
-	const String& Shell::cwd()
+	const std::string& Shell::cwd()
 	{
 		return strcwd;
 	}
 
 
-	Shell::Shell(const String& default_dir)
+	Shell::Shell(const std::string& default_dir)
 	{
 		//strcwd = NULL;
 		cd(default_dir);
 	}
 	Shell::Shell()
 	{
-		//strcwd = NULL;
-#if defined(__GNUG__) && defined(__linux__)
-		String dir = ".";
-#elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
-		std::string dirTemp = ".";
-		String dir(dirTemp.begin(), dirTemp.end());
-#endif
-		cd(dir);
+		cd(".");
 	}
 	Shell::~Shell()
 	{

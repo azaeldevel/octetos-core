@@ -29,13 +29,6 @@
 
 namespace oct::core
 {
-#if defined(__GNUG__) && defined(__linux__)
-	typedef std::string String;
-#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
-	typedef std::string String;
-#else
-	#error "Plataforma desconocida"
-#endif
 
 	/**
 	*\brief Genera un numero para identificar la hora
