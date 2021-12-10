@@ -2,17 +2,15 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="octetos-core-dll" />
+		<Option title="octetos-core" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/octetos-core-dll" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/octetos-core" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option createDefFile="1" />
-				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-DBUILD_DLL" />
@@ -39,22 +37,89 @@
 					<Add library="user32" />
 				</Linker>
 			</Target>
+			<Target title="develop">
+				<Option output="bin/Debug/develop" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add directory="bin/Debug" />
+				</Compiler>
+				<Linker>
+					<Add library="octetos-core" />
+					<Add directory="bin/Debug" />
+				</Linker>
+			</Target>
 		</Build>
-		<Unit filename="src/Version.cc" />
-		<Unit filename="src/Version.hh" />
-		<Unit filename="src/cd.cc" />
-		<Unit filename="src/core.cc" />
-		<Unit filename="src/core.hh" />
-		<Unit filename="src/defines.hh" />
-		<Unit filename="src/exists.cc" />
-		<Unit filename="src/ls.cc" />
-		<Unit filename="src/mkdir.cc" />
-		<Unit filename="src/rename.cc" />
-		<Unit filename="src/rm.cc" />
-		<Unit filename="src/semver-lexer.cc" />
-		<Unit filename="src/shell.cc" />
-		<Unit filename="src/shell.hh" />
-		<Unit filename="src/version-semver.cc" />
+		<Unit filename="src/Error.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Exception.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Version.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Version.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/cd.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/common.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/core.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/core.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/defines.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/exists.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/ls.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/mkdir.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/rename.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/rm.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/shell.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/shell.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/version-semver.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="tests/main.cc" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
