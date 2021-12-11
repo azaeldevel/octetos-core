@@ -25,13 +25,13 @@
 		#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
 		#define DECLSPCE_DLL __declspec(dllexport)
 		#else
-		#define DECLSPCE_DLL 
+		#define DECLSPCE_DLL
 		#endif
 	#else
 		#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
 		#define DECLSPCE_DLL __declspec(dllimport)
 		#else
-		#define DECLSPCE_DLL 
+		#define DECLSPCE_DLL
 		#endif
 	#endif
 #else
@@ -47,3 +47,11 @@
 #endif
 
 #define ALPHA_PHASE_ATTRIBUTE "Not use yet, alpha phase"
+
+#if defined(__GNUG__) && defined(__linux__)
+
+#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+
+#else
+	#error "Pltaforma desconocida"
+#endif

@@ -52,6 +52,7 @@ namespace oct::core
 	*/
 	double randNumber(double min, double max);
 
+    typedef std::string String;
 }
 
 #endif

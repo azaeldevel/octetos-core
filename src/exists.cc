@@ -27,7 +27,7 @@
 
 namespace oct::core
 {
-#ifdef defined(__GNUG__) && defined(__linux__)
+#if defined(__GNUG__) && defined(__linux__)
 	bool Shell::exists(const std::string& filename)
 	{
 	   	struct stat info;
@@ -57,24 +57,9 @@ namespace oct::core
     bool Shell::exists(const std::string& filename)
 	{
 	   	struct _stat64 info;
-	   	int mode;
-	   	int ret = _stat64( filename.c_str(), &info );
-	   	if(ret == 0 and S_ISDIR(info.st_mode))
-	   	{
-	   		return true;
-	   	}
-
-	   	if( ret == 0 )
-		{
-		    mode = (info.st_mode && S_IFREG)  || (info.st_mode && S_IFMT);
-
-			if( mode )
-			{
-				return true;
-			}
-		}
-
-		return false;
+	   	int ret = _stat64( filename.c_str(), &info);
+	   	if(ret == 0) return true;
+		else return false;
 	}
 #elif defined(__GNUG__) && defined(_WIN32)
     bool Shell::exists(const std::string& filename)
