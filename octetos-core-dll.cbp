@@ -58,6 +58,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/MD5sum.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/Version.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
