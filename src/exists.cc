@@ -27,7 +27,7 @@
 
 namespace oct::core
 {
-#ifdef _GNUC_
+#ifdef defined(__GNUG__) && defined(__linux__)
 	bool Shell::exists(const std::string& filename)
 	{
 	   	struct stat info;
@@ -50,50 +50,36 @@ namespace oct::core
 				return true;
 			}
 		}
-		/*
-		if(ret == -1)
-		{
-			std::string msg = "Fail on floor : '";
-			msg += filename + "'\n";
-			switch(errno)
-			{
-				case EACCES:
-					msg += "Search permission is denied for one of the directories in the path prefix of pathname.";
-					break;
-				case EBADF:
-					msg += "fd is not a valid open file descriptor.\nor\ndirfd is not a valid file descriptor.";
-					break;
-				case EFAULT:
-					msg += "Bad address.";
-					break;
-				case ELOOP:
-					msg += "Too many symbolic links encountered while traversing the path.";
-					break;
-				case ENAMETOOLONG:
-					msg += "pathname is too long.";
-					break;
-				case ENOENT:
-					//msg += "A component of pathname does not exist or is a dangling symbolic link.\nor\npathname is an empty string and AT_EMPTY_PATH was not specified in flags.\nor\nOut of memory (i.e., kernel memory).";
-					return false;
-				case ENOTDIR:
-					msg += "A component of the path prefix of pathname is not a directory.\nor\npathname is relative and dirfd is a file descriptor referring to a file other than a directory.";
-					break;
-				case EOVERFLOW:
-					msg += "pathname or fd refers to a file whose size, inode number, or number of blocks cannot be represented in, respectively, the types off_t, ino_t, or blkcnt_t.";
-					break;
-				case EINVAL:
-					msg += "Invalid flag specified in flags.";
-					break;
-			}
-			throw octetos::core::Exception(msg,__FILE__,__LINE__);
-		}*/
 
 		return false;
 	}
-#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIND64))
-	bool Shell::exists(const std::string& filename)
+#elif defined(__GNUG__) && defined(_WIN64)
+    bool Shell::exists(const std::string& filename)
 	{
-		throw Exception("Aun no implemetada", __FILE__, __LINE__);
+	   	struct _stat64 info;
+	   	int mode;
+	   	int ret = _stat64( filename.c_str(), &info );
+	   	if(ret == 0 and S_ISDIR(info.st_mode))
+	   	{
+	   		return true;
+	   	}
+
+	   	if( ret == 0 )
+		{
+		    mode = (info.st_mode && S_IFREG)  || (info.st_mode && S_IFMT);
+
+			if( mode )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+#elif defined(__GNUG__) && defined(_WIN32)
+    bool Shell::exists(const std::string& filename)
+	{
+	   	throw octetos::core::Exception("Aun no implemetada.",__FILE__,__LINE__);
 	}
 #else
 	#error "Pltaforma desconocida"
