@@ -204,25 +204,17 @@ void Shell::mkdir(const std::string& name, bool recursive)
 		   		bool ret = exists(newpath);
 		   		if( ret == false )
 		   		{
-		   		    #ifdef WINDOWS_MINGW
-		   			if(::mkdir(newpath.c_str()) == -1)
-		   			{
-			   			std::string msg = "Fail on calling mkdir : '";
-				   		msg += newpath + "'";
-						throw octetos::core::Exception(msg,__FILE__,__LINE__);
-		   			}
-		   			#else
 		   			if(::_mkdir(newpath.c_str()) == -1)
 		   			{
 			   			std::string msg = "Fail on calling mkdir : '";
 				   		msg += newpath + "'";
 						throw Exception(msg,__FILE__,__LINE__);
 		   			}
-		   			#endif
 		   		}
 
 		   		newpath += "/";
 		   	}
+		   	return;
 	   	}
 	   	else
 	   	{
@@ -253,12 +245,8 @@ void Shell::mkdir(const std::string& name, bool recursive)
 			   	}
 		   	}
 		   	stractual = newpath;
-		   	#ifdef WINDOWS_MINGW
-                int ret = ::mkdir(name.c_str());
-		   	#else
 		   	int ret = ::_mkdir(name.c_str());
-		   	#endif // WINDOWS_MINGW
-			if(ret == 0) return;
+			return;
 	   	}
 
 		ERROR:
@@ -266,7 +254,8 @@ void Shell::mkdir(const std::string& name, bool recursive)
 		if(errno != 0)
 		{
 			std::string msg = "Fail on floor '";
-			msg += stractual + "' \n\t";
+			msg += stractual + "' on ";
+			msg += cwd() + "' \n\t";
 			switch(errno)
 			{
 				case EACCES:
