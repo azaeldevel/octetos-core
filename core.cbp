@@ -8,7 +8,7 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/octetos-core" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output=".objs/Debug/" />
 				<Option type="3" />
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
@@ -40,6 +40,7 @@
 			</Target>
 			<Target title="develop">
 				<Option output="bin/Debug/core" prefix_auto="1" extension_auto="1" />
+				<Option object_output=".objs/Debug/" />
 				<Option type="0" />
 				<Option compiler="msys2_x86_64_gcc" />
 				<Linker>
