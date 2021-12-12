@@ -8,8 +8,6 @@ int main()
 {
 	oct::core::Shell shell;
 
-	shell.mkdir("test-123456");
-
 	std::cout << "work directory : " << shell.cwd() << "\n";
 
 	if(shell.exists("bin"))

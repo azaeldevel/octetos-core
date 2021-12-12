@@ -2,29 +2,30 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="octetos-core" />
+		<Option title="core" />
 		<Option pch_mode="2" />
-		<Option compiler="gcc" />
+		<Option compiler="msys2_x86_64_gcc" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/octetos-core" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="3" />
-				<Option compiler="gcc" />
+				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
 					<Add option="-Wall" />
-					<Add option="-DBUILD_DLL" />
 					<Add option="-g" />
+					<Add option="-DBUILDING_DLL" />
+					<Add option="-DEXPORTING_DLL" />
 				</Compiler>
 				<Linker>
 					<Add library="user32" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/octetos-core-dll" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/core" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="3" />
-				<Option compiler="gcc" />
+				<Option compiler="msys2_x86_64_gcc" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
@@ -38,12 +39,9 @@
 				</Linker>
 			</Target>
 			<Target title="develop">
-				<Option output="bin/Debug/develop" prefix_auto="1" extension_auto="1" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add directory="bin/Debug" />
-				</Compiler>
+				<Option output="bin/Debug/core" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="msys2_x86_64_gcc" />
 				<Linker>
 					<Add library="octetos-core" />
 					<Add directory="bin/Debug" />
@@ -54,11 +52,15 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/Error.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/Exception.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/MD5sum.hh">
+		<Unit filename="src/Exception.hh">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -95,10 +97,6 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/ls.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="src/mkdir.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -119,11 +117,17 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/touch.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/version-semver.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="tests/main.cc" />
+		<Unit filename="tests/main.cc">
+			<Option target="develop" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
