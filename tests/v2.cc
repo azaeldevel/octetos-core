@@ -1309,9 +1309,6 @@ void testMemory()
 		CU_ASSERT(false);
 	}
 	
-	oct::core::Shell  shell1;
-	std::string dm = std::to_string(oct::core::getDayID()) + "/" + std::to_string(oct::core::getTimeID());
-	shell1.mkdir(dm,true);
 }
 
 void testData()
@@ -1335,7 +1332,7 @@ void testData()
 		}
 	}
 }
-void testTemporally()
+void testShell()
 {
 	oct::core::Shell shell;
 	std::list<std::string> dirs;
@@ -1344,6 +1341,10 @@ void testTemporally()
 	std::list<std::string>::iterator itFind = std::find(dirs.begin(),dirs.end(),toFind);
 	if(itFind != dirs.end()) CU_ASSERT(true)
 	else CU_ASSERT(false);
+	
+	
+	std::string dm = std::to_string(oct::core::getDayID()) + "/" + std::to_string(oct::core::getTimeID());
+	shell.mkdir(dm,true);
 	
 	unsigned int idtime1 = oct::core::getTimeID();
 	if(shell.exists(std::to_string(idtime1)))
@@ -1468,7 +1469,7 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 	
-	if ((NULL == CU_add_test(pSuite, "Prueba temporal..", testTemporally)))
+	if ((NULL == CU_add_test(pSuite, "Prueba de Shell class..", testShell)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

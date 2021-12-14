@@ -1,4 +1,4 @@
-AC_INIT(octetos-core,2.31.5-beta, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.32.0-beta, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign gnu subdir-objects])
 AM_SILENT_RULES([yes])
@@ -53,9 +53,6 @@ AM_COND_IF([CHECK_DOXYGEN], [AC_CONFIG_FILES([docs/Makefile])])
 AM_CONDITIONAL(WITH_EXAMPLES, test x"$with_examples" = "xyes")
 AC_ARG_WITH([examples], AS_HELP_STRING([--with-examples], [Compilando con soporte para Ejemplos.]))
 
-#PKG_CHECK_MODULES(LIBCURL, [libcurl])
-
-#PKG_CHECK_MODULES(LIBXML2, [libxml-2.0])
 
 AC_OUTPUT([
 Makefile

@@ -1,3 +1,10 @@
+
+2021-12-15 Azael Reyes <azael.devel@gmail.com>
+2.32.0-beta
+	- Sopporte para windows
+	- Soporte para mutiplataforma
+	- Add String class(preparing for wchar)
+
 2021-08-25 Azael Reyes <azael.devel@gmail.com>
 2.30.0-beta
 	- Fixing warning to sprintf function
