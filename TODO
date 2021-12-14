@@ -1,4 +1,8 @@
 Azael Reyes <azael.devel@gmail.com>
+Bugs:
+	- Corregir fallo con Shell.rm
+	
+Features
 	- Agregar contructor de copias
 	- Agregar Soporte para Python 
 	- Agregar la capacidad a la clase packages de parsear un string para

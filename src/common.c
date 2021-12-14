@@ -25,7 +25,7 @@
 
 #include "common.h"
 
-#if defined(__GNUG__) && defined(__linux__)
+#if defined(__GNUC__) && defined(__linux__)
 #include "semver-lexer.h"
 
 int octetos_core_toObject(const char* strver,struct octetos_core_Semver* v)

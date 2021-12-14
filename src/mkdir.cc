@@ -25,9 +25,9 @@
 #include <fcntl.h>
 #include <sstream>
 
-#ifdef defined(__GNUG__) && defined(__linux__)
+#if defined(__GNUC__) && defined(__linux__)
     #include <unistd.h>
-#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+#elif defined(__GNUC__) && (defined(_WIN32) || defined(_WIN64))
     #include <direct.h>
 #else
     #error "Pltaforma desconocida"
@@ -38,7 +38,7 @@
 
 namespace oct::core
 {
-#if defined(__GNUG__) && defined(__linux__)
+#if defined(__GNUC__) && defined(__linux__)
 	void Shell::mkdir(const std::string& name, bool recursive)
 	{
 		//Precessing
@@ -169,7 +169,7 @@ namespace oct::core
 			throw Exception(msg,__FILE__,__LINE__);
 		}
 	}
-#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+#elif defined(__GNUC__) && (defined(_WIN32) || defined(_WIN64))
 void Shell::mkdir(const std::string& name, bool recursive)
 	{
 		//Precessing

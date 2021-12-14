@@ -30,7 +30,7 @@
 
 namespace oct::core
 {
-#ifdef _GNUG_
+#if defined(__GNUC__) && defined(__linux__)
     void Shell::rm(const std::string& path)
 	{
 		struct stat buf;
@@ -155,7 +155,7 @@ namespace oct::core
 		}
 
 	}
-#elif _WIN32 | _WIN64
+#elif defined(__GNUC__) && (defined(_WIN32) || defined(_WIN64)
 	void Shell::rm(const std::string& path)
 	{
 		throw Exception("Aun no implemetada", __FILE__, __LINE__);
