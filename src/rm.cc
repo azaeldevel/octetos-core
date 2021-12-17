@@ -155,7 +155,7 @@ namespace oct::core
 		}
 
 	}
-#elif defined(__GNUC__) && (defined(_WIN32) || defined(_WIN64)
+#elif defined(__GNUC__) && (defined(_WIN32) || defined(_WIN64))
 	void Shell::rm(const std::string& path)
 	{
 		throw Exception("Aun no implemetada", __FILE__, __LINE__);
