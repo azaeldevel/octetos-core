@@ -25,9 +25,9 @@
 #include <fcntl.h>
 #include <sstream>
 
-#ifdef defined(__GNUG__) && defined(__linux__)
+#if defined(__GNUC__) && defined(__linux__)
     #include <unistd.h>
-#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+#elif defined(__GNUC__) && (defined(_WIN32) || defined(_WIN64))
     #include <direct.h>
 #else
     #error "Pltaforma desconocida"
@@ -38,7 +38,7 @@
 
 namespace oct::core
 {
-#if defined(__GNUG__) && defined(__linux__)
+#if defined(__GNUC__) && defined(__linux__)
 	void Shell::mkdir(const std::string& name, bool recursive)
 	{
 		//Precessing
@@ -73,25 +73,17 @@ namespace oct::core
 		   		bool ret = exists(newpath);
 		   		if( ret == false )
 		   		{
-		   		    #ifdef WINDOWS_MINGW
-		   			if(::mkdir(newpath.c_str()) == -1)
-		   			{
-			   			std::string msg = "Fail on calling mkdir : '";
-				   		msg += newpath + "'";
-						throw octetos::core::Exception(msg,__FILE__,__LINE__);
-		   			}
-		   			#else
 		   			if(::mkdir(newpath.c_str(),0777) == -1)
 		   			{
 			   			std::string msg = "Fail on calling mkdir : '";
 				   		msg += newpath + "'";
 						throw Exception(msg,__FILE__,__LINE__);
 		   			}
-		   			#endif
 		   		}
 
 		   		newpath += "/";
 		   	}
+		   	return;
 	   	}
 	   	else
 	   	{
@@ -121,11 +113,7 @@ namespace oct::core
 			   	}
 		   	}
 		   	stractual = newpath;
-		   	#ifdef WINDOWS_MINGW
-                int ret = ::mkdir(name.c_str());
-		   	#else
 		   	int ret = ::mkdir(name.c_str(),0777);
-		   	#endif // WINDOWS_MINGW
 			if(ret == 0) return;
 	   	}
 
@@ -169,7 +157,7 @@ namespace oct::core
 			throw Exception(msg,__FILE__,__LINE__);
 		}
 	}
-#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+#elif defined(__GNUC__) && (defined(_WIN32) || defined(_WIN64))
 void Shell::mkdir(const std::string& name, bool recursive)
 	{
 		//Precessing
@@ -246,7 +234,7 @@ void Shell::mkdir(const std::string& name, bool recursive)
 		   	}
 		   	stractual = newpath;
 		   	int ret = ::_mkdir(name.c_str());
-			return;
+		   	if(ret == 0) return;
 	   	}
 
 		ERROR:

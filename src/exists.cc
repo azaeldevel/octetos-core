@@ -27,33 +27,15 @@
 
 namespace oct::core
 {
-#if defined(__GNUG__) && defined(__linux__)
+#if defined(__GNUC__) && defined(__linux__)
 	bool Shell::exists(const std::string& filename)
 	{
 	   	struct stat info;
-	   	int mode;
 	   	int ret = stat( filename.c_str(), &info );
-	   	if(ret == 0 and S_ISDIR(info.st_mode))
-	   	{
-	   		return true;
-	   	}
-
-	   	if( ret == 0 )
-		{
-		    #ifdef WINDOWS_MINGW
-		    mode = (info.st_mode && S_IFREG)  || (info.st_mode && S_IFMT);
-		    #else
-		    mode = (info.st_mode && S_IFREG)  || (info.st_mode && S_IFMT) || (info.st_mode && S_IFLNK);
-		    #endif
-			if( mode )
-			{
-				return true;
-			}
-		}
-
-		return false;
+	   	if(ret == 0) return true;
+		else return false;
 	}
-#elif defined(__GNUG__) && defined(_WIN64)
+#elif defined(__GNUC__) && defined(_WIN64)
     bool Shell::exists(const std::string& filename)
 	{
 	   	struct _stat64 info;
@@ -61,7 +43,7 @@ namespace oct::core
 	   	if(ret == 0) return true;
 		else return false;
 	}
-#elif defined(__GNUG__) && defined(_WIN32)
+#elif defined(__GNUC__) && defined(_WIN32)
     bool Shell::exists(const std::string& filename)
 	{
 	   	throw octetos::core::Exception("Aun no implemetada.",__FILE__,__LINE__);
