@@ -51,8 +51,13 @@ namespace oct::core
 	*\brief Genera un numero al azar entre (min,max]
 	*/
 	double randNumber(double min, double max);
-
-    typedef std::string String;
+	
+	
+    typedef std::string string;
+	typedef std::ostream ostream;
+	typedef std::ofstream ofstream;
+	typedef std::istream istream;
+	typedef std::ifstream ifstream;
 }
 
 #endif
