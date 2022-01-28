@@ -52,7 +52,18 @@ public:
     virtual const char* what () const throw ();
 };
 
-
+class InternalException: public std::exception
+{
+protected:
+    int line,code;
+    const char* filename;
+	
+public:
+	InternalException();
+	InternalException(int code);
+    InternalException(int code,const char* fn,int line);
+    
+};
 
 }
 

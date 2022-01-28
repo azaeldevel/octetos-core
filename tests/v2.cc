@@ -1364,6 +1364,15 @@ void testShell()
 	
 	if(shell.exists(std::to_string(idtime1))) CU_ASSERT(false)
 	else CU_ASSERT(true);
+	
+	std::string dir1 = "dir1";
+	if(not shell.exists(dir1)) shell.mkdir(dir1);
+	
+	if(shell.exists(dir1)) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	
+	if(shell.rm(dir1)) CU_ASSERT(true)
+	else CU_ASSERT(false)
 }
 int main(int argc, char *argv[])
 {  

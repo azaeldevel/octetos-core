@@ -77,4 +77,16 @@ namespace oct::core
     }
 
 
+
+    InternalException::InternalException() : filename(NULL),line(-1),code(-1)
+    {    
+    }    
+    InternalException::InternalException(int c) : filename(NULL),line(-1),code(c)
+    {
+    
+    }
+    InternalException::InternalException(int c,const char* fn,int l) : filename(fn),line(l),code(c)
+    {
+    
+    }
 }

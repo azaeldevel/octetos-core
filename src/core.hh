@@ -27,6 +27,16 @@
 
 #include "defines.hh"
 
+namespace oct
+{
+
+    typedef std::string string;
+	typedef std::ostream ostream;
+	typedef std::ofstream ofstream;
+	typedef std::istream istream;
+	typedef std::ifstream ifstream;
+
+}
 namespace oct::core
 {
 
@@ -53,11 +63,6 @@ namespace oct::core
 	double randNumber(double min, double max);
 	
 	
-    typedef std::string string;
-	typedef std::ostream ostream;
-	typedef std::ofstream ofstream;
-	typedef std::istream istream;
-	typedef std::ifstream ifstream;
 }
 
 #endif
