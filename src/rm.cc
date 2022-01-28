@@ -56,8 +56,13 @@ namespace oct::core
 				if(strcmp(entry->d_name,".") == 0) continue;
 				if(strcmp(entry->d_name,"..") == 0) continue;
 				
-				if(not recursive) throw RemoveDirException(EINVAL,__FILE__,__LINE__);
-				rm(entry->d_name);
+				if(not recursive) 
+				{
+					std::string msg = "El directorio '";
+					msg += path + "' no esta vacio";
+					throw Exception(msg,__FILE__,__LINE__);
+				}
+				rm(path + "/" + entry->d_name);
 			}
 			int retRm = rmdir(path.c_str());
 			if(retRm == 0)

@@ -1368,6 +1368,17 @@ void testShell()
 	
 	std::string dm = std::to_string(oct::core::getDayID()) + "/" + std::to_string(oct::core::getTimeID());
 	shell.mkdir(dm,true);
+	for(unsigned int i = 0; i < 10; i++)
+	{
+		shell.mkdir(dm + "/" + std::to_string(i));
+	}
+	for(unsigned int i = 0; i < 10; i++)
+	{
+		if(shell.exists(dm + "/" + std::to_string(i))) CU_ASSERT(true)
+		else CU_ASSERT(false)
+	}
+	if(shell.rm(dm,true)) CU_ASSERT(true)
+	else CU_ASSERT(false)
 	
 	unsigned int idtime1 = oct::core::getTimeID();
 	if(shell.exists(std::to_string(idtime1)))
