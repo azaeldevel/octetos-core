@@ -23,6 +23,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <string.h>
 #ifdef __GNUC__
 #include <unistd.h>
 #endif
@@ -35,10 +36,11 @@ namespace oct::core
 {
 
 #if defined(__GNUC__) && defined(__linux__)
-    bool Shell::rm(const std::string& path)
+    bool Shell::rm(const std::string& path, bool recursive)
 	{
 		struct stat st;		
 		stat(path.c_str(), &st);
+
 
 		if(S_ISREG(st.st_mode))
 		{
@@ -46,6 +48,17 @@ namespace oct::core
 		}
 		else if (S_ISDIR(st.st_mode))//es un directorio?
 		{
+			DIR* dircwd = opendir(path.c_str());
+			struct dirent *entry;
+
+	  		while((entry = readdir(dircwd)))
+			{
+				if(strcmp(entry->d_name,".") == 0) continue;
+				if(strcmp(entry->d_name,"..") == 0) continue;
+				
+				if(not recursive) throw RemoveDirException(EINVAL,__FILE__,__LINE__);
+				rm(entry->d_name);
+			}
 			int retRm = rmdir(path.c_str());
 			if(retRm == 0)
 			{
@@ -53,7 +66,7 @@ namespace oct::core
 			}
 			else if(retRm == -1)
 			{
-				
+				//std::cout << "Fail with : " << path << "\n";
 				throw RemoveDirException(errno,__FILE__,__LINE__);
 			}
 		}

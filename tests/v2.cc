@@ -1339,8 +1339,12 @@ void testShell()
 	std::string toFind = "configure.ac";
 	shell.ls(dirs);
 	std::list<std::string>::iterator itFind = std::find(dirs.begin(),dirs.end(),toFind);
-	if(itFind != dirs.end()) CU_ASSERT(true)
-	else CU_ASSERT(false);
+	if(itFind != dirs.end()) 
+	{
+		CU_ASSERT(false);
+		std::cerr << "No ejecutar en el directorio raiz";
+		return;
+	}
 	
 	
 	std::string dm = std::to_string(oct::core::getDayID()) + "/" + std::to_string(oct::core::getTimeID());

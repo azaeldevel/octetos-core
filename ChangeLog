@@ -4,6 +4,8 @@
 	- Add Exception for manage Shell::rm errors
 	- Refactory Shell::rm function
 	- Add test for Shell::rm
+2.34.0-alpha
+	- Add recursive removing automatic
 
 2021-12-14 Azael Reyes <azael.devel@gmail.com>
 2.32.0-beta

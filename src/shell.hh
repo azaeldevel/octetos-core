@@ -73,7 +73,7 @@ namespace oct::core
 		*
 		*/
 		void mkdir(const std::string&, bool recursive=true);
-		bool rm(const std::string&);
+		bool rm(const std::string&, bool recursive = false);
 		void rename(const std::string&,const std::string&);
 		void touch(const std::string&, int options = 0);
 		/**
