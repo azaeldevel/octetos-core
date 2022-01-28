@@ -21,6 +21,8 @@
 
 #include <dirent.h>
 #include <sys/types.h>
+#include <string.h>
+
 
 #include "shell.hh"
 
@@ -34,6 +36,9 @@ namespace oct::core
 
   		while((entry = readdir(dircwd)))
 		{
+			if(strcmp(entry->d_name,".") == 0) continue;
+			if(strcmp(entry->d_name,"..") == 0) continue;
+			
 			l.push_back(entry->d_name);
 		}
 	}

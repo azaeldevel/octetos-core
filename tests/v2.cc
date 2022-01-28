@@ -1345,6 +1345,25 @@ void testShell()
 		std::cerr << "No ejecutar en el directorio raiz";
 		return;
 	}
+	for(const std::string str : dirs)
+	{
+		if(str.compare(".") == 0)
+		{
+			CU_ASSERT(false)
+		}
+		else
+		{
+			CU_ASSERT(true)
+		}
+		if(str.compare("..") == 0)
+		{
+			CU_ASSERT(false)
+		}
+		else
+		{
+			CU_ASSERT(true)
+		}
+	}
 	
 	
 	std::string dm = std::to_string(oct::core::getDayID()) + "/" + std::to_string(oct::core::getTimeID());

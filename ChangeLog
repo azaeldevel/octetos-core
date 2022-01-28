@@ -6,6 +6,8 @@
 	- Add test for Shell::rm
 2.34.0-alpha
 	- Add recursive removing automatic
+2.35.0-alpha
+	- Removing '.' and '..' in ls result
 
 2021-12-14 Azael Reyes <azael.devel@gmail.com>
 2.32.0-beta
