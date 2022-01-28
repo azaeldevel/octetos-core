@@ -84,7 +84,9 @@ namespace oct::core
 		}
 		else
 		{
-			throw UnmanageObjectException(__FILE__,__LINE__);
+			std::string msg = "No se puede eliminar : ";
+			msg += path;
+			throw Exception(msg,__FILE__,__LINE__);
 		}
 
 		return true;
