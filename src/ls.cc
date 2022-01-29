@@ -28,7 +28,7 @@
 
 namespace oct::core
 {
-#if defined(__GNUG__) && defined(__linux__)
+#if defined(__GNUC__)
 	void Shell::ls(std::list<std::string>& l)
 	{
 		DIR* dircwd = opendir(cwd().c_str());
@@ -38,14 +38,9 @@ namespace oct::core
 		{
 			if(strcmp(entry->d_name,".") == 0) continue;
 			if(strcmp(entry->d_name,"..") == 0) continue;
-			
+
 			l.push_back(entry->d_name);
 		}
-	}
-#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
-	void Shell::ls(std::list<std::string>& l)
-	{
-		throw Exception("No implemketado aun.",__FILE__,__LINE__);
 	}
 #else
 	#error "Plataforma desconocida"
