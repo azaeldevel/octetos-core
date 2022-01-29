@@ -38,7 +38,7 @@ namespace oct::core
 #if defined(__GNUC__) && defined(__linux__)
     bool Shell::rm(const std::string& path, bool recursive)
 	{
-		struct stat st;		
+		struct stat st;
 		stat(path.c_str(), &st);
 
 
@@ -55,8 +55,8 @@ namespace oct::core
 			{
 				if(strcmp(entry->d_name,".") == 0) continue;
 				if(strcmp(entry->d_name,"..") == 0) continue;
-				
-				if(not recursive) 
+
+				if(not recursive)
 				{
 					std::string msg = "El directorio '";
 					msg += path + "' no esta vacio";
@@ -83,7 +83,7 @@ namespace oct::core
 				return true;
 			}
 			else if(retRm == -1)
-			{				
+			{
 				throw UnlinkException(errno,__FILE__,__LINE__);
 			}
 		}
@@ -97,10 +97,11 @@ namespace oct::core
 		return true;
 	}
 #elif defined(__GNUC__) && (defined(_WIN32) || defined(_WIN64))
-    bool Shell::rm(const std::string& path)
+    bool Shell::rm(const std::string& path, bool recursive)
 	{
-		struct stat st;		
+		struct stat st;
 		stat(path.c_str(), &st);
+
 
 		if(S_ISREG(st.st_mode))
 		{
@@ -108,6 +109,22 @@ namespace oct::core
 		}
 		else if (S_ISDIR(st.st_mode))//es un directorio?
 		{
+			DIR* dircwd = opendir(path.c_str());
+			struct dirent *entry;
+
+	  		while((entry = readdir(dircwd)))
+			{
+				if(strcmp(entry->d_name,".") == 0) continue;
+				if(strcmp(entry->d_name,"..") == 0) continue;
+
+				if(not recursive)
+				{
+					std::string msg = "El directorio '";
+					msg += path + "' no esta vacio";
+					throw Exception(msg,__FILE__,__LINE__);
+				}
+				rm(path + "/" + entry->d_name);
+			}
 			int retRm = rmdir(path.c_str());
 			if(retRm == 0)
 			{
@@ -115,13 +132,15 @@ namespace oct::core
 			}
 			else if(retRm == -1)
 			{
-				
+				//std::cout << "Fail with : " << path << "\n";
 				throw RemoveDirException(errno,__FILE__,__LINE__);
 			}
 		}
 		else
 		{
-			throw UnmanageObjectException(__FILE__,__LINE__);
+			std::string msg = "No se puede eliminar : ";
+			msg += path;
+			throw Exception(msg,__FILE__,__LINE__);
 		}
 
 		return true;
