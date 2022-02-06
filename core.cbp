@@ -6,7 +6,7 @@
 		<Option pch_mode="2" />
 		<Option compiler="msys2_x86_64_gcc" />
 		<Build>
-			<Target title="Debug">
+			<Target title="liboctetos-core-dbg">
 				<Option output="bin/Debug/octetos-core" prefix_auto="1" extension_auto="1" />
 				<Option object_output=".objs/Debug/" />
 				<Option type="3" />
@@ -21,7 +21,7 @@
 					<Add library="user32" />
 				</Linker>
 			</Target>
-			<Target title="Release">
+			<Target title="liboctetos-core-r">
 				<Option output="bin/Release/octetos-core" prefix_auto="1" extension_auto="1" />
 				<Option object_output=".objs/Release/" />
 				<Option type="3" />
@@ -48,81 +48,81 @@
 			</Target>
 		</Build>
 		<Unit filename="src/Error.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/Error.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/Exception.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/Exception.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/Version.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/Version.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/cd.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/common.c">
 			<Option compilerVar="CC" />
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/core.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/core.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/defines.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/exists.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/mkdir.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/rename.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/rm.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/shell.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/shell.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/touch.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/version-semver.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="tests/main.cc">
 			<Option target="develop" />
