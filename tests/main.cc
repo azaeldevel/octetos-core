@@ -38,7 +38,7 @@ int main()
         std::cout << "No existe el configure2.ac\n";
     }
 
-    oct::core::String logDirectory = "bin";
+    std::string logDirectory = "bin";
     std::string strDay = std::to_string(oct::core::getDayID());
     std::string strTime = std::to_string(oct::core::getTimeID());
     logDirectory = logDirectory + "/" + strDay + strTime;
