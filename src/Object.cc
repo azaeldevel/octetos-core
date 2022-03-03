@@ -41,14 +41,14 @@ namespace oct::core
         Object::~Object()
         {
 #ifdef COLLETION_ASSISTANT
-                if(parent != NULL)
-                {
-                        parent->removeChild(this);
-                }
-                if(countChilds > 0)
-                {
-                        std::cerr << "Una instacia de '" << typeid(*this).name() << "' termino sin que todos sus hijos terminaran  primero" << std::endl;
-                }
+            if(parent != NULL)
+            {
+                parent->removeChild(this);
+            }
+            if(countChilds > 0)
+            {
+                std::cerr << "Una instacia de '" << typeid(*this).name() << "' termino sin que todos sus hijos terminaran  primero" << std::endl;
+            }
 #endif
         }
 
