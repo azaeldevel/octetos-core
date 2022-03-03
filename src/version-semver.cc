@@ -21,12 +21,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef __GNUC__
-#include <dirent.h>
-#elif _WIN32 || _WIN64
-#include <typeinfo>
+#if defined(__linux__)
+    #include <dirent.h>
+#elif defined(_WIN32) || defined(_WIN64)
+    #include <typeinfo>
 #else
-#error "Pltaforma desconocida"
+    #error "Plataforma desconocida"
 #endif
 #include "Version.hh"
 #include "Error.hh"
@@ -357,7 +357,6 @@ namespace oct::core
 		if(prerelease) octetos_core_Semver_setPrerelease(this,obj.prerelease);
 		if(build) octetos_core_Semver_setBuild(this,obj.build);
 	}
-
 #if defined(__GNUG__) && defined(__linux__)
     bool Semver::set(const std::string& str)
     {
@@ -390,5 +389,6 @@ namespace oct::core
         return false;
     }
 #endif
+
 
 }
