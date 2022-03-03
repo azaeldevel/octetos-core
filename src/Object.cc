@@ -18,20 +18,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * */
- 
-#include <iostream>
-//#include <iostream>
-//#include <cstdlib>
-//#include <cstring>
-//#include <string.h>
-//#include <string>
 
-#ifdef HAVE_CONFIG_H
-    #include "config.h"
-#elif defined WINDOWS_MINGW && defined CODEBLOCKS
-    #include "config-cb.h"
-#elif defined LINUX && defined CODEBLOCKS
-    #include "config-cb.h"
+#include <iostream>
+#if defined(__linux__)
+	#include "config.h"
+#elif defined(_WIN32) || defined(_WIN64)
+#else
+    #error "Plataforma desconocida"
 #endif
 #include "Object.hh"
 
@@ -62,34 +55,32 @@ namespace oct::core
         Object::Object()
         {
 #ifdef COLLETION_ASSISTANT
-                countChilds = 0;
-                parent = NULL;
+            countChilds = 0;
+            parent = NULL;
 #endif
         }
 
 #ifdef COLLETION_ASSISTANT
         unsigned int Object::getCountChilds()
         {
-                return countChilds;
+            return countChilds;
         }
         void Object::addChild(Object* child)
         {
-                countChilds++;
-                child->parent = this;
+            countChilds++;
+            child->parent = this;
         }
         void Object::removeChild(Object* child)
         {
-                countChilds--;
-                child->parent = NULL;
+            countChilds--;
+            child->parent = NULL;
         }
 #endif
 
-
-#ifdef __GNUC__
 	std::string getPakageName()
 	{
 		return PACKAGE;
 	}
-#endif
+
 
 }
