@@ -357,7 +357,7 @@ namespace oct::core
 		if(prerelease) octetos_core_Semver_setPrerelease(this,obj.prerelease);
 		if(build) octetos_core_Semver_setBuild(this,obj.build);
 	}
-#if defined(__linux__)
+
     bool Semver::set(const std::string& str)
     {
         octetos_core_Tray ty;
@@ -388,7 +388,7 @@ namespace oct::core
         if (ret == 0) return true;
         return false;
     }
-#endif
+
 
 
 }
