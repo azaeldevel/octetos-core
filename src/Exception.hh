@@ -26,6 +26,22 @@
 
 #include "core.hh"
 
+
+namespace oct
+{
+class Exception : public std::exception
+{
+public:
+	Exception();
+	Exception(unsigned int code);
+	Exception(unsigned int code,const char* filename, unsigned int line);
+
+private:
+	unsigned int code;
+	const char* filename;
+	unsigned int line;
+};
+}
 namespace oct::core
 {
 
