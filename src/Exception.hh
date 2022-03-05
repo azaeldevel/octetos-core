@@ -36,7 +36,7 @@ public:
 	Exception(unsigned int code);
 	Exception(unsigned int code,const char* filename, unsigned int line);
 
-private:
+protected:
 	unsigned int code;
 	const char* filename;
 	unsigned int line;
