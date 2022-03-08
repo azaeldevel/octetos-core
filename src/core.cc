@@ -23,6 +23,36 @@
 #include <ctime>
 #include <random>
 
+namespace oct
+{
+#if defined(__linux__)
+    void print_backtrace(const char* msg,int code)
+	{
+		void* array[20];
+		size_t size;
+
+		size = backtrace(array,20);
+		fprintf(stderr,msg,code);
+		backtrace_symbols_fd(array,size,STDERR_FILENO);
+	}
+	void signal_exception(int s)
+	{
+		print_backtrace("Error signal detected %d:\n",s);
+	}
+	void signal_abort(int s)
+	{
+		print_backtrace("Error signal detected %d:\n",s);
+	}
+	void signal_segmentv(int s)
+	{
+		print_backtrace("Error signal detected %d:\n",s);
+	}
+#elif (defined(_WIN32) || defined(_WIN64))
+
+#else
+    #error "Pltaforma desconocida"
+#endif
+}
 namespace oct::core
 {
 

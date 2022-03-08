@@ -24,17 +24,30 @@
  * */
 
 #include <string>
+#if defined(__linux__)
+	#include <execinfo.h>
+	#include <csignal>
+#elif defined(_WIN32) || defined(_WIN64)
+    
+#else
+	#error "Plataforma desconocida"
+#endif
 
 #include "defines.hh"
 
 namespace oct
 {
 
-    typedef std::string string;
-	typedef std::ostream ostream;
-	typedef std::ofstream ofstream;
-	typedef std::istream istream;
-	typedef std::ifstream ifstream;
+#if defined(__linux__)
+    void print_backtrace(const char* msg,int code);
+	void signal_exception(int s);
+	void signal_abort(int s);
+	void signal_segmentv(int s);
+#elif (defined(_WIN32) || defined(_WIN64))
+
+#else
+    #error "Pltaforma desconocida"
+#endif
 
 }
 namespace oct::core

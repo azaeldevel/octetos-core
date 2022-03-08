@@ -1,4 +1,4 @@
-AC_INIT(octetos-core,2.38.0-alpha, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.39.0-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign gnu subdir-objects])
 AM_SILENT_RULES([yes])
