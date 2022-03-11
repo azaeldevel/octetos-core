@@ -23,6 +23,18 @@
  
 #include "Exception.hh"
 
+namespace oct
+{
+Exception::Exception() : code(0),filename(NULL),line(0)
+{
+}
+Exception::Exception(unsigned int c) : code(c),filename(NULL),line(0)
+{
+}
+Exception::Exception(unsigned int c,const char* fn, unsigned int l) : code(c),filename(fn),line(l)
+{
+}
+}
 
 namespace oct::core
 {
