@@ -31,7 +31,13 @@ Exception::Exception() : _code(0),_filename(NULL),_line(0)
 Exception::Exception(unsigned int c) : _code(c),_filename(NULL),_line(0)
 {
 }
+Exception::Exception(unsigned int c,const char* s) : _code(c),_filename(NULL),_line(0),_subject(s)
+{
+}
 Exception::Exception(unsigned int c,const char* fn, unsigned int l) : _code(c),_filename(fn),_line(l)
+{
+}
+Exception::Exception(unsigned int c,const char* fn, unsigned int l,const char* s) : _code(c),_filename(fn),_line(l),_subject(s)
 {
 }
 
