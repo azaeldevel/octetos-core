@@ -2,19 +2,19 @@
 #include <CUnit/Basic.h>
 #include <iostream>
 #include <cstdlib>
-#include <Artifact.hh>
 #include <time.h>
-#include <memory.hh>
 #include <fstream>
 #include <unistd.h>
 #include <limits.h>
-#include <data.hh>
-#include <shell.hh>
 #include <list>
 #include <algorithm>
 
 #include "config.h"
-#include "semver-lexer.h"
+#include "../src/Artifact.hh"
+#include "../src/memory.hh"
+#include "../src/semver-lexer.h"
+#include "../src/data.hh"
+#include "../src/shell.hh"
 
 static std::string bdir;
 

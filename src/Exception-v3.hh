@@ -1,5 +1,6 @@
-#ifndef OCTETOS_CORE_EXECPTION_HH
-#define OCTETOS_CORE_EXECPTION_HH
+
+#ifndef OCTETOS_CORE_EXECPTION_V3_HH
+#define OCTETOS_CORE_EXECPTION_V3_HH
 
 /**
  *  This file is part of octetos-core.
@@ -20,26 +21,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-#include "Exception-v3.hh"
-#include "Exception-v2.hh"
+#include <exception>
+#include "core.hh"
 
-namespace oct
+namespace oct::v3
 {
-	typedef oct::v3::Exception Exception;
-
-	namespace core
-	{
-		typedef oct::core::v2::Exception Exception;
-		typedef oct::core::v2::InternalException InternalException;
-	}
-}
-
-namespace octetos
+class Exception : public std::exception
 {
-	namespace core
-	{
-		typedef oct::core::v2::Exception Exception DEPRECATED;
-	}
+public:
+	Exception();
+	Exception(unsigned int code);
+	Exception(unsigned int code,const char* subject);
+	Exception(unsigned int code,const char* filename, unsigned int line);
+	Exception(unsigned int code,const char* filename, unsigned int line,const char* subject);
+	
+	unsigned int code()const;
+	const char* filename()const;
+	unsigned int line()const;
+	const char* subject()const;
+
+	virtual std::string describe() const throw ();
+
+protected:
+	unsigned int _code;
+	const char* _filename;
+	unsigned int _line;
+	const char* _subject;
+};
 }
 
 #endif

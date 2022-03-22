@@ -23,20 +23,51 @@
  
 #include "Exception.hh"
 
-namespace oct
+namespace oct::v3
 {
-Exception::Exception() : code(0),filename(NULL),line(0)
-{
-}
-Exception::Exception(unsigned int c) : code(c),filename(NULL),line(0)
+Exception::Exception() : _code(0),_filename(NULL),_line(0)
 {
 }
-Exception::Exception(unsigned int c,const char* fn, unsigned int l) : code(c),filename(fn),line(l)
+Exception::Exception(unsigned int c) : _code(c),_filename(NULL),_line(0)
 {
 }
+Exception::Exception(unsigned int c,const char* fn, unsigned int l) : _code(c),_filename(fn),_line(l)
+{
 }
 
-namespace oct::core
+unsigned int Exception::code()const
+{
+	return _code;
+}
+const char* Exception::filename()const
+{
+	return _filename;
+}
+unsigned int Exception::line()const
+{
+	return _line;
+}
+const char* Exception::subject()const
+{
+	return _subject;
+}
+	
+std::string Exception::describe() const throw ()
+{
+	if(not _subject) return what();
+	
+	std::string msg = what();
+	msg += "\n\t devido a ";
+	msg += _subject;
+	return msg;
+}
+
+
+}
+
+
+
+namespace oct::core::v2
 {
 	
 	Exception::Exception()
