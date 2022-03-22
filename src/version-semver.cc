@@ -313,7 +313,7 @@ namespace oct::core
 		free((void*)verbuf);
 		return ver;
 	}
-	Semver::operator std::string()
+	Semver::operator std::string()const
 	{
 		const char* verbuf = octetos_core_Semver_toString(this,FormatString::FullString);
 		std::string ver = verbuf;

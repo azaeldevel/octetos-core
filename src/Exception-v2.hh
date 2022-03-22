@@ -28,7 +28,7 @@
 namespace oct::core::v2
 {
 
-class [[deprecated]] Exception : public std::exception
+class Exception : public std::exception
 {
 protected:
     int line;

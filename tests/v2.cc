@@ -18,16 +18,16 @@
 
 static std::string bdir;
 
-int init(void)
+int v2_init(void)
 {
 	return 0;
 }
-int clean(void)
+int v2_clean(void)
 {
 	return 0;
 }
 
-void testImports_v100()
+void v2_testImports_v100()
 {
 	oct::core::Semver verPQ;
 	if(oct::core::Error::check())
@@ -79,7 +79,7 @@ void testImports_v100()
 	//std::cout << "verPQ = " << strverpq << "\n";
 }
 
-void testParseString_v100()
+void v2_testParseString_v100()
 {
 	oct::core::Semver ver1,ver2,ver3;
 	
@@ -418,7 +418,7 @@ void testParseString_v100()
 	}
 }
 
-void testParseString_v200()
+void v2_testParseString_v200()
 {
 	oct::core::Semver ver1,ver2,ver3;
 	
@@ -611,7 +611,7 @@ void testParseString_v200()
 
 
 
-void testComparators_v100()
+void v2_testComparators_v100()
 {
         oct::core::Semver ver1;
         oct::core::Semver ver2;
@@ -977,7 +977,7 @@ void testComparators_v100()
     }
 }
 
-void testOperations_v100()
+void v2_testOperations_v100()
 {	
 	/*time_t seconds = time (NULL);
 	oct::core::Artifact packinfo;
@@ -999,7 +999,7 @@ void testOperations_v100()
 	//pk.read (filename);
 }
 
-void testsemverc()
+void v2_testsemverc()
 {
 	const char *strver1 = "1.0.2-alpha";
 	octetos_core_Semver ver1;
@@ -1039,7 +1039,7 @@ void testsemverc()
 }
 
 
-void testMemory()
+void v2_testMemory()
 {
 	/*unsigned short LENGTH = 1000;
 	unsigned short TESTS = 10000;
@@ -1311,7 +1311,7 @@ void testMemory()
 	
 }
 
-void testData()
+void v2_testData()
 {
 	oct::core::Wall<int> wall1(5);
 	wall1[0] = 1;
@@ -1332,7 +1332,7 @@ void testData()
 		}
 	}
 }
-void testShell()
+void v2_testShell()
 {
 	oct::core::Shell shell;
 	std::list<std::string> dirs;
@@ -1408,119 +1408,4 @@ void testShell()
 	if(shell.rm(dir1)) CU_ASSERT(true)
 	else CU_ASSERT(false)
 }
-int main(int argc, char *argv[])
-{  
-#ifdef DEBUG
-	std::cout << "Debug is enabled.\n";
-#else
-	std::cout << "Debug is not enabled.\n";	
-#endif
-#ifdef COLLETION_ASSISTANT
-	std::cout << "Collention Assitan is enabled.\n";
-#else
-	std::cout << "Collention Assitan is not enabled.\n";	
-#endif
-	bdir = "";
-	std::string option;
-	for(int i = 1 ; i < argc; i++)
-	{
-		option = argv[i];
-		//bdir
-		int bdirIndex = option.compare(0, 7, "--bdir=");
-		if(!bdirIndex)
-		{
-			bdir = option.substr(7,option.size());
-			std::cout << "bdir es '" << bdir << "'.\n";
-		}
-		int helpIndex = option.compare("--help");
-		if(!helpIndex)
-		{
-			std::cout << "--bdir=[directory]		Directorio de contrución";
-		}
-	}
-	oct::core::Artifact packinfo;
-	oct::core::getPackageInfo(packinfo);
-	if(oct::core::Error::check())
-	{
-		std::cerr << (const std::string&)oct::core::Error::get() << "\n";
-		return EXIT_FAILURE;
-	}
-	
-	int majorNumber = 2;
-	if(majorNumber != packinfo.version.getMajor())
-	{
-		std::cerr << "Cree un nuevo archivo para la version '" << majorNumber << "' estas en la version'" << (std::string)packinfo.version << "'\n";
-		return EXIT_FAILURE;
-	}
-	
-	/* initialize the CUnit test registry */
-	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
-	std::string& pkName = packinfo.name;
-	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
-	CU_pSuite pSuite = NULL;
-	pSuite = CU_add_suite(headerTest.c_str(), init, clean);
-	if (NULL == pSuite) 
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-	
-	if ((NULL == CU_add_test(pSuite, "Semver for C.", testsemverc)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-	
-	if ((NULL == CU_add_test(pSuite, "Criterios de comparación semver v1.0.0", testComparators_v100)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-			
-	if ((NULL == CU_add_test(pSuite, "Validacion de parseo semver v1.0.0", testParseString_v100)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}		
-	if ((NULL == CU_add_test(pSuite, "Operaciones genéricas", testOperations_v100)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-	if ((NULL == CU_add_test(pSuite, "Validacion de Operaciones semver v1.0.0", testImports_v100)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-	
-	if ((NULL == CU_add_test(pSuite, "Validacion de parseo semver v2.0.0", testParseString_v200)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-
-	if ((NULL == CU_add_test(pSuite, "Memory modules", testMemory)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-	
-	if ((NULL == CU_add_test(pSuite, "Data modules", testData)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-	
-	if ((NULL == CU_add_test(pSuite, "Prueba de Shell class..", testShell)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-	
-	/* Run all tests using the CUnit Basic interface */
-	CU_basic_set_mode(CU_BRM_VERBOSE);
-	CU_basic_run_tests();
-	CU_cleanup_registry();
-	return CU_get_error();	
-}

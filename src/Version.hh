@@ -127,7 +127,7 @@ namespace oct::core
 		* \param formato Determina el formato generado.
 		* */
 		std::string toString(FormatString formato = FormatString::FullString) const;
-		operator std::string();
+		operator std::string()const;
 		virtual ~Semver();
 		Semver(const Semver&);
 		Semver();

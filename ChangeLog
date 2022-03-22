@@ -1,4 +1,9 @@
 2022-03-22 Azael Reyes <azael.devel@gmail.com>
+2.42.0-alpha
+	- Better dreprecated selective
+	- preparing for v3 module
+
+2022-03-22 Azael Reyes <azael.devel@gmail.com>
 2.40.0-alpha
 	- Extending oct::Exception
 	- Working on next major release v3
