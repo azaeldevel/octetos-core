@@ -52,65 +52,68 @@ int main(int argc, char *argv[])
 
 	std::string& pkName = packinfo.name;
 	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
-	CU_pSuite pSuite = NULL;
-	pSuite = CU_add_suite(headerTest.c_str(), v2_init, v2_clean);
-	if (NULL == pSuite) 
+	
+#ifdef OCTETOS_CORE_V2
+	CU_pSuite pSuite_v2 = NULL;
+	pSuite_v2 = CU_add_suite(headerTest.c_str(), v2_init, v2_clean);
+	if (NULL == pSuite_v2) 
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 	
-	if ((NULL == CU_add_test(pSuite, "Semver for C.", v2_testsemverc)))
+	if ((NULL == CU_add_test(pSuite_v2, "Semver for C.", v2_testsemverc)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 	
-	if ((NULL == CU_add_test(pSuite, "Criterios de comparación semver v1.0.0", v2_testComparators_v100)))
+	if ((NULL == CU_add_test(pSuite_v2, "Criterios de comparación semver v1.0.0", v2_testComparators_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 			
-	if ((NULL == CU_add_test(pSuite, "Validacion de parseo semver v1.0.0", v2_testParseString_v100)))
+	if ((NULL == CU_add_test(pSuite_v2, "Validacion de parseo semver v1.0.0", v2_testParseString_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}		
-	if ((NULL == CU_add_test(pSuite, "Operaciones genéricas", v2_testOperations_v100)))
+	if ((NULL == CU_add_test(pSuite_v2, "Operaciones genéricas", v2_testOperations_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	if ((NULL == CU_add_test(pSuite, "Validacion de Operaciones semver v1.0.0", v2_testImports_v100)))
+	if ((NULL == CU_add_test(pSuite_v2, "Validacion de Operaciones semver v1.0.0", v2_testImports_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 	
-	if ((NULL == CU_add_test(pSuite, "Validacion de parseo semver v2.0.0", v2_testParseString_v200)))
+	if ((NULL == CU_add_test(pSuite_v2, "Validacion de parseo semver v2.0.0", v2_testParseString_v200)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 
-	if ((NULL == CU_add_test(pSuite, "Memory modules", v2_testMemory)))
+	if ((NULL == CU_add_test(pSuite_v2, "Memory modules", v2_testMemory)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 	
-	if ((NULL == CU_add_test(pSuite, "Data modules", v2_testData)))
+	if ((NULL == CU_add_test(pSuite_v2, "Data modules", v2_testData)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 	
-	if ((NULL == CU_add_test(pSuite, "Prueba de Shell class..", v2_testShell)))
+	if ((NULL == CU_add_test(pSuite_v2, "Prueba de Shell class..", v2_testShell)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+#endif
 	
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);

@@ -21,7 +21,7 @@
  * */
  
  
-#include "Exception.hh"
+#include "Exception-v3.hh"
 
 namespace oct::v3
 {
@@ -72,70 +72,3 @@ std::string Exception::describe() const throw ()
 }
 
 
-
-namespace oct::core::v2
-{
-	
-	Exception::Exception()
-	{
-
-	}
-    Exception::Exception(const std::string& msg)
-    {
-        filename = NULL;
-        line = 0;
-		message = msg;
-        text = msg;
-    }
-    Exception::Exception(const char* fn,int l, const std::string& msg)
-    {
-        filename = fn;
-        line = l;
-		message = msg;
-        text = filename;
-        text = text + " : "+ std::to_string(line) + " -> " + msg;
-    }
-	Exception::Exception( const std::string& msg,const char* fn,int l)
-    {
-        filename = fn;
-        line = l;
-		message = msg;
-        text = filename;
-        text = text + " : "+ std::to_string(line) + " -> " + msg;
-    }
-
-	
-	//getter
-	const std::string& Exception::getMessage()const
-	{
-		return message;
-	}
-	const char* Exception::getFilename()const
-	{
-		return filename;
-	}
-	int Exception::getLine()const
-	{
-		return line;
-	}
-
-	//functions
-    const char* Exception::what () const throw ()
-    {
-        return text.c_str();
-    }
-
-
-
-    InternalException::InternalException() : filename(NULL),line(-1),code(-1)
-    {    
-    }    
-    InternalException::InternalException(int c) : filename(NULL),line(-1),code(c)
-    {
-    
-    }
-    InternalException::InternalException(int c,const char* fn,int l) : filename(fn),line(l),code(c)
-    {
-    
-    }
-}

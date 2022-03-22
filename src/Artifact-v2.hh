@@ -22,20 +22,33 @@
  *
  * */
 
-#include "Artifact-v2.hh"
+
 #include "Version.hh"
 #include "Licence.hh"
 
 
-namespace oct::core
+namespace oct::core::v2
 {
-	typedef oct::core::v2::Artifact Artifact;
-}
 
-namespace octetos::core
-{
-	typedef oct::core::v2::Artifact [[deprecated]]] Artifact;
-	typedef bool oct::core::v2::getPackageInfo(Artifact&) getPackageInfo;
+	class DECLSPCE_DLL Artifact : public Object
+	{
+	public:
+		std::string name;
+		std::string name_decorated;
+		std::string brief;
+		std::string url;
+		Semver version;
+		Licence licence;
+
+		bool write(const std::string&);
+		bool read(const std::string&);
+	};
+
+	/**
+	 * \brief retorna la informacion del paquete
+	 **/
+	bool getPackageInfo(Artifact&);
+
 }
 
 #endif
