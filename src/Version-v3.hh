@@ -31,7 +31,7 @@
 #include "common.h"
 #include "semver-lexer.h"
 
-namespace oct::core::v2
+namespace oct::core::v3
 {
 	class InvalidComparison : public Error
 	{
@@ -53,6 +53,9 @@ namespace oct::core::v2
 		virtual bool operator <(const Version&)const = 0;
 		virtual bool operator >=(const Version&)const = 0;
 		virtual bool operator <=(const Version&)const = 0;
+		virtual bool empty() const= 0;//TODO:proponer para nueva interface
+		virtual Version& operator =(const char*) const= 0;//TODO:proponer para nueva interface
+		virtual Version& operator =(const std::string&) const= 0;//TODO:proponer para nueva interface
 	};
 
 	typedef octetos_core_Semver_FormatString FormatString;
@@ -63,7 +66,7 @@ namespace oct::core::v2
 	*\details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 	*\since 2.0
 	**/
-	class Semver : private octetos_core_Semver , public oct::core::v2::Version
+	class Semver : private octetos_core_Semver , public v3::Version
 	{
 	public:
 		enum ImportCode

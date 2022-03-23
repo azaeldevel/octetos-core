@@ -389,6 +389,10 @@ namespace oct::core::v2
         return false;
     }
 
-
+	bool Semver::empty() const
+	{
+		if(major < 0 and minor < 0 and patch < 0) return true;
+		return false;
+	}
 
 }
