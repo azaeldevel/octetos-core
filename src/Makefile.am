@@ -16,7 +16,7 @@ liboctetos_core_la_SOURCES = \
 	Object.cc \
 	Licence.cc \
 	Version.cc \
-	version-semver.cc \
+	version-semver-v2.cc \
 	semver.tab.c \
 	semver-lexer.cc \
 	Buffer.cc \

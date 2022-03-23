@@ -124,7 +124,3 @@ namespace oct::core::v2
 	}
 
 }
-
-namespace octetos::core
-{
-}

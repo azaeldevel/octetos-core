@@ -1,5 +1,5 @@
-#ifndef OCTETOS_CORE_ARTIFACT_HH
-#define OCTETOS_CORE_ARTIFACT_HH
+#ifndef OCTETOS_CORE_ARTIFACT_V2_HH
+#define OCTETOS_CORE_ARTIFACT_V2_HH
 
 /**
  *
@@ -23,13 +23,11 @@
  * */
 
 
-#include "Version.hh"
+#include "Version-v2.hh"
 #include "Licence.hh"
-
 
 namespace oct::core::v2
 {
-
 	class DECLSPCE_DLL Artifact : public Object
 	{
 	public:
@@ -51,4 +49,9 @@ namespace oct::core::v2
 
 }
 
+namespace octetos::core::v2
+{
+	typedef oct::core::v2::Artifact Artifact;
+	bool getPackageInfo(Artifact&);
+}
 #endif

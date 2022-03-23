@@ -23,19 +23,18 @@
  * */
 
 #include "Artifact-v2.hh"
-#include "Version.hh"
+#include "Version-v2.hh"
 #include "Licence.hh"
 
 
 namespace oct::core
 {
-	typedef oct::core::v2::Artifact Artifact;
+	using namespace oct::core::v2;
 }
 
 namespace octetos::core
 {
-	typedef oct::core::v2::Artifact [[deprecated]]] Artifact;
-	typedef bool oct::core::v2::getPackageInfo(Artifact&) getPackageInfo;
+	using namespace oct::core::v2;
 }
 
 #endif

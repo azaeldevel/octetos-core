@@ -31,7 +31,7 @@
 #include "Version.hh"
 #include "Error.hh"
 
-namespace oct::core
+namespace oct::core::v2
 {
 
     bool Semver::operator !=(const Version& obj)const

@@ -1,6 +1,10 @@
 
-
-#include "v2.hh"
+#ifdef OCTETOS_CORE_V2
+	#include "v2.hh"
+#endif
+#ifdef OCTETOS_CORE_V3
+	#include "v3.hh"
+#endif
 
 int main(int argc, char *argv[])
 {  
@@ -32,8 +36,8 @@ int main(int argc, char *argv[])
 			std::cout << "--bdir=[directory]		Directorio de contrución";
 		}
 	}
-	oct::core::Artifact packinfo;
-	oct::core::getPackageInfo(packinfo);
+	oct::core::v2::Artifact packinfo;
+	oct::core::v2::getPackageInfo(packinfo);
 	if(oct::core::Error::check())
 	{
 		std::cerr << (const std::string&)oct::core::Error::get() << "\n";
@@ -55,7 +59,7 @@ int main(int argc, char *argv[])
 	
 #ifdef OCTETOS_CORE_V2
 	CU_pSuite pSuite_v2 = NULL;
-	pSuite_v2 = CU_add_suite(headerTest.c_str(), v2_init, v2_clean);
+	pSuite_v2 = CU_add_suite("Octetos core v2", v2_init, v2_clean);
 	if (NULL == pSuite_v2) 
 	{
 		CU_cleanup_registry();
@@ -115,6 +119,21 @@ int main(int argc, char *argv[])
 	}
 #endif
 	
+#ifdef OCTETOS_CORE_V3
+	CU_pSuite pSuite_v3 = NULL;
+	pSuite_v3 = CU_add_suite("Octetos core v3", v3_init, v3_clean);
+	if (NULL == pSuite_v2) 
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+	
+	if ((NULL == CU_add_test(pSuite_v3, "Developing v3..", v3_developing)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+#endif
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();

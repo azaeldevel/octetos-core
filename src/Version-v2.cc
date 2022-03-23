@@ -1,7 +1,5 @@
-#ifndef OCTETOS_CORE_EXECPTION_HH
-#define OCTETOS_CORE_EXECPTION_HH
-
 /**
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
@@ -18,27 +16,22 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * */
 
-#include "Exception-v3.hh"
-#include "Exception-v2.hh"
 
-namespace oct
+#include "Version.hh"
+#include "Error.hh"
+
+
+namespace oct::core::v2
 {
-	using namespace v3;
 
-	namespace core
+	InvalidComparison::InvalidComparison(const std::string& msg):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON)
 	{
-		using namespace v2;
 	}
-}
-
-namespace octetos
-{
-	namespace core
+	InvalidComparison::InvalidComparison(const std::string& msg ,std::string filename,int lineNumber):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON,filename,lineNumber)
 	{
-		using namespace oct::core::v2;
 	}
-}
 
-#endif
+}
