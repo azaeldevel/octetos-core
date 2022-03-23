@@ -159,11 +159,4 @@ namespace oct::core::v2
 }
 
 
-namespace octetos::core::v2
-{
-	typedef oct::core::v2::InvalidComparison [[deprecated]] InvalidComparison;
-	typedef oct::core::v2::Version [[deprecated]] Version;
-	typedef oct::core::v2::Semver [[deprecated]] Semver;
-}
-
 #endif

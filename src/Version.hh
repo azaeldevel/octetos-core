@@ -27,12 +27,16 @@
 
 namespace oct::core
 {
-	using namespace v2;
+	using v2::InvalidComparison;
+	using v2::Version;
+	using v2::Semver;
 }
 
 namespace octetos::core
 {
-	using namespace v2;
+	using oct::core::v2::InvalidComparison;
+	using oct::core::v2::Version;
+	using oct::core::v2::Semver;
 }
 
 #endif

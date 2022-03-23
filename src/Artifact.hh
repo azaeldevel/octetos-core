@@ -29,12 +29,14 @@
 
 namespace oct::core
 {
-	using namespace oct::core::v2;
+	using v2::Artifact;
+	using v2::getPackageInfo;
 }
 
 namespace octetos::core
 {
-	using namespace oct::core::v2;
+	using v2::Artifact;
+	using v2::getPackageInfo;
 }
 
 #endif
