@@ -41,7 +41,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -143,29 +143,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\core.hh" />
-    <ClInclude Include="src\data.hh" />
     <ClInclude Include="src\defines.hh" />
-    <ClInclude Include="src\shell.hh" />
-    <ClInclude Include="src\Version.hh" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\cd.cc" />
-    <ClCompile Include="src\common.c" />
-    <ClCompile Include="src\Error.cc" />
-    <ClCompile Include="src\Exception.cc" />
-    <ClCompile Include="src\exists.cc" />
-    <ClCompile Include="src\Message.cc" />
-    <ClCompile Include="src\mkdir.cc" />
-    <ClCompile Include="src\Object.cc" />
-    <ClCompile Include="src\rename.cc" />
-    <ClCompile Include="src\rm.cc" />
-    <ClCompile Include="src\shell.cc" />
-    <ClCompile Include="src\touch.cc" />
-    <ClCompile Include="src\version-semver.cc" />
-    <ClCompile Include="src\Version.cc" />
+    <ClInclude Include="src\Exception-v2.hh" />
+    <ClInclude Include="src\Exception-v3.hh" />
+    <ClInclude Include="src\Exception.hh" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Exception-v2.cc" />
+    <ClCompile Include="src\Exception-v3.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

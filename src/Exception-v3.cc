@@ -23,7 +23,7 @@
  
 #include "Exception-v3.hh"
 
-namespace oct::v3
+namespace oct::core::v3
 {
 Exception::Exception() : _code(0),_filename(NULL),_line(0)
 {

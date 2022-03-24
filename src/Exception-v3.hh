@@ -24,7 +24,7 @@
 #include <exception>
 #include "core.hh"
 
-namespace oct::v3
+namespace oct::core::v3
 {
 class Exception : public std::exception
 {

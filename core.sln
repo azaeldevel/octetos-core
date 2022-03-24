@@ -1,26 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "octetos-core", "core.vcxproj", "{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
+		liboctetos-core-dbg|x64 = liboctetos-core-dbg|x64
+		liboctetos-core-dbg|x86 = liboctetos-core-dbg|x86
+		liboctetos-core-r|x64 = liboctetos-core-r|x64
+		liboctetos-core-r|x86 = liboctetos-core-r|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.Debug|x64.ActiveCfg = Debug|x64
-		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.Debug|x64.Build.0 = Debug|x64
-		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.Debug|x86.ActiveCfg = Debug|Win32
-		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.Debug|x86.Build.0 = Debug|Win32
-		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.Release|x64.ActiveCfg = Release|x64
-		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.Release|x64.Build.0 = Release|x64
-		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.Release|x86.ActiveCfg = Release|Win32
-		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.Release|x86.Build.0 = Release|Win32
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-dbg|x64.ActiveCfg = Debug|x64
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-dbg|x64.Build.0 = Debug|x64
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-dbg|x86.ActiveCfg = Debug|Win32
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-dbg|x86.Build.0 = Debug|Win32
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-r|x64.ActiveCfg = Release|x64
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-r|x64.Build.0 = Release|x64
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-r|x86.ActiveCfg = Release|Win32
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-r|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
