@@ -27,7 +27,7 @@ int v3_clean(void)
 
 void v3_developing()
 {
-	oct::v3::Exception ex1;
+	oct::core::v3::Exception ex1;
 	
 	
 }
