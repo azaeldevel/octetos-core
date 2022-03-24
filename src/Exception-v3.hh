@@ -1,8 +1,8 @@
-#ifndef OCTETOS_CORE_ARTIFACT_HH
-#define OCTETOS_CORE_ARTIFACT_HH
+
+#ifndef OCTETOS_CORE_EXECPTION_V3_HH
+#define OCTETOS_CORE_EXECPTION_V3_HH
 
 /**
- *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
@@ -19,24 +19,35 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  * */
 
-#include "Artifact-v2.hh"
-#include "Version-v2.hh"
-#include "Licence.hh"
+#include <exception>
+#include "core.hh"
 
-
-namespace oct::core
+namespace oct::v3
 {
-	using v2::Artifact;
-	using v2::getPackageInfo;
-}
-
-namespace octetos::core
+class Exception : public std::exception
 {
-	using v2::Artifact;
-	using v2::getPackageInfo;
+public:
+	Exception();
+	Exception(unsigned int code);
+	Exception(unsigned int code,const char* subject);
+	Exception(unsigned int code,const char* filename, unsigned int line);
+	Exception(unsigned int code,const char* filename, unsigned int line,const char* subject);
+	
+	unsigned int code()const;
+	const char* filename()const;
+	unsigned int line()const;
+	const char* subject()const;
+
+	virtual std::string describe() const throw ();
+
+protected:
+	unsigned int _code;
+	const char* _filename;
+	unsigned int _line;
+	const char* _subject;
+};
 }
 
 #endif

@@ -31,11 +31,11 @@
 #endif
 
 
-#include "Artifact.hh"
+#include "Artifact-v2.hh"
 #include "Error.hh"
 
 
-namespace oct::core
+namespace oct::core::v2
 {
 
 	bool Artifact::read(const std::string& file)
@@ -123,12 +123,4 @@ namespace oct::core
 		return true;
 	}
 
-}
-
-namespace octetos::core
-{
-	bool getPackageInfo(Artifact& p)
-	{
-		return oct::core::getPackageInfo(p);
-	};
 }

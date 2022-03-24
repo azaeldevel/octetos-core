@@ -20,72 +20,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-
-
-#include <exception>
-
-#include "core.hh"
-
+#include "Exception-v3.hh"
+#include "Exception-v2.hh"
 
 namespace oct
 {
-class Exception : public std::exception
-{
-public:
-	Exception();
-	Exception(unsigned int code);
-	Exception(unsigned int code,const char* filename, unsigned int line);
+	using v3::Exception;
 
-protected:
-	unsigned int code;
-	const char* filename;
-	unsigned int line;
-};
-}
-namespace oct::core
-{
-
-class Exception : public std::exception
-{
-protected:
-    int line;
-    const char* filename;
-    std::string message;
-    std::string text;
-	
-public:
-	Exception();
-    Exception(const char* fn,int line, const std::string& msg);
-    Exception(const std::string& msg,const char* fn,int line);
-    Exception(const std::string& msg);
-
-	//getter
-	const std::string& getMessage()const;
-	const char* getFilename()const;
-	int getLine()const;
-
-	//functions
-    virtual const char* what () const throw ();
-};
-
-class InternalException: public std::exception
-{
-protected:
-    int line,code;
-    const char* filename;
-	
-public:
-	InternalException();
-	InternalException(int code);
-    InternalException(int code,const char* fn,int line);
-    
-};
-
+	namespace core
+	{
+		using v2::Exception;
+		using v2::InternalException;
+	}
 }
 
-namespace octetos::core
+namespace octetos
 {
-	typedef oct::core::Exception Exception DEPRECATED;
+	namespace core
+	{
+		using oct::core::v2::Exception;
+	}
 }
 
 #endif

@@ -19,24 +19,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * */
+ 
+ 
+#include "Exception-v2.hh"
 
-
-#include "Exception.hh"
-
-namespace oct
-{
-Exception::Exception() : code(0),filename(NULL),line(0)
-{
-}
-Exception::Exception(unsigned int c) : code(c),filename(NULL),line(0)
-{
-}
-Exception::Exception(unsigned int c,const char* fn, unsigned int l) : code(c),filename(fn),line(l)
-{
-}
-}
-
-namespace oct::core
+namespace oct::core::v2
 {
 
 	Exception::Exception()

@@ -1,5 +1,5 @@
-#ifndef OCTETOS_CORE_ARTIFACT_HH
-#define OCTETOS_CORE_ARTIFACT_HH
+#ifndef OCTETOS_CORE_ARTIFACT_V2_HH
+#define OCTETOS_CORE_ARTIFACT_V2_HH
 
 /**
  *
@@ -22,21 +22,36 @@
  *
  * */
 
-#include "Artifact-v2.hh"
+
 #include "Version-v2.hh"
 #include "Licence.hh"
 
-
-namespace oct::core
+namespace oct::core::v2
 {
-	using v2::Artifact;
-	using v2::getPackageInfo;
+	class DECLSPCE_DLL Artifact : public Object
+	{
+	public:
+		std::string name;
+		std::string name_decorated;
+		std::string brief;
+		std::string url;
+		Semver version;
+		Licence licence;
+
+		bool write(const std::string&);
+		bool read(const std::string&);
+	};
+
+	/**
+	 * \brief retorna la informacion del paquete
+	 **/
+	bool getPackageInfo(Artifact&);
+
 }
 
-namespace octetos::core
+namespace octetos::core::v2
 {
-	using v2::Artifact;
-	using v2::getPackageInfo;
+	typedef oct::core::v2::Artifact Artifact;
+	bool getPackageInfo(Artifact&);
 }
-
 #endif

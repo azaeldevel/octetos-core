@@ -1,6 +1,3 @@
-#ifndef OCTETOS_CORE_ARTIFACT_HH
-#define OCTETOS_CORE_ARTIFACT_HH
-
 /**
  *
  *  This file is part of octetos-core.
@@ -22,21 +19,19 @@
  *
  * */
 
-#include "Artifact-v2.hh"
-#include "Version-v2.hh"
-#include "Licence.hh"
+
+#include "Version.hh"
+#include "Error.hh"
 
 
-namespace oct::core
+namespace oct::core::v2
 {
-	using v2::Artifact;
-	using v2::getPackageInfo;
-}
 
-namespace octetos::core
-{
-	using v2::Artifact;
-	using v2::getPackageInfo;
-}
+	InvalidComparison::InvalidComparison(const std::string& msg):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON)
+	{
+	}
+	InvalidComparison::InvalidComparison(const std::string& msg ,std::string filename,int lineNumber):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON,filename,lineNumber)
+	{
+	}
 
-#endif
+}

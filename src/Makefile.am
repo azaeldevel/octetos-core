@@ -8,26 +8,27 @@ liboctetos_core_la_CXXFLAGS = $(CUNIT_CFLGAS) $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLG
 liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)
 liboctetos_core_la_SOURCES = \
 	common.c \
-	Artifact.cc \
-	Exception.cc \
+	Artifact-v2.cc \
+	Exception-v2.cc \
+	Exception-v3.cc \
 	Error.cc \
 	Message.cc \
 	Object.cc \
 	Licence.cc \
 	Version.cc \
-	version-semver.cc \
+	version-semver-v2.cc \
 	semver.tab.c \
 	semver-lexer.cc \
 	Buffer.cc \
 	Memory.cc \
 	core.cc \
 	shell.cc cd.cc ls.cc exists.cc mkdir.cc rename.cc rm.cc touch.cc \
-	MD5sum.cc
+	MD5sum.cc 
 
 
 octetos_core_includedir = $(includedir)/octetos/core
-octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Message.hh Error.hh \
-	Object.hh Artifact.hh Licence.hh Buffer.hh defines.hh Exception.hh data.hh \
+octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Version-v2.hh Message.hh Error.hh \
+	Object.hh Artifact.hh Artifact-v2.hh Licence.hh Buffer.hh defines.hh Exception.hh Exception-v2.hh Exception-v3.hh data.hh \
 	memory.hh Memory.hh core.hh shell.hh MD5sum.hh
 
 pkgconfigdir = $(libdir)/pkgconfig

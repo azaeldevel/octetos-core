@@ -34,7 +34,7 @@ namespace oct::core
     * \details Aunque se puede comportar como una exception estandar, su pricipal capacidad radica en sus metodo get, chech y write (staticos). Unaves escrito un mesaje mediante write esta dispoble para el retos del modulo mediante la funcion get. Use chech para determinar si hay alguno error registrado sin leer.
     * */
 	
-	class [[deprecated]]  Error : public Exception
+	class Error : public Exception
 	{
 	public:
 		/**
@@ -117,23 +117,23 @@ namespace oct::core
 		/**
 		* \brief Retorna el error si lo hay
 		* */
-		static Error get();
+		[[deprecated]]  static Error get();
 		/**
 		* \brief Retorna el error si lo hay
 		* */
-		static const Error* see() ;
+		[[deprecated]]  static const Error* see() ;
 		/**
 		* \brief Verifica si hay error en el registro.
 		* \details Esta funcion no modifica el registro. Usela al inciar una funcion si retorna true termine su funcion con error pero sin escribir uno nuevo. Una vez que la funcion apropiada reciba de nuevo el control prodra usará get para determinar el error causado.
 		* \return returna true si hay un error en el registro o falso en otro caso.
 		* */
-		static bool check();
+		[[deprecated]]  static bool check();
 		/**
 		* \brief Registra un nuevo error
 		* \details Si hay un error registrado la funcion retronara de inmediato con valor false, de otra forma escribira el error y retornara con valor true.
 		* \return true si registro el error y falso si fallo(muy provablemento devido a que ya habia un error registrado)
 		* */
-		static bool write(const Error& e);
+		[[deprecated]]  static bool write(const Error& e);
 	private:
 		/**
 		* \brief el mesaje de error es contruido durante la contruccion del objeto y se almacena aquí.
@@ -150,7 +150,7 @@ namespace oct::core
 
 namespace octetos::core
 {
-	typedef oct::core::Error [[deprecated]] Error;
+	typedef oct::core::Error Error;
 }
 
 #endif
