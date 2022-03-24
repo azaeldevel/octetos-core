@@ -36,7 +36,7 @@
 
 namespace oct::core
 {
-#if defined(__GNUG__) && (defined(__linux__) || defined(WINDOWS_MINGW))
+#if defined(__linux__)
 	void Shell::chown(const std::string& fn,uid_t u)
 	{
 		chown(fn,u,gid());
@@ -51,7 +51,6 @@ namespace oct::core
 	}
 	void Shell::chown(const std::string& fn, uid_t u, gid_t g)
 	{
-
 		/*std::string text = "user :";
 		text += std::to_string(u);
 		text += "\n";
@@ -104,11 +103,8 @@ namespace oct::core
 					msg += "Invalid flag specified in flags.";
 					break;
 			}
-
 			throw Exception(msg,__FILE__,__LINE__);
-
 		}
-
 	}
 	uid_t Shell::uid() const
 	{
@@ -130,11 +126,11 @@ namespace oct::core
 		{
 
 #if defined(__GNUG__) && defined(__linux__)
-			setenv(env->name.c_str(), env->value.c_str(), 1);
+        setenv(env->name.c_str(), env->value.c_str(), 1);
 #elif defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
-			_putenv((env->name + "=" + env->value).c_str());
+        _putenv((env->name + "=" + env->value).c_str());
 #else
-#error "Pltaforma desconocida"
+    #error "Pltaforma desconocida"
 #endif
 		}
 	}
@@ -155,7 +151,6 @@ namespace oct::core
 	}
 	Shell::~Shell()
 	{
-
 	}
 
 }

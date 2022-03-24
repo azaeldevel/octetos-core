@@ -32,8 +32,8 @@
 #include <sys/types.h>
 #include <vector>
 #ifdef __GNUC__
-#include <dirent.h>
-#include <unistd.h>
+    #include <dirent.h>
+    #include <unistd.h>
 #endif
 
 #include "Exception.hh"
@@ -46,7 +46,7 @@ namespace oct::core
 		std::string value;
 	};
 
-	DECLSPCE_DLL class Shell
+	class Shell
 	{
 	private:
 
@@ -85,7 +85,7 @@ namespace oct::core
 		void set(std::vector<Enviroment*>);
 		int execute(const std::string&);
 		void echo(const std::string&, std::ostream& out = std::cout);
-#if defined(__GNUG__) && (defined(__linux__) || defined(WINDOWS_MINGW))
+#if defined(__linux__)
 		int chmod(const std::string&, int mode);
 		void ln(const std::string&, int m = 0);
 		uid_t uid() const;

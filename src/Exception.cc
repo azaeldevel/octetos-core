@@ -19,8 +19,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * */
- 
- 
+
+
 #include "Exception.hh"
 
 namespace oct
@@ -38,10 +38,9 @@ Exception::Exception(unsigned int c,const char* fn, unsigned int l) : code(c),fi
 
 namespace oct::core
 {
-	
+
 	Exception::Exception()
 	{
-
 	}
     Exception::Exception(const std::string& msg)
     {
@@ -67,7 +66,7 @@ namespace oct::core
         text = text + " : "+ std::to_string(line) + " -> " + msg;
     }
 
-	
+
 	//getter
 	const std::string& Exception::getMessage()const
 	{
@@ -91,14 +90,12 @@ namespace oct::core
 
 
     InternalException::InternalException() : filename(NULL),line(-1),code(-1)
-    {    
-    }    
+    {
+    }
     InternalException::InternalException(int c) : filename(NULL),line(-1),code(c)
     {
-    
     }
     InternalException::InternalException(int c,const char* fn,int l) : filename(fn),line(l),code(c)
     {
-    
     }
 }
