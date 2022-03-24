@@ -25,8 +25,6 @@
 
 namespace oct
 {
-	using v3::Exception;
-
 	namespace core
 	{
 		using v2::Exception;
@@ -39,6 +37,7 @@ namespace octetos
 	namespace core
 	{
 		using oct::core::v2::Exception;
+		using oct::core::v2::InternalException;
 	}
 }
 

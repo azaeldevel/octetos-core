@@ -13,12 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Parser">
+      <UniqueIdentifier>{e7b6d77c-a25c-4640-83ae-ebc3d5531a06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="src\data.hh">
+    <ClInclude Include="src\Exception-v3.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Exception.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Exception-v2.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="src\defines.hh">
@@ -27,55 +36,54 @@
     <ClInclude Include="src\Version.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="src\shell.hh">
+    <ClInclude Include="src\Version-v2.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Buffer.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Error.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Error.cc">
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Exception-v2.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\Exception.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\exists.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Message.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mkdir.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Object.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rename.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rm.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\shell.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\touch.cc">
+    <ClCompile Include="src\Exception-v3.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="src\Version.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\version-semver.cc">
+    <ClCompile Include="src\version-semver-v2.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\cd.cc">
+    <ClCompile Include="src\Version-v2.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="src\common.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="src\semver-lexer.cc">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Buffer.cc">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Error.cc">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <CustomBuild Include="src\semver.y">
+      <Filter>Parser</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

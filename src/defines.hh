@@ -48,10 +48,10 @@
 
 #define ALPHA_PHASE_ATTRIBUTE "Not use yet, alpha phase"
 
-#if defined(__GNUG__) && defined(__linux__)
+#if defined(__linux__)
 
-#elif defined(__GNUG__) && (defined(_WIN32) || defined(_WIN64))
+#elif (defined(_WIN32) || defined(_WIN64))
 
 #else
-	#error "Pltaforma desconocida"
+	#error "Plataforma desconocida"
 #endif

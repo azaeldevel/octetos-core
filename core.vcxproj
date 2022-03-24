@@ -17,6 +17,14 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="tests-v2|Win32">
+      <Configuration>tests-v2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="tests-v2|x64">
+      <Configuration>tests-v2</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -41,7 +49,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -52,6 +60,12 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='tests-v2|Win32'">
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='tests-v2|x64'">
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -79,6 +93,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <PublicIncludeDirectories>$(PublicIncludeDirectories)</PublicIncludeDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -119,11 +134,16 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalOptions>/w34996 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(Platform)\$(Configuration)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -142,30 +162,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Buffer.hh" />
+    <ClInclude Include="src\common.h" />
     <ClInclude Include="src\core.hh" />
-    <ClInclude Include="src\data.hh" />
     <ClInclude Include="src\defines.hh" />
-    <ClInclude Include="src\shell.hh" />
+    <ClInclude Include="src\Error.hh" />
+    <ClInclude Include="src\Exception-v2.hh" />
+    <ClInclude Include="src\Exception-v3.hh" />
+    <ClInclude Include="src\Exception.hh" />
+    <ClInclude Include="src\Version-v2.hh" />
     <ClInclude Include="src\Version.hh" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cd.cc" />
-    <ClCompile Include="src\common.c" />
-    <ClCompile Include="src\Error.cc" />
-    <ClCompile Include="src\Exception.cc" />
-    <ClCompile Include="src\exists.cc" />
-    <ClCompile Include="src\Message.cc" />
-    <ClCompile Include="src\mkdir.cc" />
-    <ClCompile Include="src\Object.cc" />
-    <ClCompile Include="src\rename.cc" />
-    <ClCompile Include="src\rm.cc" />
-    <ClCompile Include="src\shell.cc" />
-    <ClCompile Include="src\touch.cc" />
-    <ClCompile Include="src\version-semver.cc" />
-    <ClCompile Include="src\Version.cc" />
+    <None Include="packages.config" />
+    <CustomBuild Include="src\semver.y">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">bison  -d -o $(Platform)\$(Configuration)\semver.tab.c $(SolutionDir)src\semver.y</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Running bison..</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">semver.tab.c</Outputs>
+      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
+      <OutputItemType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Font</OutputItemType>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ClCompile Include="src\Buffer.cc" />
+    <ClCompile Include="src\common.c" />
+    <ClCompile Include="src\Error.cc" />
+    <ClCompile Include="src\Exception-v2.cc" />
+    <ClCompile Include="src\Exception-v3.cc" />
+    <ClCompile Include="src\semver-lexer.cc" />
+    <ClCompile Include="src\version-semver-v2.cc" />
+    <ClCompile Include="src\Version-v2.cc" />
+    <ClCompile Include="src\Version.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

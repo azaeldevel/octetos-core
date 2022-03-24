@@ -25,10 +25,9 @@
 
 namespace oct::core::v2
 {
-	
+
 	Exception::Exception()
 	{
-
 	}
     Exception::Exception(const std::string& msg)
     {
@@ -54,7 +53,7 @@ namespace oct::core::v2
         text = text + " : "+ std::to_string(line) + " -> " + msg;
     }
 
-	
+
 	//getter
 	const std::string& Exception::getMessage()const
 	{
@@ -78,14 +77,12 @@ namespace oct::core::v2
 
 
     InternalException::InternalException() : filename(NULL),line(-1),code(-1)
-    {    
-    }    
+    {
+    }
     InternalException::InternalException(int c) : filename(NULL),line(-1),code(c)
     {
-    
     }
     InternalException::InternalException(int c,const char* fn,int l) : filename(fn),line(l),code(c)
     {
-    
     }
 }

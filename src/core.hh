@@ -46,7 +46,7 @@ namespace oct
 #elif (defined(_WIN32) || defined(_WIN64))
 
 #else
-    #error "Pltaforma desconocida"
+    #error "Plataforma desconocida"
 #endif
 
 }
