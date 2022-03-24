@@ -93,6 +93,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <PublicIncludeDirectories>$(PublicIncludeDirectories)</PublicIncludeDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -133,6 +134,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalOptions>/w34996 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(Platform)\$(Configuration)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,6 +166,7 @@
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\core.hh" />
     <ClInclude Include="src\defines.hh" />
+    <ClInclude Include="src\Error.hh" />
     <ClInclude Include="src\Exception-v2.hh" />
     <ClInclude Include="src\Exception-v3.hh" />
     <ClInclude Include="src\Exception.hh" />
@@ -175,7 +178,7 @@
     <CustomBuild Include="src\semver.y">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">bison  -d $(SolutionDir)src\semver.y</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">bison  -d -o $(Platform)\$(Configuration)\semver.tab.c $(SolutionDir)src\semver.y</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Running bison..</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">semver.tab.c</Outputs>
       <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
@@ -185,6 +188,7 @@
   <ItemGroup>
     <ClCompile Include="src\Buffer.cc" />
     <ClCompile Include="src\common.c" />
+    <ClCompile Include="src\Error.cc" />
     <ClCompile Include="src\Exception-v2.cc" />
     <ClCompile Include="src\Exception-v3.cc" />
     <ClCompile Include="src\semver-lexer.cc" />
