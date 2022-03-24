@@ -11,6 +11,8 @@ Global
 		liboctetos-core-dbg|x86 = liboctetos-core-dbg|x86
 		liboctetos-core-r|x64 = liboctetos-core-r|x64
 		liboctetos-core-r|x86 = liboctetos-core-r|x86
+		tests-v2|x64 = tests-v2|x64
+		tests-v2|x86 = tests-v2|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-dbg|x64.ActiveCfg = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-r|x64.Build.0 = Release|x64
 		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-r|x86.ActiveCfg = Release|Win32
 		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.liboctetos-core-r|x86.Build.0 = Release|Win32
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.tests-v2|x64.ActiveCfg = Debug|x64
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.tests-v2|x64.Build.0 = Debug|x64
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.tests-v2|x86.ActiveCfg = tests-v2|Win32
+		{0AAB0A9F-7125-45E9-8CD1-AE26E5C0E9CB}.tests-v2|x86.Build.0 = tests-v2|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
