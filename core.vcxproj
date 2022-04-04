@@ -170,6 +170,7 @@
     <ClInclude Include="src\Exception-v2.hh" />
     <ClInclude Include="src\Exception-v3.hh" />
     <ClInclude Include="src\Exception.hh" />
+    <ClInclude Include="src\semver.tab.h" />
     <ClInclude Include="src\Version-v2.hh" />
     <ClInclude Include="src\Version.hh" />
   </ItemGroup>
@@ -178,7 +179,7 @@
     <CustomBuild Include="src\semver.y">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">bison  -d -o $(Platform)\$(Configuration)\semver.tab.c $(SolutionDir)src\semver.y</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">bison  -d -o $(SolutionDir)src\semver.tab.c $(SolutionDir)src\semver.y</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Running bison..</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">semver.tab.c</Outputs>
       <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
@@ -192,6 +193,7 @@
     <ClCompile Include="src\Exception-v2.cc" />
     <ClCompile Include="src\Exception-v3.cc" />
     <ClCompile Include="src\semver-lexer.cc" />
+    <ClCompile Include="src\semver.tab.c" />
     <ClCompile Include="src\version-semver-v2.cc" />
     <ClCompile Include="src\Version-v2.cc" />
     <ClCompile Include="src\Version.cc" />
@@ -199,13 +201,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\libconfig_vc120.1.4.9.4\build\native\libconfig_vc120.targets" Condition="Exists('packages\libconfig_vc120.1.4.9.4\build\native\libconfig_vc120.targets')" />
-    <Import Project="packages\bison-win32.2.4.1.1\build\native\bison-win32.targets" Condition="Exists('packages\bison-win32.2.4.1.1\build\native\bison-win32.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\libconfig_vc120.1.4.9.4\build\native\libconfig_vc120.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\libconfig_vc120.1.4.9.4\build\native\libconfig_vc120.targets'))" />
-    <Error Condition="!Exists('packages\bison-win32.2.4.1.1\build\native\bison-win32.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\bison-win32.2.4.1.1\build\native\bison-win32.targets'))" />
   </Target>
 </Project>

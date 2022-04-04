@@ -48,6 +48,9 @@
     <ClInclude Include="src\Error.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="src\semver.tab.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -78,6 +81,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="src\Error.cc">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\semver.tab.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
