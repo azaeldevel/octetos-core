@@ -34,6 +34,5 @@ octetos-core.anjuta
 src/dummy.c
 src/test.py
 py-compile
-src/semver.tab.*
 .vs
 packages

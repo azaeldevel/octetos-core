@@ -157,6 +157,8 @@ namespace oct::core::v3
 		virtual bool operator >=(const Version&)const;
 		virtual bool operator <=(const Version&)const;
 		virtual bool empty() const;
+
+		bool parser(const char* );
 	};
 
 

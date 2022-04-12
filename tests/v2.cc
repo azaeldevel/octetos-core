@@ -416,6 +416,11 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
+
+
+	//bool Semver::parser(const char* )
+	oct::core::Semver ver15;
+	ver15.parser("test parser");
 }
 
 void v2_testParseString_v200()

@@ -31,21 +31,5 @@ namespace oct::core::v2
 	InvalidComparison::InvalidComparison(const std::string& msg ,std::string filename,int lineNumber):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON,filename,lineNumber)
 	{
 	}
-
-	bool Semver::parser(const char* str)const
-	{
-		octetos_core_Tray ty;
-        ty.dysplay_erro = 0;
-        ty.version = this;
-        ty.buffer = NULL;
-        ty.state = 0;
-        std::string cmdstr = "extract all from ";
-        cmdstr += str;
-        ty.str = (char*)cmdstr.c_str();
-
-		//parser
-		
-		
-        return false;
-	}
+	
 }
