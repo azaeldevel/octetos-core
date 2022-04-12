@@ -59,7 +59,7 @@ namespace oct::core::v2
 	typedef octetos_core_semver_Number Number;
 
 	/**
-	*\brief Implemete un subconjuto de semver v2.0.0
+	*\brief Implementacion de un subconjuto de semver v2.0.0
 	*\details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 	*\since 2.0
 	**/
@@ -154,6 +154,8 @@ namespace oct::core::v2
 		virtual bool operator >=(const Version&)const;
 		virtual bool operator <=(const Version&)const;
 		virtual bool empty() const;
+
+		bool parser(const char* ) const;
 	};
 
 

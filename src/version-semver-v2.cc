@@ -369,7 +369,8 @@ namespace oct::core::v2
         cmdstr += str;
         ty.str = (char*)cmdstr.c_str();
         int ret = parse_string(&ty);
-
+		if(ty.buffer) delete ty.buffer;
+		
         if (ret == 0) return true;
         return false;
     }
@@ -384,6 +385,7 @@ namespace oct::core::v2
         cmdstr += str;
         ty.str = (char*)cmdstr.c_str();
         int ret = parse_string(&ty);
+		if(ty.buffer) delete ty.buffer;
 
         if (ret == 0) return true;
         return false;

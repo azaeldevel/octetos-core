@@ -1342,7 +1342,7 @@ void v2_testShell()
 	if(itFind != dirs.end()) 
 	{
 		CU_ASSERT(false);
-		std::cerr << "No ejecutar en el directorio raiz";
+		std::cerr << "No ejecutar en el directorio raiz, las pruebas se ejecutan en el directorio correspondiente\n";
 		return;
 	}
 	for(const std::string str : dirs)
