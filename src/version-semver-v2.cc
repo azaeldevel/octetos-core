@@ -193,6 +193,10 @@ namespace oct::core::v2
 
 		return "";
 	}
+	const char* Semver::getBuild() const
+	{
+		return build;
+	}
 	bool Semver::set(unsigned long ver,ImportCode import)
 	{
 		if(import == ImportCode::MySQL)

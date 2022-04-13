@@ -92,6 +92,8 @@ namespace oct::core::v2
 
 		std::string getPrerelease() const;
 
+		const char* getBuild() const;
+
 		/**
 		* \brief Asigna todos los campos de version.
 		* */
@@ -154,8 +156,7 @@ namespace oct::core::v2
 		virtual bool operator >=(const Version&)const;
 		virtual bool operator <=(const Version&)const;
 		virtual bool empty() const;
-
-		
+				
 		bool parser(const char* );
 	};
 

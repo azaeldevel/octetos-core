@@ -344,6 +344,7 @@ int yylex(struct octetos_core_Tray* ty)
 					c_post = buffer->check_char(1);
 				}
 				buffer->proceed();
+				//std::cout << "Build 1 '" << buffer->get_text() << "'\n";
 				yylval.str = buffer->get_text();
 				ty->state = 0;
 				return BUILD_VALUE;

@@ -88,6 +88,8 @@ namespace oct::core::v3
 
 		const char* getPrerelease() const;
 
+		const char* getBuild() const;
+
 		/**
 		* \brief Asigna todos los campos de version.
 		* */

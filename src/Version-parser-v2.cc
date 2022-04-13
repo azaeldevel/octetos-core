@@ -37,6 +37,7 @@ namespace oct::core::v2
 		
 		if(tok == v3::BUILD_VALUE)
 		{
+			//std::cout << "Build 1 '" << v3::yylval.str << "'\n";
 			if(ty->version->build) free((void*)ty->version->build);
 			short strl = strlen(v3::yylval.str);
 			char* newstr = (char*)malloc(strl + 1);
@@ -117,15 +118,16 @@ namespace oct::core::v2
 		{
 			tok = grammar_prer(ty);
 		}
-		
+
+		tok = grammar_version(ty);
 		if(tok == v3::ENDOFINPUT) return tok;
-		
+		//std::cout << "tok : " << tok << "<<--\n";
 		if(tok == '+')
 		{
 			tok = grammar_build(ty);
 		}
 		
-		return true;
+		return tok;
 	}
 	bool Semver::parser(const char* str)
 	{

@@ -428,7 +428,6 @@ void v2_reduced_parser()
 	CU_ASSERT(ver15.getMinor() == 30);
 	//std::cout << "M : " << ver15.getMajor() << "\n";
 	//std::cout << "m : " << ver15.getMinor() << "\n";
-
 	
 	oct::core::Semver ver16;
 	CU_ASSERT(ver16.parser("5.30-alpha"));
@@ -436,6 +435,14 @@ void v2_reduced_parser()
 	CU_ASSERT(ver16.getMinor() == 30);
 	CU_ASSERT(ver16.getPrerelease().compare("alpha") == 0);
 	//std::cout << "prerelease : " << ver16.getPrerelease() << "\n";
+	
+	oct::core::Semver ver17;
+	CU_ASSERT(ver17.parser("5.30-alpha+mountain"));
+	CU_ASSERT(ver17.getMajor() == 5);
+	CU_ASSERT(ver17.getMinor() == 30);
+	CU_ASSERT(ver17.getPrerelease().compare("alpha") == 0);
+	//CU_ASSERT(strcmp(ver17.getBuild(),"mountain") == 0);
+	//std::cout << "build : " << ver17.getBuild() << "\n";
 }
 
 void v2_testParseString_v200()
