@@ -434,6 +434,7 @@ void v2_reduced_parser()
 	CU_ASSERT(ver16.parser("5.30-alpha"));
 	CU_ASSERT(ver16.getMajor() == 5);
 	CU_ASSERT(ver16.getMinor() == 30);
+	CU_ASSERT(ver16.getPrerelease().compare("alpha") == 0);
 	//std::cout << "prerelease : " << ver16.getPrerelease() << "\n";
 }
 

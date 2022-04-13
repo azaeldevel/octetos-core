@@ -279,7 +279,7 @@ int yylex(struct octetos_core_Tray* ty)
 				else if(is_letter(c))
 				{
 					return c;
-				}	
+				}
 				else if(c == '.')
 				{
 					buffer->proceed();
@@ -290,6 +290,7 @@ int yylex(struct octetos_core_Tray* ty)
 				{
 					buffer->proceed();
 					ty->state = PRERELEASE_VALUE;
+					//std::cout << "prefix : '" << c << "'\n";
 					return c;
 				}
 				else if(c == '+')
@@ -329,8 +330,9 @@ int yylex(struct octetos_core_Tray* ty)
 					c_post = buffer->check_char(1);
 				}
 				buffer->proceed();
-				std::cout << "Prerelease 1 '" << buffer->get_text() << "'\n";
-				yylval.str = buffer->get_text();				
+				//std::cout << "Prerelease 1 '" << buffer->get_text() << "'\n";
+				yylval.str = buffer->get_text();
+				ty->state = 0;
 				return PRERELEASE_VALUE;
 			}
 			case BUILD_VALUE:

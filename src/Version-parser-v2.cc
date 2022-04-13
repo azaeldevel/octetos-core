@@ -31,14 +31,15 @@
 
 namespace oct::core::v2
 {
-	bool grammar_prer(octetos_core_Tray* ty)
+	int grammar_prer(octetos_core_Tray* ty)
 	{
 		int tok = v3::yylex(ty);
 		//std::cout << "tok prer 2 '" << tok << "'\n";
 		
 		if(tok == v3::PRERELEASE_VALUE)
 		{
-			std::cout << "Prerelease 2 '" << v3::yylval.str << "'\n";
+			//std::cout << "Prerelease 2 '" << v3::yylval.str << "'\n";
+			if(ty->version->prerelease) free((void*)ty->version->prerelease);
 			short strl = strlen(v3::yylval.str);
 			char* newstr = (char*)malloc(strl + 1);
 			strcpy(newstr,v3::yylval.str);				
@@ -48,7 +49,7 @@ namespace oct::core::v2
 
 		return false;
 	}
-	bool grammar_version(octetos_core_Tray* ty)
+	int grammar_version(octetos_core_Tray* ty)
 	{
 		int tok = v3::yylex(ty);
 		//std::cout << "tok " << tok << "\n";
@@ -59,57 +60,43 @@ namespace oct::core::v2
 			ty->version->major = v3::yylval.sval;
 			//std::cout << "Major : " << ty->version->major << "\n";
 			tok = v3::yylex(ty);
-			if(tok == v3::ENDOFINPUT) return true;
+			if(tok == v3::ENDOFINPUT) return tok;
 			if(tok == '.')
 			{
 				tok = v3::yylex(ty);
-				if(tok == v3::ENDOFINPUT) return true;
+				if(tok == v3::ENDOFINPUT) return tok;
 				if(tok == v3::NUMBER_VALUE)
 				{
 					ty->version->minor = v3::yylval.sval;
 					//std::cout << "minor : " << ty->version->minor << "\n";
 					tok = v3::yylex(ty);
-					if(tok == v3::ENDOFINPUT) return true;
+					//std::cout << "next : " << tok << "\n";
+					if(tok == v3::ENDOFINPUT) return tok;
 					if(tok == '.')
 					{
 						tok = v3::yylex(ty);
-						if(tok == v3::ENDOFINPUT) return true;
+						if(tok == v3::ENDOFINPUT) return tok;
 						if(tok == v3::NUMBER_VALUE)
 						{
 							ty->version->patch = v3::yylval.sval;
-							return true;
 						}
 					}
-					else
-					{
-						return true;
-					}
 				}
-				else
-				{
-					return false;
-				}
-			}
-			else
-			{
-				return true;
 			}
 		}
 		
-		return false;
+		return tok;
 	}
 	/**
 	  * \brief
 	  * \ return true si la gramatica coincide false en otro caso.
 	  */
-	bool grammar_stmt(octetos_core_Tray* ty)
+	int grammar_stmt(octetos_core_Tray* ty)
 	{
-		if(not grammar_version(ty)) return false;
+		int tok = grammar_version(ty);
 
-		int tok = v3::yylex(ty);
-		std::cout << "tok prer 1 " << tok << "\n";
-		if(tok == v3::ENDOFINPUT) return true;
-		std::cout << "tok prer 2 " << tok << "\n";
+		if(tok == v3::ENDOFINPUT) return tok;
+		
 		if(tok == '-')
 		{
 			if(not grammar_prer(ty)) return false;

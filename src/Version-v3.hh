@@ -69,13 +69,6 @@ namespace oct::core::v3
 	class Semver : private octetos_core_Semver , public v3::Version
 	{
 	public:
-		enum ImportCode
-		{
-			MySQL,
-			PostgreSQL,
-		};
-
-	public:
 		/**
 		* \brief Limpia todos los datos
 		* */
@@ -93,7 +86,7 @@ namespace oct::core::v3
 		* */
 		Number getPatch() const;
 
-		std::string getPrerelease() const;
+		const char* getPrerelease() const;
 
 		/**
 		* \brief Asigna todos los campos de version.
@@ -129,11 +122,19 @@ namespace oct::core::v3
 		* \brief Retorna una representa en texto de la version.
 		* \param formato Determina el formato generado.
 		* */
-		std::string toString(FormatString formato = FormatString::FullString) const;
+		//std::string toString(FormatString formato = FormatString::FullString) const;
 		operator std::string()const;
 		virtual ~Semver();
 		Semver(const Semver&);
 		Semver();
+		/**
+		* \brief Crea el objeto a partir de un string
+		* */
+		Semver(const char*);
+		/**
+		* \brief Asigna numero major.
+		* */
+		Semver(Number major);
 		/**
 		* \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
 		* */
@@ -147,7 +148,7 @@ namespace oct::core::v3
 		* */
 		const octetos_core_Semver& operator =(const octetos_core_Semver& v);
 		const Semver& operator =(const Semver& v);
-		bool extractNumbers(const std::string&);
+		//bool extractNumbers(const std::string&);
 
 
 		virtual bool operator ==(const Version&)const;
