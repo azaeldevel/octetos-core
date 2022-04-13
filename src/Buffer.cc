@@ -27,7 +27,14 @@
 
 namespace oct::core
 {
- 
+
+bool Buffer::empty() const
+{
+	if(buffer1[forward] == NULL) return true;
+	if(forward + 1 < bsize) return false;
+
+	return true;
+}
 void Buffer::prev_char()
 {
 	forward--;

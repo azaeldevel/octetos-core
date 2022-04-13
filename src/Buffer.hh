@@ -54,6 +54,8 @@ public:
 	void back();
 	const char* get_text() const;
 	const char* get_buffer(unsigned short) const;
+
+	bool empty() const;
 };
 
 

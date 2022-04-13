@@ -35,15 +35,23 @@ namespace oct::core::v2
 		{
 			//ty->version->major = atoi(((Buffer*)ty->buffer)->get_text());
 			ty->version->major = v3::yylval.sval;
-			std::cout << "Major : " << ty->version->major << "\n";
+			//std::cout << "Major : " << ty->version->major << "\n";
+			tok = v3::yylex(ty);
+			if(tok == v3::ENDOFINPUT) return true;
 			if(tok == '.')
 			{
+				tok = v3::yylex(ty);
+				if(tok == v3::ENDOFINPUT) return true;
 				if(tok == v3::NUMBER_VALUE)
 				{
 					ty->version->minor = v3::yylval.sval;
-					std::cout << "minor : " << ty->version->minor << "\n";
+					//std::cout << "minor : " << ty->version->minor << "\n";
+					tok = v3::yylex(ty);
+					if(tok == v3::ENDOFINPUT) return true;
 					if(tok == '.')
 					{
+						tok = v3::yylex(ty);
+						if(tok == v3::ENDOFINPUT) return true;
 						if(tok == v3::NUMBER_VALUE)
 						{
 							ty->version->patch = v3::yylval.sval;

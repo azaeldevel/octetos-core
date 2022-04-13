@@ -261,6 +261,7 @@ int yylex(struct octetos_core_Tray* ty)
 		
 	//std::cout << "yylex --> Step 2: \n";
 	Buffer* buffer = (Buffer*)ty->buffer;
+	if(buffer->empty()) return ENDOFINPUT;
 	//std::cout << "yylex --> Step 3: \n";
 	char c = buffer->next_char();
 	//std::cout << "yylex --> Step 4: \n";
@@ -281,15 +282,19 @@ int yylex(struct octetos_core_Tray* ty)
 				}	
 				else if(c == '.')
 				{
+					buffer->proceed();
+					ty->state = 0;
 					return c;
 				}
 				else if(c == '-')
 				{
-					return c;
+					buffer->proceed();
+					ty->state = PRERELEASE_VALUE;
 				}
 				else if(c == '+')
 				{
-					return c;
+					buffer->proceed();
+					ty->state = BUILD_VALUE;
 				}
 				else
 				{
@@ -299,8 +304,8 @@ int yylex(struct octetos_core_Tray* ty)
 			case NUMBER_VALUE:
 				while(is_digit(buffer->check_char(1)))  
 				{
-						//std::cout << "c : '" << c << "'\n";
-						c = buffer->next_char();
+					//std::cout << "c : '" << c << "'\n";
+					c = buffer->next_char();
 				}
 				//buffer->prev_char();
 				buffer->proceed();
