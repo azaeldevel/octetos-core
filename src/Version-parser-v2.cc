@@ -20,13 +20,34 @@
  * */
 
 
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+
+
 #include "Version-v2.hh"
 #include "semver.tab.3.h"
 #include "Buffer.hh"
-#include <iostream>
 
 namespace oct::core::v2
 {
+	bool grammar_prer(octetos_core_Tray* ty)
+	{
+		int tok = v3::yylex(ty);
+		//std::cout << "tok prer 2 '" << tok << "'\n";
+		
+		if(tok == v3::PRERELEASE_VALUE)
+		{
+			std::cout << "Prerelease 2 '" << v3::yylval.str << "'\n";
+			short strl = strlen(v3::yylval.str);
+			char* newstr = (char*)malloc(strl + 1);
+			strcpy(newstr,v3::yylval.str);				
+			ty->version->prerelease = newstr;
+			return true;
+		}
+
+		return false;
+	}
 	bool grammar_version(octetos_core_Tray* ty)
 	{
 		int tok = v3::yylex(ty);
@@ -77,12 +98,23 @@ namespace oct::core::v2
 		
 		return false;
 	}
+	/**
+	  * \brief
+	  * \ return true si la gramatica coincide false en otro caso.
+	  */
 	bool grammar_stmt(octetos_core_Tray* ty)
 	{
 		if(not grammar_version(ty)) return false;
 
-		//if(not grammar_version(ty)) return false;
-
+		int tok = v3::yylex(ty);
+		std::cout << "tok prer 1 " << tok << "\n";
+		if(tok == v3::ENDOFINPUT) return true;
+		std::cout << "tok prer 2 " << tok << "\n";
+		if(tok == '-')
+		{
+			if(not grammar_prer(ty)) return false;
+		}
+		
 		return true;
 	}
 	bool Semver::parser(const char* str)
@@ -95,12 +127,12 @@ namespace oct::core::v2
 		//std::cout << "String : " << ty.str << "<<--\n";
         ty.buffer = new Buffer(str);
 		//std::cout << "Buffer : " << ((Buffer*)ty.buffer)->get_buffer(0) << "<<--\n";
-
+		
 		//parser
-		grammar_stmt(&ty);
+		bool ret = grammar_stmt(&ty);
 		//std::cout << "Major : " << major << "<<--\n";
 		
-		delete ty.buffer;
-        return false;
+		delete (Buffer*)ty.buffer;		
+        return ret;
 	}
 }

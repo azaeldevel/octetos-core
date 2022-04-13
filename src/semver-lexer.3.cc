@@ -261,9 +261,9 @@ int yylex(struct octetos_core_Tray* ty)
 		
 	//std::cout << "yylex --> Step 2: \n";
 	Buffer* buffer = (Buffer*)ty->buffer;
-	if(buffer->empty()) return ENDOFINPUT;
 	//std::cout << "yylex --> Step 3: \n";
 	char c = buffer->next_char();
+	if(buffer->empty()) return ENDOFINPUT;
 	//std::cout << "yylex --> Step 4: \n";
 	
 	while (true)
@@ -290,11 +290,13 @@ int yylex(struct octetos_core_Tray* ty)
 				{
 					buffer->proceed();
 					ty->state = PRERELEASE_VALUE;
+					return c;
 				}
 				else if(c == '+')
 				{
 					buffer->proceed();
 					ty->state = BUILD_VALUE;
+					return c;
 				}
 				else
 				{
@@ -319,36 +321,16 @@ int yylex(struct octetos_core_Tray* ty)
 			{
 				//std::cout << "Estado : PRERELEASE_VALUE\n";
 				//std::cout << "PRER- '" << c << "'\n";
-				nextChartPreR:
-				c = buffer->next_char();
-				if(is_digit(c) || is_letter(c) || c == '-' || c == '.' )
+				char c_post = buffer->check_char(1);
+				while(is_digit(c_post) or is_letter(c_post))  
 				{
-					goto nextChartPreR;
-				}
-				else if (c == 0 || c == '\n')
-				{
-					buffer->prev_char();
-				}
-				else
-				{
-					return ENDOFINPUT;
+					//std::cout << "c : '" << c << "'\n";
+					c = buffer->next_char();
+					c_post = buffer->check_char(1);
 				}
 				buffer->proceed();
-				//std::cout << "Prerelease '" << buffer->get_text() << "'\n";
-				short strl = strlen(buffer->get_text());
-				yylval.str = (char*)malloc(strl+1);
-				strcpy((char*)(yylval.str),buffer->get_text());
-
-				c = buffer->next_char();
-				if(c == '+')
-				{
-					//std::cout << "Build + : " << c << "\n";
-					ty->state = BUILD_VALUE;
-				}
-				else
-				{
-					ty->state = ENDOFINPUT;
-				}
+				std::cout << "Prerelease 1 '" << buffer->get_text() << "'\n";
+				yylval.str = buffer->get_text();				
 				return PRERELEASE_VALUE;
 			}
 			case BUILD_VALUE:

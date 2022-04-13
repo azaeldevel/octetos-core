@@ -423,11 +423,18 @@ void v2_reduced_parser()
 {
 	//bool Semver::parser(const char* )
 	oct::core::Semver ver15;
-	ver15.parser("5.30");
-	std::cout << "M : " << ver15.getMajor() << "\n";
-	std::cout << "m : " << ver15.getMinor() << "\n";
+	CU_ASSERT(ver15.parser("5.30"));
 	CU_ASSERT(ver15.getMajor() == 5);
 	CU_ASSERT(ver15.getMinor() == 30);
+	//std::cout << "M : " << ver15.getMajor() << "\n";
+	//std::cout << "m : " << ver15.getMinor() << "\n";
+
+	
+	oct::core::Semver ver16;
+	CU_ASSERT(ver16.parser("5.30-alpha"));
+	CU_ASSERT(ver16.getMajor() == 5);
+	CU_ASSERT(ver16.getMinor() == 30);
+	//std::cout << "prerelease : " << ver16.getPrerelease() << "\n";
 }
 
 void v2_testParseString_v200()

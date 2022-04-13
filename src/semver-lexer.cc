@@ -420,9 +420,7 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 				}
 				buffer->proceed();
 				//std::cout << "Prerelease '" << buffer->get_text() << "'\n";
-				short strl = strlen(buffer->get_text());
-				yylval.str = (char*)malloc(strl+1);
-				strcpy((char*)(yylval.str),buffer->get_text());
+				yylval.str = buffer->get_text();
 
 				c = buffer->next_char();
 				if(c == '+')
@@ -453,9 +451,7 @@ extern "C" int yylex(struct octetos_core_Tray* ty)
 				buffer->prev_char();//por que el último carácter no es parte del token que se activara.
 				buffer->proceed();
 				//std::cout << "Build : " << buffer->get_text() << "\n";
-				short strl = strlen(buffer->get_text());
-				yylval.str = (char*)malloc(strl+1);
-				strcpy((char*)(yylval.str),buffer->get_text());
+				yylval.str = buffer->get_text();
 				ty->state = ENDOFINPUT;
 				
 				return BUILD_VALUE;
