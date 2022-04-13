@@ -27,9 +27,6 @@
     <ClInclude Include="src\defines.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="src\Version-v2.hh">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="src\common.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -45,21 +42,18 @@
     <ClInclude Include="src\semver-lexer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="src\Version-win-v3.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Version-v3.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Exception-v3.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Version.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\version-semver-v2.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Version-v2.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="src\common.c">
@@ -71,7 +65,10 @@
     <ClCompile Include="src\semver-lexer.3.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\Version-parser-v2.cc">
+    <ClCompile Include="src\Version-parser-v3.cc">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Version-v3.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

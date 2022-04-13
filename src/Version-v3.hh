@@ -1,5 +1,5 @@
-#ifndef OCTETOS_CORE_VERSION_V2_HH
-#define OCTETOS_CORE_VERSION_V2_HH
+#ifndef OCTETOS_CORE_VERSION_V3_HH
+#define OCTETOS_CORE_VERSION_V3_HH
 
 /**
  *
@@ -33,12 +33,6 @@
 
 namespace oct::core::v3
 {
-	class InvalidComparison : public Error
-	{
-	public:
-		InvalidComparison(const std::string& msg ,std::string filename,int lineNumber);
-		InvalidComparison(const std::string& msg);
-	};
 	
 	/**
 	*\brief interface para impermentar protocvo de versionado
@@ -105,19 +99,10 @@ namespace oct::core::v3
 		* */
 		void setNumbers(Number major);
 		/**
-		* \brief Lee la cadena de texto para determinar los valores de los componentes.
-		* */
-		bool set(const std::string&);
-		/**
 		* \brief Asigna solamanete el valor Prerelease.
 		* */
-		void setPrerelease(const std::string&);
-		/**
-		*\brief La version especificada la convierte a formato semver
-		*\param ver Versión en formato númerico
-		*\param import Código del formato en que se recive la versión.
-		**/
-		bool set(unsigned long ver,ImportCode import);
+		void setPrerelease(const char*);
+
 		/**
 		* \brief Retorna una representa en texto de la version.
 		* \param formato Determina el formato generado.
@@ -162,7 +147,7 @@ namespace oct::core::v3
 		bool parser(const char* );
 	};
 
-
+	
 }
 
 

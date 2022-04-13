@@ -29,6 +29,13 @@ namespace oct::core::v3
 class Exception : public std::exception
 {
 public:
+	enum Erros
+	{
+		NoErros,
+		Invalid_Compared_Version_Objects,
+		Empty_Object,
+	};
+public:
 	Exception();
 	Exception(unsigned int code);
 	Exception(unsigned int code,const char* subject);
@@ -40,6 +47,7 @@ public:
 	unsigned int line()const;
 	const char* subject()const;
 
+	virtual const char* what() const throw ();
 	virtual std::string describe() const throw ();
 
 protected:
