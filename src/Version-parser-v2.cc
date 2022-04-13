@@ -43,10 +43,10 @@ namespace oct::core::v2
 			char* newstr = (char*)malloc(strl + 1);
 			strcpy(newstr,v3::yylval.str);				
 			ty->version->build = newstr;
-			return true;
+			return tok;
 		}
 
-		return false;
+		return tok;
 	}
 	int grammar_prer(octetos_core_Tray* ty)
 	{
@@ -61,10 +61,10 @@ namespace oct::core::v2
 			char* newstr = (char*)malloc(strl + 1);
 			strcpy(newstr,v3::yylval.str);				
 			ty->version->prerelease = newstr;
-			return true;
+			return tok;
 		}
 
-		return false;
+		return tok;
 	}
 	int grammar_version(octetos_core_Tray* ty)
 	{
@@ -119,11 +119,13 @@ namespace oct::core::v2
 			tok = grammar_prer(ty);
 		}
 
-		tok = grammar_version(ty);
 		if(tok == v3::ENDOFINPUT) return tok;
+		if(tok == v3::PRERELEASE_VALUE) tok = v3::yylex(ty);
 		//std::cout << "tok : " << tok << "<<--\n";
+		
 		if(tok == '+')
 		{
+			//std::cout << "tok : " << tok << "<<--\n";
 			tok = grammar_build(ty);
 		}
 		

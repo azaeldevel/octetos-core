@@ -441,8 +441,13 @@ void v2_reduced_parser()
 	CU_ASSERT(ver17.getMajor() == 5);
 	CU_ASSERT(ver17.getMinor() == 30);
 	CU_ASSERT(ver17.getPrerelease().compare("alpha") == 0);
-	//CU_ASSERT(strcmp(ver17.getBuild(),"mountain") == 0);
-	//std::cout << "build : " << ver17.getBuild() << "\n";
+	CU_ASSERT(strcmp(ver17.getBuild(),"mountain") == 0);
+	
+	oct::core::Semver ver18;
+	CU_ASSERT(ver18.parser("5.30+mountain"));
+	CU_ASSERT(ver18.getMajor() == 5);
+	CU_ASSERT(ver18.getMinor() == 30);
+	CU_ASSERT(strcmp(ver18.getBuild(),"mountain") == 0);
 }
 
 void v2_testParseString_v200()
