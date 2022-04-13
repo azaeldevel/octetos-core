@@ -76,7 +76,13 @@ namespace oct::core::v2
 		
 		return false;
 	}
-	
+	bool grammar_stmt(octetos_core_Tray* ty)
+	{
+		if(not grammar_version(ty)) return false;
+
+
+		return true;
+	}
 	bool Semver::parser(const char* str)
 	{
 		octetos_core_Tray ty;
@@ -88,7 +94,7 @@ namespace oct::core::v2
         ty.buffer = new Buffer(ty.str);
 		//std::cout << "Buffer : " << ((Buffer*)ty.buffer)->get_buffer(0) << "<<--\n";
 		//parser
-		grammar_version(&ty);
+		grammar_stmt(&ty);
 		//std::cout << "Major : " << major << "<<--\n";
 		
 		delete ty.buffer;

@@ -324,7 +324,7 @@ int yylex(struct octetos_core_Tray* ty)
 				if(is_digit(c) || is_letter(c) || c == '-' || c == '.' )
 				{
 					goto nextChartPreR;
-				}		
+				}
 				else if (c == 0 || c == '\n')
 				{
 					buffer->prev_char();

@@ -417,10 +417,16 @@ void v2_testParseString_v100()
 		}
 	}
 
+}
 
+void v2_reduced_parser()
+{
 	//bool Semver::parser(const char* )
 	oct::core::Semver ver15;
 	ver15.parser("5.30");
+	
+	CU_ASSERT(ver15.getMajor() == 5);
+	CU_ASSERT(ver15.getMinor() == 30);
 }
 
 void v2_testParseString_v200()
