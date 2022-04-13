@@ -337,26 +337,15 @@ int yylex(struct octetos_core_Tray* ty)
 			}
 			case BUILD_VALUE:
 			{
-				nextCharB:
-				c = buffer->next_char();
-				//std::cout << "Build : " << c << "\n";
-				if(is_digit(c) || is_letter(c) || c == '.' )
+				char c_post = buffer->check_char(1);
+				while(is_digit(c_post) or is_letter(c_post))  
 				{
-					goto nextCharB;
+					c = buffer->next_char();
+					c_post = buffer->check_char(1);
 				}
-				else if (c != 0)
-				{
-					return c;
-				}
-				
-				buffer->prev_char();//por que el último carácter no es parte del token que se activara.
 				buffer->proceed();
-				//std::cout << "Build : " << buffer->get_text() << "\n";
-				short strl = strlen(buffer->get_text());
-				yylval.str = (char*)malloc(strl+1);
-				strcpy((char*)(yylval.str),buffer->get_text());
-				ty->state = ENDOFINPUT;
-				
+				yylval.str = buffer->get_text();
+				ty->state = 0;
 				return BUILD_VALUE;
 			}
 			case ENDOFINPUT:	

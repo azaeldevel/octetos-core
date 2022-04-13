@@ -31,6 +31,22 @@
 
 namespace oct::core::v2
 {
+	int grammar_build(octetos_core_Tray* ty)
+	{
+		int tok = v3::yylex(ty);
+		
+		if(tok == v3::BUILD_VALUE)
+		{
+			if(ty->version->build) free((void*)ty->version->build);
+			short strl = strlen(v3::yylval.str);
+			char* newstr = (char*)malloc(strl + 1);
+			strcpy(newstr,v3::yylval.str);				
+			ty->version->build = newstr;
+			return true;
+		}
+
+		return false;
+	}
 	int grammar_prer(octetos_core_Tray* ty)
 	{
 		int tok = v3::yylex(ty);
@@ -99,7 +115,14 @@ namespace oct::core::v2
 		
 		if(tok == '-')
 		{
-			if(not grammar_prer(ty)) return false;
+			tok = grammar_prer(ty);
+		}
+		
+		if(tok == v3::ENDOFINPUT) return tok;
+		
+		if(tok == '+')
+		{
+			tok = grammar_build(ty);
 		}
 		
 		return true;
