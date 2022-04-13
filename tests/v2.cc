@@ -420,7 +420,7 @@ void v2_testParseString_v100()
 
 	//bool Semver::parser(const char* )
 	oct::core::Semver ver15;
-	ver15.parser("test parser");
+	ver15.parser("5.30");
 }
 
 void v2_testParseString_v200()

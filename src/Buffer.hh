@@ -53,6 +53,7 @@ public:
 	void proceed();
 	void back();
 	const char* get_text() const;
+	const char* get_buffer(unsigned short) const;
 };
 
 

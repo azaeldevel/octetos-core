@@ -2,8 +2,29 @@
 #ifndef OCTETOS_CORE_SEMVER_TOKENS
 # define OCTETOS_CORE_SEMVER_TOKENS
 
+#include "Exception-v3.hh"
+
 namespace oct::core::v3
 {
+	
+class ExceptionLexer : public core::v3::Exception
+{
+public:
+	enum Errors
+	{
+		NoError,
+		NOT_BUFFER_CREATED,
+	};
+public:
+	ExceptionLexer();
+	ExceptionLexer(unsigned int code);
+	ExceptionLexer(unsigned int code,const char* subject);
+	ExceptionLexer(unsigned int code,const char* filename, unsigned int line);
+	ExceptionLexer(unsigned int code,const char* subject,const char* filename, unsigned int line);
+
+	const char * what () const throw ();
+};
+	
 enum Tokens
 {
 	YYEMPTY = -2,
@@ -27,7 +48,7 @@ union Value
 	unsigned long ulval;
 	const char* str;
 };
-static Value yylval;
+extern Value yylval;
 
 int yylex(struct octetos_core_Tray* ty);
 

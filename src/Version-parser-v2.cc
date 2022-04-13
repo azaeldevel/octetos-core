@@ -27,55 +27,61 @@
 
 namespace oct::core::v2
 {
-
-	void grammar_stmt(octetos_core_Tray* ty)
+	bool grammar_version(octetos_core_Tray* ty)
 	{
-		int tok = oct::core::v3::yylex(ty);
-
-		switch(tok)
+		int tok = v3::yylex(ty);
+		//std::cout << "tok " << tok << "\n";
+		if(tok == v3::NUMBER_VALUE)
 		{
-		case v3::ENDOFINPUT:
-
-			return;
-		case v3::EXTRACT_KW:
-			std::cout << "EXTRACT";
-			return;
-		case v3::FROM_KW:
-			std::cout << "FROM";
-			return;
-		case v3::NUMBERS_KW:
-			std::cout << "NUMBERS";
-			return;
-		case v3::ALL_KW:
-			std::cout << "ALL";
-			return;
-		case v3::NUMBER_VALUE:
-			std::cout << "NUMBER";
-			return;
-		case v3::PRERELEASE_VALUE:
-			std::cout << "PRERELEASE";
-			return;
-		case v3::BUILD_VALUE:
-			std::cout << "BUILD";				
-			return;
+			//ty->version->major = atoi(((Buffer*)ty->buffer)->get_text());
+			ty->version->major = v3::yylval.sval;
+			std::cout << "Major : " << ty->version->major << "\n";
+			if(tok == '.')
+			{
+				if(tok == v3::NUMBER_VALUE)
+				{
+					ty->version->minor = v3::yylval.sval;
+					std::cout << "minor : " << ty->version->minor << "\n";
+					if(tok == '.')
+					{
+						if(tok == v3::NUMBER_VALUE)
+						{
+							ty->version->patch = v3::yylval.sval;
+							return true;
+						}
+					}
+					else
+					{
+						return true;
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return true;
+			}
 		}
-
 		
+		return false;
 	}
+	
 	bool Semver::parser(const char* str)
 	{
 		octetos_core_Tray ty;
         ty.dysplay_erro = 0;
         ty.version = this;
         ty.state = 0;
-        std::string cmdstr = "extract all from ";
-        cmdstr += str;
-        ty.str = (char*)cmdstr.c_str();
+        ty.str = str;
+		//std::cout << "String : " << ty.str << "<<--\n";
         ty.buffer = new Buffer(ty.str);
-
+		//std::cout << "Buffer : " << ((Buffer*)ty.buffer)->get_buffer(0) << "<<--\n";
 		//parser
-		std::cout << str << "\n";
-		grammar_stmt(&ty);
+		grammar_version(&ty);
+		//std::cout << "Major : " << major << "<<--\n";
 		
 		delete ty.buffer;
         return false;

@@ -36,6 +36,12 @@ const char* Buffer::get_text() const
 {
 	return text;
 }
+const char* Buffer::get_buffer(unsigned short index) const
+{
+	if(index == 0) return buffer1;
+
+	return NULL;
+}
 char Buffer::check_char(short p)
 {
 	return buffer1[forward + p];

@@ -32,8 +32,28 @@
 
 namespace oct::core::v3
 {
-//yylval.sval = 0;
-		 
+
+ExceptionLexer::ExceptionLexer()
+{
+}
+ExceptionLexer::ExceptionLexer(unsigned int c,const char* f, unsigned int l) : core::v3::Exception(c,f,l)
+{
+}
+const char * ExceptionLexer::what () const throw ()
+{
+	switch(_code)
+	{
+		case NoError:
+			return "Ningun erro detectado, se creo un falso psoitivo.";
+		case NOT_BUFFER_CREATED:
+			return "EL buffer no ha sido creado.";
+	}
+
+	return "Error desconocido.";
+}
+
+Value yylval;
+
 bool is_numbers_keyword(Buffer* buffer)
 {
 	char c;
@@ -237,10 +257,8 @@ bool is_digit(char c)
 int yylex(struct octetos_core_Tray* ty)
 {
 	//std::cout << "yylex --> Step 1: \n";
-	if(!ty->buffer)
-	{
-		ty->buffer = new Buffer(ty->str); 
-	}
+	if(not ty->buffer) throw ExceptionLexer(ExceptionLexer::NOT_BUFFER_CREATED,__FILE__,__LINE__);
+		
 	//std::cout << "yylex --> Step 2: \n";
 	Buffer* buffer = (Buffer*)ty->buffer;
 	//std::cout << "yylex --> Step 3: \n";
@@ -248,54 +266,28 @@ int yylex(struct octetos_core_Tray* ty)
 	//std::cout << "yylex --> Step 4: \n";
 	
 	while (true)
-	{		
-		nextStep:
-		while(c == ' ')
-		{// consume los porximos espacios en blanco
-			buffer->proceed();
-			c = buffer->next_char();
-		}
-		if(c != ' ')
-		{
-			buffer->prev_char();
-		}
-		//std::cout << "Estado " << ty->state << "--" << c << "-->\n";
+	{
 		switch(ty->state)
 		{
 			case 0:
 				//std::cout << "Estado : Inicial\n";
-				if(is_letter(c)) 
-				{
-					if(c == 'e')
-					{
-						ty->state = EXTRACT_KW;
-					}
-					else if(c == 'f')
-					{
-						ty->state = FROM_KW;
-					}
-					else if(c == 'n')
-					{
-						ty->state = NUMBERS_KW;
-					}
-					else if(c == 'a')
-					{
-						ty->state = ALL_KW;
-					}
-					else
-					{
-						return c;
-					}
-				}
-				else if(c == ' ')
-				{
-					goto nextStep;
-				}	
-				else if(is_digit(c))
+				if(is_digit(c))
 				{
 					ty->state = NUMBER_VALUE;
 				}	
 				else if(is_letter(c))
+				{
+					return c;
+				}	
+				else if(c == '.')
+				{
+					return c;
+				}
+				else if(c == '-')
+				{
+					return c;
+				}
+				else if(c == '+')
 				{
 					return c;
 				}
@@ -304,101 +296,20 @@ int yylex(struct octetos_core_Tray* ty)
 					ty->state = -1;
 				}
 				break;
-			case EXTRACT_KW:
-				//std::cout << "Estado : EXTRACT_KW\n";
-				if(is_extract_keyword(buffer))
-				{
-					//std::cout << "keyword '" << buffer->get_text() << "'\n";
-					ty->state = 0;
-					return EXTRACT_KW;
-				}
-				break;
-			case ALL_KW:
-				//std::cout << "Estado : ALL_KW\n";
-				if(is_all_keyword(buffer)) 
-				{
-					//std::cout << "keyword '" << buffer->get_text() << "'\n";
-					ty->state = 0;
-					return ALL_KW;
-				}
-				break;
-			case FROM_KW:
-				//std::cout << "Estado : FROM_KW\n";
-				if(is_from_keyword(buffer)) 
-				{
-					//std::cout << "keyword '" << buffer->get_text() << "'\n";
-					ty->state = 0;
-					return FROM_KW;
-				}
-				break;
-			case NUMBERS_KW:
-				//std::cout << "Estado : NUMBERS_KW\n";
-				if(is_numbers_keyword(buffer)) 
-				{
-					//std::cout << "keyword '" << buffer->get_text() << "'\n";
-					ty->state = 0;
-					return NUMBERS_KW;
-				}
-				break;
 			case NUMBER_VALUE:
-				//std::cout << "Estado : NUMBER_VALUE\n";
-				c = buffer->next_char();
-				if(is_digit(c))
+				while(is_digit(buffer->check_char(1)))  
 				{
-					while(is_digit(c))  
-					{
+						//std::cout << "c : '" << c << "'\n";
 						c = buffer->next_char();
-					}
-					buffer->prev_char();
-					buffer->proceed();
-					yylval.sval=(short)atoi(buffer->get_text());
-					//std::cout << "Number '" << buffer->get_text() << "'\n";
-					return NUMBER_VALUE;
 				}
-				
-				if(c == '.')
-				{
-					//c = buffer->next_char(); //se hizo unget
-					buffer->proceed();
-					return c;
-				}
-				else if(c == '-')
-				{
-					ty->state = PRERELEASE_VALUE;
-					buffer->proceed();
-					return c;
-				}	
-				else if(c == '+')
-				{
-					ty->state = BUILD_VALUE;
-					buffer->proceed();
-					return c;
-				}
-				else if(c == ' ')
-				{
-					goto nextStep;
-				}
-				else if(c == '\n')
-				{
-					ty->state = ENDOFINPUT;
-					return c;
-				}
-				else if(c == 0 )
-				{
-					ty->state = ENDOFINPUT;
-					return ENDOFINPUT;
-				}
-				else if(is_letter(c))
-				{
-					return c;
-				}
-				else
-				{
-					//std::cout << "Output: '" << c << "'\n";
-					ty->state = ENDOFINPUT;
-					return c;
-				}
-				break;
+				//buffer->prev_char();
+				buffer->proceed();
+				//std::cout << "Number '" << buffer->get_text() << "'\n";
+				//std::cout << "Number '" << atoi(buffer->get_text()) << "'\n";
+				yylval.sval = atoi(buffer->get_text());
+				//std::cout << "Number '" << yylval.sval << "'\n";
+				ty->state = 0;
+				return NUMBER_VALUE;
 			case PRERELEASE_VALUE:
 			{
 				//std::cout << "Estado : PRERELEASE_VALUE\n";
