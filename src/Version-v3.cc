@@ -21,7 +21,7 @@
 
 #include <typeinfo>
 
-
+#include "Exception-v3.hh"
 #include "Version-v3.hh"
 
 namespace oct::core::v3
@@ -202,10 +202,6 @@ namespace oct::core::v3
             throw Exception(Exception::Invalid_Compared_Version_Objects, __FILE__, __LINE__);
         }
 
-        //if(!handle) dlclose(handle);
-        //parser = NULL;
-        //handle = NULL;
-        //loadParser (suffix);
         this->major = v.major;
         this->minor = v.minor;
         this->patch = v.patch;
@@ -214,21 +210,7 @@ namespace oct::core::v3
 
         return *this;
     }
-    const octetos_core_Semver& Semver::operator =(const octetos_core_Semver& v)
-    {
-        //if(!handle) dlclose(handle);
-        //parser = NULL;
-        //handle = NULL;
-        //loadParser (suffix);
-
-        this->major = v.major;
-        this->minor = v.minor;
-        this->patch = v.patch;
-        if (v.prerelease) octetos_core_Semver_setPrerelease(this, v.prerelease);
-        if (v.build) octetos_core_Semver_setBuild(this, v.build);
-
-        return *this;
-    }
+    
     void Semver::set(Number major, Number minor, Number patch, const std::string& prerelease)
     {
         this->major = major;
@@ -287,6 +269,10 @@ namespace oct::core::v3
     {
         init();
     }
+    Semver::Semver(const char* str)
+    {
+        parse(str);
+    }
     Semver::Semver(Number major, Number minor, Number patch)
     {
         init();
@@ -319,5 +305,18 @@ namespace oct::core::v3
     {
         if (major < 0 and minor < 0 and patch < 0) return true;
         return false;
+    }
+
+    Version& Semver::operator =(const char* str)
+    {
+        parse(str);
+
+        return (Version&) * this;
+    }
+    Version& Semver::operator =(const std::string& str)
+    {
+        parse(str.c_str());
+
+        return (Version&)*this;
     }
 }

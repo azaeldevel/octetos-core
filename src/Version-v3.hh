@@ -26,8 +26,7 @@
 #include <string>
 #include <vector>
 
-#include "Error.hh"
-#include "Object.hh"
+
 #include "common.h"
 #include "semver-lexer.h"
 
@@ -48,8 +47,8 @@ namespace oct::core::v3
 		virtual bool operator >=(const Version&)const = 0;
 		virtual bool operator <=(const Version&)const = 0;
 		virtual bool empty() const= 0;//TODO:proponer para nueva interface
-		virtual Version& operator =(const char*) const= 0;//TODO:proponer para nueva interface
-		virtual Version& operator =(const std::string&) const= 0;//TODO:proponer para nueva interface
+		virtual Version& operator =(const char*) = 0;//TODO:proponer para nueva interface
+		virtual Version& operator =(const std::string&) = 0;//TODO:proponer para nueva interface
 	};
 
 	typedef octetos_core_Semver_FormatString FormatString;
@@ -103,11 +102,8 @@ namespace oct::core::v3
 		* */
 		void setPrerelease(const char*);
 
-		/**
-		* \brief Retorna una representa en texto de la version.
-		* \param formato Determina el formato generado.
-		* */
-		//std::string toString(FormatString formato = FormatString::FullString) const;
+		void setBuild(const char*);
+
 		operator std::string()const;
 		virtual ~Semver();
 		Semver(const Semver&);
@@ -117,10 +113,6 @@ namespace oct::core::v3
 		* */
 		Semver(const char*);
 		/**
-		* \brief Asigna numero major.
-		* */
-		Semver(Number major);
-		/**
 		* \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
 		* */
 		Semver(Number major,Number minor);
@@ -128,12 +120,8 @@ namespace oct::core::v3
 		* \brief Asigna numero major, menor y patch, los restantas datos son limpiado
 		* */
 		Semver(Number major,Number minor,Number patch);
-		/**
-		* \brief Hace una copia del objecto version.
-		* */
-		const octetos_core_Semver& operator =(const octetos_core_Semver& v);
+
 		const Semver& operator =(const Semver& v);
-		//bool extractNumbers(const std::string&);
 
 
 		virtual bool operator ==(const Version&)const;
@@ -144,7 +132,11 @@ namespace oct::core::v3
 		virtual bool operator <=(const Version&)const;
 		virtual bool empty() const;
 
-		bool parser(const char* );
+		virtual Version& operator =(const char*);
+		virtual Version& operator =(const std::string&);
+
+
+		bool parse(const char* );
 	};
 
 	
