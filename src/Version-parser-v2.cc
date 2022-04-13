@@ -31,6 +31,7 @@ namespace oct::core::v2
 	{
 		int tok = v3::yylex(ty);
 		//std::cout << "tok " << tok << "\n";
+		
 		if(tok == v3::NUMBER_VALUE)
 		{
 			//ty->version->major = atoi(((Buffer*)ty->buffer)->get_text());
@@ -80,6 +81,7 @@ namespace oct::core::v2
 	{
 		if(not grammar_version(ty)) return false;
 
+		//if(not grammar_version(ty)) return false;
 
 		return true;
 	}
@@ -89,10 +91,11 @@ namespace oct::core::v2
         ty.dysplay_erro = 0;
         ty.version = this;
         ty.state = 0;
-        ty.str = str;
+        //ty.str = str;
 		//std::cout << "String : " << ty.str << "<<--\n";
-        ty.buffer = new Buffer(ty.str);
+        ty.buffer = new Buffer(str);
 		//std::cout << "Buffer : " << ((Buffer*)ty.buffer)->get_buffer(0) << "<<--\n";
+
 		//parser
 		grammar_stmt(&ty);
 		//std::cout << "Major : " << major << "<<--\n";
