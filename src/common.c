@@ -49,9 +49,6 @@ int octetos_core_toObject(const char* strver,struct octetos_core_Semver* v)
    	return 0;
 }
 
-
-
-
 #elif defined(_WIN32) || defined(_WIND64)
 
 #else

@@ -166,34 +166,21 @@
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\core.hh" />
     <ClInclude Include="src\defines.hh" />
-    <ClInclude Include="src\Error.hh" />
-    <ClInclude Include="src\Exception-v2.hh" />
     <ClInclude Include="src\Exception-v3.hh" />
-    <ClInclude Include="src\Exception.hh" />
+    <ClInclude Include="src\semver-lexer.h" />
+    <ClInclude Include="src\semver.tab.3.h" />
     <ClInclude Include="src\semver.tab.h" />
     <ClInclude Include="src\Version-v2.hh" />
-    <ClInclude Include="src\Version.hh" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <CustomBuild Include="src\semver.y">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">bison  -d -o $(SolutionDir)src\semver.tab.c $(SolutionDir)src\semver.y</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Running bison..</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">semver.tab.c</Outputs>
-      <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatOutputAsContent>
-      <OutputItemType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Font</OutputItemType>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Buffer.cc" />
     <ClCompile Include="src\common.c" />
-    <ClCompile Include="src\Error.cc" />
-    <ClCompile Include="src\Exception-v2.cc" />
     <ClCompile Include="src\Exception-v3.cc" />
-    <ClCompile Include="src\semver-lexer.cc" />
-    <ClCompile Include="src\semver.tab.c" />
+    <ClCompile Include="src\semver-lexer.3.cc" />
+    <ClCompile Include="src\Version-parser-v2.cc" />
     <ClCompile Include="src\version-semver-v2.cc" />
     <ClCompile Include="src\Version-v2.cc" />
     <ClCompile Include="src\Version.cc" />
