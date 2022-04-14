@@ -37,4 +37,4 @@ py-compile
 .vs
 packages
 x64/
-*.vcxproj*
+src/semver.tab.*
