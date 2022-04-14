@@ -1,9 +1,9 @@
 /**
- * 
+ *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -16,9 +16,9 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * */
- 
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -35,6 +35,7 @@ namespace oct::core::v3
 
 ExceptionLexer::ExceptionLexer()
 {
+
 }
 ExceptionLexer::ExceptionLexer(unsigned int c,const char* f, unsigned int l) : core::v3::Exception(c,f,l)
 {
@@ -57,57 +58,57 @@ Value yylval;
 bool is_numbers_keyword(Buffer* buffer)
 {
 	char c;
-	
+
 	c = buffer->next_char();
-	if(c != 'n') 
+	if(c != 'n')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'u') 
+	if(c != 'u')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'm') 
+	if(c != 'm')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'b') 
+	if(c != 'b')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'e') 
+	if(c != 'e')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'r') 
+	if(c != 'r')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 's') 
+	if(c != 's')
 	{
 		buffer->back();
 		return false;
 	}
 
 	c = buffer->check_char(1);
-	if(c != ' ') 
+	if(c != ' ')
 	{
 		buffer->back();
 		return false;
 	}
-		
+
 	buffer->proceed();
 	return true;
 }
@@ -117,37 +118,37 @@ bool is_from_keyword(Buffer* buffer)
 	char c;
 
 	c = buffer->next_char();
-	if(c != 'f') 
+	if(c != 'f')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'r') 
+	if(c != 'r')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'o') 
+	if(c != 'o')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'm') 
+	if(c != 'm')
 	{
 		buffer->back();
 		return false;
 	}
 
 	c = buffer->check_char(1);
-	if(c != ' ') 
+	if(c != ' ')
 	{
 		buffer->back();
 		return false;
 	}
-		
+
 	buffer->proceed();
 	return true;
 }
@@ -157,31 +158,31 @@ bool is_all_keyword(Buffer* buffer)
 	char c;
 
 	c = buffer->next_char();
-	if(c != 'a') 
+	if(c != 'a')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'l') 
+	if(c != 'l')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'l') 
+	if(c != 'l')
 	{
 		buffer->back();
 		return false;
 	}
 
 	c = buffer->check_char(1);
-	if(c != ' ') 
+	if(c != ' ')
 	{
 		buffer->back();
 		return false;
 	}
-		
+
 	buffer->proceed();
 	return true;
 }
@@ -190,13 +191,13 @@ bool is_extract_keyword(Buffer* buffer)
 	char c;
 
 	c = buffer->next_char();
-	if(c != 'e') 
+	if(c != 'e')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'x') 
+	if(c != 'x')
 	{
 		buffer->back();
 		return false;
@@ -214,27 +215,27 @@ bool is_extract_keyword(Buffer* buffer)
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'a') 
+	if(c != 'a')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 'c') 
+	if(c != 'c')
 	{
 		buffer->back();
 		return false;
 	}
 	c = buffer->next_char();
-	if(c != 't') 
+	if(c != 't')
 	{
 		buffer->back();
 		return false;
 	}
 
-	
+
 	c = buffer->check_char(1);
-	if(c != ' ') 
+	if(c != ' ')
 	{
 		buffer->back();
 		return false;
@@ -247,25 +248,25 @@ bool is_letter(char c)
 {
 	if( c >= 65 and c <= 90) return true;
 	else if( c >= 97 and c <= 122) return true;
-	return false;	
+	return false;
 }
 bool is_digit(char c)
 {
 	if( c >= 48 and c <= 57) return true;
-	return false;	
+	return false;
 }
 int yylex(struct octetos_core_Tray* ty)
 {
 	//std::cout << "yylex --> Step 1: \n";
 	if(not ty->buffer) throw ExceptionLexer(ExceptionLexer::NOT_BUFFER_CREATED,__FILE__,__LINE__);
-		
+
 	//std::cout << "yylex --> Step 2: \n";
 	Buffer* buffer = (Buffer*)ty->buffer;
 	//std::cout << "yylex --> Step 3: \n";
 	char c = buffer->next_char();
 	if(buffer->empty()) return ENDOFINPUT;
 	//std::cout << "yylex --> Step 4: \n";
-	
+
 	while (true)
 	{
 		switch(ty->state)
@@ -275,7 +276,7 @@ int yylex(struct octetos_core_Tray* ty)
 				if(is_digit(c))
 				{
 					ty->state = NUMBER_VALUE;
-				}	
+				}
 				else if(is_letter(c))
 				{
 					return c;
@@ -305,7 +306,7 @@ int yylex(struct octetos_core_Tray* ty)
 				}
 				break;
 			case NUMBER_VALUE:
-				while(is_digit(buffer->check_char(1)))  
+				while(is_digit(buffer->check_char(1)))
 				{
 					//std::cout << "c : '" << c << "'\n";
 					c = buffer->next_char();
@@ -323,7 +324,7 @@ int yylex(struct octetos_core_Tray* ty)
 				//std::cout << "Estado : PRERELEASE_VALUE\n";
 				//std::cout << "PRER- '" << c << "'\n";
 				char c_post = buffer->check_char(1);
-				while(is_digit(c_post) or is_letter(c_post))  
+				while(is_digit(c_post) or is_letter(c_post))
 				{
 					//std::cout << "c : '" << c << "'\n";
 					c = buffer->next_char();
@@ -338,7 +339,7 @@ int yylex(struct octetos_core_Tray* ty)
 			case BUILD_VALUE:
 			{
 				char c_post = buffer->check_char(1);
-				while(is_digit(c_post) or is_letter(c_post))  
+				while(is_digit(c_post) or is_letter(c_post))
 				{
 					c = buffer->next_char();
 					c_post = buffer->check_char(1);
@@ -349,11 +350,11 @@ int yylex(struct octetos_core_Tray* ty)
 				ty->state = 0;
 				return BUILD_VALUE;
 			}
-			case ENDOFINPUT:	
+			case ENDOFINPUT:
 				return ENDOFINPUT;
 		}
 	}
-	
+
 	return 0;
 }
 

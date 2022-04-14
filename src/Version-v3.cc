@@ -20,6 +20,7 @@
  * */
 
 #include <typeinfo>
+#include <string.h>
 
 #include "Exception-v3.hh"
 #include "Version-v3.hh"
@@ -220,7 +221,7 @@ namespace oct::core::v3
 
         return *this;
     }
-    
+
     void Semver::set(Number major, Number minor, Number patch, const std::string& prerelease)
     {
         this->major = major;

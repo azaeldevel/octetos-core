@@ -374,7 +374,7 @@ namespace oct::core::v2
         ty.str = (char*)cmdstr.c_str();
         int ret = parse_string(&ty);
 		if(ty.buffer) delete ty.buffer;
-		
+
         if (ret == 0) return true;
         return false;
     }

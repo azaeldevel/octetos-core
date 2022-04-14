@@ -23,7 +23,7 @@
 
 #include <exception>
 #include "core.hh"
-
+#include "Object.hh"
 
 namespace oct::core::v2
 {
@@ -35,7 +35,7 @@ protected:
     const char* filename;
     std::string message;
     std::string text;
-	
+
 public:
 	Exception();
     Exception(const char* fn,int line, const std::string& msg);
@@ -56,12 +56,12 @@ class InternalException: public std::exception
 protected:
     int line,code;
     const char* filename;
-	
+
 public:
 	InternalException();
 	InternalException(int code);
     InternalException(int code,const char* fn,int line);
-    
+
 };
 
 }
