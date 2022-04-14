@@ -137,6 +137,7 @@ int main(int argc, char *argv[])
 #endif
 	
 #ifdef OCTETOS_CORE_V3
-	std::cout << "enabled enabled..\n";
+	v3_developing();
+	//v3_reduced_parser();
 #endif
 }

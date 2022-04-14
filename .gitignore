@@ -36,3 +36,4 @@ src/test.py
 py-compile
 .vs
 packages
+x64/
