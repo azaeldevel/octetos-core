@@ -2,6 +2,14 @@
 
 #include "v3.hh"
 
+int v3_init(void)
+{
+	return 0;
+}
+int v3_clean(void)
+{
+	return 0;
+}
 
 void v3_developing()
 {

@@ -15,9 +15,9 @@ liboctetos_core_la_SOURCES = \
 	Message.cc \
 	Object.cc \
 	Licence.cc \
-	Version.cc \
 	version-semver-v2.cc \
 	Version-parser-v2.cc \
+	Version-v2.cc \
 	semver.tab.c \
 	semver-lexer.cc \
 	semver-lexer.3.cc \
