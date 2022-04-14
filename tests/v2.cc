@@ -15,6 +15,7 @@
 #include "../src/semver-lexer.h"
 #include "../src/data.hh"
 #include "../src/shell.hh"
+#include "../src/Exception.hh"
 
 static std::string bdir;
 
