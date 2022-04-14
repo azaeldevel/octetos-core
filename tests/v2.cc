@@ -1444,4 +1444,6 @@ void v2_testShell()
 void v2_developing()
 {
 	oct::core::Exception ex1;
+	CU_ASSERT(ex1.getLine() == 0);
+	CU_ASSERT(ex1.getFilename() == NULL);
 }

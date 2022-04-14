@@ -26,13 +26,11 @@
 namespace oct::core::v2
 {
 
-	Exception::Exception()
+	Exception::Exception() : filename(NULL), line(0)
 	{
 	}
-    Exception::Exception(const std::string& msg)
+    Exception::Exception(const std::string& msg) : filename(NULL),line(0)
     {
-        filename = NULL;
-        line = 0;
 		message = msg;
         text = msg;
     }
