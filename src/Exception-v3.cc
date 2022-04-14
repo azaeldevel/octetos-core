@@ -25,16 +25,16 @@
 
 namespace oct::core::v3
 {
-Exception::Exception() : _code(0),_filename(NULL),_line(0)
+Exception::Exception() : _code(0),_filename(NULL),_line(0),_subject(NULL)
 {
 }
-Exception::Exception(unsigned int c) : _code(c),_filename(NULL),_line(0)
+Exception::Exception(unsigned int c) : _code(c),_filename(NULL),_line(0),_subject(NULL)
 {
 }
 Exception::Exception(unsigned int c,const char* s) : _code(c),_subject(s),_filename(NULL),_line(0)
 {
 }
-Exception::Exception(unsigned int c,const char* fn, unsigned int l) : _code(c),_filename(fn),_line(l)
+Exception::Exception(unsigned int c,const char* fn, unsigned int l) : _code(c),_filename(fn),_line(l),_subject(NULL)
 {
 }
 Exception::Exception(unsigned int c,const char* s,const char* fn, unsigned int l) : _code(c),_subject(s),_filename(fn),_line(l)
@@ -58,6 +58,18 @@ const char* Exception::subject()const
 	return _subject;
 }
 	
+const char* Exception::what() const throw ()
+{
+	switch(_code)
+	{
+	case NoErros:
+		return "No errort detectado.";
+	case Invalid_Compared_Version_Objects:
+		return "No errort detectado";
+	case Empty_Object:
+		return "Empty object";
+	}
+}
 std::string Exception::describe() const throw ()
 {
 	if(not _subject) return what();

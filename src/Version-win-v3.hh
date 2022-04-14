@@ -1,3 +1,6 @@
+#ifndef OCTETOS_CORE_VERSION_WINDOWS_V3_HH
+#define OCTETOS_CORE_VERSION_WINDOWS_V3_HH
+
 /**
  *
  *  This file is part of octetos-core.
@@ -20,18 +23,13 @@
  * */
 
 
-#include "Version.hh"
-#include "Error.hh"
+#include "Version-v3.hh"
 
 
-namespace oct::core
+namespace oct::core::v3
 {
-
-	InvalidComparison::InvalidComparison(const std::string& msg):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON)
-	{
-	}
-	InvalidComparison::InvalidComparison(const std::string& msg ,std::string filename,int lineNumber):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON,filename,lineNumber)
-	{
-	}
-
+	extern Semver version_package("3.0.0-alpha");
 }
+
+
+#endif

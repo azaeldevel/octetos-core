@@ -73,7 +73,7 @@ char Buffer::next_char()
 }
 Buffer::Buffer(const char* str)
 {
-	bsize = strlen(str) + 1;
+	bsize = short(strlen(str)) + 1;
 	//short fullsize = bsize*2;
 	
 	buffer1 = (char*)malloc(bsize);

@@ -1,5 +1,5 @@
-#ifndef OCTETOS_CORE_VERSION_V2_HH
-#define OCTETOS_CORE_VERSION_V2_HH
+#ifndef OCTETOS_CORE_VERSION_V3_HH
+#define OCTETOS_CORE_VERSION_V3_HH
 
 /**
  *
@@ -26,19 +26,12 @@
 #include <string>
 #include <vector>
 
-#include "Error.hh"
-#include "Object.hh"
+
 #include "common.h"
 #include "semver-lexer.h"
 
 namespace oct::core::v3
 {
-	class InvalidComparison : public Error
-	{
-	public:
-		InvalidComparison(const std::string& msg ,std::string filename,int lineNumber);
-		InvalidComparison(const std::string& msg);
-	};
 	
 	/**
 	*\brief interface para impermentar protocvo de versionado
@@ -53,9 +46,9 @@ namespace oct::core::v3
 		virtual bool operator <(const Version&)const = 0;
 		virtual bool operator >=(const Version&)const = 0;
 		virtual bool operator <=(const Version&)const = 0;
-		virtual bool empty() const= 0;//TODO:proponer para nueva interface
-		virtual Version& operator =(const char*) const= 0;//TODO:proponer para nueva interface
-		virtual Version& operator =(const std::string&) const= 0;//TODO:proponer para nueva interface
+		virtual bool empty() const= 0;
+		virtual Version& operator =(const char*) = 0;
+		virtual Version& operator =(const std::string&) = 0;
 	};
 
 	typedef octetos_core_Semver_FormatString FormatString;
@@ -87,6 +80,7 @@ namespace oct::core::v3
 		Number getPatch() const;
 
 		const char* getPrerelease() const;
+		const char* getBuild() const;
 
 		const char* getBuild() const;
 
@@ -107,24 +101,12 @@ namespace oct::core::v3
 		* */
 		void setNumbers(Number major);
 		/**
-		* \brief Lee la cadena de texto para determinar los valores de los componentes.
-		* */
-		bool set(const std::string&);
-		/**
 		* \brief Asigna solamanete el valor Prerelease.
 		* */
-		void setPrerelease(const std::string&);
-		/**
-		*\brief La version especificada la convierte a formato semver
-		*\param ver Versión en formato númerico
-		*\param import Código del formato en que se recive la versión.
-		**/
-		bool set(unsigned long ver,ImportCode import);
-		/**
-		* \brief Retorna una representa en texto de la version.
-		* \param formato Determina el formato generado.
-		* */
-		//std::string toString(FormatString formato = FormatString::FullString) const;
+		void setPrerelease(const char*);
+
+		void setBuild(const char*);
+
 		operator std::string()const;
 		virtual ~Semver();
 		Semver(const Semver&);
@@ -134,10 +116,6 @@ namespace oct::core::v3
 		* */
 		Semver(const char*);
 		/**
-		* \brief Asigna numero major.
-		* */
-		Semver(Number major);
-		/**
 		* \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
 		* */
 		Semver(Number major,Number minor);
@@ -145,12 +123,8 @@ namespace oct::core::v3
 		* \brief Asigna numero major, menor y patch, los restantas datos son limpiado
 		* */
 		Semver(Number major,Number minor,Number patch);
-		/**
-		* \brief Hace una copia del objecto version.
-		* */
-		const octetos_core_Semver& operator =(const octetos_core_Semver& v);
+
 		const Semver& operator =(const Semver& v);
-		//bool extractNumbers(const std::string&);
 
 
 		virtual bool operator ==(const Version&)const;
@@ -161,10 +135,14 @@ namespace oct::core::v3
 		virtual bool operator <=(const Version&)const;
 		virtual bool empty() const;
 
-		bool parser(const char* );
+		virtual Version& operator =(const char*);
+		virtual Version& operator =(const std::string&);
+
+
+		bool parse(const char* );
 	};
 
-
+	
 }
 
 

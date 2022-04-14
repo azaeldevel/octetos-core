@@ -27,7 +27,6 @@
 #include <vector>
 
 #include "Error.hh"
-#include "Object.hh"
 #include "common.h"
 #include "semver-lexer.h"
 
