@@ -50,7 +50,7 @@ public:
 	int getLine()const;
 
 	//functions
-    virtual const char* what () const throw ();
+    virtual const char* what() const throw ();
 };
 
 class InternalException: public std::exception

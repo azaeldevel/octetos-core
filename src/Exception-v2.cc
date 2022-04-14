@@ -40,7 +40,7 @@ namespace oct::core::v2
         line = l;
 		message = msg;
         text = filename;
-        text = text + " : "+ std::to_string(line) + " -> " + msg;
+        text = text + " : " + std::to_string(line) + " -> " + msg;
     }
 	Exception::Exception( const std::string& msg,const char* fn,int l)
     {
@@ -48,7 +48,7 @@ namespace oct::core::v2
         line = l;
 		message = msg;
         text = filename;
-        text = text + " : "+ std::to_string(line) + " -> " + msg;
+        text = text + " : " + std::to_string(line) + " -> " + msg;
     }
 
 
