@@ -1441,3 +1441,7 @@ void v2_testShell()
 	else CU_ASSERT(false)
 }
 
+void v2_developing()
+{
+	oct::core::Exception ex1;
+}

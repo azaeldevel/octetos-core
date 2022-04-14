@@ -125,6 +125,12 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+	
+	if ((NULL == CU_add_test(pSuite_v2, "Developing..", v2_developing)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
 #endif
 
 #ifdef OCTETOS_CORE_V3

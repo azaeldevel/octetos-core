@@ -28,8 +28,8 @@ namespace oct
 {
 	namespace core
 	{
-		using v2::Exception;
-		using v2::InternalException;
+		typedef v2::Exception Exception;
+		typedef v2::InternalException InternalException;
 	}
 }
 
@@ -37,8 +37,8 @@ namespace octetos
 {
 	namespace core
 	{
-		using oct::core::v2::Exception;
-		using oct::core::v2::InternalException;
+		typedef oct::core::v2::Exception Exception;
+		typedef oct::core::v2::InternalException InternalException;
 	}
 }
 

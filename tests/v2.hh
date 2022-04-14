@@ -36,5 +36,6 @@ void v2_testsemverc();
 void v2_testData();
 void v2_testShell();
 void v2_reduced_parser();
+void v2_developing();
 
 #endif
