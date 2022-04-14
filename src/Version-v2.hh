@@ -131,11 +131,16 @@ namespace oct::core::v2
 		operator std::string()const;
 		virtual ~Semver();
 		Semver(const Semver&);
+
 		Semver();
 		/**
 		* \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
 		* */
 		Semver(Number major,Number minor);
+		/**
+		* \brief Crea el objeto a partir de un string
+		* */
+		Semver(const char*);
 		/**
 		* \brief Asigna numero major, menor y patch, los restantas datos son limpiado
 		* */
@@ -159,7 +164,7 @@ namespace oct::core::v2
 		bool parser(const char* );
 	};
 
-
+	extern Semver version;
 }
 
 

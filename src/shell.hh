@@ -47,7 +47,7 @@ namespace oct::core
 	};
 
 
-	DECLSPCE_DLL class [[deprecated("En favor de std::filesystem")]] Shell
+	class [[deprecated("En favor de std::filesystem")]] Shell
 	{
 	private:
 

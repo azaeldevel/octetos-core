@@ -19,12 +19,21 @@
  *
  * */
 
+#if defined(__linux__)
+    #include <config.h>
+#elif defined(_WIN32) || defined(_WIN64)
+    #include "config-cb.h"
+#else
+    #error "Plataforma desconocida"
+#endif
 
 #include "Version-v2.hh"
 
 namespace oct::core::v2
 {
 
+	Semver version(PACKAGE_VERSION);
+		 
 	InvalidComparison::InvalidComparison(const std::string& msg):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON)
 	{
 	}

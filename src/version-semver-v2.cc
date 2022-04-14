@@ -335,6 +335,10 @@ namespace oct::core::v2
 	{
 		init();
 	}
+    Semver::Semver(const char* str)
+    {
+        parser(str);
+    }
 	Semver::Semver(Number major,Number minor,Number patch)
     {
 		init();

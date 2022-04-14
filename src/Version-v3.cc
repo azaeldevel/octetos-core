@@ -19,6 +19,13 @@
  *
  * */
 
+#if defined(__linux__)
+    #include <config.h>
+#elif defined(_WIN32) || defined(_WIN64)
+    #include "config-cb.h"
+#else
+    #error "Plataforma desconocida"
+#endif
 #include <typeinfo>
 #include <string.h>
 
@@ -27,7 +34,8 @@
 
 namespace oct::core::v3
 {
-
+	Semver version(PACKAGE_VERSION);
+	
     bool Semver::operator !=(const Version& obj)const
     {
         if (major != ((Semver&)obj).getMajor() or minor != ((Semver&)obj).getMinor() or patch != ((Semver&)obj).getPatch())

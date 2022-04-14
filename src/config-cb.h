@@ -4,6 +4,6 @@
 
 
 #define PACKAGE "octetos-core"
-#define VERSION "2.14.0-beta"
+#define VERSION "2.47.0-alpha"
 
 #endif

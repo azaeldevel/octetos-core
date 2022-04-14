@@ -140,7 +140,7 @@ namespace oct::core::v3
 		bool parse(const char* );
 	};
 
-	
+	extern Semver version;
 }
 
 

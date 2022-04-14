@@ -49,9 +49,4 @@ namespace oct::core::v2
 
 }
 
-namespace octetos::core::v2
-{
-	typedef oct::core::v2::Artifact Artifact;
-	bool getPackageInfo(Artifact&);
-}
 #endif

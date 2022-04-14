@@ -35,8 +35,8 @@ namespace oct::core
 
 namespace octetos::core
 {
-	using v2::Artifact;
-	using v2::getPackageInfo;
+	using oct::core::v2::Artifact;
+	using oct::core::v2::getPackageInfo;
 }
 
 #endif
