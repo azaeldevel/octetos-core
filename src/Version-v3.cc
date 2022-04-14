@@ -177,9 +177,19 @@ namespace oct::core::v3
     {
         octetos_core_Semver_setPrerelease(this, str);
     }
+    void Semver::setBuild(const char* str)
+    {
+        octetos_core_Semver_setBuild(this, str);
+    }
+
+
     const char* Semver::getPrerelease() const
     {
         return prerelease;
+    }
+    const char* Semver::getBuild() const
+    {
+        return build;
     }
 
 

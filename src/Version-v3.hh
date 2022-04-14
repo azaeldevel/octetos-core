@@ -46,9 +46,9 @@ namespace oct::core::v3
 		virtual bool operator <(const Version&)const = 0;
 		virtual bool operator >=(const Version&)const = 0;
 		virtual bool operator <=(const Version&)const = 0;
-		virtual bool empty() const= 0;//TODO:proponer para nueva interface
-		virtual Version& operator =(const char*) = 0;//TODO:proponer para nueva interface
-		virtual Version& operator =(const std::string&) = 0;//TODO:proponer para nueva interface
+		virtual bool empty() const= 0;
+		virtual Version& operator =(const char*) = 0;
+		virtual Version& operator =(const std::string&) = 0;
 	};
 
 	typedef octetos_core_Semver_FormatString FormatString;
@@ -80,6 +80,7 @@ namespace oct::core::v3
 		Number getPatch() const;
 
 		const char* getPrerelease() const;
+		const char* getBuild() const;
 
 		/**
 		* \brief Asigna todos los campos de version.

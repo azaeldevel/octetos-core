@@ -1,0 +1,17 @@
+﻿  Buffer.cc
+C:\Users\Azael\Documents\develop\octetos\core\src\Buffer.cc(76,25): warning C4267: '=': conversión de 'size_t' a 'short'; posible pérdida de datos
+  Version-parser-v3.cc
+C:\Users\Azael\Documents\develop\octetos\core\src\Version-parser-v3.cc(41,39): warning C4267: 'inicializando': conversión de 'size_t' a 'short'; posible pérdida de datos
+C:\Users\Azael\Documents\develop\octetos\core\src\Version-parser-v3.cc(59,39): warning C4267: 'inicializando': conversión de 'size_t' a 'short'; posible pérdida de datos
+  Version-v3.cc
+  semver-lexer.3.cc
+  common.c
+C:\Users\Azael\Documents\develop\octetos\core\src\common.c(126,25): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Azael\Documents\develop\octetos\core\src\common.c(133,43): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Azael\Documents\develop\octetos\core\src\common.c(134,33): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Generando código
+  Previous IPDB not found, fall back to full compilation.
+C:\Users\Azael\Documents\develop\octetos\core\src\Exception-v3.cc(72): warning C4715: 'oct::core::v3::Exception::what': no todas las rutas de acceso de control devuelven un valor
+  All 189 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Generación de código finalizada
+  core.vcxproj -> C:\Users\Azael\Documents\develop\octetos\core\x64\Release\octetos-core.dll

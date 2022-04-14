@@ -1,5 +1,8 @@
 
+#include <iostream>
+
 #ifdef OCTETOS_CORE_V2
+	
 	#include "v2.hh"
 #endif
 #ifdef OCTETOS_CORE_V3
@@ -18,46 +21,48 @@ int main(int argc, char *argv[])
 #else
 	std::cout << "Collention Assitan is not enabled.\n";	
 #endif
+	
+	
+#ifdef OCTETOS_CORE_V2
 	bdir = "";
 	std::string option;
-	for(int i = 1 ; i < argc; i++)
+	for (int i = 1; i < argc; i++)
 	{
 		option = argv[i];
 		//bdir
 		int bdirIndex = option.compare(0, 7, "--bdir=");
-		if(!bdirIndex)
+		if (!bdirIndex)
 		{
-			bdir = option.substr(7,option.size());
+			bdir = option.substr(7, option.size());
 			std::cout << "bdir es '" << bdir << "'.\n";
 		}
 		int helpIndex = option.compare("--help");
-		if(!helpIndex)
+		if (!helpIndex)
 		{
 			std::cout << "--bdir=[directory]		Directorio de contrución";
 		}
 	}
 	oct::core::v2::Artifact packinfo;
 	oct::core::v2::getPackageInfo(packinfo);
-	if(oct::core::Error::check())
+	if (oct::core::Error::check())
 	{
 		std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 		return EXIT_FAILURE;
 	}
-	
+
 	int majorNumber = 2;
-	if(majorNumber != packinfo.version.getMajor())
+	if (majorNumber != packinfo.version.getMajor())
 	{
 		std::cerr << "Cree un nuevo archivo para la version '" << majorNumber << "' estas en la version'" << (std::string)packinfo.version << "'\n";
 		return EXIT_FAILURE;
 	}
-	
+
 	/* initialize the CUnit test registry */
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
 	std::string& pkName = packinfo.name;
 	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
-	
-#ifdef OCTETOS_CORE_V2
+
 	CU_pSuite pSuite_v2 = NULL;
 	pSuite_v2 = CU_add_suite("Octetos core v2", v2_init, v2_clean);
 	if (NULL == pSuite_v2) 
@@ -123,26 +128,15 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-#endif
-	
-#ifdef OCTETOS_CORE_V3
-	CU_pSuite pSuite_v3 = NULL;
-	pSuite_v3 = CU_add_suite("Octetos core v3", v3_init, v3_clean);
-	if (NULL == pSuite_v2) 
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-	
-	if ((NULL == CU_add_test(pSuite_v3, "Developing v3..", v3_developing)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-#endif
+
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
 	CU_cleanup_registry();
-	return CU_get_error();	
+	return CU_get_error();
+#endif
+	
+#ifdef OCTETOS_CORE_V3
+	std::cout << "enabled enabled..\n";
+#endif
 }
