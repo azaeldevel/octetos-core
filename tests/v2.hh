@@ -14,7 +14,7 @@
 #include <list>
 #include <algorithm>
 
-#include "config.h"
+
 #include "../src/Artifact-v2.hh"
 #include "../src/memory.hh"
 #include "../src/semver-lexer.h"

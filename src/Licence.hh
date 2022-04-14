@@ -32,8 +32,6 @@
 
 #include "Version.hh"
 
-
-
 namespace oct::core
 {
 	class DECLSPCE_DLL Licence : public Object

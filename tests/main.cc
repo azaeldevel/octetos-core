@@ -2,7 +2,6 @@
 #include <iostream>
 
 #ifdef OCTETOS_CORE_V2
-	
 	#include "v2.hh"
 #endif
 #ifdef OCTETOS_CORE_V3
@@ -10,48 +9,45 @@
 #endif
 
 int main(int argc, char *argv[])
-{  
+{
 #ifdef DEBUG
 	std::cout << "Debug is enabled.\n";
 #else
-	std::cout << "Debug is not enabled.\n";	
+	std::cout << "Debug is not enabled.\n";
 #endif
 #ifdef COLLETION_ASSISTANT
 	std::cout << "Collention Assitan is enabled.\n";
 #else
-	std::cout << "Collention Assitan is not enabled.\n";	
+	std::cout << "Collention Assitan is not enabled.\n";
 #endif
-	
-	
-#ifdef OCTETOS_CORE_V2
 	bdir = "";
 	std::string option;
-	for (int i = 1; i < argc; i++)
+	for(int i = 1 ; i < argc; i++)
 	{
 		option = argv[i];
 		//bdir
 		int bdirIndex = option.compare(0, 7, "--bdir=");
-		if (!bdirIndex)
+		if(!bdirIndex)
 		{
-			bdir = option.substr(7, option.size());
+			bdir = option.substr(7,option.size());
 			std::cout << "bdir es '" << bdir << "'.\n";
 		}
 		int helpIndex = option.compare("--help");
-		if (!helpIndex)
+		if(!helpIndex)
 		{
 			std::cout << "--bdir=[directory]		Directorio de contrución";
 		}
 	}
 	oct::core::v2::Artifact packinfo;
 	oct::core::v2::getPackageInfo(packinfo);
-	if (oct::core::Error::check())
+	if(oct::core::Error::check())
 	{
 		std::cerr << (const std::string&)oct::core::Error::get() << "\n";
 		return EXIT_FAILURE;
 	}
 
 	int majorNumber = 2;
-	if (majorNumber != packinfo.version.getMajor())
+	if(majorNumber != packinfo.version.getMajor())
 	{
 		std::cerr << "Cree un nuevo archivo para la version '" << majorNumber << "' estas en la version'" << (std::string)packinfo.version << "'\n";
 		return EXIT_FAILURE;
@@ -63,31 +59,32 @@ int main(int argc, char *argv[])
 	std::string& pkName = packinfo.name;
 	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
 
+#ifdef OCTETOS_CORE_V2
 	CU_pSuite pSuite_v2 = NULL;
 	pSuite_v2 = CU_add_suite("Octetos core v2", v2_init, v2_clean);
-	if (NULL == pSuite_v2) 
+	if (NULL == pSuite_v2)
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	
+
 	if ((NULL == CU_add_test(pSuite_v2, "Semver for C.", v2_testsemverc)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	
+
 	if ((NULL == CU_add_test(pSuite_v2, "Criterios de comparación semver v1.0.0", v2_testComparators_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-			
+
 	if ((NULL == CU_add_test(pSuite_v2, "Validacion de parseo semver v1.0.0", v2_testParseString_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
-	}		
+	}
 	if ((NULL == CU_add_test(pSuite_v2, "Operaciones genéricas", v2_testOperations_v100)))
 	{
 		CU_cleanup_registry();
@@ -98,7 +95,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	
+
 	if ((NULL == CU_add_test(pSuite_v2, "Validacion de parseo semver v2.0.0", v2_testParseString_v200)))
 	{
 		CU_cleanup_registry();
@@ -110,34 +107,44 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	
+
 	if ((NULL == CU_add_test(pSuite_v2, "Data modules", v2_testData)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	
+
 	if ((NULL == CU_add_test(pSuite_v2, "Prueba de Shell class..", v2_testShell)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	
+
 	if ((NULL == CU_add_test(pSuite_v2, "Parser reducido..", v2_reduced_parser)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+#endif
 
+#ifdef OCTETOS_CORE_V3
+	CU_pSuite pSuite_v3 = NULL;
+	pSuite_v3 = CU_add_suite("Octetos core v3", v3_init, v3_clean);
+	if (NULL == pSuite_v2)
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	if ((NULL == CU_add_test(pSuite_v3, "Developing v3..", v3_developing)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+#endif
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
 	CU_cleanup_registry();
 	return CU_get_error();
-#endif
-	
-#ifdef OCTETOS_CORE_V3
-	v3_developing();
-	//v3_reduced_parser();
-#endif
 }

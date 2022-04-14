@@ -9,7 +9,7 @@
 #include <list>
 #include <algorithm>
 
-#include "config.h"
+
 #include "../src/Artifact.hh"
 #include "../src/memory.hh"
 #include "../src/semver-lexer.h"
@@ -82,15 +82,15 @@ void v2_testImports_v100()
 void v2_testParseString_v100()
 {
 	oct::core::Semver ver1,ver2,ver3;
-	
+
 	if(oct::core::Error::check())
 	{
 		CU_ASSERT(false);
 		//std::cerr << (std::string)oct::core::Error::get() << "\n";
 		return;
 	}
-	
-	ver1.set("1.6.55-alpha"); 
+
+	ver1.set("1.6.55-alpha");
     if(ver1.getMajor() == 1)
 	{
 		CU_ASSERT(true);
@@ -143,8 +143,8 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
-    
-	ver2.set("7.6.23-alpha-1"); 
+
+	ver2.set("7.6.23-alpha-1");
 	if(ver2.getMajor() == 7)
 	{
 		CU_ASSERT(true);
@@ -192,9 +192,9 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
-	
-    
-	ver3.set("7.6.23-alpha5-2");     
+
+
+	ver3.set("7.6.23-alpha5-2");
 	if(ver3.getMajor() == 7)
 	{
 		CU_ASSERT(true);
@@ -257,7 +257,7 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
-	
+
 	oct::core::Semver ver5;
 	if(ver5.extractNumbers("7.6.23"))
 	{
@@ -273,7 +273,7 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
-	
+
 	oct::core::Semver ver6;
 	if(ver6.extractNumbers("7.6.23"))
 	{
@@ -289,7 +289,7 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
-	
+
 	oct::core::Semver ver7;
 	if(ver7.set("7.6.23-betar1.2"))
 	{
@@ -353,7 +353,7 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
-	
+
 	oct::core::Semver ver11;
 	if(ver11.set("1.2.0"))
 	{
@@ -369,7 +369,7 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
-	
+
 	oct::core::Semver ver12;
 	if(ver12.set("1.2.0"))//no deve aceptar letras en la secion numerica
 	{
@@ -401,7 +401,7 @@ void v2_testParseString_v100()
 		}
 	}
 
-	
+
 	oct::core::Semver ver14;
     if(ver14.extractNumbers("0.1.0-alpha"))
 	{
@@ -428,21 +428,21 @@ void v2_reduced_parser()
 	CU_ASSERT(ver15.getMinor() == 30);
 	//std::cout << "M : " << ver15.getMajor() << "\n";
 	//std::cout << "m : " << ver15.getMinor() << "\n";
-	
+
 	oct::core::Semver ver16;
 	CU_ASSERT(ver16.parser("5.30-alpha"));
 	CU_ASSERT(ver16.getMajor() == 5);
 	CU_ASSERT(ver16.getMinor() == 30);
 	CU_ASSERT(ver16.getPrerelease().compare("alpha") == 0);
 	//std::cout << "prerelease : " << ver16.getPrerelease() << "\n";
-	
+
 	oct::core::Semver ver17;
 	CU_ASSERT(ver17.parser("5.30-alpha+mountain"));
 	CU_ASSERT(ver17.getMajor() == 5);
 	CU_ASSERT(ver17.getMinor() == 30);
 	CU_ASSERT(ver17.getPrerelease().compare("alpha") == 0);
 	CU_ASSERT(strcmp(ver17.getBuild(),"mountain") == 0);
-	
+
 	oct::core::Semver ver18;
 	CU_ASSERT(ver18.parser("5.30+mountain"));
 	CU_ASSERT(ver18.getMajor() == 5);
@@ -453,14 +453,14 @@ void v2_reduced_parser()
 void v2_testParseString_v200()
 {
 	oct::core::Semver ver1,ver2,ver3;
-	
+
 	if(oct::core::Error::check())
 	{
 		CU_ASSERT(false);
 		std::cerr << (std::string)oct::core::Error::get() << "\n";
 		return;
 	}
-	
+
     if(ver1.set("1.6.55-alpha"))
 	{
 		CU_ASSERT(true);
@@ -487,7 +487,7 @@ void v2_testParseString_v200()
 			return;
 		}
 	}
-	
+
     if(ver1.getPatch() == 55)
 	{
 		CU_ASSERT(true);
@@ -514,8 +514,8 @@ void v2_testParseString_v200()
 			return;
 		}
 	}
-    
-	ver2.set("7.6.23-alpha"); 
+
+	ver2.set("7.6.23-alpha");
 	if(ver2.getMajor() == 7)
 	{
 		CU_ASSERT(true);
@@ -563,9 +563,9 @@ void v2_testParseString_v200()
 			return;
 		}
 	}
-	
-    
-	ver3.set("7.6.23-alpha5");     
+
+
+	ver3.set("7.6.23-alpha5");
 	if(ver3.getMajor() == 7)
 	{
 		CU_ASSERT(true);
@@ -629,7 +629,7 @@ void v2_testParseString_v200()
 		}
 	}
 
-	
+
 	oct::core::Semver ver5;
 	if(ver5.set("5.0.0-alpha\n"))
 	{
@@ -647,7 +647,7 @@ void v2_testComparators_v100()
 {
         oct::core::Semver ver1;
         oct::core::Semver ver2;
-        
+
         ver1.setNumbers(1,2,3);
         ver2.setNumbers(1,2,5);
         //std::cout << "test 1" << std::endl;
@@ -678,7 +678,7 @@ void v2_testComparators_v100()
 				return;
 			}
         }
-                
+
         ver1.setNumbers(1,2,3);
         ver2.setNumbers(1,2,3);
         //std::cout << "test 3" << std::endl;
@@ -709,8 +709,8 @@ void v2_testComparators_v100()
 				return;
 			}
         }
-        
-        //La nueva politca dicta que build no tiene significado en la presendiencia de las version pero sera removido hasta v5 paramantener compatibilidad 
+
+        //La nueva politca dicta que build no tiene significado en la presendiencia de las version pero sera removido hasta v5 paramantener compatibilidad
         ver1.setNumbers(1,2,3);
         ver2.setNumbers(1,0,3);
         //std::cout << "test 3" << std::endl;
@@ -740,18 +740,18 @@ void v2_testComparators_v100()
         else
         {
                 CU_ASSERT(true);
-        }   
-        
+        }
+
     //x simepre es amjor que x.y
     oct::core::Semver ver3;
     oct::core::Semver ver4;
     ver3.setNumbers(1);
     ver4.setNumbers(1,50);
-    if(ver3 >= ver4) 
+    if(ver3 >= ver4)
     {
         CU_ASSERT(true);
     }
-    else 
+    else
     {
         CU_ASSERT(false);
 		if(oct::core::Error::check())
@@ -760,11 +760,11 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    if(ver3 >= ver4) 
+    if(ver3 >= ver4)
     {
         CU_ASSERT(true);
     }
-    else 
+    else
     {
         CU_ASSERT(false);
 		if(oct::core::Error::check())
@@ -773,7 +773,7 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    if(ver3 <= ver4) 
+    if(ver3 <= ver4)
     {
         CU_ASSERT(false);
 		if(oct::core::Error::check())
@@ -782,15 +782,15 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    else 
-    {
-        CU_ASSERT(true);
-    }     
-    if(ver3 > ver4) 
+    else
     {
         CU_ASSERT(true);
     }
-    else 
+    if(ver3 > ver4)
+    {
+        CU_ASSERT(true);
+    }
+    else
     {
         CU_ASSERT(false);
 		if(oct::core::Error::check())
@@ -799,11 +799,11 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    if(ver3 > ver4) 
+    if(ver3 > ver4)
     {
         CU_ASSERT(true);
     }
-    else 
+    else
     {
         CU_ASSERT(false);
 		if(oct::core::Error::check())
@@ -812,7 +812,7 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    if(ver3 < ver4) 
+    if(ver3 < ver4)
     {
         CU_ASSERT(false);
 		if(oct::core::Error::check())
@@ -821,24 +821,24 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    else 
+    else
     {
         CU_ASSERT(true);
-    }  
-    
-    
-    
-    
+    }
+
+
+
+
     //x simepre es amjor que x.y
     oct::core::Semver ver5;
     oct::core::Semver ver6;
     ver5.setNumbers(1,50);
     ver6.setNumbers(1,50,100);
-    if(ver5 >= ver6) 
+    if(ver5 >= ver6)
     {
         CU_ASSERT(true);
     }
-    else 
+    else
     {
 		CU_ASSERT(false);
 		if(oct::core::Error::check())
@@ -847,11 +847,11 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    if(ver5 > ver6) 
+    if(ver5 > ver6)
     {
         CU_ASSERT(true);
     }
-    else 
+    else
     {
         CU_ASSERT(false);
 		if(oct::core::Error::check())
@@ -860,7 +860,7 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    if(ver5 < ver6) 
+    if(ver5 < ver6)
     {
         CU_ASSERT(false);
 		if(oct::core::Error::check())
@@ -869,12 +869,12 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    else 
+    else
     {
         CU_ASSERT(true);
     }
-    
-    
+
+
     if(ver5 == ver6)
     {
         CU_ASSERT(false);
@@ -901,7 +901,7 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    
+
     oct::core::Semver verMin;
     oct::core::Semver verMax;
     oct::core::Semver verVal;
@@ -934,7 +934,7 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-    
+
     oct::core::Semver ver7;
     oct::core::Semver ver8;
     ver7.setNumbers(4,4,20);
@@ -979,7 +979,7 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-	
+
 	oct::core::Semver ver13;
     oct::core::Semver ver14;
     ver13.setNumbers(2,1);
@@ -993,7 +993,7 @@ void v2_testComparators_v100()
 			return;
 		}
     }
-	
+
 	oct::core::Semver ver15;
     oct::core::Semver ver16;
     ver15.setNumbers(2,1);
@@ -1010,13 +1010,13 @@ void v2_testComparators_v100()
 }
 
 void v2_testOperations_v100()
-{	
+{
 	/*time_t seconds = time (NULL);
 	oct::core::Artifact packinfo;
 	oct::core::getPackageInfo(packinfo);
 	std::string str = std::to_string(seconds);
 	std::string filename = packinfo.name;
-	filename += "-" + str + ".cfg"; 
+	filename += "-" + str + ".cfg";
 	std::string fullName = bdir + "/" + filename;
 	if(packinfo.write(fullName))
 	{
@@ -1045,7 +1045,7 @@ void v2_testsemverc()
 		{
 			CU_ASSERT(false);
 		}
-		
+
 		if(ver1.minor == 0)
 		{
 			CU_ASSERT(true);
@@ -1054,7 +1054,7 @@ void v2_testsemverc()
 		{
 			CU_ASSERT(false);
 		}
-		
+
 		if(ver1.patch == 2)
 		{
 			CU_ASSERT(true);
@@ -1075,7 +1075,7 @@ void v2_testMemory()
 {
 	/*unsigned short LENGTH = 1000;
 	unsigned short TESTS = 10000;
-	
+
 	int* segment1;
 	clock_t start1 = clock();
 	for(unsigned short test = 0; test < TESTS; test++)
@@ -1090,8 +1090,8 @@ void v2_testMemory()
 	clock_t stop1 = clock();
 	clock_t duration1 = stop1 - start1;
 
-	
-	int* segment2[LENGTH];	
+
+	int* segment2[LENGTH];
 	clock_t start2 = clock();
 	for(unsigned short test = 0; test < TESTS; test++)
 	{
@@ -1113,7 +1113,7 @@ void v2_testMemory()
 
 	int* segment3[LENGTH];
 	clock_t start3 = clock();
-	oct::core::MiniGC<int> minigc(LENGTH);	
+	oct::core::MiniGC<int> minigc(LENGTH);
 	for(unsigned short test = 0; test < TESTS; test++)
 	{
 		for(unsigned short i = 0; i < LENGTH; i++)
@@ -1124,7 +1124,7 @@ void v2_testMemory()
 		for(unsigned short i = 0; i < LENGTH; i++)
 		{
 			minigc.destroy(segment3[i]);
-		}		
+		}
 	}
 	clock_t stop3 = clock();
 	clock_t duration3 = stop3 - start3;
@@ -1143,7 +1143,7 @@ void v2_testMemory()
 	filename = filename + "/statics.csv";
 	std::ofstream fn(filename,std::ios::app | std::ios::in | std::ios::ate);
 	fn << speed2 << "," << speed3 << "," << ventaja << "," << hostname << "\n";*/
-	
+
 	oct::core::Allocator<int>::List list1;
 	list1.push_back(0);
 	list1.push_back(1);
@@ -1179,9 +1179,9 @@ void v2_testMemory()
 	{
 		CU_ASSERT(false);
 	}
-	
+
 	oct::core::Allocator<int>::Node* node1 = &list1.first();
-	int node1_count = 0;	
+	int node1_count = 0;
 	while(node1 != NULL)
 	{
 		if(node1_count == node1->object)
@@ -1195,7 +1195,7 @@ void v2_testMemory()
 		node1 = node1->get_posteriory();
 		node1_count++;
 	}
-	
+
 	node1 = &list1.first();
 	//std::cout << "pMember : " << &node1->object << "\n";
 	//std::cout << "pObject " << node1 << "\n";
@@ -1207,7 +1207,7 @@ void v2_testMemory()
 	{
 		CU_ASSERT(false);
 	}
-	
+
 	node1 = &list1.last();
 	node1_count = 9;
 	while(node1 != NULL)
@@ -1223,8 +1223,8 @@ void v2_testMemory()
 		node1 = node1->get_previous();
 		node1_count--;
 	}
-	
-	
+
+
 	oct::core::Allocator<int>::List list2,list3;
 	list2.push_back(0);
 	list2.push_back(1);
@@ -1256,7 +1256,7 @@ void v2_testMemory()
 		node1 = node1->get_posteriory();
 		node1_count--;
 	}
-	
+
 	oct::core::Allocator<int>::List list4,list5;
 	list4.push_back(0);
 	list4.push_back(1);
@@ -1287,7 +1287,7 @@ void v2_testMemory()
 		node1 = node1->get_posteriory();
 		node1_count++;
 	}
-	
+
 	std::vector<int*> alloc1_datas(10);
 	oct::core::Allocator<int> alloc1;
 	for(unsigned int i = 0; i < alloc1_datas.size(); i++)
@@ -1306,7 +1306,7 @@ void v2_testMemory()
 			CU_ASSERT(false);
 		}
 	}
-	
+
 	std::vector<int*> alloc2_datas(10);
 	oct::core::Allocator<int> alloc2;
 	for(unsigned int i = 0; i < alloc1_datas.size(); i++)
@@ -1324,8 +1324,8 @@ void v2_testMemory()
 		{
 			CU_ASSERT(false);
 		}
-	}	
-	
+	}
+
 	oct::core::Allocator<int>::List& list6 = alloc2.get_used();
 	unsigned int sizePrev = list6.get_size();
 	alloc2.destroy(alloc2_datas[3]);
@@ -1340,7 +1340,7 @@ void v2_testMemory()
 	{
 		CU_ASSERT(false);
 	}
-	
+
 }
 
 void v2_testData()
@@ -1351,7 +1351,7 @@ void v2_testData()
 	wall1[2] = 3;
 	wall1[3] = 4;
 	wall1[4] = 5;
-	
+
 	for(unsigned int i = 0; i < wall1.get_size(); i++)
 	{
 		if(wall1[i] = i + 1)
@@ -1371,7 +1371,7 @@ void v2_testShell()
 	std::string toFind = "configure.ac";
 	shell.ls(dirs);
 	std::list<std::string>::iterator itFind = std::find(dirs.begin(),dirs.end(),toFind);
-	if(itFind != dirs.end()) 
+	if(itFind != dirs.end())
 	{
 		CU_ASSERT(false);
 		std::cerr << "No ejecutar en el directorio raiz, las pruebas se ejecutan en el directorio correspondiente\n";
@@ -1396,8 +1396,8 @@ void v2_testShell()
 			CU_ASSERT(true)
 		}
 	}
-	
-	
+
+
 	std::string dm = std::to_string(oct::core::getDayID()) + "/" + std::to_string(oct::core::getTimeID());
 	shell.mkdir(dm,true);
 	for(unsigned int i = 0; i < 10; i++)
@@ -1411,32 +1411,32 @@ void v2_testShell()
 	}
 	if(shell.rm(dm,true)) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	
+
 	unsigned int idtime1 = oct::core::getTimeID();
 	if(shell.exists(std::to_string(idtime1)))
 	{
 		return; //se omite la prueba, puede ser que haya sido creado por el usuario.
 	}
-	
+
 	if(shell.exists(std::to_string(idtime1))) CU_ASSERT(false)
 	else CU_ASSERT(true);
-	
+
 	shell.mkdir(std::to_string(idtime1));
-	
+
 	if(shell.exists(std::to_string(idtime1))) CU_ASSERT(true)
 	else CU_ASSERT(false);
-	
+
 	shell.rm(std::to_string(idtime1));
-	
+
 	if(shell.exists(std::to_string(idtime1))) CU_ASSERT(false)
 	else CU_ASSERT(true);
-	
+
 	std::string dir1 = "dir1";
 	if(not shell.exists(dir1)) shell.mkdir(dir1);
-	
+
 	if(shell.exists(dir1)) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	
+
 	if(shell.rm(dir1)) CU_ASSERT(true)
 	else CU_ASSERT(false)
 }
