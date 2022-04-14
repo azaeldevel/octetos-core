@@ -27,7 +27,14 @@
 
 namespace oct::core
 {
- 
+
+bool Buffer::empty() const
+{
+	if(buffer1[forward] == 0) return true;
+	if(forward + 1 <= bsize) return false;
+	
+	return false;
+}
 void Buffer::prev_char()
 {
 	forward--;
@@ -35,6 +42,12 @@ void Buffer::prev_char()
 const char* Buffer::get_text() const
 {
 	return text;
+}
+const char* Buffer::get_buffer(unsigned short index) const
+{
+	if(index == 0) return buffer1;
+
+	return NULL;
 }
 char Buffer::check_char(short p)
 {
@@ -46,15 +59,12 @@ void Buffer::back()
 }
 void Buffer::proceed()
 {
-	if(text)
-	{
-		delete text;
-	}
 	short len = forward - begin + 1;
 	text = (char*)malloc(len);
 	memcpy(text,&(buffer1[begin]),len);
 	text[len] = 0;
 	begin = forward + 1;
+	bufs.push_back(text);
 }
 char Buffer::next_char()
 {
@@ -63,10 +73,10 @@ char Buffer::next_char()
 }
 Buffer::Buffer(const char* str)
 {
-	bsize = strlen(str);
-	short fullsize = bsize*2;
+	bsize = strlen(str) + 1;
+	//short fullsize = bsize*2;
 	
-	buffer1 = (char*)malloc(fullsize);
+	buffer1 = (char*)malloc(bsize);
 	buffer2 = NULL;
 	begin = 0;
 	forward = -1;
@@ -74,6 +84,12 @@ Buffer::Buffer(const char* str)
 	
 	strcpy(buffer1,str);
 }
-
+Buffer::~Buffer()
+{
+	for(char* p : bufs)
+	{
+		delete p;
+	}
+}
 
 }

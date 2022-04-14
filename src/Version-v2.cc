@@ -31,5 +31,5 @@ namespace oct::core::v2
 	InvalidComparison::InvalidComparison(const std::string& msg ,std::string filename,int lineNumber):Error(msg,Error::ERROR_VERSION_INVALID_COMPARISON,filename,lineNumber)
 	{
 	}
-
+	
 }

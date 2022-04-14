@@ -33,7 +33,7 @@ public:
 	Exception(unsigned int code);
 	Exception(unsigned int code,const char* subject);
 	Exception(unsigned int code,const char* filename, unsigned int line);
-	Exception(unsigned int code,const char* filename, unsigned int line,const char* subject);
+	Exception(unsigned int code,const char* subject,const char* filename, unsigned int line);
 	
 	unsigned int code()const;
 	const char* filename()const;

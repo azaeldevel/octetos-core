@@ -24,8 +24,10 @@
 
 
 
+#include <list>
 
 #include "defines.hh"
+
 
 namespace oct::core
 {
@@ -39,8 +41,12 @@ private:
 	short forward;
 	short bsize;
 	char* text;
+	std::list<char*> bufs;
+
 public:
 	Buffer(const char*);
+	~Buffer();
+
 	/**
 	*\brief Avanca un caracter al centinela
 	*/
@@ -53,6 +59,9 @@ public:
 	void proceed();
 	void back();
 	const char* get_text() const;
+	const char* get_buffer(unsigned short) const;
+
+	bool empty() const;
 };
 
 

@@ -29,7 +29,7 @@ struct octetos_core_Tray
 	struct octetos_core_Semver* version;
     int dysplay_erro;
 	void* buffer;
-	char* str;
+	const char* str;
 	int state;
 };
 

@@ -1,3 +1,7 @@
+2022-03-23 Azael Reyes <azael.devel@gmail.com>
+2.X.0-alpha
+	- Add empty method for version
+
 2022-03-22 Azael Reyes <azael.devel@gmail.com>
 2.44.0-alpha
 	- Better dreprecated selective

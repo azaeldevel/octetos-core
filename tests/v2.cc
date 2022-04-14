@@ -416,6 +416,26 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
+
+}
+
+void v2_reduced_parser()
+{
+	//bool Semver::parser(const char* )
+	oct::core::Semver ver15;
+	CU_ASSERT(ver15.parser("5.30"));
+	CU_ASSERT(ver15.getMajor() == 5);
+	CU_ASSERT(ver15.getMinor() == 30);
+	//std::cout << "M : " << ver15.getMajor() << "\n";
+	//std::cout << "m : " << ver15.getMinor() << "\n";
+
+	
+	oct::core::Semver ver16;
+	CU_ASSERT(ver16.parser("5.30-alpha"));
+	CU_ASSERT(ver16.getMajor() == 5);
+	CU_ASSERT(ver16.getMinor() == 30);
+	CU_ASSERT(ver16.getPrerelease().compare("alpha") == 0);
+	//std::cout << "prerelease : " << ver16.getPrerelease() << "\n";
 }
 
 void v2_testParseString_v200()
@@ -1342,7 +1362,7 @@ void v2_testShell()
 	if(itFind != dirs.end()) 
 	{
 		CU_ASSERT(false);
-		std::cerr << "No ejecutar en el directorio raiz";
+		std::cerr << "No ejecutar en el directorio raiz, las pruebas se ejecutan en el directorio correspondiente\n";
 		return;
 	}
 	for(const std::string str : dirs)
