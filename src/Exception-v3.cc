@@ -69,6 +69,8 @@ const char* Exception::what() const throw ()
 	case Empty_Object:
 		return "Empty object";
 	}
+
+	return NULL;
 }
 std::string Exception::describe() const throw ()
 {
