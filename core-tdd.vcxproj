@@ -78,9 +78,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <PublicIncludeDirectories>$(PublicIncludeDirectories)</PublicIncludeDirectories>
+    <OutDir>$(SolutionDir)$(Platform)-tdd\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)-tdd\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <PublicIncludeDirectories>$(PublicIncludeDirectories)</PublicIncludeDirectories>
+    <OutDir>$(SolutionDir)$(Platform)-tdd\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)-tdd\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -117,10 +123,15 @@
       <PreprocessorDefinitions>OCTETOS_CORE_V3;_CRT_SECURE_NO_WARNING</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalModuleDependencies>
+      </AdditionalModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>octetos-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,33 +143,22 @@
       <PreprocessorDefinitions>OCTETOS_CORE_V3;_CRT_SECURE_NO_WARNING</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalModuleDependencies>
+      </AdditionalModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>octetos-core.dll;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Buffer.cc" />
-    <ClCompile Include="src\common.c" />
-    <ClCompile Include="src\core.cc" />
-    <ClCompile Include="src\Exception-v3.cc" />
-    <ClCompile Include="src\semver-lexer.3.cc" />
-    <ClCompile Include="src\Version-parser-v3.cc" />
-    <ClCompile Include="src\Version-v3.cc" />
     <ClCompile Include="tests\main.cc" />
     <ClCompile Include="tests\v3.cc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Buffer.hh" />
-    <ClInclude Include="src\common.h" />
-    <ClInclude Include="src\core.hh" />
-    <ClInclude Include="src\Exception-v3.hh" />
-    <ClInclude Include="src\Version-v3.hh" />
-    <ClInclude Include="src\Version-win-v3.hh" />
-    <ClInclude Include="tests\v3.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
