@@ -52,14 +52,14 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='tests-v2|Win32'">
     <PlatformToolset>v143</PlatformToolset>
@@ -133,9 +133,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalOptions>/w34996 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/w34996 /clr /LD %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>$(Platform)\$(Configuration)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -166,6 +170,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='tests-v2|x64'">
     <ClCompile>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

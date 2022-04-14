@@ -131,7 +131,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>octetos-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>octetos-core.dll;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

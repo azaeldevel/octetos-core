@@ -5,7 +5,7 @@
 
 void v3_developing()
 {
-	//oct::core::v3::Exception ex1;
+	oct::core::v3::Exception ex1;
 	assert(true);
 }
 
