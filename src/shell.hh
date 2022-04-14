@@ -1,7 +1,7 @@
 
 
-#ifndef OCTETOS_CORE_HH
-#define OCTETOS_CORE_HH
+#ifndef OCTETOS_CORE_SHELL_HH
+#define OCTETOS_CORE_SHELL_HH
 
 /**
  *

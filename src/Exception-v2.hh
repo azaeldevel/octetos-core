@@ -1,6 +1,6 @@
 
-#ifndef OCTETOS_CORE_EXECPTION_V2_HH
-#define OCTETOS_CORE_EXECPTION_V2_HH
+#ifndef OCTETOS_CORE_EXCEPTION_V2_HH
+#define OCTETOS_CORE_EXCEPTION_V2_HH
 
 /**
  *  This file is part of octetos-core.
@@ -22,6 +22,8 @@
  * */
 
 #include <exception>
+
+
 #include "core.hh"
 #include "Object.hh"
 

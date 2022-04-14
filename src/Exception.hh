@@ -1,5 +1,5 @@
-#ifndef OCTETOS_CORE_EXECPTION_HH
-#define OCTETOS_CORE_EXECPTION_HH
+#ifndef OCTETOS_CORE_EXCEPTION_HH
+#define OCTETOS_CORE_EXCEPTION_HH
 
 /**
  *  This file is part of octetos-core.
@@ -20,8 +20,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-#include "Exception-v3.hh"
+
 #include "Exception-v2.hh"
+#include "Exception-v3.hh"
 
 namespace oct
 {

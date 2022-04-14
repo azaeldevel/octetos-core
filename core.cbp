@@ -53,21 +53,20 @@
 				<Option object_output=".objs/Debug/" />
 				<Option type="1" />
 				<Option compiler="msys2_x86_64_gcc" />
+				<Compiler>
+					<Add option="-DOCTETOS_CORE_V2" />
+				</Compiler>
 				<Linker>
 					<Add library="octetos-core" />
 					<Add directory="bin/Debug" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="src/Artifact.cc">
-			<Option target="liboctetos-core-dbg" />
-			<Option target="liboctetos-core-r" />
-		</Unit>
-		<Unit filename="src/Artifact.hh">
-			<Option target="liboctetos-core-dbg" />
-			<Option target="liboctetos-core-r" />
-		</Unit>
 		<Unit filename="src/Buffer.cc">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/Buffer.hh">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
@@ -79,7 +78,19 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
-		<Unit filename="src/Exception.cc">
+		<Unit filename="src/Exception-v2.cc">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/Exception-v2.hh">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/Exception-v3.cc">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/Exception-v3.hh">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
@@ -91,6 +102,10 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
+		<Unit filename="src/Licence.hh">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
 		<Unit filename="src/Object.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
@@ -99,11 +114,27 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
-		<Unit filename="src/Version.cc">
+		<Unit filename="src/Version-parser-v3.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
-		<Unit filename="src/Version.hh">
+		<Unit filename="src/Version-v2.cc">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/Version-v2.hh">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/Version-v3.cc">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/Version-v3.hh">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/Version-win-v3.hh">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
@@ -113,6 +144,14 @@
 		</Unit>
 		<Unit filename="src/common.c">
 			<Option compilerVar="CC" />
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/common.h">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/config-cb.h">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
@@ -132,6 +171,10 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
+		<Unit filename="src/ls.cc">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
 		<Unit filename="src/mkdir.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
@@ -140,16 +183,19 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
+		<Unit filename="src/rm-exceptions.cc">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
 		<Unit filename="src/rm.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
-		<Unit filename="src/semver-lexer.cc">
+		<Unit filename="src/semver-lexer.3.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
-		<Unit filename="src/semver.tab.c">
-			<Option compilerVar="CC" />
+		<Unit filename="src/semver-lexer.h">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
@@ -162,10 +208,6 @@
 			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/touch.cc">
-			<Option target="liboctetos-core-dbg" />
-			<Option target="liboctetos-core-r" />
-		</Unit>
-		<Unit filename="src/version-semver.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>

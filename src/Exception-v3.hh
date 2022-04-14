@@ -1,6 +1,6 @@
 
-#ifndef OCTETOS_CORE_EXECPTION_V3_HH
-#define OCTETOS_CORE_EXECPTION_V3_HH
+#ifndef OCTETOS_CORE_EXCEPTION_V3_HH
+#define OCTETOS_CORE_EXCEPTION_V3_HH
 
 /**
  *  This file is part of octetos-core.
@@ -41,7 +41,7 @@ public:
 	Exception(unsigned int code,const char* subject);
 	Exception(unsigned int code,const char* filename, unsigned int line);
 	Exception(unsigned int code,const char* subject,const char* filename, unsigned int line);
-	
+
 	unsigned int code()const;
 	const char* filename()const;
 	unsigned int line()const;
