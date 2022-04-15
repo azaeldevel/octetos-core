@@ -158,12 +158,15 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="octetos-core-tests.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="octetos-core.vcxproj">
       <Project>{7bbc20f7-cfdd-4958-a232-fc86655ec2ee}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tests\main-vsc.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tests\v3.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

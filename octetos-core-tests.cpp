@@ -10,6 +10,8 @@ int main()
     std::cout << "Hello World!\n";
     oct::core::Exception ex1;
 
+    oct::core::v3::Exception ex2(oct::core::v3::Exception::NoErros,__FILE__,__LINE__);
+
 }
 
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar

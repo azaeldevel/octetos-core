@@ -26,7 +26,7 @@
 
 namespace oct::core::v3
 {
-class Exception : public std::exception
+class OCTETOS_CORE_DECLSPCE_DLL Exception : public std::exception
 {
 public:
 	enum Erros

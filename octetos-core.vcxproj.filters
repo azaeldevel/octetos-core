@@ -27,9 +27,15 @@
     <ClInclude Include="src\Exception.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="src\Exception-v3.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Exception-v2.cc">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Exception-v3.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

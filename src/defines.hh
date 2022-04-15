@@ -22,18 +22,18 @@
 
 #if EXPORTING_OCTETOS_CORE_DLL
 	#if _MSC_VER
-		#define DECLSPCE_DLL_OCTETOS_CORE __declspec(dllexport)
+		#define OCTETOS_CORE_DECLSPCE_DLL __declspec(dllexport)
 	#elif __GNUG__
 
 	#endif
 #elif IMPORTING_OCTETOS_CORE_DLL
 	#if _MSC_VER
-		#define DECLSPCE_DLL_OCTETOS_CORE __declspec(dllimport)
+		#define OCTETOS_CORE_DECLSPCE_DLL __declspec(dllimport)
 	#elif __GNUG__
 
 	#endif
 #else
-	#define DECLSPCE_DLL_OCTETOS_CORE
+	#define OCTETOS_CORE_DECLSPCE_DLL
 #endif
 
 
