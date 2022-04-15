@@ -131,7 +131,7 @@ namespace oct::core::v2
 		
 		return tok;
 	}
-	bool Semver::parser(const char* str)
+	bool Semver::parse(const char* str)
 	{
 		octetos_core_Tray ty;
         ty.dysplay_erro = 0;

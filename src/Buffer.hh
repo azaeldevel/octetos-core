@@ -32,7 +32,7 @@
 namespace oct::core
 {
 
-class DECLSPCE_DLL Buffer
+class OCTETOS_CORE_DECLSPCE_DLL Buffer
 {
 private:
 	char* buffer1;
@@ -70,7 +70,7 @@ public:
 
 namespace octetos::core
 {
-	typedef oct::core::Buffer Buffer DEPRECATED;
+	typedef oct::core::Buffer [[deprecated]] Buffer;
 }
 
 #endif

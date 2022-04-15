@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 
-
+#include "defines.hh"
 #include "common.h"
 #include "semver-lexer.h"
 
@@ -37,7 +37,7 @@ namespace oct::core::v3
 	*\brief interface para impermentar protocvo de versionado
 	*\since 2.0
 	**/
-	class Version
+	class OCTETOS_CORE_DECLSPCE_DLL Version
 	{
 	public:
 		virtual bool operator ==(const Version&)const = 0;
@@ -59,7 +59,7 @@ namespace oct::core::v3
 	*\details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 	*\since 2.0
 	**/
-	class Semver : private octetos_core_Semver , public v3::Version
+	class OCTETOS_CORE_DECLSPCE_DLL Semver : private octetos_core_Semver , public v3::Version
 	{
 	public:
 		/**

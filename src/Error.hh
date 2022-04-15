@@ -34,7 +34,7 @@ namespace oct::core
     * \details Aunque se puede comportar como una exception estandar, su pricipal capacidad radica en sus metodo get, chech y write (staticos). Unaves escrito un mesaje mediante write esta dispoble para el retos del modulo mediante la funcion get. Use chech para determinar si hay alguno error registrado sin leer.
     * */
 	
-	class Error : public Exception
+	class OCTETOS_CORE_DECLSPCE_DLL Error : public Exception
 	{
 	public:
 		/**

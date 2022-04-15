@@ -22,7 +22,7 @@
 #if defined(__linux__)
     #include <config.h>
 #elif defined(_WIN32) || defined(_WIN64)
-    #include "config-cb.h"
+    #include "config-win.h"
 #else
     #error "Plataforma desconocida"
 #endif
@@ -203,12 +203,6 @@ namespace oct::core::v3
 
 
 
-    void Semver::init()
-    {
-        octetos_core_Semver_init(this);
-        //parser = NULL;
-        //handle = NULL;
-    }
     const Semver& Semver::operator =(const Semver& v)
     {
         if (strcmp(typeid(*this).name(), typeid(&v).name()) == 0)
@@ -280,9 +274,16 @@ namespace oct::core::v3
 
     Semver::~Semver()
     {
-        //if(!handle) dlclose(handle);
         if (prerelease) free((void*)prerelease);
         if (build) free((void*)build);
+    }
+    void Semver::init()
+    {
+        major = -1;
+        minor = -1;
+        patch = -1;
+        prerelease = NULL;
+        build = NULL;
     }
     Semver::Semver()
     {
@@ -294,24 +295,22 @@ namespace oct::core::v3
     }
     Semver::Semver(Number major, Number minor, Number patch)
     {
-        init();
         this->major = major;
         this->minor = minor;
         this->patch = patch;
+        this->prerelease = NULL;
+        this->build = NULL;
     }
     Semver::Semver(Number major, Number minor)
     {
-        init();
         this->major = major;
         this->minor = minor;
+        this->patch = -1;
+        this->prerelease = NULL;
+        this->build = NULL;
     }
     Semver::Semver(const Semver& obj)
     {
-        init();
-        //if(!handle) dlclose(handle);
-        //strcpy((char*)suffix,obj.suffix);
-        //loadParser (suffix);
-
         major = obj.major;
         minor = obj.minor;
         patch = obj.patch;
@@ -322,8 +321,7 @@ namespace oct::core::v3
 
     bool Semver::empty() const
     {
-        if (major < 0 and minor < 0 and patch < 0) return true;
-        return false;
+        return (major < 0 and minor < 0 and patch < 0)? true : false;
     }
 
     Version& Semver::operator =(const char* str)

@@ -32,7 +32,7 @@
 
 namespace oct::core::v2
 {
-	class InvalidComparison : public Error
+	class OCTETOS_CORE_DECLSPCE_DLL InvalidComparison : public Error
 	{
 	public:
 		InvalidComparison(const std::string& msg ,std::string filename,int lineNumber);
@@ -43,7 +43,7 @@ namespace oct::core::v2
 	*\brief interface para impermentar protocvo de versionado
 	*\since 2.0
 	**/
-	class Version
+	class OCTETOS_CORE_DECLSPCE_DLL Version
 	{
 	public:
 		virtual bool operator ==(const Version&)const = 0;
@@ -62,7 +62,7 @@ namespace oct::core::v2
 	*\details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 	*\since 2.0
 	**/
-	class Semver : private octetos_core_Semver , public Version
+	class OCTETOS_CORE_DECLSPCE_DLL Semver : private octetos_core_Semver , public Version
 	{
 	public:
 		enum ImportCode
@@ -161,7 +161,7 @@ namespace oct::core::v2
 		virtual bool operator <=(const Version&)const;
 		virtual bool empty() const;
 				
-		bool parser(const char* );
+		bool parse(const char* );
 	};
 
 	extern Semver version;

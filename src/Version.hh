@@ -24,6 +24,7 @@
 
 
 #include "Version-v2.hh"
+#include "Version-v3.hh"
 
 namespace oct::core
 {

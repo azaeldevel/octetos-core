@@ -5,6 +5,7 @@
 
 
 #include "../src/Exception-v3.hh"
+#include "tests.hh"
 
 #include <stdio.h>
 #include <assert.h>

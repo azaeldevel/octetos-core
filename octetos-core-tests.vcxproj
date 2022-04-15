@@ -164,8 +164,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tests\main-vsc.cc" />
+    <ClCompile Include="tests\v3.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="tests\tests.hh" />
     <ClInclude Include="tests\v3.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
