@@ -76,7 +76,7 @@ namespace oct::core
 
 namespace octetos::core
 {
-	typedef oct::core::Object Object DEPRECATED;
+    typedef oct::core::Object [[deprecated]] Object;
 }
 
 #endif

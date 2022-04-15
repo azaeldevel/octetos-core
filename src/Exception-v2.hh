@@ -30,7 +30,7 @@
 namespace oct::core::v2
 {
 
-class Exception : public std::exception
+class DECLSPCE_DLL_OCTETOS_CORE Exception : public std::exception
 {
 protected:
     int line;

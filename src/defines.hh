@@ -20,38 +20,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-#if BUILDING_DLL
-	#if EXPORTING_DLL
-		#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
-		#define DECLSPCE_DLL __declspec(dllexport)
-		#else
-		#define DECLSPCE_DLL
-		#endif
-	#else
-		#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS_MINGW)
-		#define DECLSPCE_DLL __declspec(dllimport)
-		#else
-		#define DECLSPCE_DLL
-		#endif
+#if EXPORTING_OCTETOS_CORE_DLL
+	#if _MSC_VER
+		#define DECLSPCE_DLL_OCTETOS_CORE __declspec(dllexport)
+	#elif __GNUG__
+
+	#endif
+#elif IMPORTING_OCTETOS_CORE_DLL
+	#if _MSC_VER
+		#define DECLSPCE_DLL_OCTETOS_CORE __declspec(dllimport)
+	#elif __GNUG__
+
 	#endif
 #else
-	#define DECLSPCE_DLL
+	#define DECLSPCE_DLL_OCTETOS_CORE
 #endif
 
-#ifdef __GNUG__
-	#define DEPRECATED __attribute__ ((deprecated))
-#else
-	#define DEPRECATED [[deprecated]]
-#endif
-
-#endif
 
 #define ALPHA_PHASE_ATTRIBUTE "Not use yet, alpha phase"
 
 #if defined(__linux__)
 
-#elif (defined(_WIN32) || defined(_WIN64))
+#elif defined(_WIN32) || defined(_WIN64)
 
 #else
 	#error "Plataforma desconocida"
+#endif
+
 #endif

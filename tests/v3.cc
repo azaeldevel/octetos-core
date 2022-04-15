@@ -2,19 +2,11 @@
 
 #include "v3.hh"
 
-int v3_init(void)
-{
-	return 0;
-}
-int v3_clean(void)
-{
-	return 0;
-}
 
 void v3_developing()
 {
 	oct::core::v3::Exception ex1;
-	assert(true);
+	//assert(false);
 }
 
 void v3_reduced_parser()

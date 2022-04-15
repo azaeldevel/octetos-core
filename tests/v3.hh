@@ -5,12 +5,9 @@
 
 
 #include "../src/Exception-v3.hh"
-#include "../src/Version-v3.hh"
-#include <stdio.h>      /* printf */
-#include <assert.h>
 
-int v3_init(void);
-int v3_clean(void);
+#include <stdio.h>
+#include <assert.h>
 
 void v3_developing();
 void v3_reduced_parser();

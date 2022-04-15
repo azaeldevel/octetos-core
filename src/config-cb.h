@@ -3,7 +3,7 @@
 #define OCTETOS_CORE_CONFIG_H_INCLUDED
 
 
-#define PACKAGE "octetos-core"
-#define PACKAGE_VERSION "2.47.0-alpha"
+#define PACKAGE_NAME "octetos-core"
+#define PACKAGE_VERSION "2.53.1-alpha"
 
 #endif
