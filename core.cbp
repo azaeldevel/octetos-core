@@ -155,7 +155,7 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
-		<Unit filename="src/config-cb.h">
+		<Unit filename="src/config-win.h">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
