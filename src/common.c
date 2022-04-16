@@ -71,7 +71,7 @@ const char* octetos_core_Semver_setBuild(struct octetos_core_Semver* version, co
 	}
 	if (build)
 	{
-		version->build = (const char*)malloc(strlen(build));
+		version->build = (const char*)malloc(strlen(build) + 1);
 		strcpy((char*)version->build, build);
 	}
 
@@ -85,7 +85,7 @@ const char* octetos_core_Semver_setPrerelease(struct octetos_core_Semver* versio
 	}
 	if (prerelease)
 	{
-		version->prerelease = (const char*)malloc(strlen(prerelease));
+		version->prerelease = (const char*)malloc(strlen(prerelease) + 1);
 		strcpy((char*)version->prerelease, prerelease);
 	}
 

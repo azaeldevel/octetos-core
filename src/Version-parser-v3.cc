@@ -38,9 +38,9 @@ namespace oct::core::v3
 		if(tok == v3::BUILD_VALUE)
 		{
 			if(ty->version->build) free((void*)ty->version->build);
-			short strl = strlen(v3::yylval.str);
+			std::size_t strl = strlen(v3::yylval.str);
 			char* newstr = (char*)malloc(strl + 1);
-			strcpy(newstr,v3::yylval.str);				
+			strcpy(newstr,v3::yylval.str);			
 			ty->version->build = newstr;
 			return true;
 		}
@@ -56,7 +56,7 @@ namespace oct::core::v3
 		{
 			//std::cout << "Prerelease 2 '" << v3::yylval.str << "'\n";
 			if(ty->version->prerelease) free((void*)ty->version->prerelease);
-			short strl = strlen(v3::yylval.str);
+			std::size_t strl = strlen(v3::yylval.str);
 			char* newstr = (char*)malloc(strl + 1);
 			strcpy(newstr,v3::yylval.str);				
 			ty->version->prerelease = newstr;
