@@ -232,9 +232,11 @@ namespace oct::core::v2
 
     void Semver::init()
     {
-        octetos_core_Semver_init(this);
-        //parser = NULL;
-        //handle = NULL;
+        major = -1;
+        minor = -1;
+        patch = -1;
+        prerelease = NULL;
+        build = NULL;
     }
     const Semver& Semver::operator =(const Semver& v)
     {
@@ -262,11 +264,6 @@ namespace oct::core::v2
     }
     const octetos_core_Semver& Semver::operator =(const octetos_core_Semver& v)
     {
-        //if(!handle) dlclose(handle);
-        //parser = NULL;
-        //handle = NULL;
-        //loadParser (suffix);
-
         this->major = v.major;
         this->minor = v.minor;
         this->patch = v.patch;
@@ -280,24 +277,32 @@ namespace oct::core::v2
         this->major = major;
         this->minor = minor;
         this->patch = patch;
+        octetos_core_Semver_setPrerelease(this, prerelease.c_str());
+        build = NULL;
     }
     void Semver::setNumbers(Number major, Number minor, Number patch)
     {
         this->major = major;
         this->minor = minor;
         this->patch = patch;
+        prerelease = NULL;
+        build = NULL;
     }
     void Semver::setNumbers(Number major, Number minor)
     {
         this->major = major;
         this->minor = minor;
         patch = -1;
+        prerelease = NULL;
+        build = NULL;
     }
     void Semver::setNumbers(Number major)
     {
         this->major = major;
         minor = -1;
         patch = -1;
+        prerelease = NULL;
+        build = NULL;
     }
     Number Semver::getMajor() const
     {

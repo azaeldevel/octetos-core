@@ -151,10 +151,7 @@
     <ClCompile Include="src\Exception-v2.cc" />
     <ClCompile Include="src\Exception-v3.cc" />
     <ClCompile Include="src\semver-lexer.3.cc" />
-    <ClCompile Include="src\Version-parser-v2.cc" />
     <ClCompile Include="src\Version-parser-v3.cc" />
-    <ClCompile Include="src\version-semver-v2.cc" />
-    <ClCompile Include="src\Version-v2.cc" />
     <ClCompile Include="src\Version-v3.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +165,7 @@
     <ClInclude Include="src\Exception-v3.hh" />
     <ClInclude Include="src\Exception.hh" />
     <ClInclude Include="src\semver.tab.3.h" />
-    <ClInclude Include="src\Version-v2.hh" />
     <ClInclude Include="src\Version-v3.hh" />
-    <ClInclude Include="src\Version.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

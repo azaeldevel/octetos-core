@@ -2,7 +2,7 @@
 
 #include "v3.hh"
 
-#include <Version.hh>
+#include <Version-v3.hh>
 
 
 using namespace oct::core::v3;
@@ -32,7 +32,7 @@ void v3_reduced_parser()
 	CU_ASSERT(strcmp(ver17.getPrerelease(),"alpha") == 0);
 	CU_ASSERT(strcmp(ver17.getBuild(), "mountain") == 0);
 
-	oct::core::Semver ver18;
+	Semver ver18;
 	CU_ASSERT(ver18.parse("5.30+mountain"));
 	CU_ASSERT(ver18.getMajor() == 5);
 	CU_ASSERT(ver18.getMinor() == 30);
