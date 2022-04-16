@@ -7,8 +7,6 @@
 #include "../src/Exception-v3.hh"
 #include "tests.hh"
 
-#include <stdio.h>
-#include <assert.h>
 
 void v3_developing();
 void v3_reduced_parser();

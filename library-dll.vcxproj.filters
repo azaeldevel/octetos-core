@@ -18,6 +18,15 @@
     <ClCompile Include="src\Buffer.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="src\common.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Error.cc">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Exception-v2.cc">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
     <ClCompile Include="src\Exception-v3.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -39,24 +48,27 @@
     <ClCompile Include="src\Version-v3.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\Error.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\common.c">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Exception-v2.cc">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Buffer.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="src\config-win.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="src\core.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Error.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Exception.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Exception-v2.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="src\Exception-v3.hh">
@@ -75,15 +87,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="src\defines.hh">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Error.hh">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Exception.hh">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Exception-v2.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
