@@ -34,7 +34,7 @@
 
 namespace oct::core
 {
-	class DECLSPCE_DLL Licence : public Object
+	class OCTETOS_CORE_DECLSPCE_DLL Licence : public Object
 	{
 	public:
 		enum Type
@@ -114,7 +114,7 @@ namespace oct::core
 
 namespace octetos::core
 {
-	typedef oct::core::Licence Licence DEPRECATED;
+	typedef oct::core::Licence [[deprecated]] Licence;
 }
 
 #endif
