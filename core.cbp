@@ -13,6 +13,7 @@
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-fsanitize=address -static-libasan" />
 					<Add option="-g" />
 					<Add option="-DBUILDING_DLL" />
 					<Add option="-DEXPORTING_DLL" />
