@@ -52,6 +52,12 @@ const char * Semver::ExceptionLexer::what () const throw ()
 }
 
 
+Semver::Tray::Tray(const char* str) : buffer(str)
+{
+
+}
+
+
 bool is_numbers_keyword(Buffer* buffer)
 {
 	char c;
@@ -255,13 +261,13 @@ bool is_digit(char c)
 int Semver::yylex(Semver::Tray* ty)
 {
 	//std::cout << "yylex --> Step 1: \n";
-	if(not ty->buffer) throw ExceptionLexer(ExceptionLexer::NOT_BUFFER_CREATED,__FILE__,__LINE__);
+	//if(not ty->buffer) throw ExceptionLexer(ExceptionLexer::NOT_BUFFER_CREATED,__FILE__,__LINE__);
 
 	//std::cout << "yylex --> Step 2: \n";
-	Buffer* buffer = (Buffer*)ty->buffer;
+	//Buffer* buffer = (Buffer*)ty->buffer;
 	//std::cout << "yylex --> Step 3: \n";
-	char c = buffer->next_char();
-	if(buffer->empty()) return ENDOFINPUT;
+	char c = ty->buffer.next_char();
+	if(ty->buffer.empty()) return ENDOFINPUT;
 	//std::cout << "yylex --> Step 4: \n";
 
 	while (true)
@@ -280,20 +286,20 @@ int Semver::yylex(Semver::Tray* ty)
 				}
 				else if(c == '.')
 				{
-					buffer->proceed();
+					ty->buffer.proceed();
 					ty->state = 0;
 					return c;
 				}
 				else if(c == '-')
 				{
-					buffer->proceed();
+					ty->buffer.proceed();
 					ty->state = PRERELEASE_VALUE;
 					//std::cout << "prefix : '" << c << "'\n";
 					return c;
 				}
 				else if(c == '+')
 				{
-					buffer->proceed();
+					ty->buffer.proceed();
 					ty->state = BUILD_VALUE;
 					return c;
 				}
@@ -303,16 +309,16 @@ int Semver::yylex(Semver::Tray* ty)
 				}
 				break;
 			case NUMBER_VALUE:
-				while(is_digit(buffer->check_char(1)))
+				while(is_digit(ty->buffer.check_char(1)))
 				{
 					//std::cout << "c : '" << c << "'\n";
-					c = buffer->next_char();
+					c = ty->buffer.next_char();
 				}
 				//buffer->prev_char();
-				buffer->proceed();
+				ty->buffer.proceed();
 				//std::cout << "Number '" << buffer->get_text() << "'\n";
 				//std::cout << "Number '" << atoi(buffer->get_text()) << "'\n";
-				yylval.sval = atoi(buffer->get_text());
+				yylval.sval = atoi(ty->buffer.get_text());
 				//std::cout << "Number '" << yylval.sval << "'\n";
 				ty->state = 0;
 				return NUMBER_VALUE;
@@ -320,30 +326,30 @@ int Semver::yylex(Semver::Tray* ty)
 			{
 				//std::cout << "Estado : PRERELEASE_VALUE\n";
 				//std::cout << "PRER- '" << c << "'\n";
-				char c_post = buffer->check_char(1);
+				char c_post = ty->buffer.check_char(1);
 				while(is_digit(c_post) or is_letter(c_post))
 				{
 					//std::cout << "c : '" << c << "'\n";
-					c = buffer->next_char();
-					c_post = buffer->check_char(1);
+					c = ty->buffer.next_char();
+					c_post = ty->buffer.check_char(1);
 				}
-				buffer->proceed();
+				ty->buffer.proceed();
 				//std::cout << "Prerelease 1 '" << buffer->get_text() << "'\n";
-				yylval.str = buffer->get_text();
+				yylval.str = ty->buffer.get_text();
 				ty->state = 0;
 				return PRERELEASE_VALUE;
 			}
 			case BUILD_VALUE:
 			{
-				char c_post = buffer->check_char(1);
+				char c_post = ty->buffer.check_char(1);
 				while(is_digit(c_post) or is_letter(c_post))
 				{
-					c = buffer->next_char();
-					c_post = buffer->check_char(1);
+					c = ty->buffer.next_char();
+					c_post = ty->buffer.check_char(1);
 				}
-				buffer->proceed();
+				ty->buffer.proceed();
 				//std::cout << "Build 1 '" << buffer->get_text() << "'\n";
-				yylval.str = buffer->get_text();
+				yylval.str = ty->buffer.get_text();
 				ty->state = 0;
 				return BUILD_VALUE;
 			}

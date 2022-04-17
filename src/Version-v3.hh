@@ -27,6 +27,7 @@
 #include <vector>
 
 #include "Exception-v3.hh"
+#include "Buffer.hh"
 
 namespace oct::core::v3
 {
@@ -181,10 +182,10 @@ namespace oct::core::v3
 		struct Tray
 		{
 			Semver* version;
-			//int dysplay_erro;
-			void* buffer;
-			//const char* str;
+			Buffer buffer;
 			int state;
+
+			Tray(const char*);
 		};
 
 	private:
@@ -199,7 +200,7 @@ namespace oct::core::v3
 		void copy_prerelease(const char*);
 		void copy_build(const char*);
 
-		int yylex(struct Tray* ty);
+		int yylex(Tray* ty);
 		int grammar_stmt(Tray* ty);
 		int grammar_version(Tray* ty);
 		int grammar_prer(Tray* ty);

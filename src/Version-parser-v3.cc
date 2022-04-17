@@ -119,20 +119,20 @@ namespace oct::core::v3
 	}
 	bool Semver::parse(const char* str)
 	{
-		Tray ty;
+		Tray ty(str);
         //ty.dysplay_erro = 0;
         ty.version = this;
         ty.state = 0;
         //ty.str = str;
 		//std::cout << "String : " << ty.str << "<<--\n";
-        ty.buffer = new Buffer(str);
+        //ty.buffer = new Buffer(str);
 		//std::cout << "Buffer : " << ((Buffer*)ty.buffer)->get_buffer(0) << "<<--\n";
 		
 		//parser
 		bool ret = grammar_stmt(&ty);
 		//std::cout << "Major : " << major << "<<--\n";
 		
-		delete (Buffer*)ty.buffer;		
+		//delete ty.buffer;		
         return ret;
 	}
 }
