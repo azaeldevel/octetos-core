@@ -52,7 +52,7 @@ const char * Semver::ExceptionLexer::what () const throw ()
 }
 
 
-Semver::Tray::Tray(const char* str) : buffer(str)
+Semver::Tray::Tray(const char* str, Semver* ver) : buffer(str), version(ver)
 {
 
 }

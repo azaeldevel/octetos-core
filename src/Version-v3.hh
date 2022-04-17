@@ -185,7 +185,7 @@ namespace oct::core::v3
 			Buffer buffer;
 			int state;
 
-			Tray(const char*);
+			Tray(const char*,Semver*);
 		};
 
 	private:

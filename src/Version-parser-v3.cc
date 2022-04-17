@@ -119,9 +119,9 @@ namespace oct::core::v3
 	}
 	bool Semver::parse(const char* str)
 	{
-		Tray ty(str);
+		Tray ty(str, this);
         //ty.dysplay_erro = 0;
-        ty.version = this;
+        //ty.version = this;
         ty.state = 0;
         //ty.str = str;
 		//std::cout << "String : " << ty.str << "<<--\n";
