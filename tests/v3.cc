@@ -3,7 +3,7 @@
 #include "v3.hh"
 
 #include <Exception-v3.hh>
-
+#include <Version-v3.hh>
 
 using namespace oct::core::v3;
 
@@ -15,7 +15,7 @@ void v3_developing()
 
 void v3_reduced_parser()
 {
-	//Semver ver15;
+	Semver ver15;
 	/*CU_ASSERT(ver15.parse("5.30"));
 	CU_ASSERT(ver15.getMajor() == 5);
 	CU_ASSERT(ver15.getMinor() == 30);

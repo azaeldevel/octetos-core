@@ -184,11 +184,11 @@ namespace oct::core::v3
 
     void Semver::setPrerelease(const char* str)
     {
-        octetos_core_Semver_setPrerelease(this, str);
+        copy_prerelease(str);
     }
     void Semver::setBuild(const char* str)
     {
-        octetos_core_Semver_setBuild(this, str);
+        copy_build(str);
     }
 
 
@@ -218,8 +218,8 @@ namespace oct::core::v3
         this->major = v.major;
         this->minor = v.minor;
         this->patch = v.patch;
-        if (v.prerelease) octetos_core_Semver_setPrerelease(this, v.prerelease);
-        if (v.build) octetos_core_Semver_setBuild(this, v.build);
+        copy_prerelease(v.prerelease);
+        copy_build(v.build);
 
         return *this;
     }
@@ -229,6 +229,7 @@ namespace oct::core::v3
         this->major = major;
         this->minor = minor;
         this->patch = patch;
+        copy_prerelease(prerelease.c_str());
     }
     void Semver::setNumbers(Number major, Number minor, Number patch)
     {
@@ -248,34 +249,59 @@ namespace oct::core::v3
         minor = -1;
         patch = -1;
     }
-    Number Semver::getMajor() const
+    Semver::Number Semver::getMajor() const
     {
-        return this->major;
+        return major;
     }
 
-    Number Semver::getMinor() const
+    Semver::Number Semver::getMinor() const
     {
-        return this->minor;
+        return minor;
     }
 
-    Number Semver::getPatch() const
+    Semver::Number Semver::getPatch() const
     {
-        return this->patch;
+        return patch;
     }
 
 
     Semver::operator std::string()const
     {
-        const char* verbuf = octetos_core_Semver_toString(this, FormatString::FullString);
-        std::string ver = verbuf;
-        free((void*)verbuf);
+        std::string ver;
+        if (major > -1)
+        {
+            ver += std::to_string(major);
+            if (minor > -1)
+            {
+                ver += ".";
+                ver += std::to_string(minor);
+                if (patch > -1)
+                {
+                    ver += ".";
+                    ver += std::to_string(patch);
+                }
+            }
+
+            //
+            if(prerelease)
+            {
+                ver += "-";
+                ver += prerelease;
+            }
+            if (build)
+            {
+                ver += "+";
+                ver += build;
+            }
+        }
+
         return ver;
     }
 
     Semver::~Semver()
     {
-        if (prerelease) free((void*)prerelease);
-        if (build) free((void*)build);
+        if (prerelease) delete prerelease;
+        if (build) delete build;
     }
     void Semver::init()
     {
@@ -314,8 +340,8 @@ namespace oct::core::v3
         major = obj.major;
         minor = obj.minor;
         patch = obj.patch;
-        if (prerelease) octetos_core_Semver_setPrerelease(this, obj.prerelease);
-        if (build) octetos_core_Semver_setBuild(this, obj.build);
+        copy_prerelease(obj.prerelease);
+        copy_build(obj.build);
     }
 
 
@@ -335,5 +361,21 @@ namespace oct::core::v3
         parse(str.c_str());
 
         return (Version&)*this;
+    }
+
+    void Semver::copy_prerelease(const char* prer)
+    {
+        if (prerelease) delete prerelease;
+        std::size_t leng = strlen(prer) + 1;
+        prerelease = new char[leng];
+        strcpy(prerelease,prer);
+    }
+
+    void Semver::copy_build(const char* strb)
+    {
+        if (build) delete build;
+        std::size_t leng = strlen(strb) + 1;
+        prerelease = new char[leng];
+        strcpy(prerelease, strb);
     }
 }

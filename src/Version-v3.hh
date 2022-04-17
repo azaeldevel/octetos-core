@@ -26,9 +26,7 @@
 #include <string>
 #include <vector>
 
-#include "defines.hh"
-#include "common.h"
-#include "semver-lexer.h"
+#include "Exception-v3.hh"
 
 namespace oct::core::v3
 {
@@ -51,16 +49,34 @@ namespace oct::core::v3
 		virtual Version& operator =(const std::string&) = 0;
 	};
 
-	typedef octetos_core_Semver_FormatString FormatString;
-	typedef octetos_core_semver_Number Number;
-
 	/**
 	*\brief Implemete un subconjuto de semver v2.0.0
 	*\details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 	*\since 2.0
 	**/
-	class OCTETOS_CORE_DECLSPCE_DLL Semver : private octetos_core_Semver , public v3::Version
+	class OCTETOS_CORE_DECLSPCE_DLL Semver : public v3::Version
 	{
+	public:
+		typedef short Number;
+
+		class ExceptionLexer : public oct::core::v3::Exception
+		{
+		public:
+			enum Errors
+			{
+				NoError,
+				NOT_BUFFER_CREATED,
+			};
+		public:
+			ExceptionLexer();
+			ExceptionLexer(unsigned int code);
+			ExceptionLexer(unsigned int code, const char* subject);
+			ExceptionLexer(unsigned int code, const char* filename, unsigned int line);
+			ExceptionLexer(unsigned int code, const char* subject, const char* filename, unsigned int line);
+
+			const char* what() const throw ();
+		};
+
 	public:
 		/**
 		* \brief Limpia todos los datos
@@ -138,6 +154,56 @@ namespace oct::core::v3
 
 
 		bool parse(const char* );
+
+	private:
+		enum Tokens
+		{
+			YYEMPTY = -2,
+			YYEOF = 0,                     /* "end of file"  */
+			YYerror = 256,                 /* error  */
+			YYUNDEF = 257,                 /* "invalid token"  */
+
+			ENDOFINPUT,              /* ENDOFINPUT  */
+			EXTRACT_KW,              /* EXTRACT_KW  */
+			FROM_KW,                 /* FROM_KW  */
+			NUMBERS_KW,              /* NUMBERS_KW  */
+			ALL_KW,                  /* ALL_KW  */
+			NUMBER_VALUE,            /* NUMBER_VALUE  */
+			PRERELEASE_VALUE,        /* PRERELEASE_VALUE  */
+			BUILD_VALUE             /* BUILD_VALUE  */
+		};
+		union Value
+		{
+			short sval;
+			unsigned long ulval;
+			const char* str;
+		};
+		struct Tray
+		{
+			Semver* version;
+			//int dysplay_erro;
+			void* buffer;
+			//const char* str;
+			int state;
+		};
+
+	private:
+		Number major;
+		Number minor;
+		Number patch;
+		char* prerelease;
+		char* build;
+
+		Value yylval;
+	private:
+		void copy_prerelease(const char*);
+		void copy_build(const char*);
+
+		int yylex(struct Tray* ty);
+		int grammar_stmt(Tray* ty);
+		int grammar_version(Tray* ty);
+		int grammar_prer(Tray* ty);
+		int grammar_build(Tray* ty);
 	};
 
 	extern Semver version;

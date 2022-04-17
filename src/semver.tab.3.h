@@ -50,7 +50,17 @@ union Value
 };
 extern Value yylval;
 
-int yylex(struct octetos_core_Tray* ty);
+
+struct Tray
+{
+	void* version;
+	//int dysplay_erro;
+	void* buffer;
+	//const char* str;
+	int state;
+};
+	
+int yylex(struct Tray* ty);
 
 }
 

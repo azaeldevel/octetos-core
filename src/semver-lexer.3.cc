@@ -22,25 +22,23 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-
-#include "semver-lexer.h"
-#include "Buffer.hh"
 #include <iostream>
 
-#include "semver.tab.3.h"
+#include "Buffer.hh"
+#include "Version-v3.hh"
+
 
 namespace oct::core::v3
 {
 
-ExceptionLexer::ExceptionLexer()
+Semver::ExceptionLexer::ExceptionLexer()
 {
 
 }
-ExceptionLexer::ExceptionLexer(unsigned int c,const char* f, unsigned int l) : core::v3::Exception(c,f,l)
+Semver::ExceptionLexer::ExceptionLexer(unsigned int c,const char* f, unsigned int l) : oct::core::v3::Exception(c,f,l)
 {
 }
-const char * ExceptionLexer::what () const throw ()
+const char * Semver::ExceptionLexer::what () const throw ()
 {
 	switch(_code)
 	{
@@ -53,7 +51,6 @@ const char * ExceptionLexer::what () const throw ()
 	return "Error desconocido.";
 }
 
-Value yylval;
 
 bool is_numbers_keyword(Buffer* buffer)
 {
@@ -255,7 +252,7 @@ bool is_digit(char c)
 	if( c >= 48 and c <= 57) return true;
 	return false;
 }
-int yylex(struct octetos_core_Tray* ty)
+int Semver::yylex(Semver::Tray* ty)
 {
 	//std::cout << "yylex --> Step 1: \n";
 	if(not ty->buffer) throw ExceptionLexer(ExceptionLexer::NOT_BUFFER_CREATED,__FILE__,__LINE__);
