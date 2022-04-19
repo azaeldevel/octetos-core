@@ -16,7 +16,7 @@ void v3_developing()
 void v3_reduced_parser()
 {
 	Semver ver15;
-	/*CU_ASSERT(ver15.parse("5.30"));
+	CU_ASSERT(ver15.parse("5.30"));
 	CU_ASSERT(ver15.getMajor() == 5);
 	CU_ASSERT(ver15.getMinor() == 30);
 
@@ -37,5 +37,5 @@ void v3_reduced_parser()
 	CU_ASSERT(ver18.parse("5.30+mountain"));
 	CU_ASSERT(ver18.getMajor() == 5);
 	CU_ASSERT(ver18.getMinor() == 30);
-	CU_ASSERT(strcmp(ver18.getBuild(), "mountain") == 0);*/
+	CU_ASSERT(strcmp(ver18.getBuild(), "mountain") == 0);
 }
