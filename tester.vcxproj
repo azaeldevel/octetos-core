@@ -132,8 +132,8 @@
       <AdditionalDependencies>octetos-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreLinkEvent>
-      <Command>XCOPY /Y /R ..\core\$(Platform)\$(Configuration)\octetos-core.lib $(SolutionDir)$(Platform)-tester\$(Configuration)\
-XCOPY /Y /R ..\core\$(Platform)\$(Configuration)\octetos-core.dll $(SolutionDir)$(Platform)-tester\$(Configuration)\</Command>
+      <Command>XCOPY /Y /R $(Platform)\$(Configuration)\octetos-core.lib $(SolutionDir)$(Platform)-tester\$(Configuration)\
+XCOPY /Y /R $(Platform)\$(Configuration)\octetos-core.dll $(SolutionDir)$(Platform)-tester\$(Configuration)\</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,8 +156,8 @@ XCOPY /Y /R ..\core\$(Platform)\$(Configuration)\octetos-core.dll $(SolutionDir)
       <AdditionalDependencies>octetos-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreLinkEvent>
-      <Command>XCOPY /Y /R ..\core\$(Platform)\$(Configuration)\octetos-core.lib $(SolutionDir)$(Platform)-tester\$(Configuration)\
-XCOPY /Y /R ..\core\$(Platform)\$(Configuration)\octetos-core.dll $(SolutionDir)$(Platform)-tester\$(Configuration)\</Command>
+      <Command>XCOPY /Y /R $(Platform)\$(Configuration)\octetos-core.lib $(SolutionDir)$(Platform)-tester\$(Configuration)\
+XCOPY /Y /R $(Platform)\$(Configuration)\octetos-core.dll $(SolutionDir)$(Platform)-tester\$(Configuration)\</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
