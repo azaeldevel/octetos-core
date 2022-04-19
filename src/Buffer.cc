@@ -59,10 +59,11 @@ void Buffer::back()
 }
 void Buffer::proceed()
 {
-	short len = forward - begin + 1;
-	text = (char*)malloc(len);
+	short len = (forward - begin) + 1;
+	if (len == 0) return;
+	text = (char*) malloc(len);
 	memcpy(text,&(buffer1[begin]),len);
-	text[len] = 0;
+	text[len - 1] = 0;
 	begin = forward + 1;
 	bufs.push_back(text);
 }
@@ -74,9 +75,8 @@ char Buffer::next_char()
 Buffer::Buffer(const char* str)
 {
 	bsize = short(strlen(str)) + 1;
-	//short fullsize = bsize*2;
 	
-	buffer1 = (char*)malloc(bsize);
+	buffer1 = (char*) malloc(bsize);
 	buffer2 = NULL;
 	begin = 0;
 	forward = -1;
