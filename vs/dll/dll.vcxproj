@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{67d6e4da-baff-4a3c-82da-fd5c0981589f}</ProjectGuid>
-    <RootNamespace>librarydll</RootNamespace>
+    <ProjectGuid>{7fb38032-8f48-48c1-9ce6-7578b617ccd5}</ProjectGuid>
+    <RootNamespace>dll</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -78,11 +78,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>octetos-core</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>octetos-core</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -145,25 +143,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Buffer.cc" />
-    <ClCompile Include="src\core.cc" />
-    <ClCompile Include="src\Exception-v2.cc" />
-    <ClCompile Include="src\Exception-v3.cc" />
-    <ClCompile Include="src\semver-lexer.3.cc" />
-    <ClCompile Include="src\Version-parser-v3.cc" />
-    <ClCompile Include="src\Version-v3.cc" />
+    <ClCompile Include="..\..\src\Buffer.cc" />
+    <ClCompile Include="..\..\src\core.cc" />
+    <ClCompile Include="..\..\src\Exception-v2.cc" />
+    <ClCompile Include="..\..\src\Exception-v3.cc" />
+    <ClCompile Include="..\..\src\semver-lexer.3.cc" />
+    <ClCompile Include="..\..\src\Version-parser-v3.cc" />
+    <ClCompile Include="..\..\src\Version-v3.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Buffer.hh" />
-    <ClInclude Include="src\config-win.h" />
-    <ClInclude Include="src\core.hh" />
-    <ClInclude Include="src\defines.hh" />
-    <ClInclude Include="src\Error.hh" />
-    <ClInclude Include="src\Exception-v2.hh" />
-    <ClInclude Include="src\Exception-v3.hh" />
-    <ClInclude Include="src\Exception.hh" />
-    <ClInclude Include="src\semver.tab.3.h" />
-    <ClInclude Include="src\Version-v3.hh" />
+    <ClInclude Include="..\..\src\Buffer.hh" />
+    <ClInclude Include="..\..\src\config-win.h" />
+    <ClInclude Include="..\..\src\core.hh" />
+    <ClInclude Include="..\..\src\defines.hh" />
+    <ClInclude Include="..\..\src\Exception-v2.hh" />
+    <ClInclude Include="..\..\src\Exception-v3.hh" />
+    <ClInclude Include="..\..\src\Exception.hh" />
+    <ClInclude Include="..\..\src\semver.tab.3.h" />
+    <ClInclude Include="..\..\src\Version-v3.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
