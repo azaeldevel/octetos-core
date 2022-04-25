@@ -115,15 +115,7 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
-		<Unit filename="src/Version-parser-v2.cc">
-			<Option target="liboctetos-core-dbg" />
-			<Option target="liboctetos-core-r" />
-		</Unit>
 		<Unit filename="src/Version-parser-v3.cc">
-			<Option target="liboctetos-core-dbg" />
-			<Option target="liboctetos-core-r" />
-		</Unit>
-		<Unit filename="src/Version-v2.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
@@ -226,10 +218,6 @@
 			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/touch.cc">
-			<Option target="liboctetos-core-dbg" />
-			<Option target="liboctetos-core-r" />
-		</Unit>
-		<Unit filename="src/version-semver-v2.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>

@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Buffer.cc" />
+    <ClCompile Include="src\core.cc" />
     <ClCompile Include="src\Exception-v2.cc" />
     <ClCompile Include="src\Exception-v3.cc" />
     <ClCompile Include="src\semver-lexer.3.cc" />

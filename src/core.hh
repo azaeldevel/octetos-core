@@ -56,24 +56,24 @@ namespace oct::core
 	/**
 	*\brief Genera un numero para identificar la hora
 	*/
-	unsigned int getTimeID();
+	OCTETOS_CORE_DECLSPCE_DLL unsigned int getTimeID();
 	/**
 	*\brief Genera un numero para identificar el dia
 	*/
-	unsigned int getDayID();
+	OCTETOS_CORE_DECLSPCE_DLL unsigned int getDayID();
 
 	/**
 	*\brief Genera un numero al azar entre (0,1]
 	*/
-	double randNumber();
+	OCTETOS_CORE_DECLSPCE_DLL double randNumber();
 	/**
 	*\brief Genera un numero al azar entre (0,max]
 	*/
-	double randNumber(double max);
+	OCTETOS_CORE_DECLSPCE_DLL double randNumber(double max);
 	/**
 	*\brief Genera un numero al azar entre (min,max]
 	*/
-	double randNumber(double min, double max);
+	OCTETOS_CORE_DECLSPCE_DLL double randNumber(double min, double max);
 	
 	
 }
