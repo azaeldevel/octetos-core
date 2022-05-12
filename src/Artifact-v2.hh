@@ -28,7 +28,7 @@
 
 namespace oct::core::v2
 {
-	class DECLSPCE_DLL Artifact : public Object
+	class OCTETOS_CORE_DECLSPCE_DLL Artifact : public Object
 	{
 	public:
 		std::string name;

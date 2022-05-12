@@ -424,28 +424,28 @@ void v2_reduced_parser()
 {
 	//bool Semver::parser(const char* )
 	oct::core::Semver ver15;
-	CU_ASSERT(ver15.parser("5.30"));
+	CU_ASSERT(ver15.parse("5.30"));
 	CU_ASSERT(ver15.getMajor() == 5);
 	CU_ASSERT(ver15.getMinor() == 30);
 	//std::cout << "M : " << ver15.getMajor() << "\n";
 	//std::cout << "m : " << ver15.getMinor() << "\n";
 
 	oct::core::Semver ver16;
-	CU_ASSERT(ver16.parser("5.30-alpha"));
+	CU_ASSERT(ver16.parse("5.30-alpha"));
 	CU_ASSERT(ver16.getMajor() == 5);
 	CU_ASSERT(ver16.getMinor() == 30);
 	CU_ASSERT(ver16.getPrerelease().compare("alpha") == 0);
 	//std::cout << "prerelease : " << ver16.getPrerelease() << "\n";
 
 	oct::core::Semver ver17;
-	CU_ASSERT(ver17.parser("5.30-alpha+mountain"));
+	CU_ASSERT(ver17.parse("5.30-alpha+mountain"));
 	CU_ASSERT(ver17.getMajor() == 5);
 	CU_ASSERT(ver17.getMinor() == 30);
 	CU_ASSERT(ver17.getPrerelease().compare("alpha") == 0);
 	CU_ASSERT(strcmp(ver17.getBuild(),"mountain") == 0);
 
 	oct::core::Semver ver18;
-	CU_ASSERT(ver18.parser("5.30+mountain"));
+	CU_ASSERT(ver18.parse("5.30+mountain"));
 	CU_ASSERT(ver18.getMajor() == 5);
 	CU_ASSERT(ver18.getMinor() == 30);
 	CU_ASSERT(strcmp(ver18.getBuild(),"mountain") == 0);

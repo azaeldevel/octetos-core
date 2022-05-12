@@ -27,8 +27,8 @@
 #include <vector>
 
 #include "Error.hh"
+#include "Buffer.hh"
 #include "common.h"
-#include "semver-lexer.h"
 
 namespace oct::core::v2
 {
@@ -162,6 +162,56 @@ namespace oct::core::v2
 		virtual bool empty() const;
 				
 		bool parse(const char* );
+
+	private:
+		enum Tokens
+		{
+			YYEMPTY = -2,
+			YYEOF = 0,                     /* "end of file"  */
+			YYerror = 256,                 /* error  */
+			YYUNDEF = 257,                 /* "invalid token"  */
+
+			ENDOFINPUT,              /* ENDOFINPUT  */
+			EXTRACT_KW,              /* EXTRACT_KW  */
+			FROM_KW,                 /* FROM_KW  */
+			NUMBERS_KW,              /* NUMBERS_KW  */
+			ALL_KW,                  /* ALL_KW  */
+			NUMBER_VALUE,            /* NUMBER_VALUE  */
+			PRERELEASE_VALUE,        /* PRERELEASE_VALUE  */
+			BUILD_VALUE             /* BUILD_VALUE  */
+		};
+		union Value
+		{
+			short sval;
+			unsigned long ulval;
+			const char* str;
+		};
+		struct Tray
+		{
+			Semver* version;
+			Buffer buffer;
+			int state;
+
+			Tray(const char*,Semver*);
+		};
+
+	private:
+		Number major;
+		Number minor;
+		Number patch;
+		char* prerelease;
+		char* build;
+
+		Value yylval;
+	private:
+		void copy_prerelease(const char*);
+		void copy_build(const char*);
+
+		int yylex(Tray* ty);
+		int grammar_stmt(Tray* ty);
+		int grammar_version(Tray* ty);
+		int grammar_prer(Tray* ty);
+		int grammar_build(Tray* ty);
 	};
 
 	extern Semver version;

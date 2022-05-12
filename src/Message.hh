@@ -141,10 +141,10 @@ namespace oct::core
 
 namespace octetos::core
 {
-	typedef oct::core::Message Message DEPRECATED;
-	typedef oct::core::Confirmation Confirmation DEPRECATED;
-	typedef oct::core::Warning Warning DEPRECATED;
-	typedef oct::core::ActivityProgress ActivityProgress DEPRECATED;
+	typedef oct::core::Message [[deprecated]] Message;
+	typedef oct::core::Confirmation [[deprecated]] Confirmation;
+	typedef oct::core::Warning [[deprecated]] Warning;
+	typedef oct::core::ActivityProgress [[deprecated]] ActivityProgress;
 }
 
 #endif

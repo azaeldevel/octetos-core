@@ -26,76 +26,65 @@
 
 
 #include "Version-v2.hh"
-#include "semver.tab.3.h"
 #include "Buffer.hh"
 
 namespace oct::core::v2
 {
-	int grammar_build(octetos_core_Tray* ty)
+	int Semver::grammar_build(Semver::Tray* ty)
 	{
-		int tok = v3::yylex(ty);
+		int tok = yylex(ty);
 		
-		if(tok == v3::BUILD_VALUE)
+		if(tok == BUILD_VALUE)
 		{
-			//std::cout << "Build 1 '" << v3::yylval.str << "'\n";
-			if(ty->version->build) free((void*)ty->version->build);
-			short strl = strlen(v3::yylval.str);
-			char* newstr = (char*)malloc(strl + 1);
-			strcpy(newstr,v3::yylval.str);				
-			ty->version->build = newstr;
-			return tok;
+			copy_build(yylval.str);
+			return true;
 		}
 
-		return tok;
+		return false;
 	}
-	int grammar_prer(octetos_core_Tray* ty)
+	int Semver::grammar_prer(Semver::Tray* ty)
 	{
-		int tok = v3::yylex(ty);
+		int tok = yylex(ty);
 		//std::cout << "tok prer 2 '" << tok << "'\n";
 		
-		if(tok == v3::PRERELEASE_VALUE)
+		if(tok == PRERELEASE_VALUE)
 		{
-			//std::cout << "Prerelease 2 '" << v3::yylval.str << "'\n";
-			if(ty->version->prerelease) free((void*)ty->version->prerelease);
-			short strl = strlen(v3::yylval.str);
-			char* newstr = (char*)malloc(strl + 1);
-			strcpy(newstr,v3::yylval.str);				
-			ty->version->prerelease = newstr;
-			return tok;
+			copy_prerelease(yylval.str);
+			return true;
 		}
 
-		return tok;
+		return false;
 	}
-	int grammar_version(octetos_core_Tray* ty)
+	int Semver::grammar_version(Semver::Tray* ty)
 	{
-		int tok = v3::yylex(ty);
+		int tok = yylex(ty);
 		//std::cout << "tok " << tok << "\n";
 		
-		if(tok == v3::NUMBER_VALUE)
+		if(tok == NUMBER_VALUE)
 		{
 			//ty->version->major = atoi(((Buffer*)ty->buffer)->get_text());
-			ty->version->major = v3::yylval.sval;
+			ty->version->major = yylval.sval;
 			//std::cout << "Major : " << ty->version->major << "\n";
-			tok = v3::yylex(ty);
-			if(tok == v3::ENDOFINPUT) return tok;
+			tok = yylex(ty);
+			if(tok == ENDOFINPUT) return tok;
 			if(tok == '.')
 			{
-				tok = v3::yylex(ty);
-				if(tok == v3::ENDOFINPUT) return tok;
-				if(tok == v3::NUMBER_VALUE)
+				tok = yylex(ty);
+				if(tok == ENDOFINPUT) return tok;
+				if(tok == NUMBER_VALUE)
 				{
-					ty->version->minor = v3::yylval.sval;
+					ty->version->minor = yylval.sval;
 					//std::cout << "minor : " << ty->version->minor << "\n";
-					tok = v3::yylex(ty);
+					tok = yylex(ty);
 					//std::cout << "next : " << tok << "\n";
-					if(tok == v3::ENDOFINPUT) return tok;
+					if(tok == ENDOFINPUT) return tok;
 					if(tok == '.')
 					{
-						tok = v3::yylex(ty);
-						if(tok == v3::ENDOFINPUT) return tok;
-						if(tok == v3::NUMBER_VALUE)
+						tok = yylex(ty);
+						if(tok == ENDOFINPUT) return tok;
+						if(tok == NUMBER_VALUE)
 						{
-							ty->version->patch = v3::yylval.sval;
+							ty->version->patch = yylval.sval;
 						}
 					}
 				}
@@ -108,45 +97,42 @@ namespace oct::core::v2
 	  * \brief
 	  * \ return true si la gramatica coincide false en otro caso.
 	  */
-	int grammar_stmt(octetos_core_Tray* ty)
+	int Semver::grammar_stmt(Tray* ty)
 	{
 		int tok = grammar_version(ty);
 
-		if(tok == v3::ENDOFINPUT) return tok;
+		if(tok == ENDOFINPUT) return tok;
 		
 		if(tok == '-')
 		{
 			tok = grammar_prer(ty);
 		}
-
-		if(tok == v3::ENDOFINPUT) return tok;
-		if(tok == v3::PRERELEASE_VALUE) tok = v3::yylex(ty);
-		//std::cout << "tok : " << tok << "<<--\n";
+		
+		if(tok == ENDOFINPUT) return tok;
 		
 		if(tok == '+')
 		{
-			//std::cout << "tok : " << tok << "<<--\n";
 			tok = grammar_build(ty);
 		}
 		
-		return tok;
+		return true;
 	}
 	bool Semver::parse(const char* str)
 	{
-		octetos_core_Tray ty;
-        ty.dysplay_erro = 0;
-        ty.version = this;
+		Tray ty(str, this);
+        //ty.dysplay_erro = 0;
+        //ty.version = this;
         ty.state = 0;
         //ty.str = str;
 		//std::cout << "String : " << ty.str << "<<--\n";
-        ty.buffer = new Buffer(str);
+        //ty.buffer = new Buffer(str);
 		//std::cout << "Buffer : " << ((Buffer*)ty.buffer)->get_buffer(0) << "<<--\n";
 		
 		//parser
 		bool ret = grammar_stmt(&ty);
 		//std::cout << "Major : " << major << "<<--\n";
 		
-		delete (Buffer*)ty.buffer;		
+		//delete ty.buffer;		
         return ret;
 	}
 }
