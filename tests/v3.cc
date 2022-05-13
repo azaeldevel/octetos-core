@@ -4,6 +4,7 @@
 
 #include <Exception-v3.hh>
 #include <Version-v3.hh>
+#include <string.h>
 
 using namespace oct::core::v3;
 

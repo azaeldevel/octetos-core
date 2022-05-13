@@ -131,6 +131,6 @@ int main(int argc, char *argv[])
 
 #ifdef OCTETOS_CORE_V3
 	std::cout << "Testing on VSC..\n";
-	assert(false);
+	
 #endif
 }
