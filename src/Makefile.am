@@ -1,8 +1,9 @@
+AM_YFLAGS = -d
 
 lib_LTLIBRARIES = liboctetos-core.la
 
-semver.tab.c : semver.y 
-	bison  -d -o $@ $<
+
+BUILT_SOURCES = semver.tab.h
 
 liboctetos_core_la_CXXFLAGS = $(CUNIT_CFLGAS) $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS)  
 liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)
@@ -27,7 +28,8 @@ liboctetos_core_la_SOURCES = \
 	Memory.cc \
 	core.cc \
 	shell.cc cd.cc ls.cc exists.cc mkdir.cc rename.cc rm.cc touch.cc \
-	MD5sum.cc 
+	MD5sum.cc \
+	semver.y
 
 
 octetos_core_includedir = $(includedir)/octetos/core
