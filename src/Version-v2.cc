@@ -377,7 +377,7 @@ namespace oct::core::v2
     }
 
 
-//#if _MSC_VER
+#if _MSC_VER
     bool Semver::extractNumbers(const std::string& str)
     {
         return parse(str.c_str());
@@ -386,7 +386,7 @@ namespace oct::core::v2
     {
         return parse(str.c_str());
     }
-/*#elif __GNUG__
+#elif __GNUG__
     bool Semver::extractNumbers(const std::string& str)
     {
         octetos_core_Tray ty;
@@ -419,7 +419,7 @@ namespace oct::core::v2
         if (ret == 0) return true;
         return false;
     }
-#endif*/
+#endif
 
 
     bool Semver::empty() const
