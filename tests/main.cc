@@ -32,11 +32,6 @@ int main(int argc, char *argv[])
 	}
 	oct::core::v2::Artifact packinfo;
 	oct::core::v2::getPackageInfo(packinfo);
-	if(oct::core::Error::check())
-	{
-		std::cerr << (const std::string&)oct::core::Error::get() << "\n";
-		return EXIT_FAILURE;
-	}
 
 	int majorNumber = 2;
 	if(majorNumber != packinfo.version.getMajor())
@@ -51,7 +46,8 @@ int main(int argc, char *argv[])
 
 	std::string& pkName = packinfo.name;
 	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
-	CU_pSuite pSuite_v2 = CU_add_suite("Octetos core v2", v2_init, v2_clean);
+	CU_pSuite pSuite_v2 = NULL;
+	pSuite_v2 = CU_add_suite("Octetos core v2", v2_init, v2_clean);
 	if (NULL == pSuite_v2)
 	{
 		CU_cleanup_registry();
@@ -124,7 +120,8 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef OCTETOS_CORE_V3
-	CU_pSuite pSuite_v3 = CU_add_suite("Octetos core v3", v3_init, v3_clean);
+	CU_pSuite pSuite_v3 = NULL;
+	pSuite_v3 = CU_add_suite("Octetos core v3", v3_init, v3_clean);
 	if (NULL == pSuite_v3)
 	{
 		CU_cleanup_registry();
