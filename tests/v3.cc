@@ -35,13 +35,15 @@ void v3_reduced_parser()
 	CU_ASSERT(ver16.parse("5.30-alpha"));
 	CU_ASSERT(ver16.getMajor() == 5);
 	CU_ASSERT(ver16.getMinor() == 30);
-	//CU_ASSERT(strcmp(ver16.getPrerelease(),"alpha") == 0);
+	//std::cout << "str : " << ver16.getPrerelease() << "\n";
+	CU_ASSERT(strcmp(ver16.getPrerelease(),"alpha") == 0);
 
 	Semver ver17;
 	CU_ASSERT(ver17.parse("5.30-alpha+mountain"));
 	CU_ASSERT(ver17.getMajor() == 5);
 	CU_ASSERT(ver17.getMinor() == 30);
-	//CU_ASSERT(strcmp(ver17.getPrerelease(),"alpha") == 0);
+	std::cout << "str : " << ver17.getPrerelease() << "\n";
+	CU_ASSERT(strcmp(ver17.getPrerelease(),"alpha") == 0);
 	//CU_ASSERT(strcmp(ver17.getBuild(), "mountain") == 0);
 
 	Semver ver18;

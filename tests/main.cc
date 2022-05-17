@@ -119,8 +119,7 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef OCTETOS_CORE_V3
-	CU_pSuite pSuite_v3 = NULL;
-	pSuite_v3 = CU_add_suite("Octetos core v3", v3_init, v3_clean);
+	CU_pSuite pSuite_v3 = CU_add_suite("Octetos core v3", v3_init, v3_clean);
 	if (NULL == pSuite_v3)
 	{
 		CU_cleanup_registry();
