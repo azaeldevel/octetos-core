@@ -10,7 +10,9 @@
 
 int main(int argc, char *argv[])
 {
-
+	/* initialize the CUnit test registry */
+	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
+	
 #ifdef OCTETOS_CORE_V2
 	bdir = "";
 	std::string option;
@@ -40,9 +42,6 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-
-	/* initialize the CUnit test registry */
-	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
 	std::string& pkName = packinfo.name;
 	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
@@ -128,7 +127,7 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 	
-	if ((NULL == CU_add_test(pSuite_v3, "Semver pàrser v3", v3_reduced_parser)))
+	if ((NULL == CU_add_test(pSuite_v3, "Semver parser v3", v3_reduced_parser)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
