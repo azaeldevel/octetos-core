@@ -41,12 +41,10 @@ int main(int argc, char *argv[])
 		std::cerr << "Cree un nuevo archivo para la version '" << majorNumber << "' estas en la version'" << (std::string)packinfo.version << "'\n";
 		return EXIT_FAILURE;
 	}
-
-
+	
 	std::string& pkName = packinfo.name;
 	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
-	CU_pSuite pSuite_v2 = NULL;
-	pSuite_v2 = CU_add_suite("Octetos core v2", v2_init, v2_clean);
+	CU_pSuite pSuite_v2 = CU_add_suite("Octetos core v2", v2_init, v2_clean);
 	if (NULL == pSuite_v2)
 	{
 		CU_cleanup_registry();
@@ -117,16 +115,14 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 #endif
-
 #ifdef OCTETOS_CORE_V3
-	CU_pSuite pSuite_v3 = CU_add_suite("Octetos core v3", v3_init, v3_clean);
+	CU_pSuite pSuite_v3 = CU_add_suite("Octetos Core v3", v3_init, v3_clean);
 	if (NULL == pSuite_v3)
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
-	}
-	
-	if ((NULL == CU_add_test(pSuite_v3, "Semver parser v3", v3_reduced_parser)))
+	}	
+	if ((NULL == CU_add_test(pSuite_v3, "Semver Parser v3", v3_reduced_parser)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
@@ -137,7 +133,6 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	
 #endif
 	
 	/* Run all tests using the CUnit Basic interface */

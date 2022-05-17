@@ -42,9 +42,10 @@ void v3_reduced_parser()
 	CU_ASSERT(ver17.parse("5.30-alpha+mountain"));
 	CU_ASSERT(ver17.getMajor() == 5);
 	CU_ASSERT(ver17.getMinor() == 30);
-	std::cout << "str : " << ver17.getPrerelease() << "\n";
+	//std::cout << "str : " << ver17.getPrerelease() << "\n";
 	CU_ASSERT(strcmp(ver17.getPrerelease(),"alpha") == 0);
-	//CU_ASSERT(strcmp(ver17.getBuild(), "mountain") == 0);
+	std::cout << "str : " << ver17.getBuild() << "\n";
+	CU_ASSERT(strcmp(ver17.getBuild(), "mountain") == 0);
 
 	Semver ver18;
 	CU_ASSERT(ver18.parse("5.30+mountain"));

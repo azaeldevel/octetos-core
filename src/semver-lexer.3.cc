@@ -298,6 +298,7 @@ int Semver::yylex(Semver::Tray* ty)
 				}
 				else if(c == '+')
 				{
+					std::cout << "prefix : '" << c << "'\n";
 					ty->buffer.proceed();
 					ty->state = BUILD_VALUE;
 					return c;
@@ -332,13 +333,7 @@ int Semver::yylex(Semver::Tray* ty)
 					//std::cout << "c : '" << c_post << "'\n";
 					//c_post = ty->buffer.check_char(1);
 				}
-				if(c_post == '\0') ty->buffer.proceed();
-				else
-				{
-					std::cout << "c : '" << c_post << "'\n";
-					ty->buffer.prev_char();
-					ty->buffer.proceed();
-				}
+				ty->buffer.proceed();
 				//std::cout << "Prerelease 1 '" << ty->buffer.get_text() << "'\n";
 				yylval.str = ty->buffer.get_text();
 				ty->state = 0;
@@ -353,13 +348,8 @@ int Semver::yylex(Semver::Tray* ty)
 					//std::cout << "c : '" << c_post << "'\n";
 					//c_post = ty->buffer.check_char(1);
 				}
-				if(c_post == '\0') ty->buffer.proceed();
-				else
-				{
-					ty->buffer.prev_char();
-					ty->buffer.proceed();
-				}
-				//std::cout << "Build 1 '" << buffer->get_text() << "'\n";
+				ty->buffer.proceed();
+				//std::cout << "Prerelease 1 '" << ty->buffer.get_text() << "'\n";
 				yylval.str = ty->buffer.get_text();
 				ty->state = 0;
 				return BUILD_VALUE;

@@ -438,7 +438,7 @@ namespace oct::core::v2
 	
     void Semver::copy_prerelease(const char* prer)
     {
-        if (prerelease) delete prerelease;
+        if (prerelease) delete[] prerelease;
         std::size_t leng = strlen(prer) + 1;
         prerelease = new char[leng];
         strcpy(prerelease,prer);
@@ -446,7 +446,7 @@ namespace oct::core::v2
 
     void Semver::copy_build(const char* strb)
     {
-        if (build) delete build;
+        if (build) delete[] build;
         std::size_t leng = strlen(strb) + 1;
         prerelease = new char[leng];
         strcpy(prerelease, strb);
