@@ -7,10 +7,10 @@
 #include <iostream>
 
 #include "Exception.hh"
-#include "Memory.hh"
 
 namespace oct::core
 {
+#include "Memory.hh"
 
 
 /**
@@ -270,7 +270,7 @@ struct FlagsMemory
 {
 	unsigned short OwnMemory : 1;
 };
-class Memory
+class [[deprecated]] Memory
 {
 protected:
 	Memory(MemorySize size);
