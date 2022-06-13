@@ -53,7 +53,7 @@ public:
     virtual const char* what() const throw ();
 };
 
-class InternalException: public std::exception
+class OCTETOS_CORE_DECLSPCE_DLL InternalException: public std::exception
 {
 protected:
     int line,code;

@@ -13,12 +13,7 @@
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
 					<Add option="-Wall" />
-					<Add option="-fsanitize=address -static-libasan" />
 					<Add option="-g" />
-					<Add option="-DBUILDING_DLL" />
-					<Add option="-DEXPORTING_DLL" />
-					<Add option='-DPACKAGE=&quot;\&quot;octetos-core\&quot;&quot;' />
-					<Add option='-DVERSION=&quot;\&quot;2.36.1-alpha\&quot;&quot;' />
 				</Compiler>
 				<Linker>
 					<Add option="`pkg-config libconfig++ --libs`" />
@@ -36,10 +31,6 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-O2" />
-					<Add option="-DBUILDING_DLL" />
-					<Add option="-DEXPORTING_DLL" />
-					<Add option='-DPACKAGE=&quot;\&quot;octetos-core\&quot;&quot;' />
-					<Add option='-DVERSION=&quot;\&quot;2.36.1-alpha\&quot;&quot;' />
 				</Compiler>
 				<Linker>
 					<Add option="-s `pkg-config libconfig++ --libs`" />

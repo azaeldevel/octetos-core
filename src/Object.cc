@@ -23,6 +23,7 @@
 #if defined(__linux__)
 	#include "config.h"
 #elif defined(_WIN32) || defined(_WIN64)
+	#include "config-win.h"
 #else
     #error "Plataforma desconocida"
 #endif
@@ -79,7 +80,7 @@ namespace oct::core
 
 	std::string getPakageName()
 	{
-		return PACKAGE;
+		return PACKAGE_NAME;
 	}
 
 
