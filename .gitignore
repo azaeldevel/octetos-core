@@ -37,4 +37,3 @@ py-compile
 .vs
 packages
 x64/
-src/semver.tab.*

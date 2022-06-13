@@ -1,3 +1,4 @@
+AM_YFLAGS = -d
 
 lib_LTLIBRARIES = liboctetos-core.la
 
@@ -15,12 +16,14 @@ liboctetos_core_la_SOURCES = \
 	Message.cc \
 	Object.cc \
 	Licence.cc \
-	version-semver-v2.cc \
-	Version-parser-v2.cc \
-	Version-v2.cc \
-	semver.tab.c \
 	semver-lexer.cc \
+	semver-lexer.2.cc \
 	semver-lexer.3.cc \
+	Version-parser-v2.cc \
+	Version-parser-v3.cc \
+	Version-v2.cc \
+	Version-v3.cc \
+	semver.tab.c \
 	Buffer.cc \
 	Memory.cc \
 	core.cc \
@@ -29,7 +32,7 @@ liboctetos_core_la_SOURCES = \
 
 
 octetos_core_includedir = $(includedir)/octetos/core
-octetos_core_include_HEADERS = semver-lexer.h common.h Version.hh Version-v2.hh Message.hh Error.hh \
+octetos_core_include_HEADERS = common.h Version.hh Version-v2.hh Version-v3.hh Message.hh Error.hh \
 	Object.hh Artifact.hh Artifact-v2.hh Licence.hh Buffer.hh defines.hh Exception.hh Exception-v2.hh Exception-v3.hh data.hh \
 	memory.hh Memory.hh core.hh shell.hh MD5sum.hh
 

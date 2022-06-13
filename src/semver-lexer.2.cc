@@ -25,32 +25,11 @@
 #include <iostream>
 
 #include "Buffer.hh"
-#include "Version-v3.hh"
+#include "Version-v2.hh"
 
 
-namespace oct::core::v3
+namespace oct::core::v2
 {
-
-Semver::ExceptionLexer::ExceptionLexer()
-{
-
-}
-Semver::ExceptionLexer::ExceptionLexer(unsigned int c,const char* f, unsigned int l) : oct::core::v3::Exception(c,f,l)
-{
-}
-const char * Semver::ExceptionLexer::what () const throw ()
-{
-	switch(_code)
-	{
-		case NoError:
-			return "Ningun erro detectado, se creo un falso psoitivo.";
-		case NOT_BUFFER_CREATED:
-			return "EL buffer no ha sido creado.";
-	}
-
-	return "Error desconocido.";
-}
-
 
 Semver::Tray::Tray(const char* str, Semver* ver) : buffer(str), version(ver)
 {
@@ -298,7 +277,6 @@ int Semver::yylex(Semver::Tray* ty)
 				}
 				else if(c == '+')
 				{
-					std::cout << "prefix : '" << c << "'\n";
 					ty->buffer.proceed();
 					ty->state = BUILD_VALUE;
 					return c;
@@ -329,12 +307,12 @@ int Semver::yylex(Semver::Tray* ty)
 				char c_post = ty->buffer.check_char(1);
 				while(is_digit(c_post) or is_letter(c_post))
 				{
-					c_post = ty->buffer.next_char();
-					//std::cout << "c : '" << c_post << "'\n";
-					//c_post = ty->buffer.check_char(1);
+					//std::cout << "c : '" << c << "'\n";
+					c = ty->buffer.next_char();
+					c_post = ty->buffer.check_char(1);
 				}
 				ty->buffer.proceed();
-				//std::cout << "Prerelease 1 '" << ty->buffer.get_text() << "'\n";
+				//std::cout << "Prerelease 1 '" << buffer->get_text() << "'\n";
 				yylval.str = ty->buffer.get_text();
 				ty->state = 0;
 				return PRERELEASE_VALUE;
@@ -344,12 +322,11 @@ int Semver::yylex(Semver::Tray* ty)
 				char c_post = ty->buffer.check_char(1);
 				while(is_digit(c_post) or is_letter(c_post))
 				{
-					c_post = ty->buffer.next_char();
-					//std::cout << "c : '" << c_post << "'\n";
-					//c_post = ty->buffer.check_char(1);
+					c = ty->buffer.next_char();
+					c_post = ty->buffer.check_char(1);
 				}
 				ty->buffer.proceed();
-				//std::cout << "Prerelease 1 '" << ty->buffer.get_text() << "'\n";
+				//std::cout << "Build 1 '" << buffer->get_text() << "'\n";
 				yylval.str = ty->buffer.get_text();
 				ty->state = 0;
 				return BUILD_VALUE;

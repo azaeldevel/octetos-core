@@ -76,7 +76,10 @@ std::string Exception::describe() const throw ()
 {
 	if(not _subject) return what();
 	
-	std::string msg = what();
+	std::string msg = _filename;
+	msg += ":";
+	msg += std::to_string(_line);
+		what();
 	msg += "\n\t devido a ";
 	msg += _subject;
 	return msg;

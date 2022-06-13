@@ -270,7 +270,7 @@ struct FlagsMemory
 {
 	unsigned short OwnMemory : 1;
 };
-class Memory
+class [[deprecated]] Memory
 {
 protected:
 	Memory(MemorySize size);
@@ -285,10 +285,10 @@ protected:
 	void* head;
 	unsigned short size;
 	FlagsMemory flags;
-}DEPRECATED;
+};
 
 
-template<typename T> class Block : public Memory
+template<typename T> class [[deprecated]] Block : public Memory
 {
 public:
 	Block(MemorySize size) : Memory(size * sizeof(T))
@@ -314,9 +314,9 @@ public:
 	
 protected:
 	
-}DEPRECATED;
+};
 
-template<typename T> class MiniGC
+template<typename T> class [[deprecated]] MiniGC
 {
 private:
 	struct Element
@@ -379,7 +379,7 @@ private:
 	Block<Element> block;
 	MemorySize lastCreated;
 	bool full;
-}DEPRECATED;
+};
 
 
 }

@@ -30,7 +30,7 @@ public:
 
 namespace octetos::core
 {
-	typedef oct::core::StringMD5 MD5sum DEPRECATED;
+	typedef oct::core::StringMD5 [[deprecated]] MD5sum;
 }
 
 

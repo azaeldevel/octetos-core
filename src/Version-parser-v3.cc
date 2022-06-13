@@ -106,10 +106,11 @@ namespace oct::core::v3
 		if(tok == '-')
 		{
 			tok = grammar_prer(ty);
+			if(tok != PRERELEASE_VALUE) return YYerror;
 		}
 		
 		if(tok == ENDOFINPUT) return tok;
-		
+		std::cout << "Build : " << tok << "<<--\n";
 		if(tok == '+')
 		{
 			tok = grammar_build(ty);
@@ -126,7 +127,7 @@ namespace oct::core::v3
         //ty.str = str;
 		//std::cout << "String : " << ty.str << "<<--\n";
         //ty.buffer = new Buffer(str);
-		//std::cout << "Buffer : " << ((Buffer*)ty.buffer)->get_buffer(0) << "<<--\n";
+		
 		
 		//parser
 		bool ret = grammar_stmt(&ty);
