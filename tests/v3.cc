@@ -2,9 +2,19 @@
 
 #include "v3.hh"
 
-#include <Exception-v3.hh>
-#include <Version-v3.hh>
-#include <string.h>
+#if defined(__linux__)
+    #include <Exception-v3.hh>
+    #include <Version-v3.hh>
+    #include <string.h>
+#elif defined(_WIN32) || defined(_WIN64)
+    #include <core/src/Exception-v3.hh>
+    #include <core/src/Version-v3.hh>
+
+    #include <string.h>
+#else
+	#error "Plataforma desconocida"
+#endif
+
 
 using namespace oct::core::v3;
 

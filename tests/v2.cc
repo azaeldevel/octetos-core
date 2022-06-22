@@ -1,23 +1,5 @@
 
-#include <CUnit/Basic.h>
-#include <iostream>
-#include <cstdlib>
-#include <time.h>
-#include <fstream>
-#include <unistd.h>
-#include <limits.h>
-#include <list>
-#include <algorithm>
-
-
-#include "../src/Artifact.hh"
-#include "../src/memory.hh"
-#include "../src/semver-lexer.h"
-#include "../src/data.hh"
-#include "../src/shell.hh"
-#include "../src/Exception.hh"
-
-static std::string bdir;
+#include "v2.hh"
 
 int v2_init(void)
 {
@@ -1030,45 +1012,6 @@ void v2_testOperations_v100()
 
 	//oct::core::Artifact pk;
 	//pk.read (filename);
-}
-
-void v2_testsemverc()
-{
-	const char *strver1 = "1.0.2-alpha";
-	octetos_core_Semver ver1;
-	if(octetos_core_toObject(strver1,&ver1))
-	{
-		if(ver1.major == 1)
-		{
-			CU_ASSERT(true);
-		}
-		else
-		{
-			CU_ASSERT(false);
-		}
-
-		if(ver1.minor == 0)
-		{
-			CU_ASSERT(true);
-		}
-		else
-		{
-			CU_ASSERT(false);
-		}
-
-		if(ver1.patch == 2)
-		{
-			CU_ASSERT(true);
-		}
-		else
-		{
-			CU_ASSERT(false);
-		}
-	}
-	else
-	{
-		CU_ASSERT(false);
-	}
 }
 
 

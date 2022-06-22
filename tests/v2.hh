@@ -14,12 +14,21 @@
 #include <list>
 #include <algorithm>
 
-
-#include "../src/Artifact-v2.hh"
-#include "../src/memory.hh"
-#include "../src/semver-lexer.h"
-#include "../src/data.hh"
-#include "../src/shell.hh"
+#if defined(__linux__)
+    #include "../src/Artifact-v2.hh"
+    #include "../src/memory.hh"
+    #include "../src/semver-lexer.h"
+    #include "../src/data.hh"
+    #include "../src/shell.hh"
+#elif defined(_WIN32) || defined(_WIN64)
+    #include <core/src/Artifact-v2.hh>
+    #include <core/src/memory.hh>
+    #include <core/src/semver-lexer.h>
+    #include <core/src/data.hh>
+    #include <core/src/shell.hh>
+#else
+	#error "Plataforma desconocida"
+#endif
 
 static std::string bdir;
 
@@ -32,7 +41,6 @@ void v2_testComparators_v100();
 void v2_testOperations_v100();
 void v2_testMemory();
 void v2_testShell();
-void v2_testsemverc();
 void v2_testData();
 void v2_testShell();
 void v2_reduced_parser();

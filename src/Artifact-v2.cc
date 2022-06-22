@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * */
- 
+
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
@@ -26,8 +26,8 @@
 
 #ifdef HAVE_CONFIG_H
     #include "config.h"
-#elif defined WINDOWS_MINGW && defined CODEBLOCKS
-    #include "config-cb.h"
+#else
+    #include "config-win.h"
 #endif
 
 
@@ -107,15 +107,15 @@ namespace oct::core::v2
 
 	bool getPackageInfo(Artifact& packinfo)
 	{
-		packinfo.name = PACKAGE;
+		packinfo.name = PACKAGE_NAME;
 		packinfo.brief = "Libreria Core de Octetos.";
 		packinfo.url = "https://github.com/azaeldevel/octetos-core.git";
 		packinfo.name_decorated = "Libreria Core de Octetos";
 
-		packinfo.version.set(VERSION);
+		packinfo.version.set(PACKAGE_VERSION);
 
 		packinfo.licence.type = Licence::Type::GPLv3;
-		packinfo.licence.name_public = PACKAGE;
+		packinfo.licence.name_public = PACKAGE_NAME;
 		packinfo.licence.owner = "Azael Reyes";
 		packinfo.licence.year = 2019;
         packinfo.licence.contact = "azael.devel@gmail.com";
