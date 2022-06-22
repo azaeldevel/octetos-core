@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <CUnit/Basic.h>
 
 #ifdef OCTETOS_CORE_V2
 	#include "v2.hh"
