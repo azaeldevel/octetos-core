@@ -41,7 +41,8 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="testing">
-				<Option output="bin/Debug/octetos-core" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/testing.exe" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/Debug" />
 				<Option object_output=".objs/Debug/" />
 				<Option type="1" />
 				<Option compiler="msys2_x86_64_gcc" />
@@ -232,12 +233,6 @@
 			<Option target="testing" />
 		</Unit>
 		<Unit filename="tests/v2.hh">
-			<Option target="testing" />
-		</Unit>
-		<Unit filename="tests/v3.cc">
-			<Option target="testing" />
-		</Unit>
-		<Unit filename="tests/v3.hh">
 			<Option target="testing" />
 		</Unit>
 		<Extensions>
