@@ -40,15 +40,17 @@
 					<Add before="cmd /c bison -d -o src\semver.tab.c src\semver.y" />
 				</ExtraCommands>
 			</Target>
-			<Target title="develop">
-				<Option output="bin/Debug/octetos-core" prefix_auto="1" extension_auto="1" />
+			<Target title="testing">
+				<Option output="bin/Debug/testing.exe" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/Debug" />
 				<Option object_output=".objs/Debug/" />
 				<Option type="1" />
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
-					<Add option="-DOCTETOS_CORE_V2" />
+					<Add directory="../../octetos" />
 				</Compiler>
 				<Linker>
+					<Add option="`pkg-config cunit --libs`" />
 					<Add library="octetos-core" />
 					<Add directory="bin/Debug" />
 				</Linker>
@@ -106,7 +108,15 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
+		<Unit filename="src/Version-parser-v2.cc">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
 		<Unit filename="src/Version-parser-v3.cc">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/Version-v2.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
@@ -179,6 +189,10 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
+		<Unit filename="src/semver-lexer.2.cc">
+			<Option target="liboctetos-core-dbg" />
+			<Option target="liboctetos-core-r" />
+		</Unit>
 		<Unit filename="src/semver-lexer.3.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
@@ -213,7 +227,13 @@
 			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="tests/main.cc">
-			<Option target="develop" />
+			<Option target="testing" />
+		</Unit>
+		<Unit filename="tests/v2.cc">
+			<Option target="testing" />
+		</Unit>
+		<Unit filename="tests/v2.hh">
+			<Option target="testing" />
 		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />

@@ -25,35 +25,6 @@
 
 #include "common.h"
 
-#if defined(__linux__)
-#include "semver-lexer.h"
-
-int octetos_core_toObject(const char* strver,struct octetos_core_Semver* v)
-{
-	struct octetos_core_Tray ty;
-	ty.dysplay_erro = 0;
-	ty.version = v;
-	octetos_core_Semver_init(v);
-	ty.buffer = NULL;
-	ty.state = 0;
-	const char* cmdstr = "extract all from ";
-	int leng = strlen(cmdstr) + strlen(strver) + 1;
-	char* strproc = malloc(leng);
-	strcpy(strproc,cmdstr);
-	strcat(strproc,strver);
-	ty.str = (char*)strproc;
-	int ret = parse_string(&ty);
-	free(ty.str);
-
-   	if(ret == 0) return 1;
-   	return 0;
-}
-
-#elif defined(_WIN32) || defined(_WIN64)
-
-#else
-#error "Pltaforma desconocida"
-#endif
 
 void octetos_core_Semver_init(struct octetos_core_Semver* version)
 {
@@ -64,7 +35,7 @@ void octetos_core_Semver_init(struct octetos_core_Semver* version)
 	version->build = NULL;
 }
 const char* octetos_core_Semver_setBuild(struct octetos_core_Semver* version, const char* build)
-{	 
+{
 	if (build)//si el parametro es un puntero valido
 	{
 		if (version->build)free((void*)version->build);//si hay datos escritos actualmente en el contenedor
