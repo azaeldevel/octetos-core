@@ -23,7 +23,8 @@ liboctetos_core_la_SOURCES = \
 	Memory.cc \
 	core.cc \
 	shell.cc cd.cc ls.cc exists.cc mkdir.cc rename.cc rm.cc touch.cc \
-	MD5sum.cc 
+	MD5sum.cc \
+	common.c
 
 
 octetos_core_includedir = $(includedir)/octetos/core

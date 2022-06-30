@@ -377,7 +377,7 @@ namespace oct::core::v2
     }
 
 
-#if _MSC_VER
+
     bool Semver::extractNumbers(const std::string& str)
     {
         return parse(str.c_str());
@@ -386,40 +386,7 @@ namespace oct::core::v2
     {
         return parse(str.c_str());
     }
-#elif __GNUG__
-    bool Semver::extractNumbers(const std::string& str)
-    {
-        octetos_core_Tray ty;
-        ty.dysplay_erro = 0;
-        ty.version = this;
-        ty.buffer = NULL;
-        ty.state = 0;
-        std::string cmdstr = "extract numbers from ";
-        cmdstr += str;
-        ty.str = (char*)cmdstr.c_str();
-        int ret = parse_string(&ty);
-        if (ty.buffer) delete ty.buffer;
 
-        if (ret == 0) return true;
-        return false;
-    }
-    bool Semver::set(const std::string& str)
-    {
-        octetos_core_Tray ty;
-        ty.dysplay_erro = 0;
-        ty.version = this;
-        ty.buffer = NULL;
-        ty.state = 0;
-        std::string cmdstr = "extract all from ";
-        cmdstr += str;
-        ty.str = (char*)cmdstr.c_str();
-        int ret = parse_string(&ty);
-        if (ty.buffer) delete ty.buffer;
-
-        if (ret == 0) return true;
-        return false;
-    }
-#endif
 
 
     bool Semver::empty() const
