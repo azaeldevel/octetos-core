@@ -326,30 +326,47 @@ int Semver::yylex(Semver::Tray* ty)
 			{
 				//std::cout << "Estado : PRERELEASE_VALUE\n";
 				//std::cout << "PRER- '" << c << "'\n";
-				char c_post = ty->buffer.check_char(1);
-				while(is_digit(c_post) or is_letter(c_post))
+				std::cout << "c '" << c << "'\n";
+				char c_post;		
+				while(true)
 				{
-					c_post = ty->buffer.next_char();
-					//std::cout << "c : '" << c_post << "'\n";
-					//c_post = ty->buffer.check_char(1);
+					c_post = ty->buffer.check_char(1);
+					if(is_digit(c_post) or is_letter(c_post))
+					{
+						std::cout << "c '" << c_post << "'\n";
+						c_post = ty->buffer.next_char();
+					}
+					else
+					{
+						break;
+					}
 				}
+				//if(c_post != 0) ty->buffer.prev_char();
 				ty->buffer.proceed();
-				//std::cout << "Prerelease 1 '" << ty->buffer.get_text() << "'\n";
+				std::cout << "Prerelease 1 '" << ty->buffer.get_text() << "'\n";
 				yylval.str = ty->buffer.get_text();
 				ty->state = 0;
 				return PRERELEASE_VALUE;
 			}
 			case BUILD_VALUE:
 			{
-				char c_post = ty->buffer.check_char(1);
-				while(is_digit(c_post) or is_letter(c_post))
+				char c_post;		
+				while(true)
 				{
-					c_post = ty->buffer.next_char();
-					//std::cout << "c : '" << c_post << "'\n";
-					//c_post = ty->buffer.check_char(1);
+					c_post = ty->buffer.check_char(1);
+					if(is_digit(c_post) or is_letter(c_post))
+					{
+						std::cout << "c '" << c_post << "'\n";
+						c_post = ty->buffer.next_char();
+					}
+					else
+					{
+						break;
+					}
 				}
+				//if(c_post != 0) ty->buffer.prev_char();
 				ty->buffer.proceed();
-				//std::cout << "Prerelease 1 '" << ty->buffer.get_text() << "'\n";
+				std::cout << "build 1 '" << ty->buffer.get_text() << "'\n";
 				yylval.str = ty->buffer.get_text();
 				ty->state = 0;
 				return BUILD_VALUE;

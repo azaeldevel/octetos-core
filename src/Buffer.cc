@@ -59,11 +59,12 @@ void Buffer::back()
 }
 void Buffer::proceed()
 {
+	//if(forward <= begin) return;
 	short len = (forward - begin) + 1;
 	if (len == 0) return;
 	text = (char*) malloc(len);
 	memcpy(text,&(buffer1[begin]),len);
-	text[len - 1] = 0;
+	text[len] = 0;
 	begin = forward + 1;
 	bufs.push_back(text);
 }
