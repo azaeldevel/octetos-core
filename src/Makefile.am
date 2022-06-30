@@ -2,13 +2,10 @@ AM_YFLAGS = -d
 
 lib_LTLIBRARIES = liboctetos-core.la
 
-semver.tab.c : semver.y 
-	bison  -d -o $@ $<
 
 liboctetos_core_la_CXXFLAGS = $(CUNIT_CFLGAS) $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS)  
 liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)
 liboctetos_core_la_SOURCES = \
-	common.c \
 	Artifact-v2.cc \
 	Exception-v2.cc \
 	Exception-v3.cc \
@@ -16,14 +13,12 @@ liboctetos_core_la_SOURCES = \
 	Message.cc \
 	Object.cc \
 	Licence.cc \
-	semver-lexer.cc \
 	semver-lexer.2.cc \
 	semver-lexer.3.cc \
 	Version-parser-v2.cc \
 	Version-parser-v3.cc \
 	Version-v2.cc \
 	Version-v3.cc \
-	semver.tab.c \
 	Buffer.cc \
 	Memory.cc \
 	core.cc \

@@ -17,13 +17,11 @@
 #if defined(__linux__)
     #include "../src/Artifact-v2.hh"
     #include "../src/memory.hh"
-    #include "../src/semver-lexer.h"
     #include "../src/data.hh"
     #include "../src/shell.hh"
 #elif defined(_WIN32) || defined(_WIN64)
     #include <core/src/Artifact-v2.hh>
     #include <core/src/memory.hh>
-    #include <core/src/semver-lexer.h>
     #include <core/src/data.hh>
     #include <core/src/shell.hh>
 #else
