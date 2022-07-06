@@ -49,6 +49,8 @@ namespace oct
     #error "Plataforma desconocida"
 #endif
 
+typedef unsigned long long int Word;//deve coincidir con los bits de la plataforma
+
 }
 namespace oct::core
 {
