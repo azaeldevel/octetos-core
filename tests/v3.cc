@@ -30,8 +30,15 @@ int v3_clean(void)
 
 void v3_developing()
 {
-	Exception ex1;
-	CU_ASSERT(ex1.code() == 0);
+	/*try
+	{
+		throw Exception(0,__FILE__,__LINE__);
+	}
+	catch(const Exception& ex)
+	{
+		//std::cout << ex.describe() << "\n";
+		CU_ASSERT(ex.code()==0);
+	}*/
 }
 
 void v3_reduced_parser()
@@ -62,4 +69,6 @@ void v3_reduced_parser()
 	CU_ASSERT(ver18.getMajor() == 5);
 	CU_ASSERT(ver18.getMinor() == 30);
 	//CU_ASSERT(strcmp(ver18.getBuild(), "mountain") == 0);
+
+	
 }

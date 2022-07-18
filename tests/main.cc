@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
     std::cout << "Step 1\n";
 	/* initialize the CUnit test registry */
-	//if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
+	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
 #ifdef OCTETOS_CORE_V2
     std::cout << "Step 2\n";
@@ -117,18 +117,13 @@ int main(int argc, char *argv[])
 	}*/
 #endif
 #ifdef OCTETOS_CORE_V3
+	std::cout << "Step 2\n";
 	CU_pSuite pSuite_v3 = CU_add_suite("Octetos Core v3", v3_init, v3_clean);
 	if (NULL == pSuite_v3)
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	if ((NULL == CU_add_test(pSuite_v3, "Semver Parser v3", v3_reduced_parser)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-
 	if ((NULL == CU_add_test(pSuite_v3, "Developing..", v3_developing)))
 	{
 		CU_cleanup_registry();
@@ -137,9 +132,8 @@ int main(int argc, char *argv[])
 #endif
 
 	/* Run all tests using the CUnit Basic interface */
-	/*CU_basic_set_mode(CU_BRM_VERBOSE);
+	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
 	CU_cleanup_registry();
-	return CU_get_error();*/
-	return EXIT_SUCCESS;
+	return CU_get_error();
 }
