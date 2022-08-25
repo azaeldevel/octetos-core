@@ -187,7 +187,8 @@ namespace oct::core::v2
 
     void Semver::setPrerelease(const std::string& str)
     {
-        octetos_core_Semver_setPrerelease(this, str.c_str());
+		if(str.empty()) return;
+        octetos_core_Semver_setPrerelease(dynamic_cast<octetos_core_Semver*> (this), str.c_str());
     }
     std::string Semver::getPrerelease() const
     {
@@ -258,7 +259,7 @@ namespace oct::core::v2
         this->major = v.major;
         this->minor = v.minor;
         this->patch = v.patch;
-        if (v.prerelease) octetos_core_Semver_setPrerelease(this, v.prerelease);
+        if (v.prerelease) octetos_core_Semver_setPrerelease(dynamic_cast<octetos_core_Semver*> (this), v.prerelease);
         if (v.build) octetos_core_Semver_setBuild(this, v.build);
 
         return *this;
@@ -268,42 +269,42 @@ namespace oct::core::v2
         this->major = v.major;
         this->minor = v.minor;
         this->patch = v.patch;
-        if (v.prerelease) octetos_core_Semver_setPrerelease(this, v.prerelease);
+        if (v.prerelease) octetos_core_Semver_setPrerelease(dynamic_cast<octetos_core_Semver*> (this), v.prerelease);
         if (v.build) octetos_core_Semver_setBuild(this, v.build);
 
         return *this;
     }
-    void Semver::set(Number major, Number minor, Number patch, const std::string& prerelease)
+    void Semver::set(Number major, Number minor, Number patch, const std::string& prestr)
     {
         this->major = major;
         this->minor = minor;
         this->patch = patch;
-        octetos_core_Semver_setPrerelease(this, prerelease.c_str());
-        build = NULL;
+        octetos_core_Semver_setPrerelease(dynamic_cast<octetos_core_Semver*>(this), prestr.c_str());
+        //build = NULL;
     }
     void Semver::setNumbers(Number major, Number minor, Number patch)
     {
         this->major = major;
         this->minor = minor;
         this->patch = patch;
-        prerelease = NULL;
-        build = NULL;
+        //prerelease = NULL;
+        //build = NULL;
     }
     void Semver::setNumbers(Number major, Number minor)
     {
         this->major = major;
         this->minor = minor;
         patch = -1;
-        prerelease = NULL;
-        build = NULL;
+        //prerelease = NULL;
+        //build = NULL;
     }
     void Semver::setNumbers(Number major)
     {
         this->major = major;
         minor = -1;
         patch = -1;
-        prerelease = NULL;
-        build = NULL;
+        //prerelease = NULL;
+        //build = NULL;
     }
     Number Semver::getMajor() const
     {
@@ -347,6 +348,7 @@ namespace oct::core::v2
     }
     Semver::Semver(const char* str)
     {
+        init();
         parse(str);
     }
     Semver::Semver(Number major, Number minor, Number patch)
@@ -372,7 +374,7 @@ namespace oct::core::v2
         major = obj.major;
         minor = obj.minor;
         patch = obj.patch;
-        if (prerelease) octetos_core_Semver_setPrerelease(this, obj.prerelease);
+        if (prerelease) octetos_core_Semver_setPrerelease(dynamic_cast<octetos_core_Semver*> (this), obj.prerelease);
         if (build) octetos_core_Semver_setBuild(this, obj.build);
     }
 

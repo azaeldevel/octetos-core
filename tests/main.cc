@@ -11,12 +11,12 @@
 
 int main(int argc, char *argv[])
 {
-    std::cout << "Step 1\n";
+    //std::cout << "Step 1\n";
 	/* initialize the CUnit test registry */
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
 #ifdef OCTETOS_CORE_V2
-    std::cout << "Step 2\n";
+    //std::cout << "Step 2\n";
 	bdir = "";
 	std::string option;
 	for(int i = 1 ; i < argc; i++)
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	oct::core::v2::Artifact packinfo;
 	oct::core::v2::getPackageInfo(packinfo);
 
-	std::cout << "Step 3\n";
+	//std::cout << "Step 3\n";
 
 	int majorNumber = 2;
 	if(majorNumber != packinfo.version.getMajor())
@@ -47,10 +47,10 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	std::cout << "Step 3\n";
+	//std::cout << "Step 3\n";
 
-	std::string& pkName = packinfo.name;
-	std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
+	//std::string& pkName = packinfo.name;
+	//std::string headerTest = pkName + " " + (std::string)packinfo.version + "\n" + packinfo.licence.getText() + "\n" + packinfo.brief + "\n";
 	CU_pSuite pSuite_v2 = CU_add_suite("Octetos core v2", v2_init, v2_clean);
 	if (NULL == pSuite_v2)
 	{
@@ -108,16 +108,16 @@ int main(int argc, char *argv[])
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
-	}
+	}*/
 
 	if ((NULL == CU_add_test(pSuite_v2, "Developing..", v2_developing)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
-	}*/
+	}
 #endif
 #ifdef OCTETOS_CORE_V3
-	std::cout << "Step 2\n";
+	//std::cout << "Step 2\n";
 	CU_pSuite pSuite_v3 = CU_add_suite("Octetos Core v3", v3_init, v3_clean);
 	if (NULL == pSuite_v3)
 	{

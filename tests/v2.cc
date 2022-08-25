@@ -1390,4 +1390,8 @@ void v2_developing()
 	oct::core::Exception ex1;
 	CU_ASSERT(ex1.getLine() == 0);
 	CU_ASSERT(ex1.getFilename() == NULL);
+
+	oct::core::Semver version;
+	version.setNumbers(0,1,0);
+	version.setPrerelease("alpha");
 }

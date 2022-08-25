@@ -47,13 +47,12 @@ const char* octetos_core_Semver_setBuild(struct octetos_core_Semver* version, co
 }
 const char* octetos_core_Semver_setPrerelease(struct octetos_core_Semver* version, const char* prerelease)
 {
-	if (prerelease)//si el parametro es un puntero valido
-	{
-		free((void*)version->prerelease);//si hay datos escritos actualmente en el contenedor
-		version->prerelease = (const char*)malloc(strlen(prerelease) + 1);
-		strcpy((char*)version->prerelease, prerelease);
-	}
-
+	if (prerelease) free((void*)version->prerelease);//si el parametro es un puntero valido
+	
+	//si hay datos escritos actualmente en el contenedor
+	version->prerelease = (const char*)malloc(strlen(prerelease) + 1);
+	strcpy((char*)version->prerelease, prerelease);
+	
 	return version->prerelease;
 }
 
