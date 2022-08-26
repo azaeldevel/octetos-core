@@ -188,7 +188,7 @@ namespace oct::core::v2
     void Semver::setPrerelease(const std::string& str)
     {
 		if(str.empty()) return;
-        octetos_core_Semver_setPrerelease(dynamic_cast<octetos_core_Semver*> (this), str.c_str());
+        copy_prerelease(str.c_str());
     }
     std::string Semver::getPrerelease() const
     {
@@ -259,9 +259,9 @@ namespace oct::core::v2
         this->major = v.major;
         this->minor = v.minor;
         this->patch = v.patch;
-        if (v.prerelease) octetos_core_Semver_setPrerelease(dynamic_cast<octetos_core_Semver*> (this), v.prerelease);
-        if (v.build) octetos_core_Semver_setBuild(this, v.build);
-
+        copy_prerelease(prerelease);
+        copy_build(build);
+		
         return *this;
     }
     const octetos_core_Semver& Semver::operator =(const octetos_core_Semver& v)
@@ -269,8 +269,8 @@ namespace oct::core::v2
         this->major = v.major;
         this->minor = v.minor;
         this->patch = v.patch;
-        if (v.prerelease) octetos_core_Semver_setPrerelease(dynamic_cast<octetos_core_Semver*> (this), v.prerelease);
-        if (v.build) octetos_core_Semver_setBuild(this, v.build);
+        copy_prerelease(prerelease);
+        copy_build(build);
 
         return *this;
     }
@@ -279,7 +279,7 @@ namespace oct::core::v2
         this->major = major;
         this->minor = minor;
         this->patch = patch;
-        octetos_core_Semver_setPrerelease(dynamic_cast<octetos_core_Semver*>(this), prestr.c_str());
+        copy_prerelease(prerelease);
         //build = NULL;
     }
     void Semver::setNumbers(Number major, Number minor, Number patch)
@@ -374,8 +374,8 @@ namespace oct::core::v2
         major = obj.major;
         minor = obj.minor;
         patch = obj.patch;
-        if (prerelease) octetos_core_Semver_setPrerelease(dynamic_cast<octetos_core_Semver*> (this), obj.prerelease);
-        if (build) octetos_core_Semver_setBuild(this, obj.build);
+        copy_prerelease(prerelease);
+        copy_build(build);
     }
 
 
@@ -417,7 +417,7 @@ namespace oct::core::v2
     {
         if (build) delete[] build;
         std::size_t leng = strlen(strb) + 1;
-        prerelease = new char[leng];
-        strcpy(prerelease, strb);
+        build = new char[leng];
+        strcpy(build, strb);
     }
 }

@@ -127,7 +127,7 @@ void v2_testParseString_v100()
 		}
 	}
 
-	ver2.set("7.6.23-alpha-1");
+	ver2.set("7.6.23-alpha");
 	if(ver2.getMajor() == 7)
 	{
 		CU_ASSERT(true);
@@ -162,7 +162,7 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
-    if(strcmp(ver2.getPrerelease().c_str(),"alpha-1") == 0)
+    if(strcmp(ver2.getPrerelease().c_str(),"alpha") == 0)
 	{
 		CU_ASSERT(true);
 	}
@@ -177,7 +177,7 @@ void v2_testParseString_v100()
 	}
 
 
-	ver3.set("7.6.23-alpha5-2");
+	ver3.set("7.6.23-alpha5");
 	if(ver3.getMajor() == 7)
 	{
 		CU_ASSERT(true);
@@ -212,7 +212,7 @@ void v2_testParseString_v100()
 			return;
 		}
 	}
-    if(strcmp(ver3.getPrerelease().c_str(),"alpha5-2") == 0)
+    if(strcmp(ver3.getPrerelease().c_str(),"alpha5") == 0)
 	{
 		CU_ASSERT(true);
 	}
@@ -1393,5 +1393,25 @@ void v2_developing()
 
 	oct::core::Semver version;
 	version.setNumbers(0,1,0);
+	CU_ASSERT(version.getMajor () == 0);
+	CU_ASSERT(version.getMinor () == 1);
+	CU_ASSERT(version.getPatch () == 0);
 	version.setPrerelease("alpha");
+	CU_ASSERT(version.getPrerelease ().compare("alpha") == 0);
+
+	
+	oct::core::Semver version2("0.1.0-alpha");
+	CU_ASSERT(version2.getMajor () == 0);
+	CU_ASSERT(version2.getMinor () == 1);
+	CU_ASSERT(version2.getPatch () == 0);
+	//if(not version2.getPrerelease ().empty()) std::cout << "Version pre : " << version2.getPrerelease () << "\n";
+	CU_ASSERT(version2.getPrerelease ().compare("alpha") == 0);
+	
+	oct::core::Semver version3("0.1.0-alpha+moon2");
+	CU_ASSERT(version3.getMajor () == 0);
+	CU_ASSERT(version3.getMinor () == 1);
+	CU_ASSERT(version3.getPatch () == 0);
+	//if(not version3.getPrerelease ().empty()) std::cout << "Version pre : " << version2.getPrerelease () << "\n";
+	CU_ASSERT(version3.getPrerelease ().compare("alpha") == 0);
+	CU_ASSERT(strcmp(version3.getBuild (),"moon2") == 0);
 }

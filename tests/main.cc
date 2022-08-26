@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 
-	/*if ((NULL == CU_add_test(pSuite_v2, "Criterios de comparación semver v1.0.0", v2_testComparators_v100)))
+	if ((NULL == CU_add_test(pSuite_v2, "Criterios de comparación semver v1.0.0", v2_testComparators_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 
-	if ((NULL == CU_add_test(pSuite_v2, "Validacion de parseo semver v2.0.0", v2_testParseString_v200)))
+	/*if ((NULL == CU_add_test(pSuite_v2, "Validacion de parseo semver v2.0.0", v2_testParseString_v200)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
-	}
+	}*/
 
 	if ((NULL == CU_add_test(pSuite_v2, "Data modules", v2_testData)))
 	{
@@ -103,13 +103,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-
-	if ((NULL == CU_add_test(pSuite_v2, "Parser reducido..", v2_reduced_parser)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}*/
-
+	
 	if ((NULL == CU_add_test(pSuite_v2, "Developing..", v2_developing)))
 	{
 		CU_cleanup_registry();

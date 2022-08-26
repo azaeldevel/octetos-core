@@ -99,21 +99,37 @@ namespace oct::core::v2
 	  */
 	int Semver::grammar_stmt(Tray* ty)
 	{
+		//std::cout << "grammar_stmt  Step 1\n";
+		
 		int tok = grammar_version(ty);
+		
+		//std::cout << "grammar_stmt  Step 2\n";
 
 		if(tok == ENDOFINPUT) return tok;
+		
+		//std::cout << "grammar_stmt  Step 3\n";
+
+		tok = yylex(ty);
 		
 		if(tok == '-')
 		{
 			tok = grammar_prer(ty);
 		}
 		
+		//std::cout << "grammar_stmt  Step 4\n";
+		
 		if(tok == ENDOFINPUT) return tok;
+		
+		//std::cout << "grammar_stmt  Step 5\n";
+		
+		tok = yylex(ty);
 		
 		if(tok == '+')
 		{
 			tok = grammar_build(ty);
 		}
+		
+		//std::cout << "grammar_stmt  Step 6\n";
 		
 		return true;
 	}
