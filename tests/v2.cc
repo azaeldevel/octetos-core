@@ -1412,6 +1412,14 @@ void v2_developing()
 	CU_ASSERT(version3.getMinor () == 1);
 	CU_ASSERT(version3.getPatch () == 0);
 	//if(not version3.getPrerelease ().empty()) std::cout << "Version pre : " << version2.getPrerelease () << "\n";
-	CU_ASSERT(version3.getPrerelease ().compare("alpha") == 0);
-	CU_ASSERT(strcmp(version3.getBuild (),"moon2") == 0);
+	CU_ASSERT(version3.getPrerelease().compare("alpha") == 0);
+	CU_ASSERT(strcmp(version3.getBuild(),"moon2") == 0);
+
+	oct::core::Semver version4 = version3;
+	/*CU_ASSERT(version4.getMajor () == 0);
+	CU_ASSERT(version4.getMinor () == 1);
+	CU_ASSERT(version4.getPatch () == 0);
+	//if(not version4.getPrerelease ().empty()) std::cout << "Version pre : " << version2.getPrerelease () << "\n";
+	CU_ASSERT(version4.getPrerelease ().compare("alpha") == 0);
+	CU_ASSERT(strcmp(version4.getBuild (),"moon2") == 0);*/
 }

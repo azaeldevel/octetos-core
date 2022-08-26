@@ -201,7 +201,12 @@ namespace oct::core::v2
     }
     const char* Semver::getBuild() const
     {
-        return build;
+        if (build)
+        {
+            return build;
+        }
+
+        return "";
     }
     bool Semver::set(unsigned long ver, ImportCode import)
     {
@@ -252,15 +257,11 @@ namespace oct::core::v2
             throw Exception(msgErr, __FILE__, __LINE__);
         }
 
-        //if(!handle) dlclose(handle);
-        //parser = NULL;
-        //handle = NULL;
-        //loadParser (suffix);
-        this->major = v.major;
-        this->minor = v.minor;
-        this->patch = v.patch;
-        copy_prerelease(prerelease);
-        copy_build(build);
+        major = v.major;
+        minor = v.minor;
+        patch = v.patch;
+        if(v.prerelease)copy_prerelease(v.prerelease);
+        if(v.build)copy_build(v.build);
 		
         return *this;
     }
@@ -269,8 +270,8 @@ namespace oct::core::v2
         this->major = v.major;
         this->minor = v.minor;
         this->patch = v.patch;
-        copy_prerelease(prerelease);
-        copy_build(build);
+        if(v.prerelease)copy_prerelease(v.prerelease);
+        if(v.build)copy_build(v.build);
 
         return *this;
     }
@@ -279,32 +280,32 @@ namespace oct::core::v2
         this->major = major;
         this->minor = minor;
         this->patch = patch;
-        copy_prerelease(prerelease);
-        //build = NULL;
+        if(not prestr.empty()) copy_prerelease(prestr.c_str());
+		free_build();
     }
     void Semver::setNumbers(Number major, Number minor, Number patch)
     {
         this->major = major;
         this->minor = minor;
         this->patch = patch;
-        //prerelease = NULL;
-        //build = NULL;
+		free_prerelease();
+		free_build();
     }
     void Semver::setNumbers(Number major, Number minor)
     {
         this->major = major;
         this->minor = minor;
         patch = -1;
-        //prerelease = NULL;
-        //build = NULL;
+		free_prerelease();
+		free_build();
     }
     void Semver::setNumbers(Number major)
     {
         this->major = major;
         minor = -1;
         patch = -1;
-        //prerelease = NULL;
-        //build = NULL;
+		free_prerelease();
+		free_build();
     }
     Number Semver::getMajor() const
     {
@@ -338,9 +339,8 @@ namespace oct::core::v2
 
     Semver::~Semver()
     {
-        //if(!handle) dlclose(handle);
-        if (prerelease) free((void*)prerelease);
-        if (build) free((void*)build);
+        free_prerelease();
+        free_build();
     }
     Semver::Semver()
     {
@@ -366,16 +366,12 @@ namespace oct::core::v2
     }
     Semver::Semver(const Semver& obj)
     {
-        init();
-        //if(!handle) dlclose(handle);
-        //strcpy((char*)suffix,obj.suffix);
-        //loadParser (suffix);
-
+        init();		
         major = obj.major;
         minor = obj.minor;
         patch = obj.patch;
-        copy_prerelease(prerelease);
-        copy_build(build);
+        if(obj.prerelease) copy_prerelease(obj.prerelease);
+        if(obj.build)copy_build(obj.build);
     }
 
 
@@ -412,7 +408,11 @@ namespace oct::core::v2
         prerelease = new char[leng];
         strcpy(prerelease,prer);
     }
-
+	void Semver::free_prerelease()
+	{
+		if (prerelease) delete[] prerelease;
+		prerelease = NULL;
+	}
     void Semver::copy_build(const char* strb)
     {
         if (build) delete[] build;
@@ -420,4 +420,9 @@ namespace oct::core::v2
         build = new char[leng];
         strcpy(build, strb);
     }
+	void Semver::free_build()
+	{
+		if (build) delete[] build;
+		build = NULL;
+	}
 }

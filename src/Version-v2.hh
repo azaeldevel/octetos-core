@@ -205,7 +205,9 @@ namespace oct::core::v2
 		Value yylval;
 	private:
 		void copy_prerelease(const char*);
+		void free_prerelease();
 		void copy_build(const char*);
+		void free_build();
 
 		int yylex(Tray* ty);
 		int grammar_stmt(Tray* ty);
