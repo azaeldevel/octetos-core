@@ -197,7 +197,7 @@ namespace oct::core::v2
             return prerelease;
         }
 
-        return "";
+        return "#";
     }
     const char* Semver::getBuild() const
     {
@@ -206,7 +206,7 @@ namespace oct::core::v2
             return build;
         }
 
-        return "";
+        return "#";
     }
     bool Semver::set(unsigned long ver, ImportCode import)
     {
@@ -247,16 +247,9 @@ namespace oct::core::v2
     }
     const Semver& Semver::operator =(const Semver& v)
     {
-        if (strcmp(typeid(*this).name(), typeid(&v).name()) == 0)
-        {
-            std::string msgErr = "Asignacion no equivalente, el obejto destino es '";
-            msgErr += typeid(*this).name();
-            msgErr += "', minetras que el origne es '";
-            msgErr += typeid(&v).name();
-            msgErr += "'";
-            throw Exception(msgErr, __FILE__, __LINE__);
-        }
-
+		free_prerelease();
+		free_build();
+		init();
         major = v.major;
         minor = v.minor;
         patch = v.patch;
@@ -323,18 +316,40 @@ namespace oct::core::v2
     }
 
     std::string Semver::toString(FormatString formato) const
-    {
-        const char* verbuf = octetos_core_Semver_toString(this, formato);
-        std::string ver = verbuf;
-        free((void*)verbuf);
-        return ver;
+    {		
+		std::string strver;
+				
+		if(major > -1)
+		{
+			strver += std::to_string(major);
+			if(minor > -1)
+			{
+				strver += "." + std::to_string(minor);
+				if(patch > -1)
+				{
+					strver +=  "." + std::to_string(patch);					
+				}				
+			}			
+		}
+		
+		if(prerelease)
+		{
+			strver += "-";
+			strver += prerelease;
+		}
+		
+		if(build)
+		{
+			strver += "+";
+			strver += build;
+		}
+
+
+		return strver;
     }
     Semver::operator std::string()const
     {
-        const char* verbuf = octetos_core_Semver_toString(this, FormatString::FullString);
-        std::string ver = verbuf;
-        free((void*)verbuf);
-        return ver;
+        return toString();
     }
 
     Semver::~Semver()
@@ -366,7 +381,7 @@ namespace oct::core::v2
     }
     Semver::Semver(const Semver& obj)
     {
-        init();		
+		init();
         major = obj.major;
         minor = obj.minor;
         patch = obj.patch;
@@ -389,7 +404,7 @@ namespace oct::core::v2
 
     bool Semver::empty() const
     {
-        if (major < 0 and minor < 0 and patch < 0) return true;
+        if (major < 0 or minor < 0 and patch < 0) return true;
         return false;
     }
 
