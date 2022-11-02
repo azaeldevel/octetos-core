@@ -20,25 +20,68 @@
  *
  * */
  
- 
+
+#include <string.h>
+
+
 #include "Exception-v3.hh"
 
 namespace oct::core::v3
 {
-Exception::Exception() : _code(0),_filename(NULL),_line(0),_subject(NULL)
+	
+
+Exception::Exception() : _code(0),_filename(NULL),_line(0),_message(NULL),autofree(false)
 {
 }
-Exception::Exception(unsigned int c) : _code(c),_filename(NULL),_line(0),_subject(NULL)
+Exception::Exception(const Exception& e) : _code(e._code),_filename(e._filename),_line(e._line),autofree(e.autofree)
+{
+	if(autofree) copy(e._message);
+}
+Exception::Exception(Exception&& e) : _code(e._code),_filename(e._filename),_line(e._line),_message(e._message),autofree(e.autofree)
+{
+	e._message = NULL;
+	e.autofree = false;
+}
+
+
+Exception::Exception(unsigned int c) : _code(c),_filename(NULL),_line(0),_message(NULL),autofree(false)
 {
 }
-Exception::Exception(unsigned int c,const char* s) : _code(c),_subject(s),_filename(NULL),_line(0)
+Exception::Exception(unsigned int c,const char* s) : _code(c),_message(s),_filename(NULL),_line(0),autofree(false)
 {
 }
-Exception::Exception(unsigned int c,const char* fn, unsigned int l) : _code(c),_filename(fn),_line(l),_subject(NULL)
+Exception::Exception(unsigned int c,const char* fn, unsigned int l) : _code(c),_filename(fn),_line(l),_message(NULL),autofree(false)
 {
 }
-Exception::Exception(unsigned int c,const char* s,const char* fn, unsigned int l) : _code(c),_subject(s),_filename(fn),_line(l)
+Exception::Exception(unsigned int c,const char* s,const char* fn, unsigned int l) : _code(c),_message(s),_filename(fn),_line(l),autofree(false)
 {
+}
+
+Exception::Exception(const std::string& m) : _code(0),_filename(NULL),_line(0),autofree(true)
+{
+	copy(m);
+}
+Exception::Exception(const std::string& m,const char* f, unsigned int l) : _code(0),_filename(f),_line(l),autofree(true)
+{
+	copy(m);
+}
+
+Exception::~Exception()
+{
+	if(autofree) if(_message) delete _message;
+}
+
+void Exception::copy(const std::string& m)
+{
+	char* msg = new char[m.size() + 1];
+	strcpy(msg,m.c_str());
+	_message = msg;
+}
+void Exception::copy(const char* m)
+{
+	char* msg = new char[strlen(m) + 1];
+	strcpy(msg,m);
+	_message = msg;
 }
 
 unsigned int Exception::code()const
@@ -55,35 +98,37 @@ unsigned int Exception::line()const
 }
 const char* Exception::subject()const
 {
-	return _subject;
+	return _message;
 }
 	
 const char* Exception::what() const throw ()
 {
-	switch(_code)
-	{
-	case NoErros:
-		return "No errort detectado.";
-	}
-
-	return NULL;
+	return "Error desconocido.";
 }
 std::string Exception::describe() const throw ()
 {	
 	std::string msg;
 	if(_filename)
 	{
-		msg = _filename;
+		msg += _filename;
 		msg += ":";
 		msg += std::to_string(_line);
 	}
-	msg += " - ";
-	msg += what();
-	if(_subject)
+	if(_code > 0)
 	{
-		msg += "\n\t devido a ";
-		msg += _subject;
+		msg += " - Codigo " + std::to_string(_code) ;
 	}
+	if(_message)
+	{
+		msg += "\n\t";
+		msg += _message;
+	}
+	else if(_code > 0)
+	{
+		msg += "\n\t";
+		msg += this->what();
+	}
+	
 	return msg;
 }
 

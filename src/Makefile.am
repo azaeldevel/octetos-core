@@ -2,7 +2,6 @@ AM_YFLAGS = -d
 
 lib_LTLIBRARIES = liboctetos-core.la
 
-
 liboctetos_core_la_CXXFLAGS = $(CUNIT_CFLGAS) $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS)  
 liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)
 liboctetos_core_la_SOURCES = \
@@ -43,8 +42,13 @@ uninstall-local:
 
 noinst_PROGRAMS = develop testArrayCpp testArrayClass
 
+bin_PROGRAMS = version
+
 develop_SOURCES = develop.cc 
 develop_LDADD = liboctetos-core.la
+
+version_SOURCES = version-main.cc 
+version_LDADD = liboctetos-core.la
 
 testArrayCpp_SOURCES = testArrayC++.cc 
 testArrayCpp_LDADD = liboctetos-core.la

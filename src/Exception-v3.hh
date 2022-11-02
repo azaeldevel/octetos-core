@@ -37,10 +37,21 @@ public:
 	};
 public:
 	Exception();
+	Exception(const Exception&);
+	Exception(Exception&&);
+	
 	Exception(unsigned int code);
-	Exception(unsigned int code,const char* subject);
 	Exception(unsigned int code,const char* filename, unsigned int line);
-	Exception(unsigned int code,const char* subject,const char* filename, unsigned int line);
+	
+	Exception(unsigned int code,const char* message);
+	Exception(unsigned int code,const char* message,const char* filename, unsigned int line);
+
+	Exception(const std::string& message);
+	Exception(const std::string& message,const char* filename, unsigned int line);
+	
+	Exception(unsigned int code,const std::string& message);
+	Exception(unsigned int code,const std::string& message,const char* filename, unsigned int line);
+	~Exception();
 
 	unsigned int code()const;
 	const char* filename()const;
@@ -54,7 +65,11 @@ protected:
 	unsigned int _code;
 	const char* _filename;
 	unsigned int _line;
-	const char* _subject;
+	const char* _message;
+private:
+	bool autofree;
+	void copy(const std::string&);
+	void copy(const char*);
 };
 }
 

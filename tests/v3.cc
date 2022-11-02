@@ -30,15 +30,33 @@ int v3_clean(void)
 
 void v3_developing()
 {
-	/*try
+	try
 	{
-		throw Exception(0,__FILE__,__LINE__);
+		throw oct::core::v3::Exception("0123456789");
+	}
+	catch(const Exception& ex)
+	{
+		CU_ASSERT(ex.code() == 0);
+		//std::cout << "Error : " << ex.what() << "\n";
+	}
+	try
+	{
+		throw oct::core::v3::Exception("0123456789",__FILE__,__LINE__);
+	}
+	catch(const Exception& ex)
+	{
+		//std::cout << "Error : " << ex.describe() << "\n";
+		CU_ASSERT(ex.code() == 0);
+	}	
+	try
+	{
+		throw oct::core::v3::Exception(1,__FILE__,__LINE__);
 	}
 	catch(const Exception& ex)
 	{
 		//std::cout << ex.describe() << "\n";
-		CU_ASSERT(ex.code()==0);
-	}*/
+		CU_ASSERT(ex.code() == 1);
+	}
 }
 
 void v3_reduced_parser()
@@ -68,7 +86,5 @@ void v3_reduced_parser()
 	CU_ASSERT(ver18.parse("5.30+mountain"));
 	CU_ASSERT(ver18.getMajor() == 5);
 	CU_ASSERT(ver18.getMinor() == 30);
-	//CU_ASSERT(strcmp(ver18.getBuild(), "mountain") == 0);
-
-	
+	//CU_ASSERT(strcmp(ver18.getBuild(), "mountain") == 0);	
 }
