@@ -47,10 +47,11 @@ Exception::Exception(Exception&& e) : _code(e._code),_filename(e._filename),_lin
 Exception::Exception(unsigned int c) : _code(c),_filename(NULL),_line(0),_message(NULL),autofree(false)
 {
 }
-Exception::Exception(unsigned int c,const char* s) : _code(c),_message(s),_filename(NULL),_line(0),autofree(false)
+Exception::Exception(unsigned int c,const char* fn, unsigned int l) : _code(c),_filename(fn),_line(l),_message(NULL),autofree(false)
 {
 }
-Exception::Exception(unsigned int c,const char* fn, unsigned int l) : _code(c),_filename(fn),_line(l),_message(NULL),autofree(false)
+
+Exception::Exception(unsigned int c,const char* s) : _code(c),_message(s),_filename(NULL),_line(0),autofree(false)
 {
 }
 Exception::Exception(unsigned int c,const char* s,const char* fn, unsigned int l) : _code(c),_message(s),_filename(fn),_line(l),autofree(false)
@@ -62,6 +63,15 @@ Exception::Exception(const std::string& m) : _code(0),_filename(NULL),_line(0),a
 	copy(m);
 }
 Exception::Exception(const std::string& m,const char* f, unsigned int l) : _code(0),_filename(f),_line(l),autofree(true)
+{
+	copy(m);
+}
+
+Exception::Exception(unsigned int c,const std::string& m) : _code(c),_filename(NULL),_line(0),autofree(true)
+{
+	copy(m);
+}
+Exception::Exception(unsigned int c,const std::string& m,const char* f, unsigned int l) : _code(c),_filename(f),_line(l),autofree(true)
 {
 	copy(m);
 }

@@ -1,4 +1,4 @@
-AC_INIT(octetos-core,2.57.0-alpha, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.57.1-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign gnu subdir-objects])
 AM_SILENT_RULES([yes])
@@ -30,6 +30,7 @@ if test "x$with_tests" = "xyes"; then
 	PKG_CHECK_MODULES(CUNIT,cunit)
 fi
 
+dnl dreprecated>>>>>
 PKG_CHECK_MODULES(OPENSSL,openssl)
 
 AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")

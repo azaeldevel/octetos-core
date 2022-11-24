@@ -2,8 +2,8 @@ AM_YFLAGS = -d
 
 lib_LTLIBRARIES = liboctetos-core.la
 
-liboctetos_core_la_CXXFLAGS = $(CUNIT_CFLGAS) $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS)  
-liboctetos_core_la_LIBADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)
+liboctetos_core_la_CXXFLAGS = $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS)  
+liboctetos_core_la_LIBADD = $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)
 liboctetos_core_la_SOURCES = \
 	Artifact-v2.cc \
 	Exception-v2.cc \
