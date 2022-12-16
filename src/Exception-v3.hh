@@ -26,7 +26,7 @@
 
 namespace oct::core::v3
 {
-class OCTETOS_CORE_DECLSPCE_DLL Exception : public std::exception
+class Exception : public std::exception
 {
 public:
 	enum Erros
@@ -39,16 +39,16 @@ public:
 	Exception();
 	Exception(const Exception&);
 	Exception(Exception&&);
-	
+
 	Exception(unsigned int code);
 	Exception(unsigned int code,const char* filename, unsigned int line);
-	
+
 	Exception(unsigned int code,const char* message);
 	Exception(unsigned int code,const char* message,const char* filename, unsigned int line);
 
 	Exception(const std::string& message);
 	Exception(const std::string& message,const char* filename, unsigned int line);
-	
+
 	Exception(unsigned int code,const std::string& message);
 	Exception(unsigned int code,const std::string& message,const char* filename, unsigned int line);
 	virtual ~Exception();

@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="core" />
+		<Option title="octetos-core" />
 		<Option pch_mode="2" />
 		<Option compiler="msys2_x86_64_gcc" />
 		<Build>
@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-DMSYS2" />
 				</Compiler>
 				<Linker>
 					<Add option="`pkg-config libconfig++ --libs`" />
