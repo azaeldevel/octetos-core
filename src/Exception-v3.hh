@@ -34,6 +34,13 @@ public:
 		NoErros,
 		Invalid_Compared_Version_Objects,
 		Empty_Object,
+		NotYet,
+		FAIL_READING_DB,
+		FAIL_WRITING_DB,
+		FAIL_READING_FILE,
+		FAIL_WRITING_FILE,
+		FAIL_READING_CONF,
+		FAIL_WRITING_CONF,
 	};
 public:
 	Exception();
