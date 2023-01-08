@@ -1,14 +1,13 @@
-AC_INIT(octetos-core,2.57.1-alpha, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.57.2-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign gnu subdir-objects])
 AM_SILENT_RULES([yes])
 
 AC_PROG_CC
 AC_PROG_CXX
-AC_PROG_YACC
-AM_PATH_PYTHON
 
-AX_CXX_COMPILE_STDCXX(11)
+
+AX_CXX_COMPILE_STDCXX(20)
 
 dnl ***************************************************************************
 dnl Internationalization

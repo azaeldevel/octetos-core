@@ -1,4 +1,3 @@
-AM_YFLAGS = -d
 
 lib_LTLIBRARIES = liboctetos-core.la
 
