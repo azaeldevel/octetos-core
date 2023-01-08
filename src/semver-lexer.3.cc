@@ -31,25 +31,6 @@
 namespace oct::core::v3
 {
 
-Semver::ExceptionLexer::ExceptionLexer()
-{
-
-}
-Semver::ExceptionLexer::ExceptionLexer(unsigned int c,const char* f, unsigned int l) : oct::core::v3::Exception(c,f,l)
-{
-}
-const char * Semver::ExceptionLexer::what () const throw ()
-{
-	switch(_code)
-	{
-		case NoError:
-			return "Ningun erro detectado, se creo un falso psoitivo.";
-		case NOT_BUFFER_CREATED:
-			return "EL buffer no ha sido creado.";
-	}
-
-	return "Error desconocido.";
-}
 
 
 Semver::Tray::Tray(const char* str, Semver* ver) : buffer(str), version(ver)
@@ -277,6 +258,7 @@ int Semver::yylex(Semver::Tray* ty)
 				//std::cout << "Estado : Inicial\n";
 				if(is_digit(c))
 				{
+					//std::cout << "c : '" << c << "'\n";
 					ty->state = NUMBER_VALUE;
 				}
 				else if(is_letter(c))
@@ -285,12 +267,14 @@ int Semver::yylex(Semver::Tray* ty)
 				}
 				else if(c == '.')
 				{
+					//std::cout << "c : '" << c << "'\n";
 					ty->buffer.proceed();
 					ty->state = 0;
 					return c;
 				}
 				else if(c == '-')
 				{
+					//std::cout << "c : '" << c << "'\n";
 					ty->buffer.proceed();
 					ty->state = PRERELEASE_VALUE;
 					//std::cout << "prefix : '" << c << "'\n";
@@ -298,7 +282,6 @@ int Semver::yylex(Semver::Tray* ty)
 				}
 				else if(c == '+')
 				{
-					std::cout << "prefix : '" << c << "'\n";
 					ty->buffer.proceed();
 					ty->state = BUILD_VALUE;
 					return c;
@@ -326,47 +309,27 @@ int Semver::yylex(Semver::Tray* ty)
 			{
 				//std::cout << "Estado : PRERELEASE_VALUE\n";
 				//std::cout << "PRER- '" << c << "'\n";
-				std::cout << "c '" << c << "'\n";
-				char c_post;		
-				while(true)
+				char c_post = ty->buffer.check_char(1);
+				while(is_digit(c_post) or is_letter(c_post) and c_post != '+')
 				{
+					//std::cout << "c : '" << c << "'\n";
+					c = ty->buffer.next_char();
 					c_post = ty->buffer.check_char(1);
-					if(is_digit(c_post) or is_letter(c_post))
-					{
-						std::cout << "c '" << c_post << "'\n";
-						c_post = ty->buffer.next_char();
-					}
-					else
-					{
-						break;
-					}
 				}
-				//if(c_post != 0) ty->buffer.prev_char();
 				ty->buffer.proceed();
-				std::cout << "Prerelease 1 '" << ty->buffer.get_text() << "'\n";
+				//std::cout << "Prerelease 1 '" << buffer->get_text() << "'\n";
 				yylval.str = ty->buffer.get_text();
 				ty->state = 0;
 				return PRERELEASE_VALUE;
 			}
 			case BUILD_VALUE:
 			{
-				char c_post;		
-				while(true)
+				while(is_digit(ty->buffer.check_char(1)) or is_letter(ty->buffer.check_char(1)))
 				{
-					c_post = ty->buffer.check_char(1);
-					if(is_digit(c_post) or is_letter(c_post))
-					{
-						std::cout << "c '" << c_post << "'\n";
-						c_post = ty->buffer.next_char();
-					}
-					else
-					{
-						break;
-					}
+					c = ty->buffer.next_char();
 				}
-				//if(c_post != 0) ty->buffer.prev_char();
 				ty->buffer.proceed();
-				std::cout << "build 1 '" << ty->buffer.get_text() << "'\n";
+				//std::cout << "Build 1 '" << buffer->get_text() << "'\n";
 				yylval.str = ty->buffer.get_text();
 				ty->state = 0;
 				return BUILD_VALUE;

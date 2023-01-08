@@ -26,59 +26,24 @@
 #include <string>
 #include <vector>
 
-#include "Exception-v3.hh"
+#include "Error.hh"
 #include "Buffer.hh"
 
 namespace oct::core::v3
 {
+	
+	typedef short Number;
+
 	/**
-	*\brief Implemete un subconjuto de semver v2.0.0
+	*\brief Implementacion de un subconjuto de semver v2.0.0
 	*\details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 	*\since 2.0
 	**/
 	class OCTETOS_CORE_DECLSPCE_DLL Semver
 	{
 	public:
-		typedef short Number;
-
-		class ExceptionLexer : public Exception
-		{
-		public:
-			enum Errors
-			{
-				NoError,
-				NOT_BUFFER_CREATED,
-			};
-		public:
-			ExceptionLexer();
-			ExceptionLexer(unsigned int code);
-			ExceptionLexer(unsigned int code, const char* subject);
-			ExceptionLexer(unsigned int code, const char* filename, unsigned int line);
-			ExceptionLexer(unsigned int code, const char* subject, const char* filename, unsigned int line);
-
-			const char* what() const throw ();
-		};
 
 	public:
-
-		/**
-		* \brief Crea el objeto a partir de un string
-		* */
-		Semver(const char*);
-		Semver(const std::string&);
-		Semver(const Semver&);
-		Semver();
-		/**
-		* \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
-		* */
-		Semver(Number major,Number minor);
-		/**
-		* \brief Asigna numero major, menor y patch, los restantas datos son limpiado
-		* */
-		Semver(Number major,Number minor,Number patch);
-
-		virtual ~Semver();
-
 		/**
 		* \brief Limpia todos los datos
 		* */
@@ -95,13 +60,9 @@ namespace oct::core::v3
 		* \brief Retorna el número patch
 		* */
 		Number get_patch() const;
-		/**
-		* \brief Retorna el número stage o Pre-release number (prefijo -)
-		* */
+
 		const char* get_stage() const;
-		/**
-		* \brief Retorna el número build (prefijo +)
-		* */
+
 		const char* get_build() const;
 
 		/**
@@ -111,27 +72,43 @@ namespace oct::core::v3
 		/**
 		* \brief Asigna numero major, menor y patch.
 		* */
-		void set(Number major,Number minor,Number patch);
+		void setNumbers(Number major,Number minor,Number patch);
 		/**
 		* \brief Asigna numero major y menor. A patch se le asigna 0.
 		* */
-		void set(Number major,Number minor);
+		void setNumbers(Number major,Number minor);
 		/**
 		* \brief Asigna solamanete el valor major. A menor y patch se le asigna 0.
 		* */
-		void set(Number major);
+		void setNumbers(Number major);
+		/**
+		* \brief Lee la cadena de texto para determinar los valores de los componentes.
+		* */
+		bool set(const std::string&);
 		/**
 		* \brief Asigna solamanete el valor Prerelease.
 		* */
-		void setPrerelease(const char*);
-
-		void setBuild(const char*);
-
-
-
-		const Semver& operator =(const Semver& v);
+		void setPrerelease(const std::string&);
 
 		operator std::string()const;
+		virtual ~Semver();
+		Semver(const Semver&);
+
+		Semver();
+		/**
+		* \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
+		* */
+		Semver(Number major,Number minor);
+		/**
+		* \brief Crea el objeto a partir de un string
+		* */
+		Semver(const char*);
+		/**
+		* \brief Asigna numero major, menor y patch, los restantas datos son limpiado
+		* */
+		Semver(Number major,Number minor,Number patch);
+		const Semver& operator =(const Semver& v);
+
 
 		virtual bool operator ==(const Semver&)const;
 		virtual bool operator !=(const Semver&)const;
@@ -140,11 +117,7 @@ namespace oct::core::v3
 		virtual bool operator >=(const Semver&)const;
 		virtual bool operator <=(const Semver&)const;
 		virtual bool empty() const;
-
-		virtual Semver& operator =(const char*);
-		virtual Semver& operator =(const std::string&);
-
-
+				
 		bool parse(const char* );
 
 	private:
@@ -189,7 +162,9 @@ namespace oct::core::v3
 		Value yylval;
 	private:
 		void copy_prerelease(const char*);
+		void free_prerelease();
 		void copy_build(const char*);
+		void free_build();
 
 		int yylex(Tray* ty);
 		int grammar_stmt(Tray* ty);

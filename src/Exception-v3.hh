@@ -44,6 +44,8 @@ public:
 		NotEmptyObject,
 		NotCopiableObject,
 		OnDatabase,
+
+		top,
 	};
 public:
 	Exception();

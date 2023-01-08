@@ -6,6 +6,7 @@
     #include <Exception-v3.hh>
     #include <Version-v3.hh>
     #include <string.h>
+    #include <iostream>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <core/src/Exception-v3.hh>
     #include <core/src/Version-v3.hh>
@@ -57,10 +58,8 @@ void v3_developing()
 		//std::cout << ex.describe() << "\n";
 		CU_ASSERT(ex.code() == 1);
 	}
-}
 
-void v3_reduced_parser()
-{
+	
 	Semver ver15;
 	CU_ASSERT(ver15.parse("5.30"));
 	CU_ASSERT(ver15.get_major() == 5);
@@ -77,7 +76,7 @@ void v3_reduced_parser()
 	CU_ASSERT(ver17.parse("5.30-alpha+mountain"));
 	CU_ASSERT(ver17.get_major() == 5);
 	CU_ASSERT(ver17.get_minor() == 30);
-	//std::cout << "str : " << ver17.getPrerelease() << "\n";
+	std::cout << "str version : " << ver17.get_stage() << "\n";
 	CU_ASSERT(strcmp(ver17.get_stage(),"alpha") == 0);
 	//std::cout << "str : " << ver17.getBuild() << "\n";
 	CU_ASSERT(strcmp(ver17.get_build(), "mountain") == 0);
@@ -91,5 +90,9 @@ void v3_reduced_parser()
 	Semver ver19("4.25-alpha");
 	CU_ASSERT(ver18 > ver19);
 	CU_ASSERT(ver19 < ver18);
+}
+
+void v3_reduced_parser()
+{
 	
 }

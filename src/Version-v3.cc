@@ -19,32 +19,42 @@
  *
  * */
 
+#include <typeinfo>
+#include <string.h>
+
 #if defined(__linux__)
     #include <config.h>
+	#include "Exception-v3.hh"
 #elif defined(_WIN32) || defined(_WIN64)
     #include "config-win.h"
 #else
     #error "Plataforma desconocida"
 #endif
-#include <typeinfo>
-#include <string.h>
 
-#include "Exception-v3.hh"
+
 #include "Version-v3.hh"
 
 namespace oct::core::v3
 {
+
 	Semver version(PACKAGE_VERSION);
-	
+
+
     bool Semver::operator !=(const Semver& obj)const
     {
-        if (major == obj.major or minor == obj.minor or patch == obj.patch) return true;
+        if (major != obj.major or minor != obj.minor or patch != obj.patch)
+        {
+            return true;
+        }
 
         return false;
     }
     bool Semver::operator ==(const Semver& obj)const
     {
-        if (major == obj.major && minor == obj.minor && patch == obj.patch) return true;
+        if (major == obj.major && minor == obj.minor && patch == obj.patch)
+        {
+            return true;
+        }
 
         return false;
     }
@@ -53,7 +63,7 @@ namespace oct::core::v3
 
         if (major < 0 or obj.major < 0)
         {
-            throw Exception(Exception::Empty_Object,__FILE__,__LINE__);
+            throw oct::core::v3::Exception(oct::core::v3::Exception::Invalid_Compared_Version_Objects,__FILE__,__LINE__);
         }
         else if (major > obj.major)
         {
@@ -104,7 +114,7 @@ namespace oct::core::v3
     {
         if (major < 0 or obj.major < 0)
         {
-            throw Exception(Exception::Empty_Object, __FILE__, __LINE__);
+            throw oct::core::v3::Exception(oct::core::v3::Exception::Invalid_Compared_Version_Objects,__FILE__,__LINE__);
         }
         else if (major < obj.major)
         {
@@ -155,96 +165,118 @@ namespace oct::core::v3
     }
     bool Semver::operator <=(const Semver& obj)const
     {
-        if (this->operator == (obj) or obj.operator <(obj) )return true;
-		
-        return false;
+        if (((Semver&)*this) == ((Semver&)obj) or (*this) < ((Semver&)obj))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     bool Semver::operator >=(const Semver& obj)const
     {
-        if (this->operator == (obj) or obj.operator >(obj) )return true;
-		
-        return false;
-    }
-
-    void Semver::setPrerelease(const char* str)
-    {
-        copy_prerelease(str);
-    }
-    void Semver::setBuild(const char* str)
-    {
-        copy_build(str);
-    }
-
-
-
-
-
-    const Semver& Semver::operator =(const Semver& v)
-    {
-        if (strcmp(typeid(*this).name(), typeid(&v).name()) == 0)
+        if (((Semver&)*this) == ((Semver&)obj) or (*this) > ((Semver&)obj))
         {
-            std::string msgErr = "Asignacion no equivalente, el obejto destino es '";
-            msgErr += typeid(*this).name();
-            msgErr += "', minetras que el origne es '";
-            msgErr += typeid(&v).name();
-            msgErr += "'";
-            throw Exception(Exception::Invalid_Compared_Version_Objects, __FILE__, __LINE__);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void Semver::setPrerelease(const std::string& str)
+    {
+		if(str.empty()) return;
+        copy_prerelease(str.c_str());
+    }
+    const char* Semver::get_stage() const
+    {
+        if (prerelease)
+        {
+            return prerelease;
         }
 
-        this->major = v.major;
-        this->minor = v.minor;
-        this->patch = v.patch;
-        copy_prerelease(v.prerelease);
-        copy_build(v.build);
+        return "#";
+    }
+    const char* Semver::get_build() const
+    {
+        if (build)
+        {
+            return build;
+        }
 
+        return "#";
+    }
+
+
+    void Semver::init()
+    {
+        major = -1;
+        minor = -1;
+        patch = -1;
+        prerelease = NULL;
+        build = NULL;
+    }
+    const Semver& Semver::operator =(const Semver& v)
+    {
+		free_prerelease();
+		free_build();
+		init();
+        major = v.major;
+        minor = v.minor;
+        patch = v.patch;
+        if(v.prerelease)copy_prerelease(v.prerelease);
+        if(v.build)copy_build(v.build);
+		
         return *this;
     }
-
-    void Semver::set(Number major, Number minor, Number patch, const std::string& prerelease)
+    void Semver::set(Number major, Number minor, Number patch, const std::string& prestr)
     {
         this->major = major;
         this->minor = minor;
         this->patch = patch;
-        copy_prerelease(prerelease.c_str());
+        if(not prestr.empty()) copy_prerelease(prestr.c_str());
+		free_build();
     }
-    void Semver::set(Number major, Number minor, Number patch)
+    void Semver::setNumbers(Number major, Number minor, Number patch)
     {
         this->major = major;
         this->minor = minor;
         this->patch = patch;
+		free_prerelease();
+		free_build();
     }
-    void Semver::set(Number major, Number minor)
+    void Semver::setNumbers(Number major, Number minor)
     {
         this->major = major;
         this->minor = minor;
         patch = -1;
+		free_prerelease();
+		free_build();
     }
-    void Semver::set(Number major)
+    void Semver::setNumbers(Number major)
     {
         this->major = major;
         minor = -1;
         patch = -1;
+		free_prerelease();
+		free_build();
     }
-	
-    Semver::Number Semver::get_major() const
+    Number Semver::get_major() const
     {
-        return major;
+        return this->major;
     }
-    Semver::Number Semver::get_minor() const
+
+    Number Semver::get_minor() const
     {
-        return minor;
+        return this->minor;
     }
-    Semver::Number Semver::get_patch() const
+
+    Number Semver::get_patch() const
     {
-        return patch;
-    }
-    const char* Semver::get_stage() const
-    {
-        return prerelease;
-    }
-    const char* Semver::get_build() const
-    {
-        return build;
+        return this->patch;
     }
 
     Semver::operator std::string()const
@@ -282,16 +314,8 @@ namespace oct::core::v3
 
     Semver::~Semver()
     {
-        if (prerelease) delete[] prerelease;
-        if (build) delete[] build;
-    }
-    void Semver::init()
-    {
-        major = -1;
-        minor = -1;
-        patch = -1;
-        prerelease = NULL;
-        build = NULL;
+        free_prerelease();
+        free_build();
     }
     Semver::Semver()
     {
@@ -299,56 +323,46 @@ namespace oct::core::v3
     }
     Semver::Semver(const char* str)
     {
+        init();
         parse(str);
-    }
-    Semver::Semver(const std::string& str)
-    {
-        parse(str.c_str());
     }
     Semver::Semver(Number major, Number minor, Number patch)
     {
+        init();
         this->major = major;
         this->minor = minor;
         this->patch = patch;
-        this->prerelease = NULL;
-        this->build = NULL;
     }
     Semver::Semver(Number major, Number minor)
     {
+        init();
         this->major = major;
         this->minor = minor;
-        this->patch = -1;
-        this->prerelease = NULL;
-        this->build = NULL;
     }
     Semver::Semver(const Semver& obj)
     {
+		init();
         major = obj.major;
         minor = obj.minor;
         patch = obj.patch;
-        copy_prerelease(obj.prerelease);
-        copy_build(obj.build);
+        if(obj.prerelease) copy_prerelease(obj.prerelease);
+        if(obj.build)copy_build(obj.build);
     }
+
+    bool Semver::set(const std::string& str)
+    {
+        return parse(str.c_str());
+    }
+
 
 
     bool Semver::empty() const
     {
-        return (major < 0 and minor < 0 and patch < 0)? true : false;
+        if (major < 0 or minor < 0 and patch < 0) return true;
+        return false;
     }
 
-    Semver& Semver::operator =(const char* str)
-    {
-        parse(str);
-
-        return *this;
-    }
-    Semver& Semver::operator =(const std::string& str)
-    {
-        parse(str.c_str());
-
-        return *this;
-    }
-
+	
     void Semver::copy_prerelease(const char* prer)
     {
         if (prerelease) delete[] prerelease;
@@ -356,12 +370,21 @@ namespace oct::core::v3
         prerelease = new char[leng];
         strcpy(prerelease,prer);
     }
-
+	void Semver::free_prerelease()
+	{
+		if (prerelease) delete[] prerelease;
+		prerelease = NULL;
+	}
     void Semver::copy_build(const char* strb)
     {
         if (build) delete[] build;
         std::size_t leng = strlen(strb) + 1;
-        prerelease = new char[leng];
-        strcpy(prerelease, strb);
+        build = new char[leng];
+        strcpy(build, strb);
     }
+	void Semver::free_build()
+	{
+		if (build) delete[] build;
+		build = NULL;
+	}
 }

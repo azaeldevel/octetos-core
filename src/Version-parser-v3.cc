@@ -99,23 +99,37 @@ namespace oct::core::v3
 	  */
 	int Semver::grammar_stmt(Tray* ty)
 	{
+		//std::cout << "grammar_stmt  Step 1\n";
+		
 		int tok = grammar_version(ty);
+		
+		//std::cout << "grammar_stmt  Step 2\n";
 
 		if(tok == ENDOFINPUT) return tok;
+		
+		//std::cout << "grammar_stmt  Step 3\n";
+
+		tok = yylex(ty);
 		
 		if(tok == '-')
 		{
 			tok = grammar_prer(ty);
-			if(tok != PRERELEASE_VALUE) return false;
 		}
 		
+		//std::cout << "grammar_stmt  Step 4\n";
+		
 		if(tok == ENDOFINPUT) return tok;
+		
+		//std::cout << "grammar_stmt  Step 5\n";
+		
+		tok = yylex(ty);
 		
 		if(tok == '+')
 		{
 			tok = grammar_build(ty);
-			if(tok != BUILD_VALUE) return false;
 		}
+		
+		//std::cout << "grammar_stmt  Step 6\n";
 		
 		return true;
 	}
@@ -128,7 +142,8 @@ namespace oct::core::v3
         //ty.str = str;
 		//std::cout << "String : " << ty.str << "<<--\n";
         //ty.buffer = new Buffer(str);
-				
+		//std::cout << "Buffer : " << ((Buffer*)ty.buffer)->get_buffer(0) << "<<--\n";
+		
 		//parser
 		bool ret = grammar_stmt(&ty);
 		//std::cout << "Major : " << major << "<<--\n";
