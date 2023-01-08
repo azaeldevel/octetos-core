@@ -22,7 +22,7 @@
  
 
 #include <string.h>
-
+#include <glibmm/i18n.h>
 
 #include "Exception-v3.hh"
 
@@ -113,7 +113,7 @@ const char* Exception::subject()const
 	
 const char* Exception::what() const throw ()
 {
-	return "Error desconocido.";
+	return _("Unknow error.");
 }
 std::string Exception::describe() const throw ()
 {	

@@ -20,7 +20,9 @@
  *
  * */
  
- 
+#include <glibmm/i18n.h>
+
+
 #include "Exception-v2.hh"
 
 namespace oct::core::v2

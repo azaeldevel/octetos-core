@@ -1,8 +1,24 @@
+AM_CPPFLAGS = \
+	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
+	-DPACKAGE_SRC_DIR=\""$(srcdir). \
+	$(OCTETOS_CORE_BASE_CFLAGS). "\" \
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
+	-DOCTETOS_CORE_LOCALEDIR=\"${OCTETOS_CORE_LOCALEDIR}\"
+	
+
+AM_CFLAGS =\
+	 -Wall\
+	 -g
+
+
+LIBS = $(OCTETOS_CORE_BASE_LIBS) 
+FLAGS = $(OCTETOS_CORE_BASE_FLAGS) -I$(top_builddir) -I/usr/include/glibmm-2.4 -I/usr/lib/glibmm-2.4/include -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
+
 
 lib_LTLIBRARIES = liboctetos-core.la
 
-liboctetos_core_la_CXXFLAGS = $(LIBCONFIG_CFLGAS) $(OPENSSL_CFLGAS)  
-liboctetos_core_la_LIBADD = $(LIBCONFIG_LIBS) $(OPENSSL_LIBS)
+liboctetos_core_la_CXXFLAGS = $(FLAGS) 
+liboctetos_core_la_LIBADD = $(LIBS)
 liboctetos_core_la_SOURCES = \
 	Artifact-v2.cc \
 	Exception-v2.cc \
@@ -47,7 +63,8 @@ develop_SOURCES = develop.cc
 develop_LDADD = liboctetos-core.la
 
 version_SOURCES = version-main.cc 
-version_LDADD = liboctetos-core.la
+version_LDADD = $(LIBS) liboctetos-core.la
+version_CXXFLAGS = $(FLAGS) 
 
 testArrayCpp_SOURCES = testArrayC++.cc 
 testArrayCpp_LDADD = liboctetos-core.la

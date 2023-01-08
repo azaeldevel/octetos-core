@@ -1,12 +1,16 @@
 AUTOMAKE_OPTIONS=foreign 1.4
 
-SUBDIRS = src tests
+SUBDIRS = src po
 
 if WITH_DOCS
 SUBDIRS +=  docs
 endif
 if WITH_EXAMPLES
 SUBDIRS += examples
+endif
+
+if OCTEOTOS_CORE_ENABLE_TDD
+SUBDIRS += tests
 endif
 
 dist_doc_DATA = \
@@ -27,7 +31,8 @@ EXTRA_DIST = \
 
 DISTCLEANFILES = intltool-extract \
 	intltool-merge \
-	intltool-update 
+	intltool-update \
+	po/.intltool-merge-cache
 
 
 # Remove doc directory on uninstall
