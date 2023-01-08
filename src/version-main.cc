@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 	if(argc >= 1)
 	{
 		verstr = (const char*)argv[1];
-		std::cout << "version : " << verstr << "\n";
+		//std::cout << "version : " << verstr << "\n";
 		ver_detected = ver.parse(verstr);
 		if(not ver_detected)
 		{
