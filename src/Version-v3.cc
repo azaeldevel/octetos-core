@@ -36,122 +36,116 @@ namespace oct::core::v3
 {
 	Semver version(PACKAGE_VERSION);
 	
-    bool Semver::operator !=(const Version& obj)const
+    bool Semver::operator !=(const Semver& obj)const
     {
-        if (major != ((Semver&)obj).getMajor() or minor != ((Semver&)obj).getMinor() or patch != ((Semver&)obj).getPatch())
-        {
-            return true;
-        }
+        if (major == obj.major or minor == obj.minor or patch == obj.patch) return true;
 
         return false;
     }
-    bool Semver::operator ==(const Version& obj)const
+    bool Semver::operator ==(const Semver& obj)const
     {
-        if (major == ((Semver&)obj).getMajor() && minor == ((Semver&)obj).getMinor() && patch == ((Semver&)obj).getPatch())
-        {
-            return true;
-        }
+        if (major == obj.major && minor == obj.minor && patch == obj.patch) return true;
 
         return false;
     }
-    bool Semver::operator <(const Version& obj)const
+    bool Semver::operator <(const Semver& obj)const
     {
 
-        if (major < 0 or ((Semver&)obj).getMajor() < 0)
+        if (major < 0 or obj.major < 0)
         {
             throw Exception(Exception::Empty_Object,__FILE__,__LINE__);
         }
-        else if (major > ((Semver&)obj).getMajor())
+        else if (major > obj.major)
         {
             return false;
         }
-        else if (major < ((Semver&)obj).getMajor())
+        else if (major < obj.major)
         {
             return true;
         }
 
-        if (minor < 0 and ((Semver&)obj).getMinor() < 0)
+        if (minor < 0 and obj.minor < 0)
         {
             return false;
         }
-        else if (minor < 0 and ((Semver&)obj).getMinor() > -1)
+        else if (minor < 0 and obj.minor > -1)
         {
             return false;
         }
-        else if (minor > ((Semver&)obj).getMinor())
+        else if (minor > obj.minor)
         {
             return false;
         }
-        else if (minor < ((Semver&)obj).getMinor())
+        else if (minor < obj.minor)
         {
             return true;
         }
 
-        if (patch < 0 and ((Semver&)obj).getPatch() < 0)
+        if (patch < 0 and obj.patch < 0)
         {
             return false;
         }
-        else if (patch < 0 and ((Semver&)obj).getPatch() > -1)
+        else if (patch < 0 and obj.patch > -1)
         {
             return false;
         }
-        else if (patch > ((Semver&)obj).getPatch())
+        else if (patch > obj.patch)
         {
             return false;
         }
-        else if (patch < ((Semver&)obj).getPatch())
+        else if (patch < obj.patch)
         {
             return true;
         }
 
         return false;
     }
-    bool Semver::operator >(const Version& obj)const
+    bool Semver::operator >(const Semver& obj)const
     {
-        if (major < 0 or ((Semver&)obj).getMajor() < 0)
+        if (major < 0 or obj.major < 0)
         {
             throw Exception(Exception::Empty_Object, __FILE__, __LINE__);
         }
-        else if (major < ((Semver&)obj).getMajor())
+        else if (major < obj.major)
         {
             return false;
         }
-        else if (major > ((Semver&)obj).getMajor())
+        else if (major > obj.major)
         {
             return true;
         }
 
 
-        if (minor < 0 and ((Semver&)obj).getMinor() < 0)
+        if (minor < 0 and obj.minor < 0)
         {
             return false;
         }
-        else if (minor < 0 and ((Semver&)obj).getMinor() > -1)
+        else if (minor < 0 and obj.minor > -1)
         {
             return true;
         }
-        else if (minor > ((Semver&)obj).getMinor())
+        else if (minor > obj.minor)
         {
             return true;
         }
-        else if (minor < ((Semver&)obj).getMinor())
+        else if (minor < obj.minor)
         {
             return false;
         }
 
-        if (patch < 0 and ((Semver&)obj).getPatch() < 0)
+        if (patch < 0 and obj.patch < 0)
         {
             return true;
         }
-        else if (patch < 0 and ((Semver&)obj).getPatch() > -1)
+        else if (patch < 0 and obj.patch > -1)
         {
             return true;
         }
-        else if (patch > ((Semver&)obj).getPatch())
+        else if (patch > obj.patch)
         {
             return true;
         }
-        else if (patch < ((Semver&)obj).getPatch())
+        else if (patch < obj.patch)
         {
             return false;
         }
@@ -159,27 +153,17 @@ namespace oct::core::v3
         //std::cout << "no cumple" << std::endl;
         return false;
     }
-    bool Semver::operator <=(const Version& obj)const
+    bool Semver::operator <=(const Semver& obj)const
     {
-        if (((Semver&)*this) == ((Semver&)obj) or (*this) < ((Semver&)obj))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if (this->operator == (obj) or obj.operator <(obj) )return true;
+		
+        return false;
     }
-    bool Semver::operator >=(const Version& obj)const
+    bool Semver::operator >=(const Semver& obj)const
     {
-        if (((Semver&)*this) == ((Semver&)obj) or (*this) > ((Semver&)obj))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if (this->operator == (obj) or obj.operator >(obj) )return true;
+		
+        return false;
     }
 
     void Semver::setPrerelease(const char* str)
@@ -192,14 +176,6 @@ namespace oct::core::v3
     }
 
 
-    const char* Semver::getPrerelease() const
-    {
-        return prerelease;
-    }
-    const char* Semver::getBuild() const
-    {
-        return build;
-    }
 
 
 
@@ -231,39 +207,45 @@ namespace oct::core::v3
         this->patch = patch;
         copy_prerelease(prerelease.c_str());
     }
-    void Semver::setNumbers(Number major, Number minor, Number patch)
+    void Semver::set(Number major, Number minor, Number patch)
     {
         this->major = major;
         this->minor = minor;
         this->patch = patch;
     }
-    void Semver::setNumbers(Number major, Number minor)
+    void Semver::set(Number major, Number minor)
     {
         this->major = major;
         this->minor = minor;
         patch = -1;
     }
-    void Semver::setNumbers(Number major)
+    void Semver::set(Number major)
     {
         this->major = major;
         minor = -1;
         patch = -1;
     }
-    Semver::Number Semver::getMajor() const
+	
+    Semver::Number Semver::get_major() const
     {
         return major;
     }
-
-    Semver::Number Semver::getMinor() const
+    Semver::Number Semver::get_minor() const
     {
         return minor;
     }
-
-    Semver::Number Semver::getPatch() const
+    Semver::Number Semver::get_patch() const
     {
         return patch;
     }
-
+    const char* Semver::get_stage() const
+    {
+        return prerelease;
+    }
+    const char* Semver::get_build() const
+    {
+        return build;
+    }
 
     Semver::operator std::string()const
     {
@@ -319,6 +301,10 @@ namespace oct::core::v3
     {
         parse(str);
     }
+    Semver::Semver(const std::string& str)
+    {
+        parse(str.c_str());
+    }
     Semver::Semver(Number major, Number minor, Number patch)
     {
         this->major = major;
@@ -350,17 +336,17 @@ namespace oct::core::v3
         return (major < 0 and minor < 0 and patch < 0)? true : false;
     }
 
-    Version& Semver::operator =(const char* str)
+    Semver& Semver::operator =(const char* str)
     {
         parse(str);
 
-        return (Version&) * this;
+        return *this;
     }
-    Version& Semver::operator =(const std::string& str)
+    Semver& Semver::operator =(const std::string& str)
     {
         parse(str.c_str());
 
-        return (Version&)*this;
+        return *this;
     }
 
     void Semver::copy_prerelease(const char* prer)

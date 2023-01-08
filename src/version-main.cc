@@ -41,7 +41,11 @@ int main(int argc, char* argv[])
 			{
 				std::cout << ver.getPatch();				
 			}
-			else if(strcmp("-s", argv[i]) == 0 or strcmp("--stage", argv[i]) == 0)
+			else if(strcmp("-s", argv[i]) == 0 or strcmp("--stage", argv[i]) == 0 or strcmp("--pre-release", argv[i]) == 0)
+			{
+				std::cout << ver.getPrerelease();				
+			}
+			else if(strcmp("-b", argv[i]) == 0 or strcmp("--build", argv[i]) == 0)
 			{
 				std::cout << ver.getPrerelease();				
 			}

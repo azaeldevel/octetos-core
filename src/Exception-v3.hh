@@ -41,6 +41,9 @@ public:
 		FAIL_WRITING_FILE,
 		FAIL_READING_CONF,
 		FAIL_WRITING_CONF,
+		NotEmptyObject,
+		NotCopiableObject,
+		OnDatabase,
 	};
 public:
 	Exception();

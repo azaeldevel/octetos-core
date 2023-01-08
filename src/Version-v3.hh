@@ -31,36 +31,17 @@
 
 namespace oct::core::v3
 {
-	
-	/**
-	*\brief interface para impermentar protocvo de versionado
-	*\since 2.0
-	**/
-	class OCTETOS_CORE_DECLSPCE_DLL Version
-	{
-	public:
-		virtual bool operator ==(const Version&)const = 0;
-		virtual bool operator !=(const Version&)const = 0;
-		virtual bool operator >(const Version&)const = 0;
-		virtual bool operator <(const Version&)const = 0;
-		virtual bool operator >=(const Version&)const = 0;
-		virtual bool operator <=(const Version&)const = 0;
-		virtual bool empty() const= 0;
-		virtual Version& operator =(const char*) = 0;
-		virtual Version& operator =(const std::string&) = 0;
-	};
-
 	/**
 	*\brief Implemete un subconjuto de semver v2.0.0
 	*\details Acerda de 'Semantica de Versionado' https://semver.org/spec/v1.0.0.html.
 	*\since 2.0
 	**/
-	class OCTETOS_CORE_DECLSPCE_DLL Semver : public v3::Version
+	class OCTETOS_CORE_DECLSPCE_DLL Semver
 	{
 	public:
 		typedef short Number;
 
-		class ExceptionLexer : public oct::core::v3::Exception
+		class ExceptionLexer : public Exception
 		{
 		public:
 			enum Errors
@@ -79,57 +60,14 @@ namespace oct::core::v3
 		};
 
 	public:
-		/**
-		* \brief Limpia todos los datos
-		* */
-		void init();
-		/**
-		* \brief Retorna el numero major.
-		* */
-		Number getMajor() const;
-		/**
-		* \brief Retorna el número menor
-		* */
-		Number getMinor() const;
-		/**
-		* \brief Retorna el número patch
-		* */
-		Number getPatch() const;
 
-		const char* getPrerelease() const;
-		const char* getBuild() const;
-
-		/**
-		* \brief Asigna todos los campos de version.
-		* */
-		void set(Number major,Number minor,Number patch, const std::string&);
-		/**
-		* \brief Asigna numero major, menor y patch.
-		* */
-		void setNumbers(Number major,Number minor,Number patch);
-		/**
-		* \brief Asigna numero major y menor. A patch se le asigna 0.
-		* */
-		void setNumbers(Number major,Number minor);
-		/**
-		* \brief Asigna solamanete el valor major. A menor y patch se le asigna 0.
-		* */
-		void setNumbers(Number major);
-		/**
-		* \brief Asigna solamanete el valor Prerelease.
-		* */
-		void setPrerelease(const char*);
-
-		void setBuild(const char*);
-
-		operator std::string()const;
-		virtual ~Semver();
-		Semver(const Semver&);
-		Semver();
 		/**
 		* \brief Crea el objeto a partir de un string
 		* */
 		Semver(const char*);
+		Semver(const std::string&);
+		Semver(const Semver&);
+		Semver();
 		/**
 		* \brief Asigna numero major y menor. A patch se asigna a 0, los restantas datos son limpiados.
 		* */
@@ -139,19 +77,72 @@ namespace oct::core::v3
 		* */
 		Semver(Number major,Number minor,Number patch);
 
+		virtual ~Semver();
+
+		/**
+		* \brief Limpia todos los datos
+		* */
+		void init();
+		/**
+		* \brief Retorna el numero major.
+		* */
+		Number get_major() const;
+		/**
+		* \brief Retorna el número menor
+		* */
+		Number get_minor() const;
+		/**
+		* \brief Retorna el número patch
+		* */
+		Number get_patch() const;
+		/**
+		* \brief Retorna el número stage o Pre-release number (prefijo -)
+		* */
+		const char* get_stage() const;
+		/**
+		* \brief Retorna el número build (prefijo +)
+		* */
+		const char* get_build() const;
+
+		/**
+		* \brief Asigna todos los campos de version.
+		* */
+		void set(Number major,Number minor,Number patch, const std::string&);
+		/**
+		* \brief Asigna numero major, menor y patch.
+		* */
+		void set(Number major,Number minor,Number patch);
+		/**
+		* \brief Asigna numero major y menor. A patch se le asigna 0.
+		* */
+		void set(Number major,Number minor);
+		/**
+		* \brief Asigna solamanete el valor major. A menor y patch se le asigna 0.
+		* */
+		void set(Number major);
+		/**
+		* \brief Asigna solamanete el valor Prerelease.
+		* */
+		void setPrerelease(const char*);
+
+		void setBuild(const char*);
+
+
+
 		const Semver& operator =(const Semver& v);
 
+		operator std::string()const;
 
-		virtual bool operator ==(const Version&)const;
-		virtual bool operator !=(const Version&)const;
-		virtual bool operator >(const Version&)const;
-		virtual bool operator <(const Version&)const;
-		virtual bool operator >=(const Version&)const;
-		virtual bool operator <=(const Version&)const;
+		virtual bool operator ==(const Semver&)const;
+		virtual bool operator !=(const Semver&)const;
+		virtual bool operator >(const Semver&)const;
+		virtual bool operator <(const Semver&)const;
+		virtual bool operator >=(const Semver&)const;
+		virtual bool operator <=(const Semver&)const;
 		virtual bool empty() const;
 
-		virtual Version& operator =(const char*);
-		virtual Version& operator =(const std::string&);
+		virtual Semver& operator =(const char*);
+		virtual Semver& operator =(const std::string&);
 
 
 		bool parse(const char* );

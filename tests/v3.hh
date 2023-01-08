@@ -7,7 +7,7 @@
 #include <CUnit/Basic.h>
 
 #include "../src/Exception-v3.hh"
-#include "tests.hh"
+//#include "tests.hh"
 
 
 int v3_init(void);
