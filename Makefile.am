@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS=foreign 1.4
 
-SUBDIRS = src po
+SUBDIRS = src 
 
 if WITH_DOCS
 SUBDIRS +=  docs
@@ -8,10 +8,10 @@ endif
 if WITH_EXAMPLES
 SUBDIRS += examples
 endif
-
 if OCTEOTOS_CORE_ENABLE_TDD
 SUBDIRS += tests
 endif
+SUBDIRS +=  po
 
 dist_doc_DATA = \
 	README \
@@ -20,7 +20,6 @@ dist_doc_DATA = \
 	ChangeLog \
 	INSTALL \
 	NEWS
-
 
 INTLTOOL_FILES = intltool-extract.in \
 	intltool-merge.in \

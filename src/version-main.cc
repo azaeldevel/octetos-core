@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	const char* verstr;
 	oct::core::v2::Semver ver;
 	bool ver_detected = false;
-
+	
 	if(argc >= 1)
 	{
 		verstr = (const char*)argv[1];

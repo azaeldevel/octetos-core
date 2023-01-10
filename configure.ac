@@ -76,6 +76,6 @@ AC_OUTPUT([
 Makefile
 src/octetos-core.pc
 src/Makefile
-po/Makefile.in
 tests/Makefile
-examples/Makefile])
+examples/Makefile
+po/Makefile.in])

@@ -26,6 +26,15 @@
 
 namespace oct::core::v3
 {
+
+template<typename D>
+class _Exception : public std::exception
+{
+public:
+	_Exception();
+	virtual const char* what() const throw ();
+};
+
 class Exception : public std::exception
 {
 public:
@@ -83,6 +92,7 @@ private:
 	void copy(const std::string&);
 	void copy(const char*);
 };
+
 }
 
 #endif

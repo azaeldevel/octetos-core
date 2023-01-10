@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <CUnit/Basic.h>
+#include <glibmm/i18n.h>
 
 #ifdef OCTETOS_CORE_V2
 	#include "v2.hh"
@@ -11,7 +12,10 @@
 
 int main(int argc, char *argv[])
 {
-    //std::cout << "Step 1\n";
+	bindtextdomain(GETTEXT_PACKAGE, OCTETOS_CORE_LOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	textdomain(GETTEXT_PACKAGE);
+	
 	/* initialize the CUnit test registry */
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
@@ -27,7 +31,7 @@ int main(int argc, char *argv[])
 		if(!bdirIndex)
 		{
 			bdir = option.substr(7,option.size());
-			std::cout << "bdir es '" << bdir << "'.\n";
+			//std::cout << "bdir es '" << bdir << "'.\n";
 		}
 		int helpIndex = option.compare("--help");
 		if(!helpIndex)
