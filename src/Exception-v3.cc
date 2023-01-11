@@ -113,6 +113,12 @@ const char* Exception::subject()const
 	
 const char* Exception::what() const throw ()
 {
+	switch(_code)
+	{
+	case FILE_TERGET_NOT_FOUND:
+		return "No se encontro el archivo indicado";
+	}
+	
 	return _("Unknow error.");
 }
 std::string Exception::describe() const throw ()

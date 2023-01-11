@@ -53,8 +53,10 @@ public:
 		NotEmptyObject,
 		NotCopiableObject,
 		OnDatabase,
-
-		top,
+		FILE_TERGET_NOT_FOUND,
+		INDEX_OUT_OF_RANGE,
+		
+		top = 1000,
 	};
 public:
 	Exception();

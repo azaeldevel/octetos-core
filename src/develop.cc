@@ -101,14 +101,29 @@ Person_test1 persons_array[] {
 	{"Juan","Muños","Prado",50},
 	
 };*/
+enum class semver_tokes : int
+{
+	none,
+	major,
+	minor,
+	patch,
+	stage,
+	build,
+	
+	minus,
+	puls,
+	dot,
+};
+
+
 int main(int argc, char* argv[])
 {
 	//oct::core::Table<testRow_1> table1;
-	oct::core::ArrayWrapper table2(persons_array,6);
+	oct::core::v3::arrays::Wrapper table2(persons_array,6);
 	std::cout << "No ordenado\n";
 	table2.print(std::cout);
 	std::cout << "Ordenado\n";
-	table2.sort();
+	//table2.sort();
 	table2.print(std::cout);
 	//std::cout << "sizeof(rows_array) : " << sizeof(rows_array)  <<"\n";
 	
