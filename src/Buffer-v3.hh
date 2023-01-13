@@ -112,8 +112,6 @@ public:
 
 protected:
 	T* buffer;
-	
-private:
 	std::uintmax_t _size;
 	std::filebuf* pbuf;
 	std::ifstream sfile;

@@ -51,34 +51,43 @@ template<typename C> bool equal(const C* initial, const C* target)
 	return true;
 }
 
+#define Buffer_Base core::v3::Buffer<T>
 /**
 *\brief
 *
 */
 template<typename T>
-class Buffer : public core::v3::Buffer<T>
+class Buffer : public Buffer_Base
 {
 public:
 	
 public:
-	Buffer(const std::filesystem::path& file) : core::v3::Buffer<T>(file)
+	Buffer(const std::filesystem::path& file) : core::v3::Buffer<T>(file),base(0)
 	{
 	}
-	Buffer(const T* string) : core::v3::Buffer<T>(string)
+	Buffer(const T* string) : core::v3::Buffer<T>(string),base(0)
 	{
 	}
 	~Buffer()
 	{
 	}
 	
+	T operator[](uintmax_t i)const
+	{	
+		//std::cout << "if(" << i << " < " << _size << ") return " << int(buffer[i]) << "\n";
+		uintmax_t _index = i + base;
+		if(_index < Buffer_Base::_size) return Buffer_Base::buffer[_index];
+		
+		return T(0);
+	}
+	void jump(uintmax_t b)
+	{
+		base = b;
+	}
 protected:
-	T* base;
+	uintmax_t base;
 	
 private:
-	T* buffer;
-	std::uintmax_t _size;
-	std::filebuf* pbuf;
-	std::ifstream sfile;
 };
 
 enum class Indicator : Status
@@ -199,24 +208,41 @@ public:
 	{
 		post = 0;
 		actual = 0;
+		index_prefix = 0;
 		actual_transition = NULL;
 		acceptable_transition = NULL;
 		
 		while(post < table_length and index < buffer->size())
 		{
+			//std::cout << "while : Step 1\n";
 			actual = post;
+			//std::cout << "while : Step 2\n";
 			input = buffer->operator[](index);
+			//std::cout << "while : Step 3\n";
 			if(Buffer<Symbol>::EOB == input )
 			{
 				//std::cout << "if(" << int(Buffer<Symbol>::EOB) << " == " << int(input) << ") ..\n";
 				return get_token();
 			}
-			actual_transition = &table->at(actual).at(input);
-			if(actual_transition->indicator == Indicator::acceptable) acceptable_transition = actual_transition;
-			else if(actual_transition->indicator == Indicator::prefix) ;//puede aceptar n prefijos pero deve ser continuos
-			else acceptable_transition = NULL;
+			//std::cout << "while : Step 4\n";
+			actual_transition = &(table->at(actual).at(input));
+			//std::cout << "while : Step 5\n";
+			if(actual_transition->indicator == Indicator::acceptable)
+			{
+				acceptable_transition = actual_transition;
+			}
+			else if(actual_transition->indicator == Indicator::prefix)
+			{
+				;//puede aceptar n prefijos pero deve ser continuos
+				index_prefix++;
+			}
+			else 
+			{
+				acceptable_transition = NULL;
+			}
+			//std::cout << "while : Step 6\n";
 			post = actual_transition->next;	
-			
+			//std::cout << "while : Step 7\n";			
 			print();
 			index++;			
 		}
@@ -227,12 +253,18 @@ private:
 	Token get_token() const
 	{
 		if(not actual_transition) return Token::none;
+		
 		if(actual_transition->indicator == Indicator::reject)
 		{
 			if(acceptable_transition) return acceptable_transition->token;
 		}
-		if(actual_transition->indicator == Indicator::acceptable or actual_transition->indicator == Indicator::prefix)
+		if(actual_transition->indicator == Indicator::acceptable)
 		{
+			if(acceptable_transition) return acceptable_transition->token;
+		}
+		else if(actual_transition->indicator == Indicator::prefix)
+		{	
+			//buffer->jump(index - index_prefix);
 			if(acceptable_transition) return acceptable_transition->token;
 		}
 		return Token::none;
@@ -244,7 +276,7 @@ private:
 	
 private:
 	const TT* table;
-	size_t table_length,index;
+	size_t table_length,index,index_prefix;
 	Buffer<Symbol>* buffer;
 	const Transition* actual_transition;
 	const Transition* acceptable_transition;
