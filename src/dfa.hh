@@ -6,6 +6,7 @@
 #define TT_PARAMS(T) T,sizeof (T) / sizeof (T[0])
 
 #include <cstddef>
+#include <array>
 #include <arrays.hh>
 #include <Buffer-v3.hh>
 
@@ -16,9 +17,7 @@ typedef int Token;
 typedef size_t Index;
 static const unsigned char MAX_SIMBOLS = 128;
 
-
-template<typename C>
-bool is_whitespace(C c)
+template<typename C> bool is_whitespace(C c)
 {
 	switch(c)
 	{
@@ -32,20 +31,7 @@ bool is_whitespace(C c)
 	return false;
 }
 
-template<typename C> 
-size_t length(const C* str)
-{
-	if(not str) return 0;
-	size_t i = 0;
-	while(str[i] != (C)0)
-	{
-		i++;
-	}
-	return i;
-}
-
-template<typename C> 
-bool equal(const C* initial, const C* target)
+template<typename C> bool equal(const C* initial, const C* target)
 {
 	size_t lengInitial = length(initial);
 	if(lengInitial == 0) return false;
@@ -65,83 +51,28 @@ bool equal(const C* initial, const C* target)
 	return true;
 }
 
-
-template<typename C> size_t copy(const C* origin, size_t leng,C** dest)
-{
-	if(origin[leng] != (C)0) return 0;
-	if(not origin) return 0;
-	if(not dest) return 0;
-	
-	size_t i = 0;
-	for(;i < leng; i++)
-	{
-		(*dest)[i] = origin[i];
-		//std::cout << "C : " << (*dest)[i] << "\n";
-	}
-	(*dest)[leng] = (C)0;
-
-	return leng;
-}
-
 /**
 *\brief
 *
 */
 template<typename T>
-class Buffer
+class Buffer : public core::v3::Buffer<T>
 {
 public:
-	static const T EOB = T(0);
 	
 public:
-	Buffer(const std::filesystem::path& file)
+	Buffer(const std::filesystem::path& file) : core::v3::Buffer<T>(file)
 	{
-		if(not std::filesystem::exists(file)) throw Exception(Exception::FILE_TERGET_NOT_FOUND,__FILE__,__LINE__);
-
-		_size = std::filesystem::file_size(file);
-		if(_size == 0) return;
-
-		buffer = new T[_size + 1];
-
-		std::ifstream ifs(file, std::ifstream::binary);
-		pbuf = ifs.rdbuf();
-		pbuf->sgetn (buffer,_size);
 	}
-	Buffer(const T* string)
+	Buffer(const T* string) : core::v3::Buffer<T>(string)
 	{
-		_size = length(string);
-		if(_size > 0)
-		{
-			buffer = new T[_size + 1];
-			copy(string,_size,&buffer);
-		}
-		else
-		{
-			buffer = NULL;
-		}
 	}
 	~Buffer()
 	{
-		if(sfile.is_open()) sfile.close();
-		if(buffer) delete[] buffer;
 	}
-	explicit operator const T*()const
-	{
-		return buffer;
-	}
-	T operator[](uintmax_t i)const
-	{	
-		//std::cout << "if(" << i << " < " << _size << ") return " << int(buffer[i]) << "\n";
-		if(i < _size) return buffer[i];		
-		
-		return T(0);
-	}
-	std::uintmax_t size() const
-	{
-		return _size;
-	}
-
-private:
+	
+protected:
+	T* base;
 	
 private:
 	T* buffer;
@@ -150,7 +81,6 @@ private:
 	std::ifstream sfile;
 };
 
-
 enum class Indicator : Status
 {
 	none,
@@ -158,6 +88,7 @@ enum class Indicator : Status
 	accept,
 	reject,
 	prefix,
+	//terminate,
 	//Left_Eat,
 	//Accept_Inmediatly
 };
@@ -194,7 +125,7 @@ public:
 		unsigned int i;
 		unsigned short j;
 	};
-	bool check(const Transition (*t)[MAX_SIMBOLS],size_t length, bool echo)
+	/*bool check(const Transition (*t)[MAX_SIMBOLS],size_t length, bool echo)
 	{
 		for(unsigned int i = 0; i < length; i++)
 		{
@@ -213,9 +144,53 @@ public:
 		}
 
 		return true;
-	}
+	}*/
 
-	A(const Transition (*t)[MAX_SIMBOLS],size_t l,Buffer<Symbol>& b) : table(t),table_length(l),index(0),buffer(&b)
+	class TT : public std::vector<std::array<Transition,MAX_SIMBOLS>>
+	{
+	public:
+		TT() = default;
+		
+		bool initial(Status status)
+		{
+			for(size_t i = 0; i < MAX_SIMBOLS; i++)
+			{
+				std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[i].indicator = Indicator::reject;
+				std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[i].next = 0;
+				std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[i].token = Token::none;
+			}
+			return true;
+		}
+		Status add_status()
+		{
+			std::vector<std::array<Transition,MAX_SIMBOLS>>::resize(std::vector<std::array<Transition,MAX_SIMBOLS>>::size() + 1);
+			std::array<Transition,MAX_SIMBOLS>& t = std::vector<std::array<Transition,MAX_SIMBOLS>>::back();	
+			Status status = std::vector<std::array<Transition,MAX_SIMBOLS>>::size() - 1;
+			initial(status);
+			return status;
+		}
+		bool acceptable(Status status, Symbol symbol,Token token,Status next)
+		{
+			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].indicator = Indicator::acceptable;
+			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].token = token;
+			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].next = next;
+			return true;
+		}
+		bool prefix(Status status, Symbol symbol)
+		{
+			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].indicator = Indicator::prefix;
+			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].token = Token::none;
+			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].next = 0;
+			return true;
+		}
+	private:
+		
+	};
+
+	/*A(const Transition (*t)[MAX_SIMBOLS],size_t l,Buffer<Symbol>& b) : table(t),table_length(l),index(0),buffer(&b)
+	{
+	}*/
+	A(const TT& tt,Buffer<Symbol>& b) : table(&tt),index(0),buffer(&b)
 	{
 	}
 
@@ -235,7 +210,7 @@ public:
 				//std::cout << "if(" << int(Buffer<Symbol>::EOB) << " == " << int(input) << ") ..\n";
 				return get_token();
 			}
-			actual_transition = &table[actual][input];
+			actual_transition = &(table->at(actual).at(input));
 			if(actual_transition->indicator == Indicator::acceptable) acceptable_transition = actual_transition;
 			else if(actual_transition->indicator == Indicator::prefix) ;//puede aceptar n prefijos pero deve ser continuos
 			else acceptable_transition = NULL;
@@ -264,7 +239,7 @@ private:
 	}
 	
 private:
-	const Transition (*table)[MAX_SIMBOLS];
+	const TT* table;
 	size_t table_length,index;
 	Buffer<Symbol>* buffer;
 	const Transition* actual_transition;

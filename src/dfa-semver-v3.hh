@@ -48,16 +48,16 @@ static const A::Transition regs[][MAX_SIMBOLS] = {
 		{Indicator::reject,0,semver_tokens::none},
 		{Indicator::reject,0,semver_tokens::none},
 		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
+		{Indicator::reject,0,semver_tokens::none},//#
+		{Indicator::reject,0,semver_tokens::none},//$
+		{Indicator::reject,0,semver_tokens::none},//%
+		{Indicator::reject,0,semver_tokens::none},//&
+		{Indicator::reject,0,semver_tokens::none},//'
+		{Indicator::reject,0,semver_tokens::none},//(
+		{Indicator::reject,0,semver_tokens::none},//)
+		{Indicator::reject,0,semver_tokens::none},//+
+		{Indicator::reject,0,semver_tokens::none},//,
+		{Indicator::reject,0,semver_tokens::none},//-
 		{Indicator::reject,0,semver_tokens::none},//.
 		{Indicator::reject,0,semver_tokens::none},// /
 		{Indicator::reject,0,semver_tokens::none},//0
@@ -199,10 +199,10 @@ static const A<char,semver_tokens,Status>::Transition semver_tt[][MAX_SIMBOLS] =
 		{Indicator::reject,0,semver_tokens::none},
 		{Indicator::reject,0,semver_tokens::none},
 		{Indicator::reject,0,semver_tokens::none},
+		{Indicator::reject,0,semver_tokens::none},//+
 		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
+		{Indicator::reject,0,semver_tokens::none},//-
+		{Indicator::reject,0,semver_tokens::none},//.
 		{Indicator::reject,0,semver_tokens::none},
 		{Indicator::acceptable,1,semver_tokens::number},//0
 		{Indicator::acceptable,1,semver_tokens::number},//1
@@ -330,9 +330,9 @@ static const A<char,semver_tokens,Status>::Transition semver_tt[][MAX_SIMBOLS] =
 		{Indicator::reject,0,semver_tokens::none},
 		{Indicator::reject,0,semver_tokens::none},
 		{Indicator::reject,0,semver_tokens::none},
+		{Indicator::prefix,0,semver_tokens::none},//+
 		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
-		{Indicator::reject,0,semver_tokens::none},
+		{Indicator::prefix,0,semver_tokens::none},//-
 		{Indicator::prefix,0,semver_tokens::none},//.
 		{Indicator::reject,0,semver_tokens::none},// /
 		{Indicator::acceptable,1,semver_tokens::number},//0
