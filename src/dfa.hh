@@ -146,7 +146,8 @@ public:
 		return true;
 	}*/
 
-	class TT : public std::vector<std::array<Transition,MAX_SIMBOLS>>
+	typedef std::vector<std::array<Transition,MAX_SIMBOLS>> TT_BASE;
+	class TT : public TT_BASE
 	{
 	public:
 		TT() = default;
@@ -155,32 +156,32 @@ public:
 		{
 			for(size_t i = 0; i < MAX_SIMBOLS; i++)
 			{
-				std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[i].indicator = Indicator::reject;
-				std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[i].next = 0;
-				std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[i].token = Token::none;
+				TT_BASE::at(status)[i].indicator = Indicator::reject;
+				TT_BASE::at(status)[i].next = 0;
+				TT_BASE::at(status)[i].token = Token::none;
 			}
 			return true;
 		}
 		Status add_status()
 		{
-			std::vector<std::array<Transition,MAX_SIMBOLS>>::resize(std::vector<std::array<Transition,MAX_SIMBOLS>>::size() + 1);
-			std::array<Transition,MAX_SIMBOLS>& t = std::vector<std::array<Transition,MAX_SIMBOLS>>::back();	
-			Status status = std::vector<std::array<Transition,MAX_SIMBOLS>>::size() - 1;
+			TT_BASE::resize(std::vector<std::array<Transition,MAX_SIMBOLS>>::size() + 1);
+			std::array<Transition,MAX_SIMBOLS>& t = TT_BASE::back();	
+			Status status = TT_BASE::size() - 1;
 			initial(status);
 			return status;
 		}
 		bool acceptable(Status status, Symbol symbol,Token token,Status next)
 		{
-			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].indicator = Indicator::acceptable;
-			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].token = token;
-			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].next = next;
+			TT_BASE::at(status)[symbol].indicator = Indicator::acceptable;
+			TT_BASE::at(status)[symbol].token = token;
+			TT_BASE::at(status)[symbol].next = next;
 			return true;
 		}
 		bool prefix(Status status, Symbol symbol)
 		{
-			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].indicator = Indicator::prefix;
-			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].token = Token::none;
-			std::vector<std::array<Transition,MAX_SIMBOLS>>::at(status)[symbol].next = 0;
+			TT_BASE::at(status)[symbol].indicator = Indicator::prefix;
+			TT_BASE::at(status)[symbol].token = Token::none;
+			TT_BASE::at(status)[symbol].next = 0;
 			return true;
 		}
 	private:
@@ -196,29 +197,28 @@ public:
 
 	Token next()
 	{
-		Symbol input;
-		Status next = 0,actual = next;
+		post = 0;
+		actual = 0;
 		actual_transition = NULL;
 		acceptable_transition = NULL;
 		
-		while(next < table_length and index < buffer->size())
+		while(post < table_length and index < buffer->size())
 		{
-			actual = next;
+			actual = post;
 			input = buffer->operator[](index);
 			if(Buffer<Symbol>::EOB == input )
 			{
 				//std::cout << "if(" << int(Buffer<Symbol>::EOB) << " == " << int(input) << ") ..\n";
 				return get_token();
 			}
-			actual_transition = &(table->at(actual).at(input));
+			actual_transition = &table->at(actual).at(input);
 			if(actual_transition->indicator == Indicator::acceptable) acceptable_transition = actual_transition;
 			else if(actual_transition->indicator == Indicator::prefix) ;//puede aceptar n prefijos pero deve ser continuos
 			else acceptable_transition = NULL;
-			next = actual_transition->next;	
+			post = actual_transition->next;	
 			
-			//std::cout << actual << " -- (" << input << " - " << to_string(actual_transition->indicator) << ") --> " << next << "\n";
-			index++;
-			
+			print();
+			index++;			
 		}
 		
 		return get_token();
@@ -237,6 +237,10 @@ private:
 		}
 		return Token::none;
 	}
+	void print()
+	{
+		std::cout << actual << " -- (" << input << " - " << to_string(actual_transition->indicator) << ") --> " << post << "\n";
+	}
 	
 private:
 	const TT* table;
@@ -244,6 +248,8 @@ private:
 	Buffer<Symbol>* buffer;
 	const Transition* actual_transition;
 	const Transition* acceptable_transition;
+	Status post,actual;
+	Symbol input;
 };
 
 
