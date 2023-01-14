@@ -3,16 +3,16 @@
 #include <string>
 #include <iostream>
 #include "config.h"
-#include <glibmm/i18n.h>
+//#include <glibmm/i18n.h>
 
 
 #include "Version.hh"
 
 int main(int argc, char* argv[])
 {
-	bindtextdomain(GETTEXT_PACKAGE, OCTETOS_CORE_LOCALEDIR);
-	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-	textdomain(GETTEXT_PACKAGE);
+	//bindtextdomain(GETTEXT_PACKAGE, OCTETOS_CORE_LOCALEDIR);
+	//bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	//textdomain(GETTEXT_PACKAGE);
 	
 	const char* verstr;
 	oct::core::v2::Semver ver;

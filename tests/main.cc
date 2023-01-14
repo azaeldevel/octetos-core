@@ -1,8 +1,8 @@
 
 #include <iostream>
 #include <CUnit/Basic.h>
-#include <glibmm/i18n.h>
 
+#include "config.h"
 #ifdef OCTETOS_CORE_V2
 	#include "v2.hh"
 #endif
@@ -11,11 +11,7 @@
 #endif
 
 int main(int argc, char *argv[])
-{
-	bindtextdomain(GETTEXT_PACKAGE, OCTETOS_CORE_LOCALEDIR);
-	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-	textdomain(GETTEXT_PACKAGE);
-	
+{	
 	/* initialize the CUnit test registry */
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 

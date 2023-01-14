@@ -1,4 +1,3 @@
-AUTOMAKE_OPTIONS=foreign 1.4
 
 SUBDIRS = src 
 
@@ -11,8 +10,7 @@ endif
 if OCTEOTOS_CORE_ENABLE_TDD
 SUBDIRS += tests
 endif
-SUBDIRS +=  po
-
+# SUBDIRS += po
 dist_doc_DATA = \
 	README \
 	COPYING \

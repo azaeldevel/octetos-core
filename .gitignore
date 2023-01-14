@@ -28,6 +28,10 @@ bin/
 *.depend
 *.layout
 .objs
+tests/.deps
+tests/Makefile
+examples/.deps
+examples/Makefile
 
 octetos_core.anjuta
 octetos-core.anjuta

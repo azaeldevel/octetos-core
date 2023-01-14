@@ -120,7 +120,6 @@ do
 	echo "Making $dr/aclocal.m4 writable ..."
 	test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
       fi
-
 	test -n "$srcdir" || srcdir=`dirname "$0"`
 	test -n "$srcdir" || srcdir=.
 

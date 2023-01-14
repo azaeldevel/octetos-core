@@ -1,6 +1,6 @@
 AC_INIT(octetos-core,2.58.3-beta, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([foreign gnu subdir-objects 1.11])
+AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
 AC_PROG_CXX
 AX_CXX_COMPILE_STDCXX(20)
@@ -8,20 +8,20 @@ AX_CXX_COMPILE_STDCXX(20)
 dnl ***************************************************************************
 dnl Internationalization
 dnl ***************************************************************************
-IT_PROG_INTLTOOL([0.35.0])
-GETTEXT_PACKAGE=octetos-core
-AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
+dnl IT_PROG_INTLTOOL([0.35.0])
+dnl GETTEXT_PACKAGE=octetos-core
+dnl AC_SUBST(GETTEXT_PACKAGE)
+dnl AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 dnl AM_GLIB_GNU_GETTEXT
-AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.17])
-OCTETOS_CORE_LOCALEDIR=[${datadir}/locale]
-AC_SUBST(OCTETOS_CORE_LOCALEDIR)
-AC_DEFINE(OCTETOS_CORE_LOCALEDIR,"$OCTETOS_CORE_LOCALEDIR", [Gettex directory])
+dnl AM_GNU_GETTEXT([external])
+dnl AM_GNU_GETTEXT_VERSION([0.17])
+dnl OCTETOS_CORE_LOCALEDIR=[${datadir}/locale]
+dnl AC_SUBST(OCTETOS_CORE_LOCALEDIR)
+dnl AC_DEFINE(OCTETOS_CORE_LOCALEDIR,"$OCTETOS_CORE_LOCALEDIR", [Gettex directory])
 
 LT_INIT
 dnl dreprecated>>>>>
-PKG_CHECK_MODULES([OCTETOS_CORE_BASE], [libconfig++ glibmm-2.4 openssl])
+PKG_CHECK_MODULES([OCTETOS_CORE_BASE], [libconfig++ openssl])
 
 AM_CONDITIONAL(OCTEOTOS_CORE_ENABLE_TDD, false)
 AM_CONDITIONAL(OCTEOTOS_CAVE_ENABLE_DEV, false)
@@ -76,6 +76,4 @@ AC_OUTPUT([
 Makefile
 src/octetos-core.pc
 src/Makefile
-tests/Makefile
-examples/Makefile
-po/Makefile.in])
+tests/Makefile])

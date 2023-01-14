@@ -1,49 +1,15 @@
 Installation Instructions
 *************************
 
-   Copyright (C) 1994-1996, 1999-2002, 2004-2016 Free Software
-Foundation, Inc.
+   Copyright (C) 1994-1996, 1999-2002, 2004-2017, 2020-2021 Free
+Software Foundation, Inc.
 
    Copying and distribution of this file, with or without modification,
 are permitted in any medium without royalty provided the copyright
 notice and this notice are preserved.  This file is offered as-is,
 without warranty of any kind.
 
-
-INSTALATION INSTRUCTIONS.
-========================
-
-Dependencies
-============
-Firts you need install all dependencies
-    libconfig++
-    CUnit       if you need testing.
-    gcc >= 8.1
-    XML-Parser
-    intltool
-    
-octetos-db could by instaled y three diferents way:
-	1.- Gentoo based metode
-	2.- Arch Linux base metode.
-	3.- Source base metode.
-
-Gentoo based metode
-===================
-You can install la guru repository then just installl the pakage like any oter pacakge.
-	sudo layman -a guru        
-    emerge -a dev-libs/octetos-core
-
-Arch Linux base metode
-======================
-You can build octetos-core from AUR repository, a posble way is:
-	cd ~
-    mkdir aur-octetos
-    cd aur-octetos        
-	git clone https://aur.archlinux.org/octetos-core.git
-    cd octetos-core
-    makepkg -si
-    
-Source base metode
+Basic Installation
 ==================
 
    Briefly, the shell command './configure && make && make install'
@@ -235,8 +201,6 @@ They may also pay attention to '--with-PACKAGE' options, where PACKAGE
 is something like 'gnu-as' or 'x' (for the X Window System).  The
 'README' should mention any '--enable-' and '--with-' options that the
 package recognizes.
-   Use --with-tests to enable testing and --with-examples to contruct 
-the examples.
 
    For packages that use the X Window System, 'configure' can usually
 find the X include and library files automatically, but if it doesn't,
@@ -261,7 +225,7 @@ order to use an ANSI C compiler:
 
 and if that doesn't work, install pre-built binaries of GCC for HP-UX.
 
-   HP-UX 'make' updates targets which have the same time stamps as their
+   HP-UX 'make' updates targets which have the same timestamps as their
 prerequisites, which makes it generally unusable when shipped generated
 files such as 'configure' are involved.  Use GNU 'make' instead.
 
@@ -353,10 +317,6 @@ workaround:
 
    'configure' recognizes the following options to control how it
 operates.
-
---with-docs			Crea la documentacion con doxygen
---with-examples		Crea ejemplos.
---enable-debug		Se agregan sinbolos de depuracion.
 
 '--help'
 '-h'

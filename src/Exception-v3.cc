@@ -22,8 +22,8 @@
  
 
 #include <string.h>
-#include <glibmm/i18n.h>
-
+//#include <glibmm/i18n.h>
+#define _(MSG) MSG
 #include "Exception-v3.hh"
 
 namespace oct::core::v3
@@ -132,7 +132,7 @@ std::string Exception::describe() const throw ()
 	}
 	if(_code > 0)
 	{
-		msg += _(" - Codigo ") + std::to_string(_code) ;
+		msg += _(" - Code ") + std::to_string(_code) ;
 	}
 	if(_message)
 	{
