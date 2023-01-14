@@ -116,7 +116,7 @@ const char* Exception::what() const throw ()
 	switch(_code)
 	{
 	case FILE_TERGET_NOT_FOUND:
-		return "No se encontro el archivo indicado";
+		return _("Cant't found the file");
 	}
 	
 	return _("Unknow error.");
@@ -132,7 +132,7 @@ std::string Exception::describe() const throw ()
 	}
 	if(_code > 0)
 	{
-		msg += " - Codigo " + std::to_string(_code) ;
+		msg += _(" - Codigo ") + std::to_string(_code) ;
 	}
 	if(_message)
 	{

@@ -262,36 +262,36 @@ bool lexing(const char* input)
 	oct::core::v3::lc::A<char,oct::core::v3::lc::semver_tokens,oct::core::v3::lc::Status> semver_lex3(semver_tt,semver_buff3);
 
 	oct::core::v3::lc::semver_tokens semver_tk3 = semver_lex3.next();
-	print(semver_tk3,input);
-	std::cout << "\n";
+	//print(semver_tk3,input);
+	//std::cout << "\n";
 	
 	semver_tk3 = semver_lex3.next();
-	print(semver_tk3,input);
-	std::cout << "\n";
+	//print(semver_tk3,input);
+	//std::cout << "\n";
 	
 	semver_tk3 = semver_lex3.next();
-	print(semver_tk3,input);
-	std::cout << "\n";	
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
 	
 	semver_tk3 = semver_lex3.next();
-	print(semver_tk3,input);
-	std::cout << "\n";	
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
 	
 	semver_tk3 = semver_lex3.next();
-	print(semver_tk3,input);
-	std::cout << "\n";	
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
 	
 	semver_tk3 = semver_lex3.next();
-	print(semver_tk3,input);
-	std::cout << "\n";	
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
 	
 	semver_tk3 = semver_lex3.next();
-	print(semver_tk3,input);
-	std::cout << "\n";	
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
 	
 	semver_tk3 = semver_lex3.next();
-	print(semver_tk3,input);
-	std::cout << "\n";	
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
 	
 	bool accepted = semver_lex3.is_accepted();
 	if(accepted) std::cout << " : acceptado\n";
@@ -301,21 +301,8 @@ bool lexing(const char* input)
 }
 
 int main(int argc, char* argv[])
-{
-	const char* input = "269";
-	//lexing(NULL);
-	
-	//lexing("2");
-	
-	//lexing("23");
-	
-	//lexing("");
-	
-	//lexing("269");
-	
-	//lexing("269.56");
-	
-	lexing("269.56.9-alpha+archlinu");
+{	
+	lexing("269.56.9-alpha+archlinux");
 	
 	return EXIT_SUCCESS;
 }

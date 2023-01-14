@@ -265,19 +265,19 @@ public:
 		actual_transition = NULL;
 		acceptable_transition = NULL;
 		prefix_transition = NULL;
-		std::cout << "actual : " << actual << "\n";
-		std::cout << "index : " << index << "\n";
-		std::cout << "post : " << post << "\n";
+		//std::cout << "actual : " << actual << "\n";
+		//std::cout << "index : " << index << "\n";
+		//std::cout << "post : " << post << "\n";
 
 		while(post < table_length and index < buffer->size())
 		{
 			//>>>seccion inicial
-			std::cout << "while : Step 1\n";
+			//std::cout << "while : Step 1\n";
 			//std::cout << "index : " << index << "\n";
 			//std::cout << "actual : " << actual << "\n";
 			//std::cout << "post : " << post << "\n";
 			input = buffer->operator[](index);
-			std::cout << "while : Step 2\n";
+			//std::cout << "while : Step 2\n";
 			//std::cout << "input : " << input << "\n";
 			if(Buffer<Symbol>::EOB == input )
 			{
@@ -286,34 +286,34 @@ public:
 			}
 						
 			//>>>seccion lectura
-			std::cout << "while : Step 3\n";
+			//std::cout << "while : Step 3\n";
 			actual = post;//no importa que actual_transition sea la transicion previa
-			std::cout << "while : Step 4\n";
+			//std::cout << "while : Step 4\n";
 			actual_transition = &(table->at(actual).at(input));
-			std::cout << "while : Step 5\n";
+			//std::cout << "while : Step 5\n";
 			post = actual_transition->next;	
-			std::cout << "while : Step 6\n";
-			std::cout << "index : " << index << "\n";
-			std::cout << "index_prefix : " << index_prefix << "\n";
-			std::cout << "actual : " << actual << "\n";
-			std::cout << "post : " << post << "\n";
-			std::cout << "input : " << input << "\n";
-			print();
+			//std::cout << "while : Step 6\n";
+			//std::cout << "index : " << index << "\n";
+			//std::cout << "index_prefix : " << index_prefix << "\n";
+			//std::cout << "actual : " << actual << "\n";
+			//std::cout << "post : " << post << "\n";
+			//std::cout << "input : " << input << "\n";
+			//print();
 			if(prefix_transition)
 			{
-				std::cout << "if(prefix_transition)...\n";
+				//std::cout << "if(prefix_transition)...\n";
 				if(actual_transition->indicator != Indicator::prefix) 
 				{
-					std::cout << "if(actual_transition->indicator != Indicator::prefix)...\n";
+					//std::cout << "if(actual_transition->indicator != Indicator::prefix)...\n";
 					index -= index_prefix;
 					post = actual;
-					std::cout << "\n";		
+					//std::cout << "\n";		
 					return get_token();
 				}
 			}
 			
 			//>>>seccion evaluacion
-			std::cout << "while : Step 7\n";
+			//std::cout << "while : Step 7\n";
 			switch(actual_transition->indicator)
 			{
 			case Indicator::acceptable:
@@ -339,9 +339,9 @@ public:
 			};
 			
 			index++;
-			std::cout << "\n";			
+			//std::cout << "\n";			
 		}
-		std::cout << "\n";	
+		//std::cout << "\n";	
 		
 		return get_token();
 	}
