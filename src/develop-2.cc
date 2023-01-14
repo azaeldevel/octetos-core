@@ -29,6 +29,8 @@ void print(oct::core::v3::lc::semver_tokens tk,const char* input)
 }
 void lexing(const char* input)
 {
+	std::cout << "Reading : " << input << "\n";
+	
 	oct::core::v3::lc::A<char,oct::core::v3::lc::semver_tokens,oct::core::v3::lc::Status>::TT semver_tt;
 	oct::core::v3::lc::Status initial_status = semver_tt.add_status();
 	//std::cout << "status : " << initial_status << "\n";	
@@ -101,14 +103,10 @@ int main(int argc, char* argv[])
 	//lexing("23");
 	
 	//lexing("");
-
-	input = "269";
-	std::cout << "Reading : " << input << "\n";
-	lexing(input);
 	
-	input = "269.56";
-	std::cout << "Reading : " << input << "\n";
-	lexing(input);
+	lexing("269");
+	
+	lexing("269.56");
 	
 	return EXIT_SUCCESS;
 }
