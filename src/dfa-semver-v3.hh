@@ -147,6 +147,8 @@ enum class semver_tokens : int
 {
 	none,
 	number,
+	stage,
+	build,
 	
 	minus,
 	plus,

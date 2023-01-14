@@ -171,6 +171,36 @@ public:
 			}
 			return true;
 		}
+		bool initial(Status status,Token token)
+		{
+			for(size_t i = 0; i < MAX_SIMBOLS; i++)
+			{
+				TT_BASE::at(status)[i].indicator = Indicator::reject;
+				TT_BASE::at(status)[i].next = 0;
+				TT_BASE::at(status)[i].token = token;
+			}
+			return true;
+		}
+		bool initial(Status status,Indicator indicator,Token token)
+		{
+			for(size_t i = 0; i < MAX_SIMBOLS; i++)
+			{
+				TT_BASE::at(status)[i].indicator = indicator;
+				TT_BASE::at(status)[i].next = 0;
+				TT_BASE::at(status)[i].token = token;
+			}
+			return true;
+		}
+		bool initial(Status status,Indicator indicator)
+		{
+			for(size_t i = 0; i < MAX_SIMBOLS; i++)
+			{
+				TT_BASE::at(status)[i].indicator = indicator;
+				TT_BASE::at(status)[i].next = 0;
+				TT_BASE::at(status)[i].token = Token::none;
+			}
+			return true;
+		}
 		Status add_status()
 		{
 			TT_BASE::resize(std::vector<std::array<Transition,MAX_SIMBOLS>>::size() + 1);
@@ -221,9 +251,10 @@ public:
 	bool is_accepted() const
 	{
 		if(not actual_transition) return false; 
+
 		if(actual_transition->indicator == Indicator::accept) return true;
 		if(actual_transition->indicator == Indicator::acceptable) return true;
-		if(acceptable_transition->indicator == Indicator::acceptable) return true;
+		if(prefix_transition and acceptable_transition) if(acceptable_transition->indicator == Indicator::acceptable) return true;
 
 		return false;
 	}
@@ -294,7 +325,7 @@ public:
 				acceptable_last = actual;
 				actual = post;
 				index++;
-				return get_token();;
+				return get_token();
 			case Indicator::prefix:
 				;//puede aceptar n prefijos pero deve ser continuos
 				index_prefix++;
@@ -303,6 +334,7 @@ public:
 				break;
 			default:
 				acceptable_transition = NULL;
+				prefix_transition = NULL;
 				break;
 			};
 			
@@ -318,23 +350,16 @@ private:
 	{
 		if(not actual_transition) return Token::none;
 		
-		if(actual_transition->indicator == Indicator::reject)
-		{
-			if(acceptable_transition) return acceptable_transition->token;
-		}
-		if(actual_transition->indicator == Indicator::acceptable)
-		{
-			if(acceptable_transition) return acceptable_transition->token;
-		}
 		if(actual_transition->indicator == Indicator::accept)
 		{
 			return actual_transition->token;
 		}
-		else if(actual_transition->indicator == Indicator::prefix)
-		{	
-			if(acceptable_transition) return acceptable_transition->token;
+		else if(prefix_transition and acceptable_transition)
+		{
+			return acceptable_transition->token;//se retorna el ultimo token de acpetacion
 		}
-		return Token::none;
+
+		return actual_transition->token;
 	}
 	void print()
 	{
