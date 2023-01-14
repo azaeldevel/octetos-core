@@ -22,12 +22,21 @@ void print(oct::core::v3::lc::semver_tokens tk,const char* input)
 	case oct::core::v3::lc::semver_tokens::number:
 		std::cout << "Number";
 		break;
+	case oct::core::v3::lc::semver_tokens::dot:
+		std::cout << "dot";
+		break;
+	case oct::core::v3::lc::semver_tokens::minus:
+		std::cout << "minus";
+		break;
+	case oct::core::v3::lc::semver_tokens::plus:
+		std::cout << "plus";
+		break;
 	default:
 		std::cout << "Unknown";
 	}
 	std::cout << "\n";
 }
-void lexing(const char* input)
+bool lexing(const char* input)
 {
 	std::cout << "Reading : " << input << "\n";
 	
@@ -42,6 +51,7 @@ void lexing(const char* input)
 	oct::core::v3::lc::Status patchPrefix = semver_tt.add_status();
 	oct::core::v3::lc::Status stage = semver_tt.add_status();
 	oct::core::v3::lc::Status build = semver_tt.add_status();
+	
 	semver_tt.acceptable(initial_status,'0',oct::core::v3::lc::semver_tokens::number,major);
 	semver_tt.acceptable(initial_status,'1',oct::core::v3::lc::semver_tokens::number,major);
 	semver_tt.acceptable(initial_status,'2',oct::core::v3::lc::semver_tokens::number,major);
@@ -52,6 +62,7 @@ void lexing(const char* input)
 	semver_tt.acceptable(initial_status,'6',oct::core::v3::lc::semver_tokens::number,major);
 	semver_tt.acceptable(initial_status,'8',oct::core::v3::lc::semver_tokens::number,major);
 	semver_tt.acceptable(initial_status,'9',oct::core::v3::lc::semver_tokens::number,major);	
+	
 	semver_tt.acceptable(major,'0',oct::core::v3::lc::semver_tokens::number,major);
 	semver_tt.acceptable(major,'1',oct::core::v3::lc::semver_tokens::number,major);
 	semver_tt.acceptable(major,'2',oct::core::v3::lc::semver_tokens::number,major);
@@ -65,9 +76,11 @@ void lexing(const char* input)
 	semver_tt.prefix(major,'.',majorPrefix);
 	semver_tt.prefix(major,'-',majorPrefix);
 	semver_tt.prefix(major,'+',majorPrefix);	
-	semver_tt.acceptable(majorPrefix,'.',oct::core::v3::lc::semver_tokens::number,minor);
-	semver_tt.acceptable(majorPrefix,'-',oct::core::v3::lc::semver_tokens::number,stage);
-	semver_tt.acceptable(majorPrefix,'+',oct::core::v3::lc::semver_tokens::number,build);	
+	
+	semver_tt.accept(majorPrefix,'.',oct::core::v3::lc::semver_tokens::dot,minor);
+	semver_tt.accept(majorPrefix,'-',oct::core::v3::lc::semver_tokens::minus,stage);
+	semver_tt.accept(majorPrefix,'+',oct::core::v3::lc::semver_tokens::plus,build);	
+	
 	semver_tt.acceptable(minor,'0',oct::core::v3::lc::semver_tokens::number,minor);
 	semver_tt.acceptable(minor,'1',oct::core::v3::lc::semver_tokens::number,minor);
 	semver_tt.acceptable(minor,'2',oct::core::v3::lc::semver_tokens::number,minor);
@@ -81,16 +94,45 @@ void lexing(const char* input)
 	semver_tt.prefix(minor,'.',minorPrefix);
 	semver_tt.prefix(minor,'-',minorPrefix);
 	semver_tt.prefix(minor,'+',minorPrefix);
-	semver_tt.acceptable(minorPrefix,'.',oct::core::v3::lc::semver_tokens::number,patch);
-	semver_tt.acceptable(minorPrefix,'-',oct::core::v3::lc::semver_tokens::number,stage);
-	semver_tt.acceptable(minorPrefix,'+',oct::core::v3::lc::semver_tokens::number,build);	
+	
+	semver_tt.accept(minorPrefix,'.',oct::core::v3::lc::semver_tokens::dot,patch);
+	semver_tt.accept(minorPrefix,'-',oct::core::v3::lc::semver_tokens::minus,stage);
+	semver_tt.accept(minorPrefix,'+',oct::core::v3::lc::semver_tokens::plus,build);
+	
+	semver_tt.acceptable(patch,'0',oct::core::v3::lc::semver_tokens::number,patch);
+	semver_tt.acceptable(patch,'1',oct::core::v3::lc::semver_tokens::number,patch);
+	semver_tt.acceptable(patch,'2',oct::core::v3::lc::semver_tokens::number,patch);
+	semver_tt.acceptable(patch,'3',oct::core::v3::lc::semver_tokens::number,patch);
+	semver_tt.acceptable(patch,'4',oct::core::v3::lc::semver_tokens::number,patch);
+	semver_tt.acceptable(patch,'5',oct::core::v3::lc::semver_tokens::number,patch);
+	semver_tt.acceptable(patch,'6',oct::core::v3::lc::semver_tokens::number,patch);
+	semver_tt.acceptable(patch,'6',oct::core::v3::lc::semver_tokens::number,patch);
+	semver_tt.acceptable(patch,'8',oct::core::v3::lc::semver_tokens::number,patch);
+	semver_tt.acceptable(patch,'9',oct::core::v3::lc::semver_tokens::number,patch);	
+	semver_tt.prefix(patch,'-',patchPrefix);
+	semver_tt.prefix(patch,'+',patchPrefix);
+	
+	semver_tt.accept(patchPrefix,'-',oct::core::v3::lc::semver_tokens::minus,stage);
+	semver_tt.accept(patchPrefix,'+',oct::core::v3::lc::semver_tokens::plus,build);
+	
+	
 	//const char* input3 = "23";
 	oct::core::v3::lc::Buffer semver_buff3(input);
 	oct::core::v3::lc::A<char,oct::core::v3::lc::semver_tokens,oct::core::v3::lc::Status> semver_lex3(semver_tt,semver_buff3);
+
 	oct::core::v3::lc::semver_tokens semver_tk3 = semver_lex3.next();
-	//print(semver_tk3,input);
-	//std::cout << "\n";
+	print(semver_tk3,input);
+	std::cout << "\n";
+
 	semver_tk3 = semver_lex3.next();
+	print(semver_tk3,input);
+	std::cout << "\n";
+
+	bool accepted = semver_lex3.is_accepted();
+	if(accepted) std::cout << " : acceptado\n";
+	else std::cout << " : rechazado\n";
+
+	return accepted;
 }
 
 int main(int argc, char* argv[])
@@ -104,9 +146,11 @@ int main(int argc, char* argv[])
 	
 	//lexing("");
 	
-	lexing("269");
+	//lexing("269");
 	
-	lexing("269.56");
+	//lexing("269.56");
+	
+	lexing("269.56.9");
 	
 	return EXIT_SUCCESS;
 }

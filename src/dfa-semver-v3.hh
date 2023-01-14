@@ -149,7 +149,7 @@ enum class semver_tokens : int
 	number,
 	
 	minus,
-	puls,
+	plus,
 	dot,
 };
 
