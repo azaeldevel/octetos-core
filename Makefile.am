@@ -1,5 +1,5 @@
 
-SUBDIRS = src 
+SUBDIRS = src
 
 if WITH_DOCS
 SUBDIRS +=  docs

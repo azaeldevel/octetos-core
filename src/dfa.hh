@@ -272,10 +272,12 @@ public:
 		while(post < table_length and index < buffer->size())
 		{
 			//>>>seccion inicial
+#ifdef OCTEOTOS_CAVE_ENABLE_DEV
 			//std::cout << "while : Step 1\n";
 			//std::cout << "index : " << index << "\n";
 			//std::cout << "actual : " << actual << "\n";
 			//std::cout << "post : " << post << "\n";
+#endif
 			input = buffer->operator[](index);
 			//std::cout << "while : Step 2\n";
 			//std::cout << "input : " << input << "\n";
@@ -292,13 +294,15 @@ public:
 			actual_transition = &(table->at(actual).at(input));
 			//std::cout << "while : Step 5\n";
 			post = actual_transition->next;	
+#ifdef OCTEOTOS_CAVE_ENABLE_DEV
 			//std::cout << "while : Step 6\n";
 			//std::cout << "index : " << index << "\n";
 			//std::cout << "index_prefix : " << index_prefix << "\n";
 			//std::cout << "actual : " << actual << "\n";
 			//std::cout << "post : " << post << "\n";
 			//std::cout << "input : " << input << "\n";
-			//print();
+			if(_echo)print();
+#endif
 			if(prefix_transition)
 			{
 				//std::cout << "if(prefix_transition)...\n";
@@ -345,6 +349,12 @@ public:
 		
 		return get_token();
 	}
+#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+	void echo(bool e)
+	{
+		_echo = e;		
+	}
+#endif
 private:
 	Token get_token()
 	{
@@ -375,6 +385,9 @@ private:
 	const Transition* prefix_transition;
 	Status post,actual,prefix_last,acceptable_last;
 	Symbol input;
+#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+	bool _echo;
+#endif
 };
 
 

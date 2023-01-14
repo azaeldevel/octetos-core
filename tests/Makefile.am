@@ -5,6 +5,11 @@ TESTS= $(check_PROGRAMS)
 LIBS = $(OCTETOS_CORE_BASE_LIBS) $(CUNIT_LIBS) 
 FLAGS = $(OCTETOS_CORE_BASE_FLAGS) $(CUNIT_CFLAGS)  -I$(top_builddir)
 
+if OCTEOTOS_CAVE_ENABLE_DEV
+FLAGS += -DOCTEOTOS_CAVE_ENABLE_DEV
+endif
+
+
 v2_LDFLAGS =
 v2_LDADD = $(LIBS) $(top_builddir)/src/liboctetos-core.la 
 v2_CPPFLAGS = $(FLAGS) -DOCTETOS_CORE_V2 -I$(top_srcdir)/src

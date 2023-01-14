@@ -13,7 +13,9 @@ AM_CFLAGS =\
 
 LIBS = $(OCTETOS_CORE_BASE_LIBS) 
 FLAGS = $(OCTETOS_CORE_BASE_FLAGS) -I$(top_builddir) -I/usr/include/glibmm-2.4 -I/usr/lib/glibmm-2.4/include -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
-
+if OCTEOTOS_CAVE_ENABLE_DEV
+FLAGS += -DOCTEOTOS_CAVE_ENABLE_DEV
+endif
 
 lib_LTLIBRARIES = liboctetos-core.la
 

@@ -32,20 +32,6 @@ if test "x$with_tests" = "xyes"; then
 	AM_CONDITIONAL(OCTEOTOS_CAVE_ENABLE_DEV, true)
 	PKG_CHECK_MODULES(CUNIT,cunit)
 fi
-AC_ARG_ENABLE([tdd],[AS_HELP_STRING([--enable-tdd],[Enable Test-Drive Developing)])])
-if test "x$enable_tdd" = "xyes"; then 
-	AM_CONDITIONAL(OCTEOTOS_CORE_ENABLE_TDD, true)
-	PKG_CHECK_MODULES(CUNIT, [cunit])
-else
-	AM_CONDITIONAL(OCTEOTOS_CORE_ENABLE_TDD, false)
-fi
-AC_ARG_ENABLE([devel],[AS_HELP_STRING([--enable-devel],[Enable Developer mode)])])
-if test "x$enable_devel" = "xyes"; then 
-	AM_CONDITIONAL(OCTEOTOS_CAVE_ENABLE_DEV, true)
-	PKG_CHECK_MODULES(CUNIT, [cunit])
-else
-	AM_CONDITIONAL(OCTEOTOS_CAVE_ENABLE_DEV, false)
-fi
 
 
 AM_CONDITIONAL(WITH_DOCS, test x"$with_docs" = "xyes")
