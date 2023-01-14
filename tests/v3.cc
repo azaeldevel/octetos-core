@@ -69,7 +69,8 @@ void print(oct::core::v3::lc::semver_tokens tk,const char* input)
 	}
 	std::cout << "\n";
 }
-void v3_lc_innier_semver_1()
+
+void v3_lc_innier_semver_8()
 {
 	const char* input = "269.56.9-alpha+archlinux";
 	
@@ -91,6 +92,8 @@ void v3_lc_innier_semver_1()
 	semver_tt.initial(patchPrefix);
 	oct::core::v3::lc::Status stage = semver_tt.add_status();
 	semver_tt.initial(stage);
+	oct::core::v3::lc::Status stagePrefix = semver_tt.add_status();
+	semver_tt.initial(stagePrefix);
 	oct::core::v3::lc::Status build = semver_tt.add_status();
 	semver_tt.initial(build,oct::core::v3::lc::Indicator::terminate);
 	
@@ -218,9 +221,11 @@ void v3_lc_innier_semver_1()
 	semver_tt.acceptable(stage,'6',oct::core::v3::lc::semver_tokens::stage,stage);
 	semver_tt.acceptable(stage,'6',oct::core::v3::lc::semver_tokens::stage,stage);
 	semver_tt.acceptable(stage,'8',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'9',oct::core::v3::lc::semver_tokens::stage,stage);	
-	semver_tt.accept(stage,'+',oct::core::v3::lc::semver_tokens::plus,build);
-		
+	semver_tt.acceptable(stage,'9',oct::core::v3::lc::semver_tokens::stage,stage);
+	semver_tt.prefix(stage,'+',stagePrefix);
+	
+	semver_tt.accept(stagePrefix,'+',oct::core::v3::lc::semver_tokens::plus,build);	
+	
 	semver_tt.acceptable(build,'a',oct::core::v3::lc::semver_tokens::build,build);
 	semver_tt.acceptable(build,'b',oct::core::v3::lc::semver_tokens::build,build);
 	semver_tt.acceptable(build,'c',oct::core::v3::lc::semver_tokens::build,build);
@@ -292,53 +297,68 @@ void v3_lc_innier_semver_1()
 	CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::number);
 	//print(semver_tk3,input);
 	//std::cout << "\n";
+	CU_ASSERT(semver_lex3.is_accepted());
 	
 	semver_tk3 = semver_lex3.next();
 	CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::dot);
 	//print(semver_tk3,input);
 	//std::cout << "\n";
+	CU_ASSERT(semver_lex3.is_accepted());
 	
 	semver_tk3 = semver_lex3.next();
 	CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::number);
 	//print(semver_tk3,input);
 	//std::cout << "\n";	
+	CU_ASSERT(semver_lex3.is_accepted());
 	
 	semver_tk3 = semver_lex3.next();
 	CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::dot);
 	//print(semver_tk3,input);
 	//std::cout << "\n";	
+	CU_ASSERT(semver_lex3.is_accepted());
 	
 	semver_tk3 = semver_lex3.next();
 	CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::number);
 	//print(semver_tk3,input);
 	//std::cout << "\n";	
+	CU_ASSERT(semver_lex3.is_accepted());
 	
 	semver_tk3 = semver_lex3.next();
 	CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::minus);
 #ifdef OCTEOTOS_CAVE_ENABLE_DEV
-	semver_lex3.echo(true);
+	//semver_lex3.echo(true);
 	//print(semver_tk3,input);
 	//std::cout << "\n";	
 #endif
-	semver_tk3 = semver_lex3.next();
-	//CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::stage);
-#ifdef OCTEOTOS_CAVE_ENABLE_DEV
-	print(semver_tk3,input);
-	std::cout << "\n";	
-#endif
+	CU_ASSERT(semver_lex3.is_accepted());
 	
 	semver_tk3 = semver_lex3.next();
-	//CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::plus);
+	CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::stage);
 #ifdef OCTEOTOS_CAVE_ENABLE_DEV
-	print(semver_tk3,input);
-	std::cout << "\n";	
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
+#endif
+	CU_ASSERT(semver_lex3.is_accepted());
+	
+	semver_tk3 = semver_lex3.next();
+	CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::plus);
+#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
 #endif	
+	CU_ASSERT(semver_lex3.is_accepted());
 	
+	semver_tk3 = semver_lex3.next();
+	CU_ASSERT(semver_tk3 == oct::core::v3::lc::semver_tokens::build);
 #ifdef OCTEOTOS_CAVE_ENABLE_DEV
-	semver_lex3.echo(false);
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
+	//semver_lex3.echo(false);
 #endif
-	bool accepted = semver_lex3.is_accepted();
+	CU_ASSERT(semver_lex3.is_accepted());
 }
+
+
 void v3_developing()
 {
 }

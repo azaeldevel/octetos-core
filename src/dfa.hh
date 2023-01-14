@@ -246,6 +246,9 @@ public:
 	}*/
 	A(const TT& tt,Buffer<Symbol>& b) : table(&tt),index(0),buffer(&b),actual(0),post(0)
 	{
+#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+	_echo = false;
+#endif
 	}
 
 	bool is_accepted() const
