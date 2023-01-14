@@ -123,11 +123,15 @@ bool lexing(const char* input)
 	oct::core::v3::lc::semver_tokens semver_tk3 = semver_lex3.next();
 	print(semver_tk3,input);
 	std::cout << "\n";
-
+	
 	semver_tk3 = semver_lex3.next();
 	print(semver_tk3,input);
 	std::cout << "\n";
-
+	
+	semver_tk3 = semver_lex3.next();
+	print(semver_tk3,input);
+	std::cout << "\n";	
+	
 	bool accepted = semver_lex3.is_accepted();
 	if(accepted) std::cout << " : acceptado\n";
 	else std::cout << " : rechazado\n";

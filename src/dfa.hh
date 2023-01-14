@@ -292,6 +292,8 @@ public:
 			case Indicator::accept:
 				acceptable_transition = actual_transition;
 				acceptable_last = actual;
+				actual = post;
+				index++;
 				return get_token();;
 			case Indicator::prefix:
 				;//puede aceptar n prefijos pero deve ser continuos
