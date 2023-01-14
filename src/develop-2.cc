@@ -31,10 +31,15 @@ void lexing(const char* input)
 {
 	oct::core::v3::lc::A<char,oct::core::v3::lc::semver_tokens,oct::core::v3::lc::Status>::TT semver_tt;
 	oct::core::v3::lc::Status initial_status = semver_tt.add_status();
-	//std::cout << "status : " << initial_status << "\n";
-	
+	//std::cout << "status : " << initial_status << "\n";	
 	oct::core::v3::lc::Status major = semver_tt.add_status();
-	//std::cout << "status : " << status1 << "\n";
+	oct::core::v3::lc::Status majorPrefix = semver_tt.add_status();
+	oct::core::v3::lc::Status minor = semver_tt.add_status();
+	oct::core::v3::lc::Status minorPrefix = semver_tt.add_status();
+	oct::core::v3::lc::Status patch = semver_tt.add_status();
+	oct::core::v3::lc::Status patchPrefix = semver_tt.add_status();
+	oct::core::v3::lc::Status stage = semver_tt.add_status();
+	oct::core::v3::lc::Status build = semver_tt.add_status();
 	semver_tt.acceptable(initial_status,'0',oct::core::v3::lc::semver_tokens::number,major);
 	semver_tt.acceptable(initial_status,'1',oct::core::v3::lc::semver_tokens::number,major);
 	semver_tt.acceptable(initial_status,'2',oct::core::v3::lc::semver_tokens::number,major);
@@ -55,14 +60,9 @@ void lexing(const char* input)
 	semver_tt.acceptable(major,'6',oct::core::v3::lc::semver_tokens::number,major);
 	semver_tt.acceptable(major,'8',oct::core::v3::lc::semver_tokens::number,major);
 	semver_tt.acceptable(major,'9',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.prefix(major,'.');
-	semver_tt.prefix(major,'-');
-	semver_tt.prefix(major,'+');	
-	oct::core::v3::lc::Status majorPrefix = semver_tt.add_status();
-	oct::core::v3::lc::Status minor = semver_tt.add_status();
-	oct::core::v3::lc::Status patch = semver_tt.add_status();
-	oct::core::v3::lc::Status stage = semver_tt.add_status();
-	oct::core::v3::lc::Status build = semver_tt.add_status();
+	semver_tt.prefix(major,'.',majorPrefix);
+	semver_tt.prefix(major,'-',majorPrefix);
+	semver_tt.prefix(major,'+',majorPrefix);	
 	semver_tt.acceptable(majorPrefix,'.',oct::core::v3::lc::semver_tokens::number,minor);
 	semver_tt.acceptable(majorPrefix,'-',oct::core::v3::lc::semver_tokens::number,stage);
 	semver_tt.acceptable(majorPrefix,'+',oct::core::v3::lc::semver_tokens::number,build);	
@@ -76,18 +76,24 @@ void lexing(const char* input)
 	semver_tt.acceptable(minor,'6',oct::core::v3::lc::semver_tokens::number,minor);
 	semver_tt.acceptable(minor,'8',oct::core::v3::lc::semver_tokens::number,minor);
 	semver_tt.acceptable(minor,'9',oct::core::v3::lc::semver_tokens::number,minor);	
-	semver_tt.prefix(minor,'.');
-	semver_tt.prefix(minor,'-');
-	semver_tt.prefix(minor,'+');
+	semver_tt.prefix(minor,'.',minorPrefix);
+	semver_tt.prefix(minor,'-',minorPrefix);
+	semver_tt.prefix(minor,'+',minorPrefix);
+	semver_tt.acceptable(minorPrefix,'.',oct::core::v3::lc::semver_tokens::number,patch);
+	semver_tt.acceptable(minorPrefix,'-',oct::core::v3::lc::semver_tokens::number,stage);
+	semver_tt.acceptable(minorPrefix,'+',oct::core::v3::lc::semver_tokens::number,build);	
 	//const char* input3 = "23";
 	oct::core::v3::lc::Buffer semver_buff3(input);
 	oct::core::v3::lc::A<char,oct::core::v3::lc::semver_tokens,oct::core::v3::lc::Status> semver_lex3(semver_tt,semver_buff3);
 	oct::core::v3::lc::semver_tokens semver_tk3 = semver_lex3.next();
 	//print(semver_tk3,input);
+	//std::cout << "\n";
+	semver_tk3 = semver_lex3.next();
 }
 
 int main(int argc, char* argv[])
 {
+	const char* input = "269";
 	//lexing(NULL);
 	
 	//lexing("2");
@@ -95,10 +101,14 @@ int main(int argc, char* argv[])
 	//lexing("23");
 	
 	//lexing("");
-	
-	//lexing("269");	
 
-	lexing("269.");	
+	input = "269";
+	std::cout << "Reading : " << input << "\n";
+	lexing(input);
+	
+	input = "269.56";
+	std::cout << "Reading : " << input << "\n";
+	lexing(input);
 	
 	return EXIT_SUCCESS;
 }

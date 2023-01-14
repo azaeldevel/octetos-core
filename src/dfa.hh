@@ -93,13 +93,11 @@ private:
 enum class Indicator : Status
 {
 	none,
-	acceptable,
-	accept,
-	reject,
-	prefix,
-	//terminate,
-	//Left_Eat,
-	//Accept_Inmediatly
+	acceptable,//estado de aceptacion
+	accept,//estado de aceptacion, sin embargo deve terminar de inmediato
+	reject,//rechazar y terminar de imendiato
+	prefix,//prefijo de analisis
+	terminate,//terminar de enmediato
 };
 const char* to_string(Indicator i)
 {
@@ -109,6 +107,8 @@ const char* to_string(Indicator i)
 	case Indicator::acceptable: return "acceptable";
 	case Indicator::accept: return "accept";
 	case Indicator::reject: return "reject";
+	case Indicator::prefix: return "prefix";
+	case Indicator::terminate: return "terminate";
 	}
 	return "Unknow";
 }
@@ -186,9 +186,16 @@ public:
 			TT_BASE::at(status)[symbol].next = next;
 			return true;
 		}
-		bool prefix(Status status, Symbol symbol)
+		bool prefix(Status status, Symbol symbol,Status next)
 		{
 			TT_BASE::at(status)[symbol].indicator = Indicator::prefix;
+			TT_BASE::at(status)[symbol].token = Token::none;
+			TT_BASE::at(status)[symbol].next = next;
+			return true;
+		}
+		bool terminate(Status status, Symbol symbol)
+		{
+			TT_BASE::at(status)[symbol].indicator = Indicator::terminate;
 			TT_BASE::at(status)[symbol].token = Token::none;
 			TT_BASE::at(status)[symbol].next = 0;
 			return true;
@@ -200,60 +207,84 @@ public:
 	/*A(const Transition (*t)[MAX_SIMBOLS],size_t l,Buffer<Symbol>& b) : table(t),table_length(l),index(0),buffer(&b)
 	{
 	}*/
-	A(const TT& tt,Buffer<Symbol>& b) : table(&tt),index(0),buffer(&b)
+	A(const TT& tt,Buffer<Symbol>& b) : table(&tt),index(0),buffer(&b),actual(0),post(0)
 	{
 	}
 
 	Token next()
 	{
-		post = 0;
-		actual = 0;
+		index = 0;
 		index_prefix = 0;
 		actual_transition = NULL;
 		acceptable_transition = NULL;
-		
+		prefix_transition = NULL;
+		//std::cout << "actual : " << actual << "\n";
+		//std::cout << "index : " << index << "\n";
+		//std::cout << "post : " << post << "\n";
+
 		while(post < table_length and index < buffer->size())
 		{
+			//>>>seccion inicial
 			//std::cout << "while : Step 1\n";
-			actual = post;
-			//std::cout << "while : Step 2\n";
+			//std::cout << "index : " << index << "\n";
+			//std::cout << "actual : " << actual << "\n";
+			//std::cout << "post : " << post << "\n";
 			input = buffer->operator[](index);
-			//std::cout << "while : Step 3\n";
+			//std::cout << "while : Step 2\n";
+			//std::cout << "input : " << input << "\n";
 			if(Buffer<Symbol>::EOB == input )
 			{
 				//std::cout << "if(" << int(Buffer<Symbol>::EOB) << " == " << int(input) << ") ..\n";
 				return get_token();
 			}
+						
+			//>>>seccion lectura
+			//std::cout << "while : Step 3\n";
+			if(actual_transition) actual = post;//no importa que actual_transition sea la transicion previa
 			//std::cout << "while : Step 4\n";
 			actual_transition = &(table->at(actual).at(input));
 			//std::cout << "while : Step 5\n";
-			if(actual_transition->indicator == Indicator::acceptable)
+			post = actual_transition->next;	
+			//std::cout << "while : Step 6\n";
+			print();
+			if(prefix_transition)
 			{
-				acceptable_transition = actual_transition;
+				if(actual_transition->indicator != Indicator::prefix) return get_token();
 			}
-			else if(actual_transition->indicator == Indicator::prefix)
+			
+			//>>>seccion evaluacion
+			//std::cout << "while : Step 7\n";
+			switch(actual_transition->indicator)
 			{
+			case Indicator::acceptable:
+				acceptable_transition = actual_transition;
+				acceptable_last = actual;
+				break;
+			case Indicator::prefix:
 				;//puede aceptar n prefijos pero deve ser continuos
 				index_prefix++;
-			}
-			else 
-			{
+				prefix_transition = actual_transition;
+				prefix_last = actual;
+				if(actual_transition->next == 0) return get_token();
+				break;
+			default:
 				acceptable_transition = NULL;
-			}
-			//std::cout << "while : Step 6\n";
-			post = actual_transition->next;	
-			//std::cout << "while : Step 7\n";			
-			print();
-			index++;			
+				break;
+			};
+			
+			index++;
+			//std::cout << "\n";			
 		}
 		
 		return get_token();
 	}
 private:
-	Token get_token() const
+	Token get_token()
 	{
 		if(not actual_transition) return Token::none;
 		
+		index -= index_prefix;
+		buffer->jump(index);
 		if(actual_transition->indicator == Indicator::reject)
 		{
 			if(acceptable_transition) return acceptable_transition->token;
@@ -264,7 +295,6 @@ private:
 		}
 		else if(actual_transition->indicator == Indicator::prefix)
 		{	
-			//buffer->jump(index - index_prefix);
 			if(acceptable_transition) return acceptable_transition->token;
 		}
 		return Token::none;
@@ -280,7 +310,8 @@ private:
 	Buffer<Symbol>* buffer;
 	const Transition* actual_transition;
 	const Transition* acceptable_transition;
-	Status post,actual;
+	const Transition* prefix_transition;
+	Status post,actual,prefix_last,acceptable_last;
 	Symbol input;
 };
 
