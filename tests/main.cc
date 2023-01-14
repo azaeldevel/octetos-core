@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	if ((NULL == CU_add_test(pSuite_v3, "Lenguaje Collection, inner Semver Test 8..", v3_lc_innier_semver_8)))
+	if ((NULL == CU_add_test(pSuite_v3, "Lenguaje Collection, inner Semver..", v3_lc_innier_semver)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

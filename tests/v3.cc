@@ -70,7 +70,7 @@ void print(oct::core::v3::lc::semver_tokens tk,const char* input)
 	std::cout << "\n";
 }
 
-void v3_lc_innier_semver_8()
+void v3_lc_innier_semver()
 {
 	const char* input = "269.56.9-alpha+archlinux";
 	
