@@ -18,7 +18,7 @@ typedef size_t Index;
 static const unsigned char MAX_SIMBOLS = 128;
 
 enum class tokens : int
-{
+{//https://www.asciitable.com/,https://www.rapidtables.com/code/text/ascii-table.html
 	none = -1,
 	NUL		= 0,
 	SOH,
@@ -26,19 +26,26 @@ enum class tokens : int
 	EOT,
 
 
-
-	space	= ' ',
+	US 		= 31,
+	space,
 
 
 	plus 	= '+',//
 	minus 	= '-',
 	dot 	= '.',
 	
+	
 	tokens	= 0x11000000,
 	number,
+	integer,
+	decimal,//incluye punto flotante
+	letter,//caracter
 	string,
 	identifier,	
 	keyword,
+	softkeyword,
+	expresion,
+	
 };
 
 template<typename C> bool is_whitespace(C c)
