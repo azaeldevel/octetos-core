@@ -4,7 +4,7 @@
 #include "dfa-semver-v3.hh"
 
 
-void print(oct::core::v3::lc::semver_tokens tk,const char* input)
+void print(oct::core::v3::lc::tokens tk,const char* input)
 {
 	if(input)
 	{
@@ -16,26 +16,23 @@ void print(oct::core::v3::lc::semver_tokens tk,const char* input)
 	}
 	switch(tk)
 	{
-	case oct::core::v3::lc::semver_tokens::none:
+	case oct::core::v3::lc::tokens::none:
 		std::cout << "None";
 		break;
-	case oct::core::v3::lc::semver_tokens::number:
+	case oct::core::v3::lc::tokens::number:
 		std::cout << "Number";
 		break;
-	case oct::core::v3::lc::semver_tokens::dot:
+	case oct::core::v3::lc::tokens::dot:
 		std::cout << "dot";
 		break;
-	case oct::core::v3::lc::semver_tokens::minus:
+	case oct::core::v3::lc::tokens::minus:
 		std::cout << "minus";
 		break;
-	case oct::core::v3::lc::semver_tokens::plus:
+	case oct::core::v3::lc::tokens::plus:
 		std::cout << "plus";
 		break;
-	case oct::core::v3::lc::semver_tokens::stage:
-		std::cout << "stage";
-		break;
-	case oct::core::v3::lc::semver_tokens::build:
-		std::cout << "build";
+	case oct::core::v3::lc::tokens::string:
+		std::cout << "string";
 		break;
 	default:
 		std::cout << "Unknown";
@@ -46,252 +43,201 @@ bool lexing(const char* input)
 {
 	std::cout << "Reading : " << input << "\n";
 	
-	oct::core::v3::lc::A<char,oct::core::v3::lc::semver_tokens,oct::core::v3::lc::Status>::TT semver_tt;
+	oct::core::v3::lc::A<char,oct::core::v3::lc::tokens,oct::core::v3::lc::Status>::TT semver_tt;
 	oct::core::v3::lc::Status initial_status = semver_tt.add_status();
-	semver_tt.initial(initial_status);
-	//std::cout << "status : " << initial_status << "\n";	
-	oct::core::v3::lc::Status major = semver_tt.add_status();
-	semver_tt.initial(major);
-	oct::core::v3::lc::Status majorPrefix = semver_tt.add_status();
-	semver_tt.initial(majorPrefix);
-	oct::core::v3::lc::Status minor = semver_tt.add_status();
-	semver_tt.initial(minor);
-	oct::core::v3::lc::Status minorPrefix = semver_tt.add_status();
-	semver_tt.initial(minorPrefix);
-	oct::core::v3::lc::Status patch = semver_tt.add_status();
-	semver_tt.initial(patch);
-	oct::core::v3::lc::Status patchPrefix = semver_tt.add_status();
-	semver_tt.initial(patchPrefix);
-	oct::core::v3::lc::Status stage = semver_tt.add_status();
-	semver_tt.initial(stage);
-	oct::core::v3::lc::Status build = semver_tt.add_status();
-	semver_tt.initial(build,oct::core::v3::lc::Indicator::terminate);
+	semver_tt.initial(initial_status);	
+	oct::core::v3::lc::Status number = semver_tt.add_status();
+	semver_tt.initial(number);
+	oct::core::v3::lc::Status string = semver_tt.add_status();
+	semver_tt.initial(string);
+	oct::core::v3::lc::Status operators = semver_tt.add_status();
+	semver_tt.initial(operators);
 	
-	semver_tt.acceptable(initial_status,'0',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(initial_status,'1',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(initial_status,'2',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(initial_status,'3',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(initial_status,'4',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(initial_status,'5',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(initial_status,'6',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(initial_status,'6',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(initial_status,'8',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(initial_status,'9',oct::core::v3::lc::semver_tokens::number,major);	
+	semver_tt.acceptable(initial_status,'0',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(initial_status,'1',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(initial_status,'2',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(initial_status,'3',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(initial_status,'4',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(initial_status,'5',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(initial_status,'6',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(initial_status,'6',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(initial_status,'8',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(initial_status,'9',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(initial_status,'a',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'b',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'c',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'d',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'e',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'f',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'g',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'h',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'i',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'j',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'k',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'l',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'m',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'n',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'o',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'p',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'q',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'r',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'s',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'t',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'u',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'v',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'w',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'x',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'y',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'z',oct::core::v3::lc::tokens::string,string);	
+	semver_tt.acceptable(initial_status,'A',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'B',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'C',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'D',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'E',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'F',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'G',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'H',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'I',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'J',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'K',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'L',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'M',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'N',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'O',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'P',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'Q',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'R',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'S',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'T',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'U',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'V',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'W',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'X',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'Y',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(initial_status,'Z',oct::core::v3::lc::tokens::string,string);
+	semver_tt.accept(initial_status,'.',(oct::core::v3::lc::tokens)'.');
+	semver_tt.accept(initial_status,'+',(oct::core::v3::lc::tokens)'+');
+	semver_tt.accept(initial_status,'-',(oct::core::v3::lc::tokens)'-');
 	
-	semver_tt.acceptable(major,'0',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(major,'1',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(major,'2',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(major,'3',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(major,'4',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(major,'5',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(major,'6',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(major,'6',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(major,'8',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.acceptable(major,'9',oct::core::v3::lc::semver_tokens::number,major);
-	semver_tt.prefix(major,'.',majorPrefix);
-	semver_tt.prefix(major,'-',majorPrefix);
-	semver_tt.prefix(major,'+',majorPrefix);	
+	semver_tt.acceptable(number,'0',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(number,'1',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(number,'2',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(number,'3',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(number,'4',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(number,'5',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(number,'6',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(number,'6',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(number,'8',oct::core::v3::lc::tokens::number,number);
+	semver_tt.acceptable(number,'9',oct::core::v3::lc::tokens::number,number);
+	semver_tt.prefix(number,'+',0);
+	semver_tt.prefix(number,'-',0);
+	semver_tt.prefix(number,'.',0);
 	
-	semver_tt.accept(majorPrefix,'.',oct::core::v3::lc::semver_tokens::dot,minor);
-	semver_tt.accept(majorPrefix,'-',oct::core::v3::lc::semver_tokens::minus,stage);
-	semver_tt.accept(majorPrefix,'+',oct::core::v3::lc::semver_tokens::plus,build);	
-	
-	semver_tt.acceptable(minor,'0',oct::core::v3::lc::semver_tokens::number,minor);
-	semver_tt.acceptable(minor,'1',oct::core::v3::lc::semver_tokens::number,minor);
-	semver_tt.acceptable(minor,'2',oct::core::v3::lc::semver_tokens::number,minor);
-	semver_tt.acceptable(minor,'3',oct::core::v3::lc::semver_tokens::number,minor);
-	semver_tt.acceptable(minor,'4',oct::core::v3::lc::semver_tokens::number,minor);
-	semver_tt.acceptable(minor,'5',oct::core::v3::lc::semver_tokens::number,minor);
-	semver_tt.acceptable(minor,'6',oct::core::v3::lc::semver_tokens::number,minor);
-	semver_tt.acceptable(minor,'6',oct::core::v3::lc::semver_tokens::number,minor);
-	semver_tt.acceptable(minor,'8',oct::core::v3::lc::semver_tokens::number,minor);
-	semver_tt.acceptable(minor,'9',oct::core::v3::lc::semver_tokens::number,minor);	
-	semver_tt.prefix(minor,'.',minorPrefix);
-	semver_tt.prefix(minor,'-',minorPrefix);
-	semver_tt.prefix(minor,'+',minorPrefix);
-	
-	semver_tt.accept(minorPrefix,'.',oct::core::v3::lc::semver_tokens::dot,patch);
-	semver_tt.accept(minorPrefix,'-',oct::core::v3::lc::semver_tokens::minus,stage);
-	semver_tt.accept(minorPrefix,'+',oct::core::v3::lc::semver_tokens::plus,build);
-	
-	semver_tt.acceptable(patch,'0',oct::core::v3::lc::semver_tokens::number,patch);
-	semver_tt.acceptable(patch,'1',oct::core::v3::lc::semver_tokens::number,patch);
-	semver_tt.acceptable(patch,'2',oct::core::v3::lc::semver_tokens::number,patch);
-	semver_tt.acceptable(patch,'3',oct::core::v3::lc::semver_tokens::number,patch);
-	semver_tt.acceptable(patch,'4',oct::core::v3::lc::semver_tokens::number,patch);
-	semver_tt.acceptable(patch,'5',oct::core::v3::lc::semver_tokens::number,patch);
-	semver_tt.acceptable(patch,'6',oct::core::v3::lc::semver_tokens::number,patch);
-	semver_tt.acceptable(patch,'6',oct::core::v3::lc::semver_tokens::number,patch);
-	semver_tt.acceptable(patch,'8',oct::core::v3::lc::semver_tokens::number,patch);
-	semver_tt.acceptable(patch,'9',oct::core::v3::lc::semver_tokens::number,patch);	
-	semver_tt.prefix(patch,'-',patchPrefix);
-	semver_tt.prefix(patch,'+',patchPrefix);
-	
-	semver_tt.accept(patchPrefix,'-',oct::core::v3::lc::semver_tokens::minus,stage);
-	semver_tt.accept(patchPrefix,'+',oct::core::v3::lc::semver_tokens::plus,build);
-		
-	semver_tt.acceptable(stage,'a',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'b',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'c',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'d',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'e',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'f',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'g',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'h',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'i',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'j',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'k',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'l',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'m',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'n',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'o',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'p',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'q',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'r',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'s',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'t',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'u',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'v',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'w',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'x',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'y',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'z',oct::core::v3::lc::semver_tokens::stage,stage);	
-	semver_tt.acceptable(stage,'A',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'B',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'C',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'D',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'E',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'F',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'G',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'H',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'I',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'J',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'K',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'L',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'M',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'N',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'O',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'P',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'Q',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'R',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'S',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'T',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'U',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'V',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'W',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'X',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'Y',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'Z',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'0',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'1',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'2',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'3',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'4',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'5',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'6',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'6',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'8',oct::core::v3::lc::semver_tokens::stage,stage);
-	semver_tt.acceptable(stage,'9',oct::core::v3::lc::semver_tokens::stage,stage);	
-	semver_tt.accept(stage,'+',oct::core::v3::lc::semver_tokens::plus,build);
-		
-	semver_tt.acceptable(build,'a',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'b',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'c',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'d',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'e',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'f',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'g',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'h',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'i',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'j',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'k',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'l',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'m',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'n',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'o',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'p',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'q',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'r',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'s',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'t',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'u',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'v',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'w',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'x',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'y',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'z',oct::core::v3::lc::semver_tokens::build,build);	
-	semver_tt.acceptable(build,'A',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'B',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'C',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'D',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'E',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'F',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'G',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'H',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'I',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'J',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'K',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'L',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'M',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'N',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'O',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'P',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'Q',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'R',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'S',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'T',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'U',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'V',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'W',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'X',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'Y',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'Z',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'0',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'1',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'2',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'3',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'4',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'5',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'6',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'6',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'8',oct::core::v3::lc::semver_tokens::build,build);
-	semver_tt.acceptable(build,'9',oct::core::v3::lc::semver_tokens::build,build);	
+	semver_tt.acceptable(string,'a',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'b',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'c',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'d',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'e',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'f',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'g',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'h',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'i',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'j',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'k',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'l',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'m',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'n',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'o',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'p',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'q',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'r',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'s',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'t',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'u',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'v',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'w',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'x',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'y',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'z',oct::core::v3::lc::tokens::string,string);	
+	semver_tt.acceptable(string,'A',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'B',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'C',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'D',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'E',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'F',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'G',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'H',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'I',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'J',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'K',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'L',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'M',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'N',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'O',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'P',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'Q',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'R',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'S',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'T',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'U',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'V',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'W',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'X',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'Y',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'Z',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'0',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'1',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'2',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'3',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'4',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'5',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'6',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'6',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'8',oct::core::v3::lc::tokens::string,string);
+	semver_tt.acceptable(string,'9',oct::core::v3::lc::tokens::string,string);
+	semver_tt.prefix(string,'+',0);
+	semver_tt.prefix(string,'-',0);
+	semver_tt.prefix(string,'.',0);	
 	
 	//const char* input3 = "23";
 	oct::core::v3::lc::Buffer semver_buff3(input);
-	oct::core::v3::lc::A<char,oct::core::v3::lc::semver_tokens,oct::core::v3::lc::Status> semver_lex3(semver_tt,semver_buff3);
-
-	oct::core::v3::lc::semver_tokens semver_tk3 = semver_lex3.next();
-	//print(semver_tk3,input);
-	//std::cout << "\n";
+	oct::core::v3::lc::A<char,oct::core::v3::lc::tokens,oct::core::v3::lc::Status> semver_lex3(semver_tt,semver_buff3);
+	semver_lex3.echo(true);
+	oct::core::v3::lc::tokens semver_tk3 = semver_lex3.next();
+	print(semver_tk3,input);
+	std::cout << "\n";
 	
 	semver_tk3 = semver_lex3.next();
-	//print(semver_tk3,input);
-	//std::cout << "\n";
+	print(semver_tk3,input);
+	std::cout << "\n";
 	
 	semver_tk3 = semver_lex3.next();
-	//print(semver_tk3,input);
-	//std::cout << "\n";	
+	print(semver_tk3,input);
+	std::cout << "\n";	
 	
 	semver_tk3 = semver_lex3.next();
-	//print(semver_tk3,input);
-	//std::cout << "\n";	
+	print(semver_tk3,input);
+	std::cout << "\n";	
 	
 	semver_tk3 = semver_lex3.next();
-	//print(semver_tk3,input);
-	//std::cout << "\n";	
+	print(semver_tk3,input);
+	std::cout << "\n";	
 	
 	semver_tk3 = semver_lex3.next();
-	//print(semver_tk3,input);
-	//std::cout << "\n";	
+	print(semver_tk3,input);
+	std::cout << "\n";	
 	
 	semver_tk3 = semver_lex3.next();
-	//print(semver_tk3,input);
-	//std::cout << "\n";	
+	print(semver_tk3,input);
+	std::cout << "\n";	
 	
 	semver_tk3 = semver_lex3.next();
-	//print(semver_tk3,input);
-	//std::cout << "\n";	
+	print(semver_tk3,input);
+	std::cout << "\n";	
+	
+	semver_tk3 = semver_lex3.next();
+	print(semver_tk3,input);
+	std::cout << "\n";	
 	
 	bool accepted = semver_lex3.is_accepted();
 	if(accepted) std::cout << " : acceptado\n";

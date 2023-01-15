@@ -13,8 +13,8 @@ AM_CFLAGS =\
 
 LIBS = $(OCTETOS_CORE_BASE_LIBS) 
 FLAGS = $(OCTETOS_CORE_BASE_FLAGS) -I$(top_builddir) -I/usr/include/glibmm-2.4 -I/usr/lib/glibmm-2.4/include -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
-if OCTEOTOS_CAVE_ENABLE_DEV
-FLAGS += -DOCTEOTOS_CAVE_ENABLE_DEV
+if OCTETOS_CORE_ENABLE_DEV
+FLAGS += -DOCTETOS_CORE_ENABLE_DEV
 endif
 
 lib_LTLIBRARIES = liboctetos-core.la
@@ -62,11 +62,13 @@ noinst_PROGRAMS = develop develop-2 testArrayCpp testArrayClass
 bin_PROGRAMS = version
 
 develop_SOURCES = develop.cc 
-develop_LDADD = liboctetos-core.la
+develop_LDADD = $(LIBS) liboctetos-core.la
+develop_CXXFLAGS = $(FLAGS) 
 
 develop_2_SOURCES = develop-2.cc 
-develop_2_LDADD = liboctetos-core.la
-
+develop_2_LDADD = $(LIBS) liboctetos-core.la
+develop_2_CXXFLAGS = $(FLAGS)
+ 
 version_SOURCES = version-main.cc 
 version_LDADD = $(LIBS) liboctetos-core.la
 version_CXXFLAGS = $(FLAGS) 

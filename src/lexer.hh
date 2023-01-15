@@ -17,6 +17,30 @@ typedef int Token;
 typedef size_t Index;
 static const unsigned char MAX_SIMBOLS = 128;
 
+enum class tokens : int
+{
+	none = -1,
+	NUL		= 0,
+	SOH,
+	STX,
+	EOT,
+
+
+
+	space	= ' ',
+
+
+	plus 	= '+',//
+	minus 	= '-',
+	dot 	= '.',
+	
+	tokens	= 0x11000000,
+	number,
+	string,
+	identifier,	
+	keyword,
+};
+
 template<typename C> bool is_whitespace(C c)
 {
 	switch(c)
@@ -98,6 +122,7 @@ enum class Indicator : Status
 	reject,//rechazar y terminar de imendiato
 	prefix,//prefijo de analisis
 	terminate,//terminar de enmediato
+	unknow,//no es simbolo del lenguaje
 };
 const char* to_string(Indicator i)
 {
@@ -216,11 +241,11 @@ public:
 			TT_BASE::at(status)[symbol].next = next;
 			return true;
 		}
-		bool accept(Status status, Symbol symbol,Token token,Status next)
+		bool accept(Status status, Symbol symbol,Token token)
 		{
 			TT_BASE::at(status)[symbol].indicator = Indicator::accept;
 			TT_BASE::at(status)[symbol].token = token;
-			TT_BASE::at(status)[symbol].next = next;
+			TT_BASE::at(status)[symbol].next = 0;
 			return true;
 		}
 		bool prefix(Status status, Symbol symbol,Status next)
@@ -246,7 +271,7 @@ public:
 	}*/
 	A(const TT& tt,Buffer<Symbol>& b) : table(&tt),index(0),buffer(&b),actual(0),post(0)
 	{
-#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+#ifdef OCTETOS_CORE_ENABLE_DEV
 	_echo = false;
 #endif
 	}
@@ -275,7 +300,7 @@ public:
 		while(post < table_length and index < buffer->size())
 		{
 			//>>>seccion inicial
-#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+#ifdef OCTETOS_CORE_ENABLE_DEV
 			//std::cout << "while : Step 1\n";
 			//std::cout << "index : " << index << "\n";
 			//std::cout << "actual : " << actual << "\n";
@@ -297,7 +322,7 @@ public:
 			actual_transition = &(table->at(actual).at(input));
 			//std::cout << "while : Step 5\n";
 			post = actual_transition->next;	
-#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+#ifdef OCTETOS_CORE_ENABLE_DEV
 			//std::cout << "while : Step 6\n";
 			//std::cout << "index : " << index << "\n";
 			//std::cout << "index_prefix : " << index_prefix << "\n";
@@ -352,7 +377,7 @@ public:
 		
 		return get_token();
 	}
-#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+#ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
 	{
 		_echo = e;		
@@ -388,7 +413,7 @@ private:
 	const Transition* prefix_transition;
 	Status post,actual,prefix_last,acceptable_last;
 	Symbol input;
-#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+#ifdef OCTETOS_CORE_ENABLE_DEV
 	bool _echo;
 #endif
 };

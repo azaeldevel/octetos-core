@@ -7,7 +7,7 @@ endif
 if WITH_EXAMPLES
 SUBDIRS += examples
 endif
-if OCTEOTOS_CORE_ENABLE_TDD
+if OCTETOS_CORE_ENABLE_DEV
 SUBDIRS += tests
 endif
 # SUBDIRS += po
