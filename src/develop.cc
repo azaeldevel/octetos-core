@@ -1,7 +1,7 @@
 
 #include <iostream>
 
-#include "dfa.hh"
+#include "lexer.hh"
 
 struct Person_test1
 {

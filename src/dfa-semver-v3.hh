@@ -2,7 +2,7 @@
 #ifndef OCTETOS_CORE_DFA_SEMVER_V3_HH
 #define OCTETOS_CORE_DFA_SEMVER_V3_HH
 
-#include "dfa.hh"
+#include "lexer.hh"
 
 namespace oct::core::v3::lc
 {
