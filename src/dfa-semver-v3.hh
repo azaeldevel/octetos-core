@@ -411,6 +411,175 @@ static const A<char,tokens,Status>::Transition semver_tt[][MAX_SIMBOLS] = {
 };
 
 
+template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/>
+class Semver_TT : public A<Symbol,Token,Status>::TT
+{
+public:
+	Semver_TT()
+	{
+		init();
+	}
+	void init()
+	{
+		Status initial_status = A<Symbol,Token,Status>::TT::add_status();
+		A<Symbol,Token,Status>::TT::initial(initial_status);	
+		Status number = A<Symbol,Token,Status>::TT::add_status();
+		A<Symbol,Token,Status>::TT::initial(number);
+		Status string = A<Symbol,Token,Status>::TT::add_status();
+		A<Symbol,Token,Status>::TT::initial(string);
+		Status operators = A<Symbol,Token,Status>::TT::add_status();
+		A<Symbol,Token,Status>::TT::initial(operators);
+			
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'0',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'1',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'2',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'3',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'4',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'5',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'6',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'6',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'8',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'9',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'a',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'b',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'c',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'d',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'e',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'f',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'g',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'h',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'i',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'j',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'k',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'l',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'m',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'n',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'o',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'p',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'q',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'r',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'s',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'t',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'u',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'v',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'w',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'x',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'y',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'z',oct::core::v3::lc::tokens::string,string);	
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'A',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'B',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'C',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'D',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'E',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'F',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'G',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'H',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'I',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'J',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'K',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'L',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'M',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'N',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'O',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'P',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'Q',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'R',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'S',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'T',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'U',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'V',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'W',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'X',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'Y',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(initial_status,'Z',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::accept(initial_status,'.',(oct::core::v3::lc::tokens)'.');
+		A<Symbol,Token,Status>::TT::accept(initial_status,'+',(oct::core::v3::lc::tokens)'+');
+		A<Symbol,Token,Status>::TT::accept(initial_status,'-',(oct::core::v3::lc::tokens)'-');
+		
+		A<Symbol,Token,Status>::TT::acceptable(number,'0',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(number,'1',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(number,'2',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(number,'3',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(number,'4',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(number,'5',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(number,'6',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(number,'6',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(number,'8',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::acceptable(number,'9',oct::core::v3::lc::tokens::number,number);
+		A<Symbol,Token,Status>::TT::prefix(number,'+',0);
+		A<Symbol,Token,Status>::TT::prefix(number,'-',0);
+		A<Symbol,Token,Status>::TT::prefix(number,'.',0);
+		
+		A<Symbol,Token,Status>::TT::acceptable(string,'a',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'b',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'c',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'d',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'e',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'f',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'g',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'h',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'i',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'j',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'k',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'l',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'m',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'n',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'o',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'p',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'q',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'r',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'s',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'t',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'u',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'v',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'w',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'x',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'y',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'z',oct::core::v3::lc::tokens::string,string);	
+		A<Symbol,Token,Status>::TT::acceptable(string,'A',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'B',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'C',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'D',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'E',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'F',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'G',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'H',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'I',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'J',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'K',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'L',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'M',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'N',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'O',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'P',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'Q',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'R',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'S',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'T',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'U',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'V',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'W',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'X',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'Y',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'Z',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'0',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'1',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'2',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'3',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'4',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'5',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'6',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'6',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'8',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::acceptable(string,'9',oct::core::v3::lc::tokens::string,string);
+		A<Symbol,Token,Status>::TT::prefix(string,'+',0);
+		A<Symbol,Token,Status>::TT::prefix(string,'-',0);
+		A<Symbol,Token,Status>::TT::prefix(string,'.',0);	
+	}
+
+private:
+	
+};
 
 
 }

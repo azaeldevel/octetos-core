@@ -292,7 +292,78 @@ void v3_lc_innier_semver()
 #endif
 	CU_ASSERT(semver_lex3.is_accepted());
 }
+void v3_lc_semver()
+{
+	const char* input1 = "269.56.9-alpha+archlinux";
+	oct::core::v3::lc::Semver_TT<char,oct::core::v3::lc::tokens,oct::core::v3::lc::Status> semver_tt_1;
 
+	oct::core::v3::lc::Buffer semver_buff1(input1);
+	oct::core::v3::lc::A<char,oct::core::v3::lc::tokens,oct::core::v3::lc::Status> semver_lex1(semver_tt_1,semver_buff1);
+	//semver_lex1.echo(true);
+	oct::core::v3::lc::tokens semver_tk1 = semver_lex1.next();
+	CU_ASSERT(semver_tk1 == oct::core::v3::lc::tokens::number);
+	//print(semver_tk3,input);
+	//std::cout << "\n";
+	CU_ASSERT(semver_lex1.is_accepted());
+	
+	semver_tk1 = semver_lex1.next();
+	CU_ASSERT(semver_tk1 == oct::core::v3::lc::tokens::dot);
+	//print(semver_tk3,input);
+	//std::cout << "\n";
+	CU_ASSERT(semver_lex1.is_accepted());
+	
+	semver_tk1 = semver_lex1.next();
+	CU_ASSERT(semver_tk1 == oct::core::v3::lc::tokens::number);
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
+	CU_ASSERT(semver_lex1.is_accepted());
+	
+	semver_tk1 = semver_lex1.next();
+	CU_ASSERT(semver_tk1 == oct::core::v3::lc::tokens::dot);
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
+	CU_ASSERT(semver_lex1.is_accepted());
+	
+	semver_tk1 = semver_lex1.next();
+	CU_ASSERT(semver_tk1 == oct::core::v3::lc::tokens::number);
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
+	CU_ASSERT(semver_lex1.is_accepted());
+	
+	semver_tk1 = semver_lex1.next();
+	CU_ASSERT(semver_tk1 == oct::core::v3::lc::tokens::minus);
+#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+	//semver_lex3.echo(true);
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
+#endif
+	CU_ASSERT(semver_lex1.is_accepted());
+	
+	semver_tk1 = semver_lex1.next();
+	CU_ASSERT(semver_tk1 == oct::core::v3::lc::tokens::string);
+#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
+#endif
+	CU_ASSERT(semver_lex1.is_accepted());
+	
+	semver_tk1 = semver_lex1.next();
+	CU_ASSERT(semver_tk1 == oct::core::v3::lc::tokens::plus);
+#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
+#endif	
+	CU_ASSERT(semver_lex1.is_accepted());
+	
+	semver_tk1 = semver_lex1.next();
+	CU_ASSERT(semver_tk1 == oct::core::v3::lc::tokens::string);
+#ifdef OCTEOTOS_CAVE_ENABLE_DEV
+	//print(semver_tk3,input);
+	//std::cout << "\n";	
+	//semver_lex3.echo(false);
+#endif
+	CU_ASSERT(semver_lex1.is_accepted());
+}
 
 void v3_developing()
 {
