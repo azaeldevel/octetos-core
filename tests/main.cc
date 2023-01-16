@@ -128,11 +128,21 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	if ((NULL == CU_add_test(pSuite_v3, "Lenguaje Collection, Semver..", v3_lc_semver)))
+	if ((NULL == CU_add_test(pSuite_v3, "Lenguaje Collection, Semver 1..", v3_lc_semver)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+	if ((NULL == CU_add_test(pSuite_v3, "Lenguaje Collection, Semver 2..", v3_lc_semver2)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+	/*if ((NULL == CU_add_test(pSuite_v3, "Lenguaje Collection, Semver rechazos..", v3_lc_semver_rejects)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}*/
 #endif
 
 	/* Run all tests using the CUnit Basic interface */

@@ -43,7 +43,7 @@ bool lexing(const char* input)
 {
 	std::cout << "Reading : " << input << "\n";
 	
-	oct::core::v3::lc::A<char,oct::core::v3::lc::tokens,oct::core::v3::lc::Status>::TT semver_tt;
+	oct::core::v3::lc::TT<char,oct::core::v3::lc::tokens,oct::core::v3::lc::Status> semver_tt;
 	oct::core::v3::lc::Status initial_status = semver_tt.add_status();
 	semver_tt.initial(initial_status);	
 	oct::core::v3::lc::Status number = semver_tt.add_status();

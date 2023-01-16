@@ -16,5 +16,7 @@ void v3_developing();
 void v3_reduced_parser();
 void v3_lc_innier_semver();
 void v3_lc_semver();
+void v3_lc_semver2();
+void v3_lc_semver_rejects();
 
 #endif
