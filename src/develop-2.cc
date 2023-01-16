@@ -44,7 +44,7 @@ void print(v3::lc::tokens tk,const char* input)
 
 int main(int argc, char* argv[])
 {
-	const char* input1 = "269.56.9-alpha+archlinux";
+	const char* input1 = "269.*";
 	typedef std::array<std::array<v3::lc::Transition<v3::lc::tokens,v3::lc::Status>,v3::lc::MAX_SIMBOLS>,4> TT_BASE;
 	v3::lc::Semver_TT<char,v3::lc::tokens,v3::lc::Status,TT_BASE> semver_tt_1;
 
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 	semver_tk1 = semver_lex1.next();
 	print(semver_tk1,input1);
 	
-	semver_tk1 = semver_lex1.next();
+	/*semver_tk1 = semver_lex1.next();
 	print(semver_tk1,input1);
 	
 	semver_tk1 = semver_lex1.next();
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
 	print(semver_tk1,input1);
 	
 	semver_tk1 = semver_lex1.next();
-	print(semver_tk1,input1);
+	print(semver_tk1,input1);*/
 	
 	//semver_tk1 = semver_lex1.next();
 	//print(semver_tk1,input1);

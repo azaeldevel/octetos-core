@@ -361,7 +361,7 @@ public:
 			default:
 				acceptable_transition = NULL;
 				prefix_transition = NULL;
-				return get_token();;
+				return get_token();
 			};
 			
 			
