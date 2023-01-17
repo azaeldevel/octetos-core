@@ -120,14 +120,8 @@ const char* Exception::subject()const
 }
 	
 const char* Exception::what() const throw ()
-{
-	switch(_code)
-	{
-	case FILE_TERGET_NOT_FOUND:
-		return _("Cant't found the file");
-	}
-	
-	return _("Unknow error.");
+{	
+	return _("Unknow exception");
 }
 std::string Exception::describe() const throw ()
 {	

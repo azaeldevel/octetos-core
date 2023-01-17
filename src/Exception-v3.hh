@@ -35,29 +35,11 @@ public:
 	virtual const char* what() const throw ();
 };
 
+typedef unsigned int ExceptionCode;
 class Exception : public std::exception
 {
 public:
-	enum Erros
-	{
-		NoErros,
-		Invalid_Compared_Version_Objects,
-		Empty_Object,
-		NotYet,
-		FAIL_READING_DB,
-		FAIL_WRITING_DB,
-		FAIL_READING_FILE,
-		FAIL_WRITING_FILE,
-		FAIL_READING_CONF,
-		FAIL_WRITING_CONF,
-		NotEmptyObject,
-		NotCopiableObject,
-		OnDatabase,
-		FILE_TERGET_NOT_FOUND,
-		INDEX_OUT_OF_RANGE,
-		
-		top = 1000,
-	};
+
 public:
 	Exception();
 	Exception(const Exception&);
