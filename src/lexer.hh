@@ -349,6 +349,7 @@ public:
 				prefix_transition = actual_transition;
 				prefix_last = actual;
 				break;
+			case Indicator::unknow:
 			case Indicator::reject:
 				acceptable_transition = NULL;
 				prefix_transition = NULL;
@@ -356,7 +357,6 @@ public:
 				index++;
 				return get_token();
 			case Indicator::none:
-			case Indicator::unknow:
 				break;
 			default:
 				acceptable_transition = NULL;

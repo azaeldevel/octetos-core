@@ -76,6 +76,14 @@ Exception::Exception(unsigned int c,const std::string& m,const char* f, unsigned
 	copy(m);
 }
 
+
+Exception::Exception(const char* s) : _code(0),_message(s),_filename(NULL),_line(0),autofree(false)
+{
+}
+Exception::Exception(const char* s,const char* fn, unsigned int l) : _code(0),_message(s),_filename(fn),_line(l),autofree(false)
+{
+}
+
 Exception::~Exception()
 {
 	if(autofree) if(_message) delete _message;

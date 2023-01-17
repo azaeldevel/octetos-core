@@ -66,16 +66,16 @@ void print(lc::tokens tk,const char* input)
 
 void v3_lc_innier_semver()
 {
-	const char* input = "269.56.9-alpha+archlinux";
-	
-	lc::TT<char,lc::tokens,lc::Status> semver_tt;
-	lc::Status initial_status = semver_tt.add_status();
+	const char* input = "269.56.9-alpha+archlinux";	
+	typedef std::array<std::array<lc::Transition<lc::tokens,lc::Status>,lc::MAX_SIMBOLS>,4> TT_BASE;
+	lc::TT<char,lc::tokens,lc::Status,TT_BASE> semver_tt;
+	lc::Status initial_status = 0;
 	semver_tt.initial(initial_status);	
-	lc::Status number = semver_tt.add_status();
+	lc::Status number = 1;
 	semver_tt.initial(number);
-	lc::Status string = semver_tt.add_status();
+	lc::Status string = 2;
 	semver_tt.initial(string);
-	lc::Status operators = semver_tt.add_status();
+	lc::Status operators = 3;
 	semver_tt.initial(operators);
 	
 	semver_tt.acceptable(initial_status,'0',lc::tokens::number,number);
@@ -226,7 +226,7 @@ void v3_lc_innier_semver()
 	
 	//const char* input3 = "23";
 	lc::Buffer semver_buff3(input);
-	lc::A<char,lc::tokens,lc::Status> semver_lex3(semver_tt,semver_buff3);
+	lc::A<char,lc::tokens,lc::Status,TT_BASE> semver_lex3(semver_tt,semver_buff3);
 
 	lc::tokens semver_tk3 = semver_lex3.next();
 	CU_ASSERT(semver_tk3 == lc::tokens::number);
@@ -295,10 +295,11 @@ void v3_lc_innier_semver()
 void v3_lc_semver()
 {
 	const char* input1 = "269.56.9-alpha+archlinux";
-	lc::Semver_TT<char,lc::tokens,lc::Status> semver_tt_1;
+	typedef std::array<std::array<lc::Transition<lc::tokens,lc::Status>,lc::MAX_SIMBOLS>,4> TT_BASE;
+	lc::Semver_TT<char,lc::tokens,lc::Status,TT_BASE> semver_tt_1;
 
 	lc::Buffer semver_buff1(input1);
-	lc::A<char,lc::tokens,lc::Status> semver_lex1(semver_tt_1,semver_buff1);
+	lc::A<char,lc::tokens,lc::Status,TT_BASE> semver_lex1(semver_tt_1,semver_buff1);
 	//semver_lex1.echo(true);
 	lc::tokens semver_tk1 = semver_lex1.next();
 	CU_ASSERT(semver_tk1 == lc::tokens::number);
@@ -367,10 +368,11 @@ void v3_lc_semver()
 void v3_lc_semver2()
 {
 	const char* input1 = "269.5-alpha+archlinux";
-	lc::Semver_TT<char,lc::tokens,lc::Status> semver_tt_1;
+	typedef std::array<std::array<lc::Transition<lc::tokens,lc::Status>,lc::MAX_SIMBOLS>,4> TT_BASE;
+	lc::Semver_TT<char,lc::tokens,lc::Status,TT_BASE> semver_tt_1;
 
 	lc::Buffer semver_buff1(input1);
-	lc::A<char,lc::tokens,lc::Status> semver_lex1(semver_tt_1,semver_buff1);
+	lc::A<char,lc::tokens,lc::Status,TT_BASE> semver_lex1(semver_tt_1,semver_buff1);
 	//semver_lex1.echo(true);
 	lc::tokens semver_tk1 = semver_lex1.next();
 	CU_ASSERT(semver_tk1 == lc::tokens::number);
@@ -427,10 +429,11 @@ void v3_lc_semver2()
 void v3_lc_semver_rejects()
 {
 	const char* input1 = "2s9.5-alpha+archlinux";
-	lc::Semver_TT<char,lc::tokens,lc::Status> semver_tt_1;
+	typedef std::array<std::array<lc::Transition<lc::tokens,lc::Status>,lc::MAX_SIMBOLS>,4> TT_BASE;
+	lc::Semver_TT<char,lc::tokens,lc::Status,TT_BASE> semver_tt_1;
 
 	lc::Buffer semver_buff1(input1);
-	lc::A<char,lc::tokens,lc::Status> semver_lex1(semver_tt_1,semver_buff1);
+	lc::A<char,lc::tokens,lc::Status,TT_BASE> semver_lex1(semver_tt_1,semver_buff1);
 	semver_lex1.echo(true);
 	lc::tokens semver_tk1 = semver_lex1.next();
 	/*CU_ASSERT(semver_tk1 == lc::tokens::number);

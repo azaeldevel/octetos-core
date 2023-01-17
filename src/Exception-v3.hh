@@ -74,6 +74,10 @@ public:
 
 	Exception(unsigned int code,const std::string& message);
 	Exception(unsigned int code,const std::string& message,const char* filename, unsigned int line);
+	//>>>pereferecia
+	Exception(const char* message);
+	Exception(const char* message,const char* filename, unsigned int line);
+
 	virtual ~Exception();
 
 	unsigned int code()const;
