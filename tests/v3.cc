@@ -3,11 +3,11 @@
 #include "v3.hh"
 
 #if defined(__linux__)
-    #include <Exception-v3.hh>
-    #include <Version-v3.hh>
+    #include <src/Exception-v3.hh>
+    #include <src/Version-v3.hh>
     #include <string.h>
     #include <iostream>
-	#include "lexer-semver-v3.hh"
+	#include <src/lexer-semver-v3.hh>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <core/src/Exception-v3.hh>
     #include <core/src/Version-v3.hh>

@@ -121,7 +121,7 @@ const char* Exception::subject()const
 	
 const char* Exception::what() const throw ()
 {	
-	return _("Unknow exception");
+	return _message;
 }
 std::string Exception::describe() const throw ()
 {	

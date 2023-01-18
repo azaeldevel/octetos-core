@@ -7,8 +7,8 @@
 
 #include <cstddef>
 #include <array>
-#include <arrays.hh>
-#include <Buffer-v3.hh>
+#include "arrays.hh"
+#include "Buffer-v3.hh"
 
 namespace oct::core::v3::lc
 {

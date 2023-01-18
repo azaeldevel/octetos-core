@@ -35,10 +35,11 @@ public:
 	virtual const char* what() const throw ();
 };
 
-typedef unsigned int ExceptionCode;
+
 class Exception : public std::exception
 {
 public:
+	typedef unsigned int Code;
 
 public:
 	Exception();
@@ -80,6 +81,8 @@ private:
 	void copy(const std::string&);
 	void copy(const char*);
 };
+
+
 
 }
 

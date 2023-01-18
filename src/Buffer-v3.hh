@@ -62,10 +62,46 @@ class Buffer
 public:
 	static const T EOB = T(0);
 	
+	class Exception : public v3::Exception
+	{
+	public:
+
+	public:
+		Exception()
+		{
+		}
+		Exception(const Exception& e) : v3::Exception(e)
+		{
+		}
+
+		//>>>pereferecia
+		Exception(const char* s) : v3::Exception(s)
+		{
+		}
+		Exception(const char* m,const char* fn, unsigned int l) : v3::Exception(m,fn,l)
+		{
+		}
+		
+		virtual ~Exception()
+		{
+		}
+		
+		
+		virtual const char* what() const throw ()
+		{	
+			return _message;
+		}
+
+	protected:
+		
+	private:
+
+	};
+
 public:
 	Buffer(const std::filesystem::path& file)
 	{
-		if(not std::filesystem::exists(file)) throw Exception(Exception::FILE_TERGET_NOT_FOUND,__FILE__,__LINE__);
+		if(not std::filesystem::exists(file)) throw Exception("Not found the file to load on Buffer",__FILE__,__LINE__);
 
 		_size = std::filesystem::file_size(file);
 		if(_size == 0) return;

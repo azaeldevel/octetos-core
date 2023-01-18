@@ -31,7 +31,7 @@
 
 namespace oct::core::v3
 {
-	
+
 	typedef short Number;
 
 	/**
@@ -42,7 +42,27 @@ namespace oct::core::v3
 	class OCTETOS_CORE_DECLSPCE_DLL Semver
 	{
 	public:
+		class Exception : public v3::Exception
+		{
+		public:
 
+		public:
+			Exception();
+			Exception(const Exception&);
+
+			//>>>pereferecia
+			Exception(const char* message);
+			Exception(const char* message,const char* filename, unsigned int line);
+
+			virtual ~Exception();
+			
+			//virtual const char* what() const throw ();
+
+		protected:
+			
+		private:
+
+		};
 	public:
 		/**
 		* \brief Limpia todos los datos

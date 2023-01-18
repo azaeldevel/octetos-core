@@ -40,6 +40,33 @@ namespace oct::core::v3
 	Semver version(PACKAGE_VERSION);
 
 
+	
+	Semver::Exception::Exception()
+	{
+	}
+	Semver::Exception::Exception(const Exception& e) : v3::Exception(e)
+	{
+	}
+
+	Semver::Exception::Exception(const char* s) : v3::Exception(s)
+	{
+	}
+	Semver::Exception::Exception(const char* m,const char* fn, unsigned int l) : v3::Exception(m,fn,l)
+	{
+	}
+
+
+	Semver::Exception::~Exception()
+	{
+	}
+	
+	/*const char* Semver::Exception::what() const throw ()
+	{	
+		return _message;
+	}*/
+
+
+
     bool Semver::operator !=(const Semver& obj)const
     {
         if (major != obj.major or minor != obj.minor or patch != obj.patch)
@@ -63,7 +90,7 @@ namespace oct::core::v3
 
         if (major < 0 or obj.major < 0)
         {
-            throw oct::core::v3::Exception(oct::core::v3::Exception::Invalid_Compared_Version_Objects,__FILE__,__LINE__);
+            throw Exception("Al menos uno de los operandos no estan inicializados",__FILE__,__LINE__);
         }
         else if (major > obj.major)
         {
@@ -114,7 +141,7 @@ namespace oct::core::v3
     {
         if (major < 0 or obj.major < 0)
         {
-            throw oct::core::v3::Exception(oct::core::v3::Exception::Invalid_Compared_Version_Objects,__FILE__,__LINE__);
+            throw Exception("Al menos uno de los operandos no estan inicializados",__FILE__,__LINE__);
         }
         else if (major < obj.major)
         {
