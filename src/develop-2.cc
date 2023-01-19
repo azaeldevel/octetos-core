@@ -44,25 +44,33 @@ void print(v3::lc::tokens tk,const char* input)
 
 int main(int argc, char* argv[])
 {
-	const char* input1 = "2s9.s";
-	typedef std::array<std::array<v3::lc::Transition<v3::lc::tokens,v3::lc::Status>,v3::lc::MAX_SIMBOLS>,4> TT_BASE;
+	const char* input1 = "259.s";
+	if(v3::strlen(input1) != strlen(input1))
+	{
+		std::cout << "strlen : fallo\n";
+	}
+	typedef std::array<std::array<v3::lc::Transition<v3::lc::tokens,v3::lc::Status>,v3::lc::MAX_SIMBOLS>,6> TT_BASE;
 	v3::lc::Semver_TT<char,v3::lc::tokens,v3::lc::Status,TT_BASE> semver_tt_1;
-
-	v3::lc::Buffer semver_buff1(input1);
+	std::string token_str;
+	v3::Buffer semver_buff1(input1);
 	v3::lc::A semver_lex1(semver_tt_1,semver_buff1);
+	//std::cout << "token_str : " << token_str << "\n";
 	//semver_lex1.echo(true);
 	
 	v3::lc::tokens semver_tk1 = semver_lex1.next();
-	print(semver_tk1,input1);
-	//std::cout << "\n";
-	
-	semver_tk1 = semver_lex1.next();
+	semver_lex1.token_to_string(token_str);
 	print(semver_tk1,input1);
 	
 	semver_tk1 = semver_lex1.next();
+	semver_lex1.token_to_string(token_str);
 	print(semver_tk1,input1);
 	
 	semver_tk1 = semver_lex1.next();
+	semver_lex1.token_to_string(token_str);
+	print(semver_tk1,input1);
+	
+	semver_tk1 = semver_lex1.next();
+	semver_lex1.token_to_string(token_str);
 	print(semver_tk1,input1);
 	
 	/*semver_tk1 = semver_lex1.next();

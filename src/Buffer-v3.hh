@@ -23,11 +23,11 @@ namespace oct::core::v3
 {
 
 
-template<typename C> size_t length(const C* str)
+template<typename C> size_t strlen(const C* str)
 {
 	if(not str) return 0;
 	size_t i = 0;
-	while(str[i] != (C)0)
+	while(str[i] != C(0))
 	{
 		i++;
 	}
@@ -36,17 +36,16 @@ template<typename C> size_t length(const C* str)
 
 template<typename C> size_t copy(const C* origin, size_t leng,C** dest)
 {
-	if(origin[leng] != (C)0) return 0;
 	if(not origin) return 0;
 	if(not dest) return 0;
+	if(origin[leng] != (C)0) return 0;
 	
-	size_t i = 0;
-	for(;i < leng; i++)
+	for(size_t i = 0;i < leng; i++)
 	{
-		(*dest)[i] = origin[i];
+		dest[0][i] = origin[i];
 		//std::cout << "C : " << (*dest)[i] << "\n";
 	}
-	(*dest)[leng] = (C)0;
+	dest[0][leng] = (C)0;
 
 	return leng;
 }
@@ -99,7 +98,7 @@ public:
 	};
 
 public:
-	Buffer(const std::filesystem::path& file)
+	Buffer(const std::filesystem::path& file) 
 	{
 		if(not std::filesystem::exists(file)) throw Exception("Not found the file to load on Buffer",__FILE__,__LINE__);
 
@@ -107,22 +106,17 @@ public:
 		if(_size == 0) return;
 
 		buffer = new T[_size + 1];
-
 		std::ifstream ifs(file, std::ifstream::binary);
 		pbuf = ifs.rdbuf();
 		pbuf->sgetn (buffer,_size);
 	}
-	Buffer(const T* string)
+	Buffer(const T* string) : buffer(NULL)
 	{
-		_size = length(string);
+		_size = v3::strlen(string);
 		if(_size > 0)
 		{
 			buffer = new T[_size + 1];
-			copy(string,_size,&buffer);
-		}
-		else
-		{
-			buffer = NULL;
+			v3::copy(string,_size,&buffer);
 		}
 	}
 	~Buffer()

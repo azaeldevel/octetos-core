@@ -88,7 +88,7 @@ template<typename C> bool equal(const C* initial, const C* target)
 *\brief
 *
 */
-template<typename T>
+/*template<typename T>
 class Buffer : public Buffer_Base
 {
 public:
@@ -104,7 +104,7 @@ public:
 	{
 	}
 	
-	/*T operator[](uintmax_t i)const
+	T operator[](uintmax_t i)const
 	{	
 		//std::cout << "if(" << i << " < " << _size << ") return " << int(buffer[i]) << "\n";
 		uintmax_t _index = i + base;
@@ -115,12 +115,12 @@ public:
 	void jump(uintmax_t b)
 	{
 		base = b;
-	}*/
+	}
 protected:
 	//uintmax_t base;
 	
 private:
-};
+};*/
 
 enum class Indicator : Status
 {
@@ -252,7 +252,7 @@ template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,type
 class A 
 {
 public:
-	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) : table(&tt),index(0),buffer(&b),actual(0),post(0)
+	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) : table(&tt),index(0),buffer(&b),actual(0),post(0),base(0)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	_echo = false;
@@ -273,6 +273,7 @@ public:
 	{
 		//std::cout << "next : Step1\n";
 		//index = 0;
+		base = index;
 		index_prefix = 0;
 		actual_transition = NULL;
 		acceptable_transition = NULL;
@@ -372,6 +373,20 @@ public:
 		
 		return get_token();
 	}
+	void token_to_string(std::string& s) const
+	{
+		auto offset = index - base;
+		if(offset > 0)
+		{
+			const Symbol* buff = (const Symbol*)*buffer;
+			//std::cout << "buff 1 : " << buff << "\n";
+			if(buff)
+			{
+				buff += base;
+				std::cout << "buff 2 : " << buff << "\n";
+			}
+		}
+	}
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
 	{
@@ -401,7 +416,7 @@ private:
 	
 private:
 	const TT<Symbol,Token,Status,TT_BASE>* table;
-	size_t index,index_prefix;
+	size_t index,index_prefix,base;
 	Buffer<Symbol>* buffer;
 	const Transition<Token,Status>* actual_transition;
 	const Transition<Token,Status>* acceptable_transition;
