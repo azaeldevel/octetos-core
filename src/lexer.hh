@@ -235,6 +235,13 @@ const char* to_string(Indicator i)
 			TT_BASE::at(status)[symbol].next = next;
 			return true;
 		}
+		bool prefix(Status status, Symbol symbol)
+		{
+			TT_BASE::at(status)[symbol].indicator = Indicator::prefix;
+			TT_BASE::at(status)[symbol].token = Token::none;
+			TT_BASE::at(status)[symbol].next = -1;
+			return true;
+		}
 		/*bool terminate(Status status, Symbol symbol)
 		{
 			TT_BASE::at(status)[symbol].indicator = Indicator::terminate;
@@ -254,7 +261,9 @@ template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,type
 class A
 {
 public:
-	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),actual_state(Indicator::none),index(0),actual_status(0),initial_status(0)
+	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) :
+	    table(&tt),buffer(&b),actual_state(Indicator::none),
+	    index(0),actual_status(0),initial_status(0),prefix_start(false),prefix_end(false)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	_echo = false;
@@ -263,13 +272,19 @@ public:
 
     Token next()
 	{
-	    if(actual_state == Indicator::finalized) return Tokens::none;
+	    //std::cout << "A<>::next : Step 0\n";
+	    //if(actual_state == Indicator::finalized) return Tokens::none;
+        actual_status = initial_status;
+        actual_state = Indicator::none;
+        prefix_start = false;
+        prefix_end = false;
+        prefix_index = 0;
 
 	    const Symbol* buff = (const Symbol*)*buffer;
         while(index < buffer->size() and actual_status < table->size())
         {
             //std::cout << "whiel : Step 0\n";
-            if(actual_state == Indicator::finalized) break;
+            //if(actual_state == Indicator::finalized) break;
 
             //std::cout << "whiel : Step 1\n";
             //>>>reading data
@@ -277,45 +292,39 @@ public:
                 input = buff[index];
                 if(not input)
                 {
-                    finalize();
                     break;
                 }
                 actual_transition = &(table->at(actual_status).at(input));
                 actual_state = step(actual_transition);
                 next_status = actual_transition->next;
+                if(actual_transition->indicator == Indicator::prefix) prefix_index++;
+                if(actual_transition->indicator == Indicator::prefix and prefix_index > 0) prefix_start = true;
+                if(actual_transition->token == Tokens::none and next_status < 0) prefix_end = true;
+                prefix_index++;
 			}
 
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-                std::cout << actual_status << "--" << input << "->" << next_status << "\n";
+                if(prefix_start and prefix_end) std::cout << actual_status << "--" << input << "->end\n";
+                else std::cout << actual_status << "--" << input << "->" << next_status << "\n";
 
             }
 
             //std::cout << "whiel : Step 3\n";
             //>>>finalizing
             {
-                index++;
-                switch(actual_state)
+                if(actual_state == Indicator::accept)
                 {
-                case Indicator::none:
-
-                    break;
-                case Indicator::accept:
-
-                    break;
-                case Indicator::reject:
-
-                    break;
-                case Indicator::finalized:
-                    finalize();
-                    break;
-                case Indicator::rejectable:
-                case Indicator::prefix:
-                case Indicator::error:
-
+                    index++;
+                    actual_status = next_status;
+                }
+                else if(actual_state == Indicator::reject)
+                {
                     break;
                 }
+
+
             }
         }
 
@@ -394,19 +403,17 @@ private:
 
         return Indicator::error;
     }
-    void finalize()
-    {
-        actual_state = Indicator::finalized;
-    }
+
 private:
 	const TT<Symbol,Token,Status,TT_BASE>* table;
 	Buffer<Symbol>* buffer;
 	Symbol input;
-	Indicator actual_state;
-	size_t index;
+	Indicator actual_state;//estado del automata actual
+	size_t index,prefix_index;
     const Transition<Token,Status> *actual_transition;
-    Status actual_status,next_status;
+    Status actual_status,next_status;//numero del estado actual del automata
     const Status initial_status;
+    bool prefix_start,prefix_end;
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	bool _echo;
 #endif

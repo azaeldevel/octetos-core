@@ -44,7 +44,7 @@ void print(v3::lc::Tokens tk,const char* input)
 
 int main(int argc, char* argv[])
 {
-	const char* input1 = "259.s";
+	const char* input1 = "259.11.9-alpha2";
 	if(v3::strlen(input1) != std::strlen(input1))
 	{
 		std::cout << "strlen : fallo\n";
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 	//semver_lex1.token_to_string(token_str);
 	//std::cout << "token_str : " << token_str << "\n";
 	//print(semver_tk1,input1);
-	/*std::cout << "\n";
+	std::cout << "\n";
 
 	semver_tk1 = semver_lex1.next();
 	////semver_lex1.token_to_string(token_str);
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
 	//print(semver_tk1,input1);
 	std::cout << "\n";
 
-	semver_tk1 = semver_lex1.next();
+	/*semver_tk1 = semver_lex1.next();
 	print(semver_tk1,input1);
 
 	semver_tk1 = semver_lex1.next();

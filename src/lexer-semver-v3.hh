@@ -169,9 +169,9 @@ public:
 		TT<Symbol,Token,Status,TT_BASE>::acceptable(number,'6',Tokens::number,number);
 		TT<Symbol,Token,Status,TT_BASE>::acceptable(number,'8',Tokens::number,number);
 		TT<Symbol,Token,Status,TT_BASE>::acceptable(number,'9',Tokens::number,number);
-		TT<Symbol,Token,Status,TT_BASE>::prefix(number,'+',0);
-		TT<Symbol,Token,Status,TT_BASE>::prefix(number,'-',0);
-		TT<Symbol,Token,Status,TT_BASE>::prefix(number,'.',0);
+		TT<Symbol,Token,Status,TT_BASE>::prefix(number,'+');
+		TT<Symbol,Token,Status,TT_BASE>::prefix(number,'-');
+		TT<Symbol,Token,Status,TT_BASE>::prefix(number,'.');
 
 		TT<Symbol,Token,Status,TT_BASE>::acceptable(string,'a',Tokens::string,string);
 		TT<Symbol,Token,Status,TT_BASE>::acceptable(string,'b',Tokens::string,string);
@@ -235,9 +235,9 @@ public:
 		TT<Symbol,Token,Status,TT_BASE>::acceptable(string,'6',Tokens::string,string);
 		TT<Symbol,Token,Status,TT_BASE>::acceptable(string,'8',Tokens::string,string);
 		TT<Symbol,Token,Status,TT_BASE>::acceptable(string,'9',Tokens::string,string);
-		TT<Symbol,Token,Status,TT_BASE>::prefix(string,'+',0);
-		TT<Symbol,Token,Status,TT_BASE>::prefix(string,'-',0);
-		TT<Symbol,Token,Status,TT_BASE>::prefix(string,'.',0);
+		TT<Symbol,Token,Status,TT_BASE>::prefix(string,'+');
+		TT<Symbol,Token,Status,TT_BASE>::prefix(string,'-');
+		TT<Symbol,Token,Status,TT_BASE>::prefix(string,'.');
 	}
 
 private:
