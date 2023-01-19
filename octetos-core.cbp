@@ -56,7 +56,22 @@
 					<Add directory="bin/Debug" />
 				</Linker>
 			</Target>
+			<Target title="develop-2">
+				<Option output="bin/Debug/develop-2" prefix_auto="1" extension_auto="1" />
+				<Option object_output=".objs/Debug/" />
+				<Option type="1" />
+				<Option compiler="msys2_x86_64_gcc" />
+				<Compiler>
+					<Add option="-std=c++20" />
+				</Compiler>
+			</Target>
 		</Build>
+		<Unit filename="src/Buffer-v3.cc">
+			<Option target="develop-2" />
+		</Unit>
+		<Unit filename="src/Buffer-v3.hh">
+			<Option target="develop-2" />
+		</Unit>
 		<Unit filename="src/Buffer.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
@@ -84,10 +99,12 @@
 		<Unit filename="src/Exception-v3.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
+			<Option target="develop-2" />
 		</Unit>
 		<Unit filename="src/Exception-v3.hh">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
+			<Option target="develop-2" />
 		</Unit>
 		<Unit filename="src/Exception.hh">
 			<Option target="liboctetos-core-dbg" />
@@ -166,9 +183,18 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
+		<Unit filename="src/develop-2.cc">
+			<Option target="develop-2" />
+		</Unit>
 		<Unit filename="src/exists.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
+		</Unit>
+		<Unit filename="src/lexer-semver-v3.hh">
+			<Option target="develop-2" />
+		</Unit>
+		<Unit filename="src/lexer.hh">
+			<Option target="develop-2" />
 		</Unit>
 		<Unit filename="src/ls.cc">
 			<Option target="liboctetos-core-dbg" />

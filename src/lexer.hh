@@ -1,13 +1,13 @@
 
 
-#ifndef OCTETOS_CORE_DFA
-#define OCTETOS_CORE_DFA
+#ifndef OCTETOS_CORE_LC_V3_HH
+#define OCTETOS_CORE_LC_V3_HH
 
 #define TT_PARAMS(T) T,sizeof (T) / sizeof (T[0])
 
 #include <cstddef>
 #include <array>
-#include "arrays.hh"
+//#include "arrays.hh"
 #include "Buffer-v3.hh"
 
 namespace oct::core::v3::lc
@@ -17,7 +17,7 @@ typedef int Token;
 typedef size_t Index;
 static const unsigned char MAX_SIMBOLS = 128;
 
-enum class tokens : int
+enum class Tokens : int
 {//https://www.asciitable.com/,https://www.rapidtables.com/code/text/ascii-table.html
 	none = -1,//ASCII>>>
 	NUL		= 0,
@@ -33,7 +33,7 @@ enum class tokens : int
 	plus 	= '+',
 	minus 	= '-',
 	dot 	= '.',
-	
+
 	DEL		= 127,
 	//UTF >>>
 	tokens	= 0x11000000,
@@ -42,11 +42,11 @@ enum class tokens : int
 	decimal,//incluye punto flotante
 	letter,//caracter
 	string,
-	identifier,	
+	identifier,
 	keyword,
 	softkeyword,
 	expresion,
-	
+
 };
 
 template<typename C> bool is_whitespace(C c)
@@ -58,7 +58,7 @@ template<typename C> bool is_whitespace(C c)
 		case '\n':
 			return true;
 		default :
-			return false;	
+			return false;
 	}
 	return false;
 }
@@ -68,7 +68,7 @@ template<typename C> bool equal(const C* initial, const C* target)
 	size_t lengInitial = length(initial);
 	if(lengInitial == 0) return false;
 	//if(initial[lengInitial] != '\0') return false;
-	
+
 	size_t lengTarget = length(target);
 	if(lengTarget == 0) return false;
 	//if(target[lengTarget] != '\0') return false;
@@ -77,9 +77,9 @@ template<typename C> bool equal(const C* initial, const C* target)
 
 	for(size_t i = 0; i < lengInitial; i++)
 	{
-		if(initial[i] != target[i]) return false;		
+		if(initial[i] != target[i]) return false;
 	}
-	
+
 	return true;
 }
 
@@ -92,7 +92,7 @@ template<typename C> bool equal(const C* initial, const C* target)
 class Buffer : public Buffer_Base
 {
 public:
-	
+
 public:
 	Buffer(const std::filesystem::path& file) : core::v3::Buffer<T>(file)//,base(0)
 	{
@@ -103,13 +103,13 @@ public:
 	~Buffer()
 	{
 	}
-	
+
 	T operator[](uintmax_t i)const
-	{	
+	{
 		//std::cout << "if(" << i << " < " << _size << ") return " << int(buffer[i]) << "\n";
 		uintmax_t _index = i + base;
 		if(_index < Buffer_Base::_size) return Buffer_Base::buffer[_index];
-		
+
 		return T(0);
 	}
 	void jump(uintmax_t b)
@@ -118,19 +118,20 @@ public:
 	}
 protected:
 	//uintmax_t base;
-	
+
 private:
 };*/
 
 enum class Indicator : Status
 {
 	none,
-	acceptable,//estado de aceptacion
+	acceptable,//estado de aceptacion, sin embario que termine de inmediato
 	accept,//estado de aceptacion, sin embargo deve terminar de inmediato
+	rejectable,//estado de rechazo, sin embargo no es necesario que termina de inmediato
 	reject,//rechazar y terminar de imendiato
 	prefix,//prefijo de analisis
-	terminate,//terminar de enmediato
-	unknow,//no es simbolo del lenguaje
+	error,//
+	//terminate,//terminar de enmediato
 };
 const char* to_string(Indicator i)
 {
@@ -141,7 +142,7 @@ const char* to_string(Indicator i)
 	case Indicator::accept: return "accept";
 	case Indicator::reject: return "reject";
 	case Indicator::prefix: return "prefix";
-	case Indicator::terminate: return "terminate";
+	//case Indicator::terminate: return "terminate";
 	}
 	return "Unknow";
 }
@@ -158,13 +159,13 @@ const char* to_string(Indicator i)
 		unsigned int i;
 		unsigned short j;
 	};
-	
+
 	template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,typename TT_BASE>
 	class TT : public TT_BASE
 	{
 	public:
 		TT() = default;
-		
+
 		constexpr bool initial(Status status)
 		{
 			for(size_t i = 0; i < MAX_SIMBOLS; i++)
@@ -233,15 +234,15 @@ const char* to_string(Indicator i)
 			TT_BASE::at(status)[symbol].next = next;
 			return true;
 		}
-		bool terminate(Status status, Symbol symbol)
+		/*bool terminate(Status status, Symbol symbol)
 		{
 			TT_BASE::at(status)[symbol].indicator = Indicator::terminate;
 			TT_BASE::at(status)[symbol].token = Token::none;
 			TT_BASE::at(status)[symbol].next = 0;
 			return true;
-		}
+		}*/
 	private:
-		
+
 	};
 
 /**
@@ -249,180 +250,100 @@ const char* to_string(Indicator i)
 *
 */
 template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,typename TT_BASE>
-class A 
+class A
 {
 public:
-	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) : table(&tt),index(0),buffer(&b),actual(0),post(0),base(0)
+	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),state(Indicator::none),index(0),actual_status(0),initial_status(0)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	_echo = false;
 #endif
 	}
 
-	bool is_accepted() const
+    Token next()
 	{
-		if(not actual_transition) return false; 
-
-		if(actual_transition->indicator == Indicator::accept) return true;
-		if(actual_transition->indicator == Indicator::acceptable) return true;
-		if(prefix_transition and acceptable_transition) if(acceptable_transition->indicator == Indicator::acceptable) return true;
-
-		return false;
-	}
-	Token next()
-	{
-		//std::cout << "next : Step1\n";
-		//index = 0;
-		base = index;
-		index_prefix = 0;
-		actual_transition = NULL;
-		acceptable_transition = NULL;
-		prefix_transition = NULL;
-		//std::cout << "actual : " << actual << "\n";
-		//std::cout << "index : " << index << "\n";
-		//std::cout << "post : " << post << "\n";
-
-		//std::cout << "next : Step1\n";
-		while(index < buffer->size())
-		{
-			//>>>seccion inicial
-#ifdef OCTETOS_CORE_ENABLE_DEV
-			//std::cout << "while : Step 1\n";
-			//std::cout << "index : " << index << "\n";
-			//std::cout << "actual : " << actual << "\n";
-			//std::cout << "post : " << post << "\n";
-#endif
-			input = buffer->operator[](index);
-			//std::cout << "while : Step 2\n";
-			//std::cout << "input : " << input << "\n";
+	    const Symbol* buff = (const Symbol*)*buffer;
+        while(index < buffer->size() and actual_status < table->size())
+        {
+            input = buff[index];
 			if(Buffer<Symbol>::EOB == input )
 			{
 				//std::cout << "if(" << int(Buffer<Symbol>::EOB) << " == " << int(input) << ") ..\n";
-				return get_token();
+				return Tokens::none;
 			}
-						
-			//>>>seccion lectura
-			//std::cout << "while : Step 3\n";
-			actual = post;//no importa que actual_transition sea la transicion previa
-			//std::cout << "while : Step 4\n";
-			actual_transition = &(table->at(actual).at(input));
-			//std::cout << "while : Step 5\n";
-			post = actual_transition->next;	
-#ifdef OCTETOS_CORE_ENABLE_DEV
-			//std::cout << "while : Step 6\n";
-			//std::cout << "index : " << index << "\n";
-			//std::cout << "index_prefix : " << index_prefix << "\n";
-			//std::cout << "actual : " << actual << "\n";
-			//std::cout << "post : " << post << "\n";
-			//std::cout << "input : " << input << "\n";
-			if(_echo)print();
-#endif
-			if(prefix_transition)
-			{
-				//std::cout << "if(prefix_transition)...\n";
-				if(actual_transition->indicator != Indicator::prefix) 
-				{
-					//std::cout << "if(actual_transition->indicator != Indicator::prefix)...\n";
-					index -= index_prefix;
-					post = actual;
-					//std::cout << "\n";		
-					return get_token();
-				}
-			}
-			
-			//>>>seccion evaluacion
-			//std::cout << "while : Step 7\n";
-			switch(actual_transition->indicator)
-			{
-			case Indicator::acceptable:
-				acceptable_transition = actual_transition;
-				acceptable_last = actual;
-				break;
-			case Indicator::accept:
-				acceptable_transition = actual_transition;
-				acceptable_last = actual;
-				actual = post;
-				index++;
-				return get_token();
-			case Indicator::prefix:
-				;//puede aceptar n prefijos pero deve ser continuos
-				index_prefix++;
-				prefix_transition = actual_transition;
-				prefix_last = actual;
-				break;
-			case Indicator::unknow:
-			case Indicator::reject:
-				acceptable_transition = NULL;
-				prefix_transition = NULL;
-				actual = post;
-				index++;
-				return get_token();
-			case Indicator::none:
-				break;
-			default:
-				acceptable_transition = NULL;
-				prefix_transition = NULL;
-				return get_token();
-			};
-			
-			
-			index++;
-			//std::cout << "\n";			
-		}
-		//std::cout << "\n";	
-		
-		return get_token();
+			actual_transition = &(table->at(actual_status).at(input));
+			state = step(actual_transition);
+
+
+        }
+
+        return Tokens::none;
 	}
-	void token_to_string(std::string& s) const
-	{
-		auto offset = index - base;
-		if(offset > 0)
-		{
-			const Symbol* buff = (const Symbol*)*buffer;
-			//std::cout << "buff 1 : " << buff << "\n";
-			if(buff)
-			{
-				buff += base;
-				std::cout << "buff 2 : " << buff << "\n";
-			}
-		}
-	}
+
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
 	{
-		_echo = e;		
+		_echo = e;
 	}
 #endif
 private:
-	Token get_token()
-	{
-		if(not actual_transition) return Token::none;
-		
-		if(actual_transition->indicator == Indicator::accept)
-		{
-			return actual_transition->token;
-		}
-		else if(prefix_transition and acceptable_transition)
-		{
-			return acceptable_transition->token;//se retorna el ultimo token de acpetacion
-		}
+    Indicator step(const Transition<Token,Status>* t)
+    {
+        switch(state)
+        {
+        case Indicator::none:
+            if(actual_status != initial_status) return Indicator::error;
+            switch(state)
+            {
+            case Indicator::none:
+                if(actual_status != initial_status) return Indicator::error;
 
-		return actual_transition->token;
-	}
-	void print()
-	{
-		std::cout << actual << " -- (" << input << " - " << to_string(actual_transition->indicator) << ") --> " << post << "\n";
-	}
-	
+                break;
+            case Indicator::acceptable:
+
+                break;
+            case Indicator::accept:
+
+                break;
+            case Indicator::reject:
+
+                break;
+            case Indicator::prefix:
+
+                break;
+            case Indicator::error:
+
+                break;
+            }
+            break;
+        case Indicator::acceptable:
+
+            break;
+        case Indicator::accept:
+
+            break;
+        case Indicator::reject:
+
+            break;
+        case Indicator::prefix:
+
+            break;
+        case Indicator::error:
+
+            break;
+        }
+
+        return Indicator::none;
+    }
 private:
 	const TT<Symbol,Token,Status,TT_BASE>* table;
-	size_t index,index_prefix,base;
 	Buffer<Symbol>* buffer;
-	const Transition<Token,Status>* actual_transition;
-	const Transition<Token,Status>* acceptable_transition;
-	const Transition<Token,Status>* prefix_transition;
-	Status post,actual,prefix_last,acceptable_last;
 	Symbol input;
+	Indicator state;
+	size_t index;
+    const Transition<Token,Status> *actual_transition;
+    Status actual_status;
+    const Status initial_status;
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	bool _echo;
 #endif
@@ -434,13 +355,13 @@ private:
 
 
 
-template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/> 
+template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/>
 class B
 {
 public:
 	B()
 	{
-		
+
 	}
 
 private:
