@@ -55,13 +55,13 @@ int main(int argc, char* argv[])
 	v3::Buffer semver_buff1(input1);
 	v3::lc::A semver_lex1(semver_tt_1,semver_buff1);
 	//std::cout << "token_str : " << token_str << "\n";
-	semver_lex1.echo(true);
+	//semver_lex1.echo(true);
 
 	v3::lc::Tokens semver_tk1 = semver_lex1.next();
 	//semver_lex1.token_to_string(token_str);
 	//std::cout << "token_str : " << token_str << "\n";
 	//print(semver_tk1,input1);
-	std::cout << "\n";
+	/*std::cout << "\n";
 
 	semver_tk1 = semver_lex1.next();
 	////semver_lex1.token_to_string(token_str);
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
 	//print(semver_tk1,input1);
 	std::cout << "\n";
 
-	/*semver_tk1 = semver_lex1.next();
+	semver_tk1 = semver_lex1.next();
 	print(semver_tk1,input1);
 
 	semver_tk1 = semver_lex1.next();

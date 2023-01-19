@@ -263,30 +263,59 @@ public:
 
     Token next()
 	{
+	    if(actual_state == Indicator::finalized) return Tokens::none;
+
 	    const Symbol* buff = (const Symbol*)*buffer;
         while(index < buffer->size() and actual_status < table->size())
         {
+            //std::cout << "whiel : Step 0\n";
+            if(actual_state == Indicator::finalized) break;
+
+            //std::cout << "whiel : Step 1\n";
             //>>>reading data
             {
                 input = buff[index];
-                if(Buffer<Symbol>::EOB == input )
+                if(not input)
                 {
                     finalize();
                     break;
                 }
                 actual_transition = &(table->at(actual_status).at(input));
                 actual_state = step(actual_transition);
-
+                next_status = actual_transition->next;
 			}
 
+            //std::cout << "whiel : Step 2\n";
             //>>>working
             {
+                std::cout << actual_status << "--" << input << "->" << next_status << "\n";
 
             }
 
+            //std::cout << "whiel : Step 3\n";
             //>>>finalizing
             {
                 index++;
+                switch(actual_state)
+                {
+                case Indicator::none:
+
+                    break;
+                case Indicator::accept:
+
+                    break;
+                case Indicator::reject:
+
+                    break;
+                case Indicator::finalized:
+                    finalize();
+                    break;
+                case Indicator::rejectable:
+                case Indicator::prefix:
+                case Indicator::error:
+
+                    break;
+                }
             }
         }
 
@@ -302,7 +331,7 @@ public:
 private:
 
 	/**
-	*\brief Determina el estado actual del automata, solo puede estar en 1 de los sigueinetes estados: inicial,aceptacion, rechazo o error.
+	*\brief Determina el estado actual del automata, solo puede estar en 1 de los sigueinetes estados: inicial,aceptacion, rechazo, error o finalizado.
 	*\param t La trasicion actual que afecta al automata.
 	*/
     Indicator step(const Transition<Token,Status>* t)
@@ -327,6 +356,8 @@ private:
                 return Indicator::accept;
             case Indicator::error:
                 return Indicator::error;
+            case Indicator::finalized:
+                return Indicator::error;
             }
             break;
         case Indicator::accept:
@@ -346,7 +377,8 @@ private:
                 return Indicator::accept;
             case Indicator::error:
                 return Indicator::error;
-                break;
+            case Indicator::finalized:
+                return Indicator::error;
             }
             break;
         case Indicator::reject:
@@ -356,6 +388,7 @@ private:
         case Indicator::acceptable:
         case Indicator::rejectable:
         case Indicator::prefix:
+        case Indicator::finalized:
             return Indicator::error;
         }
 
@@ -372,7 +405,7 @@ private:
 	Indicator actual_state;
 	size_t index;
     const Transition<Token,Status> *actual_transition;
-    Status actual_status;
+    Status actual_status,next_status;
     const Status initial_status;
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	bool _echo;
