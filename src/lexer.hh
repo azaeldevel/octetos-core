@@ -125,12 +125,13 @@ private:
 enum class Indicator : Status
 {
 	none,
-	acceptable,//estado de aceptacion, sin embario que termine de inmediato
 	accept,//estado de aceptacion, sin embargo deve terminar de inmediato
-	rejectable,//estado de rechazo, sin embargo no es necesario que termina de inmediato
+	acceptable,//estado de aceptacion, sin embario que termine de inmediato
 	reject,//rechazar y terminar de imendiato
+	rejectable,//estado de rechazo, sin embargo no es necesario que termina de inmediato
 	prefix,//prefijo de analisis
 	error,//
+	finalized,
 	//terminate,//terminar de enmediato
 };
 const char* to_string(Indicator i)
@@ -253,7 +254,7 @@ template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,type
 class A
 {
 public:
-	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),state(Indicator::none),index(0),actual_status(0),initial_status(0)
+	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),actual_state(Indicator::none),index(0),actual_status(0),initial_status(0)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	_echo = false;
@@ -265,16 +266,28 @@ public:
 	    const Symbol* buff = (const Symbol*)*buffer;
         while(index < buffer->size() and actual_status < table->size())
         {
-            input = buff[index];
-			if(Buffer<Symbol>::EOB == input )
-			{
-				//std::cout << "if(" << int(Buffer<Symbol>::EOB) << " == " << int(input) << ") ..\n";
-				return Tokens::none;
+            //>>>reading data
+            {
+                input = buff[index];
+                if(Buffer<Symbol>::EOB == input )
+                {
+                    finalize();
+                    break;
+                }
+                actual_transition = &(table->at(actual_status).at(input));
+                actual_state = step(actual_transition);
+
 			}
-			actual_transition = &(table->at(actual_status).at(input));
-			state = step(actual_transition);
 
+            //>>>working
+            {
 
+            }
+
+            //>>>finalizing
+            {
+                index++;
+            }
         }
 
         return Tokens::none;
@@ -287,59 +300,76 @@ public:
 	}
 #endif
 private:
+
+	/**
+	*\brief Determina el estado actual del automata, solo puede estar en 1 de los sigueinetes estados: inicial,aceptacion, rechazo o error.
+	*\param t La trasicion actual que afecta al automata.
+	*/
     Indicator step(const Transition<Token,Status>* t)
     {
-        switch(state)
+        switch(actual_state)
         {
         case Indicator::none:
             if(actual_status != initial_status) return Indicator::error;
-            switch(state)
+            switch(t->indicator)
             {
             case Indicator::none:
-                if(actual_status != initial_status) return Indicator::error;
-
-                break;
-            case Indicator::acceptable:
-
-                break;
+                return Indicator::error;
             case Indicator::accept:
-
-                break;
+                return Indicator::accept;
+            case Indicator::acceptable:
+                return Indicator::accept;
             case Indicator::reject:
-
-                break;
+                return Indicator::reject;
+            case Indicator::rejectable:
+                return Indicator::reject;
             case Indicator::prefix:
-
-                break;
+                return Indicator::accept;
             case Indicator::error:
-
+                return Indicator::error;
+            }
+            break;
+        case Indicator::accept:
+            switch(t->indicator)
+            {
+            case Indicator::none:
+                return Indicator::reject;
+            case Indicator::accept:
+                return Indicator::accept;
+            case Indicator::acceptable:
+                return Indicator::accept;
+            case Indicator::reject:
+                return Indicator::reject;
+            case Indicator::rejectable:
+                return Indicator::reject;
+            case Indicator::prefix:
+                return Indicator::accept;
+            case Indicator::error:
+                return Indicator::error;
                 break;
             }
             break;
-        case Indicator::acceptable:
-
-            break;
-        case Indicator::accept:
-
-            break;
         case Indicator::reject:
-
-            break;
-        case Indicator::prefix:
-
-            break;
+            return Indicator::reject;
         case Indicator::error:
-
-            break;
+            return Indicator::error;
+        case Indicator::acceptable:
+        case Indicator::rejectable:
+        case Indicator::prefix:
+            return Indicator::error;
         }
 
-        return Indicator::none;
+        return Indicator::error;
+    }
+    void finalize()
+    {
+        actual_state = Indicator::finalized;
     }
 private:
 	const TT<Symbol,Token,Status,TT_BASE>* table;
 	Buffer<Symbol>* buffer;
 	Symbol input;
-	Indicator state;
+	Indicator actual_state;
 	size_t index;
     const Transition<Token,Status> *actual_transition;
     Status actual_status;
