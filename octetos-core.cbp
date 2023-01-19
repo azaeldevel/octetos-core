@@ -20,9 +20,6 @@
 					<Add option="`pkg-config libconfig++ --libs`" />
 					<Add library="user32" />
 				</Linker>
-				<ExtraCommands>
-					<Add before="cmd /c bison -d -o src\semver.tab.c src\semver.y" />
-				</ExtraCommands>
 			</Target>
 			<Target title="liboctetos-core-r">
 				<Option output="bin/Release/octetos-core" prefix_auto="1" extension_auto="1" />
@@ -66,6 +63,9 @@
 				</Compiler>
 			</Target>
 		</Build>
+		<Compiler>
+			<Add option="-DOCTETOS_CORE_ENABLE_DEV" />
+		</Compiler>
 		<Unit filename="src/Buffer-v3.cc">
 			<Option target="develop-2" />
 		</Unit>
