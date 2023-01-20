@@ -15,15 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="tests\main-vsc.cc">
+    <ClCompile Include="..\src\Buffer-v3.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="tests\v3.cc">
+    <ClCompile Include="..\src\develop-2.cc">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Exception-v3.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="tests\v3.hh">
+    <ClInclude Include="..\src\Buffer-v3.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Exception-v3.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
