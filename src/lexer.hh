@@ -349,6 +349,7 @@ public:
 		if (actual_state == Indicator::accept)
 		{
 			if (prefix_end) return accepted_transition->token;
+			else actual_transition->token;
 		}
 		else if (actual_state == Indicator::reject)
 		{
