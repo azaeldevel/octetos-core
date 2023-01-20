@@ -232,7 +232,7 @@ void v3_lc_innier_semver()
 	lc::Tokens semver_tk3 = semver_lex3.next();
 	CU_ASSERT(semver_tk3 == lc::Tokens::number);
 	//print(semver_tk3,input);
-	//std::cout << "\n";
+	std::cout << "\n";
 	CU_ASSERT(semver_lex3.is_accepted());
 	
 	semver_tk3 = semver_lex3.next();

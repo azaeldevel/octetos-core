@@ -308,9 +308,9 @@ public:
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-                if(prefix_start and prefix_end) std::cout << actual_status << "--'" << input << "'->end\n";
+                /*if (prefix_start and prefix_end) std::cout << actual_status << "--'" << input << "'->end\n";
                 else std::cout << actual_status << "--'" << input << "'->" << next_status << "\n";
-				std::cout << "index : " << index << "\n";
+				std::cout << "index : " << index << "\n";*/
 
             }
 
