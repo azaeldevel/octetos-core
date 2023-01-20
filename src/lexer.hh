@@ -3,7 +3,7 @@
 #ifndef OCTETOS_CORE_LC_V3_HH
 #define OCTETOS_CORE_LC_V3_HH
 
-#define TT_PARAMS(T) T,sizeof (T) / sizeof (T[0])
+//#define TT_PARAMS(T) T,sizeof (T) / sizeof (T[0])
 
 #include <cstddef>
 #include <array>
@@ -131,7 +131,7 @@ enum class Indicator : Status
 	rejectable,//estado de rechazo, sin embargo no es necesario que termina de inmediato
 	prefix,//prefijo de analisis
 	error,//
-	finalized,
+	//finalized,
 	//terminate,//terminar de enmediato
 };
 const char* to_string(Indicator i)
@@ -266,7 +266,7 @@ public:
 	    index(0),actual_status(0),initial_status(0),prefix_start(false),prefix_end(false)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
-	_echo = false;
+		_echo = false;
 #endif
 	}
 
@@ -300,14 +300,15 @@ public:
                 if(actual_transition->indicator == Indicator::prefix) prefix_index++;
                 if(actual_transition->indicator == Indicator::prefix and prefix_index > 0) prefix_start = true;
                 if(actual_transition->token == Tokens::none and next_status < 0) prefix_end = true;
-                prefix_index++;
+
 			}
 
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-                if(prefix_start and prefix_end) std::cout << actual_status << "--" << input << "->end\n";
-                else std::cout << actual_status << "--" << input << "->" << next_status << "\n";
+                if(prefix_start and prefix_end) std::cout << actual_status << "--'" << input << "'->end\n";
+                else std::cout << actual_status << "--'" << input << "'->" << next_status << "\n";
+				std::cout << "index : " << index << "\n";
 
             }
 
@@ -318,16 +319,32 @@ public:
                 {
                     index++;
                     actual_status = next_status;
+					if (actual_transition->indicator == Indicator::accept) break;
                 }
                 else if(actual_state == Indicator::reject)
                 {
+					
                     break;
                 }
 
 
             }
         }
+		if(prefix_end) index -= prefix_index;
+#ifdef OCTETOS_CORE_ENABLE_DEV
+		if (actual_state == Indicator::accept)
+		{
+			std::cout << "Acepted\n";
+		}
+		else if (actual_state == Indicator::reject)
+		{
+			std::cout << "Rejected\n";
+		}
+		else
+		{
 
+		}
+#endif
         return Tokens::none;
 	}
 
@@ -365,8 +382,6 @@ private:
                 return Indicator::accept;
             case Indicator::error:
                 return Indicator::error;
-            case Indicator::finalized:
-                return Indicator::error;
             }
             break;
         case Indicator::accept:
@@ -386,8 +401,6 @@ private:
                 return Indicator::accept;
             case Indicator::error:
                 return Indicator::error;
-            case Indicator::finalized:
-                return Indicator::error;
             }
             break;
         case Indicator::reject:
@@ -397,7 +410,6 @@ private:
         case Indicator::acceptable:
         case Indicator::rejectable:
         case Indicator::prefix:
-        case Indicator::finalized:
             return Indicator::error;
         }
 

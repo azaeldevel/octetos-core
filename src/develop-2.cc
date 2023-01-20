@@ -44,7 +44,7 @@ void print(v3::lc::Tokens tk,const char* input)
 
 int main(int argc, char* argv[])
 {
-	const char* input1 = "259.11.9-alpha2";
+	const char* input1 = "259.11s.9-alpha2";
 	if(v3::strlen(input1) != std::strlen(input1))
 	{
 		std::cout << "strlen : fallo\n";
