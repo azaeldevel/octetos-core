@@ -33,7 +33,7 @@ namespace oct::core::v3
 Exception::Exception() : _code(0),_filename(NULL),_line(0),_message(NULL),autofree(false)
 {
 }
-Exception::Exception(const Exception& e) : _code(e._code),_filename(e._filename),_line(e._line),autofree(e.autofree)
+Exception::Exception(const Exception& e) : _code(e._code),_filename(e._filename),_line(e._line),autofree(e.autofree),_message(NULL)
 {
 	if(autofree) copy(e._message);
 }
@@ -92,13 +92,26 @@ Exception::~Exception()
 void Exception::copy(const std::string& m)
 {
 	char* msg = new char[m.size() + 1];
-	strcpy(msg,m.c_str());
+#ifdef COMPILER_VS
+	strcpy_s(msg, m.size(), m.c_str());
+#elif defined COMPILER_GCC
+	strcpy(msg, m);
+#else 
+#error "Compildaor desconocido"
+#endif
 	_message = msg;
 }
 void Exception::copy(const char* m)
 {
-	char* msg = new char[strlen(m) + 1];
+	size_t size_m = strlen(m);
+	char* msg = new char[size_m + 1];
+#ifdef COMPILER_VS
+	strcpy_s(msg, size_m, m);
+#elif defined COMPILER_GCC
 	strcpy(msg,m);
+#else 
+#error "Compildaor desconocido"
+#endif
 	_message = msg;
 }
 
