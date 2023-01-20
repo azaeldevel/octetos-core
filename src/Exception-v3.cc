@@ -37,7 +37,7 @@ Exception::Exception(const Exception& e) : _code(e._code),_filename(e._filename)
 {
 	if(autofree) copy(e._message);
 }
-Exception::Exception(Exception&& e) : _code(e._code),_filename(e._filename),_line(e._line),_message(e._message),autofree(e.autofree)
+Exception::Exception(Exception&& e) noexcept : _code(e._code), _filename(e._filename), _line(e._line), _message(e._message), autofree(e.autofree)
 {
 	e._message = NULL;
 	e.autofree = false;
@@ -97,7 +97,7 @@ void Exception::copy(const std::string& m)
 #elif defined COMPILER_GCC
 	strcpy(msg, m);
 #else 
-#error "Compildaor desconocido"
+#error "Compilador desconocido"
 #endif
 	_message = msg;
 }

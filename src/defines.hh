@@ -1,5 +1,4 @@
-#ifndef OCTETOS_CORE_DEFINES_HH_INCLUDED
-#define OCTETOS_CORE_DEFINES_HH_INCLUDED
+#pragma once
 
 /**
  *  This file is part of octetos-core.
@@ -34,17 +33,4 @@
 	#endif
 #else
 	#define OCTETOS_CORE_DECLSPCE_DLL
-#endif
-
-
-#define ALPHA_PHASE_ATTRIBUTE "Not use yet, alpha phase"
-
-#if defined(__linux__)
-
-#elif defined(_WIN32) || defined(_WIN64)
-
-#else
-	#error "Plataforma desconocida"
-#endif
-
 #endif

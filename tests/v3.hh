@@ -6,7 +6,7 @@
 
 #include <CUnit/Basic.h>
 
-#include <src/Exception-v3.hh>
+#include <core/src/Exception-v3.hh>
 //#include "tests.hh"
 
 

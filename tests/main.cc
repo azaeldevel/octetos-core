@@ -2,7 +2,13 @@
 #include <iostream>
 #include <CUnit/Basic.h>
 
+#if defined __linux__
 #include "config.h"
+#elifdef _WIN32 || _WIN64
+#error "detected"
+#else
+
+#endif
 #ifdef OCTETOS_CORE_V2
 	#include "v2.hh"
 #endif

@@ -26,8 +26,13 @@
 #include <string>
 #include <vector>
 
+#ifdef __linux__
 #include "Error.hh"
 #include "Buffer.hh"
+#elif defined(_WIN32) || defined(_WIN64)
+	#include <core/src/Error.hh>
+	#include <core/src/Buffer.hh>
+#endif
 
 namespace oct::core::v3
 {
@@ -166,7 +171,7 @@ namespace oct::core::v3
 		struct Tray
 		{
 			Semver* version;
-			Buffer buffer;
+			Buffer<char> buffer;
 			int state;
 
 			Tray(const char*,Semver*);

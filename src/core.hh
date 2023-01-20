@@ -27,13 +27,13 @@
 #if defined(__linux__)
 	#include <execinfo.h>
 	#include <csignal>
+	#include "defines.hh"
 #elif defined(_WIN32) || defined(_WIN64)
-    
+	#include <core/src/defines.hh>
 #else
 	#error "Plataforma desconocida"
 #endif
 
-#include "defines.hh"
 
 namespace oct
 {

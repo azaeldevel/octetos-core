@@ -27,13 +27,6 @@
 namespace oct::core::v3
 {
 
-template<typename D>
-class _Exception : public std::exception
-{
-public:
-	_Exception();
-	virtual const char* what() const throw ();
-};
 
 
 class Exception : public std::exception
@@ -44,7 +37,7 @@ public:
 public:
 	Exception();
 	Exception(const Exception&);
-	Exception(Exception&&);
+	Exception(Exception&&) noexcept;
 
 	Exception(unsigned int code);
 	Exception(unsigned int code,const char* filename, unsigned int line);
