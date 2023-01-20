@@ -61,24 +61,32 @@ int main(int argc, char* argv[])
 	//semver_lex1.token_to_string(token_str);
 	//std::cout << "token_str : " << token_str << "\n";
 	//print(semver_tk1,input1);
+	if(semver_lex1.is_accepted()) std::cout << "Aceptado\n";
+	else std::cout << "Rechazado\n";
 	std::cout << "\n";
 
 	semver_tk1 = semver_lex1.next();
 	////semver_lex1.token_to_string(token_str);
 	//std::cout << "token_str : " << token_str << "\n";
 	//print(semver_tk1,input1);
+	if (semver_lex1.is_accepted()) std::cout << "Aceptado\n";
+	else std::cout << "Rechazado\n";
 	std::cout << "\n";
 
 	semver_tk1 = semver_lex1.next();
 	//semver_lex1.token_to_string(token_str);
 	//std::cout << "token_str : " << token_str << "\n";
 	//print(semver_tk1,input1);
+	if (semver_lex1.is_accepted()) std::cout << "Aceptado\n";
+	else std::cout << "Rechazado\n";
 	std::cout << "\n";
 
 	semver_tk1 = semver_lex1.next();
 	//semver_lex1.token_to_string(token_str);
 	//std::cout << "token_str : " << token_str << "\n";
 	//print(semver_tk1,input1);
+	if (semver_lex1.is_accepted()) std::cout << "Aceptado\n";
+	else std::cout << "Rechazado\n";
 	std::cout << "\n";
 
 	/*semver_tk1 = semver_lex1.next();
