@@ -2,7 +2,6 @@
 #define OCTETOS_CORE_VERSION_V3_HH
 
 /**
- *
  *  This file is part of octetos-core.
  *  octetos-core is a core C/C++ Octeto's library.
  *  Copyright (C) 2018  Azael Reyes
@@ -18,7 +17,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  * */
 
@@ -27,11 +26,13 @@
 #include <vector>
 
 #ifdef __linux__
-#include "Error.hh"
-#include "Buffer.hh"
+    #include "Error.hh"
+    #include "Buffer.hh"
 #elif defined(_WIN32) || defined(_WIN64)
 	#include <core/src/Error.hh>
 	#include <core/src/Buffer.hh>
+#else
+    #error "Plataforma desconcida."
 #endif
 
 namespace oct::core::v3
@@ -60,11 +61,11 @@ namespace oct::core::v3
 			Exception(const char* message,const char* filename, unsigned int line);
 
 			virtual ~Exception();
-			
+
 			//virtual const char* what() const throw ();
 
 		protected:
-			
+
 		private:
 
 		};
@@ -142,7 +143,7 @@ namespace oct::core::v3
 		virtual bool operator >=(const Semver&)const;
 		virtual bool operator <=(const Semver&)const;
 		virtual bool empty() const;
-				
+
 		bool parse(const char* );
 
 	private:
@@ -171,7 +172,7 @@ namespace oct::core::v3
 		struct Tray
 		{
 			Semver* version;
-			Buffer<char> buffer;
+			Buffer buffer;
 			int state;
 
 			Tray(const char*,Semver*);

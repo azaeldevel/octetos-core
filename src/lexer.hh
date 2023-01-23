@@ -242,13 +242,6 @@ const char* to_string(Indicator i)
 			TT_BASE::at(status)[symbol].next = -1;
 			return true;
 		}
-		/*bool terminate(Status status, Symbol symbol)
-		{
-			TT_BASE::at(status)[symbol].indicator = Indicator::terminate;
-			TT_BASE::at(status)[symbol].token = Token::none;
-			TT_BASE::at(status)[symbol].next = 0;
-			return true;
-		}*/
 	private:
 
 	};
@@ -280,6 +273,7 @@ public:
         prefix_end = false;
         prefix_index = 0;
 		accepted_transition = NULL;
+		prev_transition = NULL;
 
 	    const Symbol* buff = (const Symbol*)*buffer;
         while(index < buffer->size() and actual_status < table->size())
@@ -291,15 +285,15 @@ public:
             //>>>reading data
             {
                 input = buff[index];
-                if(not input)
-                {
-                    break;
-                }
                 actual_transition = &(table->at(actual_status).at(input));
                 actual_state = step(actual_transition);
                 next_status = actual_transition->next;
-				if (actual_transition->indicator == Indicator::prefix and prefix_index == 0) accepted_transition = actual_transition;
+
+				//
+				if(prev_transition) if(prev_transition->indicator != Indicator::prefix and actual_transition->indicator == Indicator::prefix) accepted_transition = prev_transition;
                 if(actual_transition->indicator == Indicator::prefix) prefix_index++;
+				
+				//
                 if(actual_transition->indicator == Indicator::prefix and prefix_index > 0) prefix_start = true;
                 if(actual_transition->token == Tokens::none and next_status < 0) prefix_end = true;
 
@@ -308,9 +302,12 @@ public:
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-                /*if (prefix_start and prefix_end) std::cout << actual_status << "--'" << input << "'->end\n";
+                /*
+				if (prefix_start and prefix_end) std::cout << actual_status << "--'" << input << "'->end\n";
                 else std::cout << actual_status << "--'" << input << "'->" << next_status << "\n";
-				std::cout << "index : " << index << "\n";*/
+				std::cout << "index : " << index << "\n";
+				*/
+
 
             }
 
@@ -321,14 +318,13 @@ public:
                 {
                     index++;
                     actual_status = next_status;
+					prev_transition = actual_transition;
 					if (actual_transition->indicator == Indicator::accept) break;
                 }
                 else if(actual_state == Indicator::reject)
                 {
                     break;
                 }
-
-
             }
         }
 #ifdef OCTETOS_CORE_ENABLE_DEV
@@ -348,18 +344,17 @@ public:
 		if(prefix_end) index -= prefix_index;
 		if (actual_state == Indicator::accept)
 		{
-			if (prefix_end) return accepted_transition->token;
-			else actual_transition->token;
+			std::cout << "return accept\n\n";
+			if (accepted_transition) accepted_transition->token;
+			return actual_transition->token;
 		}
 		else if (actual_state == Indicator::reject)
 		{
-			return Tokens::none;
-		}
-		else
-		{
+			std::cout << "return none\n\n";
 			return Tokens::none;
 		}
 
+		std::cout << "return none\n\n";
 		return Tokens::none;
 	}
 
@@ -444,7 +439,7 @@ private:
 	Symbol input;
 	Indicator actual_state;//estado del automata actual
 	size_t index,prefix_index;
-    const Transition<Token,Status> *actual_transition, * accepted_transition;
+    const Transition<Token,Status> *actual_transition, *accepted_transition, *prev_transition;
     Status actual_status,next_status;//numero del estado actual del automata
     const Status initial_status;
     bool prefix_start,prefix_end;

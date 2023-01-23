@@ -8,7 +8,7 @@
 		<Build>
 			<Target title="liboctetos-core-dbg">
 				<Option output="bin/Debug/octetos-core" prefix_auto="1" extension_auto="1" />
-				<Option object_output=".objs/Debug/" />
+				<Option object_output="bin/objs/Debug/" />
 				<Option type="3" />
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
@@ -23,7 +23,7 @@
 			</Target>
 			<Target title="liboctetos-core-r">
 				<Option output="bin/Release/octetos-core" prefix_auto="1" extension_auto="1" />
-				<Option object_output=".objs/Release/" />
+				<Option object_output="bin/objs/Release/" />
 				<Option type="3" />
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
@@ -41,7 +41,7 @@
 			<Target title="testing">
 				<Option output="bin/Debug/testing.exe" prefix_auto="0" extension_auto="0" />
 				<Option working_dir="bin/Debug" />
-				<Option object_output=".objs/Debug/" />
+				<Option object_output="bin/objs/Debug/" />
 				<Option type="1" />
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
@@ -55,7 +55,7 @@
 			</Target>
 			<Target title="develop-2">
 				<Option output="bin/Debug/develop-2" prefix_auto="1" extension_auto="1" />
-				<Option object_output=".objs/Debug/" />
+				<Option object_output="bin/objs/Debug/" />
 				<Option type="1" />
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
@@ -65,6 +65,8 @@
 		</Build>
 		<Compiler>
 			<Add option="-DOCTETOS_CORE_ENABLE_DEV" />
+			<Add option="-DCOMPILER_GCC" />
+			<Add directory="C:/Users/Azael/Documents/develop/octetos" />
 		</Compiler>
 		<Unit filename="src/Buffer-v3.cc">
 			<Option target="develop-2" />
@@ -150,10 +152,6 @@
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>
-		<Unit filename="src/Version-win-v3.hh">
-			<Option target="liboctetos-core-dbg" />
-			<Option target="liboctetos-core-r" />
-		</Unit>
 		<Unit filename="src/cd.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
@@ -221,10 +219,6 @@
 			<Option target="liboctetos-core-r" />
 		</Unit>
 		<Unit filename="src/semver-lexer.3.cc">
-			<Option target="liboctetos-core-dbg" />
-			<Option target="liboctetos-core-r" />
-		</Unit>
-		<Unit filename="src/semver-lexer.cc">
 			<Option target="liboctetos-core-dbg" />
 			<Option target="liboctetos-core-r" />
 		</Unit>

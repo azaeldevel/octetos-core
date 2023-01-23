@@ -19,7 +19,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * */
- 
+
 
 #include <string.h>
 //#include <glibmm/i18n.h>
@@ -28,7 +28,7 @@
 
 namespace oct::core::v3
 {
-	
+
 
 Exception::Exception() : _code(0),_filename(NULL),_line(0),_message(NULL),autofree(false)
 {
@@ -95,9 +95,9 @@ void Exception::copy(const std::string& m)
 #ifdef COMPILER_VS
 	strcpy_s(msg, m.size(), m.c_str());
 #elif defined COMPILER_GCC
-	strcpy(msg, m);
-#else 
-#error "Compilador desconocido"
+	strcpy(msg,m.c_str());
+#else
+	#error "Compilador desconocido"
 #endif
 	_message = msg;
 }
@@ -109,7 +109,7 @@ void Exception::copy(const char* m)
 	strcpy_s(msg, size_m, m);
 #elif defined COMPILER_GCC
 	strcpy(msg,m);
-#else 
+#else
 #error "Compildaor desconocido"
 #endif
 	_message = msg;
@@ -131,13 +131,13 @@ const char* Exception::subject()const
 {
 	return _message;
 }
-	
+
 const char* Exception::what() const throw ()
-{	
+{
 	return _message;
 }
 std::string Exception::describe() const throw ()
-{	
+{
 	std::string msg;
 	if(_filename)
 	{
@@ -159,7 +159,7 @@ std::string Exception::describe() const throw ()
 		msg += "\n\t";
 		msg += this->what();
 	}
-	
+
 	return msg;
 }
 
