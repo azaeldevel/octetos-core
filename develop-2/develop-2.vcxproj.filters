@@ -35,7 +35,7 @@
     <ClInclude Include="..\src\lexer.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\lexer-semver-v3.hh">
+    <ClInclude Include="..\src\lexers-v3.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

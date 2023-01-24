@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <cstring>
-#include "lexer-semver-v3.hh"
+#include "lexers-v3.hh"
 
 namespace v3 = oct::core::v3;
 
@@ -20,8 +20,8 @@ int main(int argc, char* argv[])
 	std::string token_str;
 	v3::Buffer semver_buff1(input1);
 	const char* buf_start = (const char*)semver_buff1;
-	size_t length = strlen(input1);
-	const char* buff_end = buf_start + length;
+	//size_t length = strlen(input1);
+	//const char* buff_end = buf_start + length;
 	v3::lc::A semver_lex1(semver_tt_1,semver_buff1);
 	v3::lc::A<char, v3::lc::Tokens, v3::lc::Status, TT_BASE>::Content content;
 	std::cout << "input1 : " << input1 << "\n"; 
@@ -113,8 +113,8 @@ int main(int argc, char* argv[])
 	v3::Buffer semver_buff2(input2);
 	v3::lc::A semver_lex2(semver_tt_1, semver_buff2);
 	buf_start = (const char*)semver_buff2;
-	length = strlen(input2);
-	buff_end = buf_start + length;
+	//length = strlen(input2);
+	//buff_end = buf_start + length;
 	std::cout << "input2 : " << input2 << "\n";
 
 	semver_tk1 = semver_lex2.next(content);
@@ -190,6 +190,28 @@ int main(int argc, char* argv[])
 	if (content.length != 6) std::cout << "Fail length\n";
 	if (token_str.compare("alpha2") != 0) std::cout << "Fail asas: " << token_str << "\n";
 	
+	std::cout << "\n\n\n";
+
+	const char* input3 = "2694564756";
+	v3::lc::Semver_TT<char, v3::lc::Tokens, v3::lc::Status, TT_BASE> semver_tt_2;
+	v3::Buffer semver_buff3(input3);
+	buf_start = (const char*)semver_buff3;
+	//size_t length = strlen(input1);
+	//const char* buff_end = buf_start + length;
+	v3::lc::A semver_lex3(semver_tt_2, semver_buff3);
+	std::cout << "input3 : " << input3 << "\n";
+
+	semver_tk1 = semver_lex3.next(content);
+	//semver_lex1.token_to_string(token_str);
+	//std::cout << "token_str : " << token_str << "\n";
+	//print(semver_tk1,input1);
+	token_str.clear();
+	content.load(token_str);
+	std::cout << token_str << "\n";
+	if (not semver_lex3.is_accepted()) std::cout << "Rechazado\n";
+	if (content.length != v3::strlen(input3)) std::cout << "Fail\n";
+	if (token_str.compare("2694564756") != 0) std::cout << "Fail : " << token_str << "\n";
+
 
 
 
@@ -198,8 +220,10 @@ int main(int argc, char* argv[])
 	std::vector vec = {1,2,3,4};
 	//constexpr v3::Buffer semver_buff3("269.56.9-alpha+archlinux");
 
-	constexpr v3::lc::Semver_TT<char, v3::lc::Tokens, v3::lc::Status, TT_BASE> semver_tt_2;
-	const v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>& t = semver_tt_2[0][0];
+	//constexpr v3::lc::Semver_TT<char, v3::lc::Tokens, v3::lc::Status, TT_BASE> semver_tt_2;
+	//const v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>& t = semver_tt_2[0][0];
+
+
 
 
 	return EXIT_SUCCESS;
