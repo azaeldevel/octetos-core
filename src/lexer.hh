@@ -415,7 +415,14 @@ public:
 		std::cout << actual_status << "--'" << input << "'->";
 		if (prev_transition) prev_transition->print(std::cout);
 		std::cout << "\n";*/
-		if (prev_transition) return prev_transition->token;
+		if (prev_transition) 
+		{
+			if (prev_transition->indicator == Indicator::accept or prev_transition->indicator == Indicator::acceptable)
+			{
+				actual_state = Indicator::accept;
+			}
+			return prev_transition->token;
+		}
 		return Tokens::none;
 	}
 	bool next(const Symbol* str)
@@ -427,6 +434,22 @@ public:
 		{
 			actual_state = Indicator::accept;
 			index += leng;
+			return true;
+		}
+		else
+		{
+			actual_state = Indicator::none;
+			return false;
+		}
+	}
+	bool next(Symbol s)
+	{
+		const Symbol* buf = (const Symbol*)*buffer;
+		buf += index;
+		if (buf[0] == s)
+		{
+			actual_state = Indicator::accept;
+			index++;
 			return true;
 		}
 		else
