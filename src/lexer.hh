@@ -335,12 +335,15 @@ public:
 	{
 		const Symbol* base;
 		size_t length;
+
+		void load(std::string& str) const
+		{
+			str.insert(0,base, length);
+		}
 	};
 
 public:
-	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) :
-	    table(&tt),buffer(&b),actual_state(false),
-	    index(0),actual_status(0),initial_status(0)
+	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),actual_state(false),index(0),actual_status(0),initial_status(0)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
 		_echo = false;
@@ -359,7 +362,7 @@ public:
 		*/
 		actual_transition = NULL;
 		prev_transition = NULL;
-		token_begin = index;
+		token_start = index;
 		token_end = 0;
 
 	    const Symbol* buff = (const Symbol*)*buffer;
@@ -381,10 +384,11 @@ public:
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
+				/*
 				std::cout << actual_status << "--'" << input << "'->";
 				actual_transition->print(std::cout);
 				std::cout << "\n";
-				
+				*/
             }
 
             //std::cout << "whiel : Step 3\n";
@@ -396,8 +400,10 @@ public:
 			//repetir loop
 			{
 				index++;
+				token_end = index;
 				actual_status = next_status;
 				prev_transition = actual_transition;
+
 			}
         }
 #ifdef OCTETOS_CORE_ENABLE_DEV
@@ -427,6 +433,18 @@ public:
 		}
 
 		return Tokens::none;
+	}
+	Tokens next(Content& content)
+	{
+		Tokens token = next();
+		if (token <= Tokens::none) return token;
+		if (token_start >= token_end) return token;
+
+		content.base = (const Symbol*)*buffer;
+		content.base += token_start;
+		content.length = token_end - token_start;
+
+		return token;
 	}
 	bool next(const Symbol* str)
 	{
@@ -493,8 +511,8 @@ private:
 	Buffer<Symbol>* buffer;
 	Symbol input;
 	bool actual_state;//estado del automata actual
-	size_t index,token_begin,token_end;//prefix_index
-    const Transition<Token,Status> *actual_transition, *accepted_transition, *prev_transition;
+	size_t index,token_start,token_end;//prefix_index
+    const Transition<Token,Status> *actual_transition, *prev_transition;
     Status actual_status,next_status;//numero del estado actual del automata
     const Status initial_status;
     //bool prefix_start,prefix_end;
