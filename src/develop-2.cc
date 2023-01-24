@@ -215,6 +215,29 @@ int main(int argc, char* argv[])
 	if (token_str.compare("2694564756") != 0) std::cout << "Fail : " << token_str << "\n";
 
 
+	std::cout << "\n\n\n";
+
+	typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>, v3::lc::ASCII_LENGTH>, 4> TT_Real;
+	const char* input_decimal = "2694564756.032564";
+	v3::lc::Real_TT<char, v3::lc::Tokens, v3::lc::Status, TT_Real> decimal_tt;
+	v3::Buffer decimal_buff(input_decimal);
+	buf_start = (const char*)decimal_buff;
+	//size_t length = strlen(input1);
+	//const char* buff_end = buf_start + length;
+	v3::lc::A decimal_lex(decimal_tt, decimal_buff);
+	v3::lc::Content<char> content_decimal;
+	std::cout << "input : " << input_decimal << "\n";
+
+	semver_tk1 = decimal_lex.next(content_decimal);
+	//semver_lex1.token_to_string(token_str);
+	//std::cout << "token_str : " << token_str << "\n";
+	//print(semver_tk1,input1);
+	token_str.clear();
+	content_decimal.load(token_str);
+	std::cout << token_str << "\n";
+	if (not decimal_lex.is_accepted()) std::cout << "Rechazado\n";
+	if (content_decimal.length != v3::strlen(input_decimal)) std::cout << "Fail\n";
+	if (token_str.compare(input_decimal) != 0) std::cout << "Fail : " << token_str << "\n";
 
 
 	constexpr std::array<int,5> myVec = { 1, 2, 4, 3 };
