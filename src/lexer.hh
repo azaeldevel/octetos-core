@@ -44,10 +44,47 @@ enum class Tokens : int
 	string,
 	identifier,
 	keyword,
-	softkeyword,
+	softword,
 	expresion,
 
 };
+
+const char* to_string(Tokens t)
+{
+	switch (t)
+	{
+	case Tokens::none:
+		return "none";
+	case Tokens::space:
+		return "' '";
+	case Tokens::plus:
+		return "'+'";
+	case Tokens::minus:
+		return "'-'";
+	case Tokens::dot:
+		return "'.'";
+
+
+	case Tokens::number:
+		return "number";
+	case Tokens::integer:
+		return "integer";
+	case Tokens::decimal:
+		return "decimal";
+	case Tokens::letter:
+		return "letter";
+	case Tokens::string:
+		return "string";
+	case Tokens::identifier:
+		return "identifier";
+	case Tokens::softword:
+		return "softword";
+	case Tokens::expresion:
+		return "expresion";
+	}
+
+	return NULL;
+}
 
 template<typename C> bool is_whitespace(C c)
 {
@@ -154,7 +191,16 @@ const char* to_string(Indicator i)
 		Indicator indicator;
 		Status next;
 		Token token;
+
+		void print(std::ostream& out) const
+		{
+			out << next << " - ";
+			const char* strtoken = to_string(token);
+			if (strtoken) out << strtoken << ", ";
+			out << to_string(indicator);
+		}
 	};
+
 	struct Selector
 	{
 		unsigned int i;
@@ -242,6 +288,12 @@ const char* to_string(Indicator i)
 			TT_BASE::at(status)[symbol].next = -1;
 			return true;
 		}
+		/*void print(std::ostream& out, Status status, Symbol symbol)
+		{
+			out << status << "--" << symbol << "->" << TT_BASE::at(status)[symbol].next << " - ";
+			to_string(TT_BASE::at(status)[symbol].token);
+
+		}*/
 	private:
 
 	};
@@ -266,7 +318,6 @@ public:
     Token next()
 	{
 	    //std::cout << "A<>::next : Step 0\n";
-	    //if(actual_state == Indicator::finalized) return Tokens::none;
         actual_status = initial_status;
         actual_state = Indicator::none;
         prefix_start = false;
@@ -290,11 +341,19 @@ public:
                 next_status = actual_transition->next;
 
 				//
-				if(prev_transition) if(prev_transition->indicator != Indicator::prefix and actual_transition->indicator == Indicator::prefix) accepted_transition = prev_transition;
+				if (prev_transition) if (prev_transition->indicator != Indicator::prefix and actual_transition->indicator == Indicator::prefix)
+				{
+					/*std::cout << "Inicio de prefijo detectado\n";
+					std::cout << actual_status << "--'" << input << "'->";
+					prev_transition->print(std::cout);
+					std::cout << "\n";*/
+					accepted_transition = prev_transition;
+					prefix_start = true;
+				}
                 if(actual_transition->indicator == Indicator::prefix) prefix_index++;
 				
 				//
-                if(actual_transition->indicator == Indicator::prefix and prefix_index > 0) prefix_start = true;
+                //if(actual_transition->indicator == Indicator::prefix and prefix_index > 0) prefix_start = true;
                 if(actual_transition->token == Tokens::none and next_status < 0) prefix_end = true;
 
 			}
@@ -302,8 +361,8 @@ public:
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-                /*
-				if (prefix_start and prefix_end) std::cout << actual_status << "--'" << input << "'->end\n";
+                
+				/*if (prefix_start and prefix_end) std::cout << actual_status << "--'" << input << "'->end\n";
                 else std::cout << actual_status << "--'" << input << "'->" << next_status << "\n";
 				std::cout << "index : " << index << "\n";
 				*/
@@ -344,17 +403,23 @@ public:
 		if(prefix_end) index -= prefix_index;
 		if (actual_state == Indicator::accept)
 		{
-			std::cout << "return accept\n\n";
-			if (accepted_transition) accepted_transition->token;
+			//std::cout << "return accept\n";
+			if (accepted_transition and prefix_start and prefix_end)
+			{
+				//accepted_transition->print(std::cout);
+				//std::cout << "\n";
+				return accepted_transition->token;
+			}
+
 			return actual_transition->token;
 		}
 		else if (actual_state == Indicator::reject)
 		{
-			std::cout << "return none\n\n";
+			//std::cout << "return none\n\n";
 			return Tokens::none;
 		}
 
-		std::cout << "return none\n\n";
+		//std::cout << "return none\n\n";
 		return Tokens::none;
 	}
 
