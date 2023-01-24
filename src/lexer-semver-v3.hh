@@ -27,12 +27,12 @@ public:
 		Status operators = 3;
 		TT<Symbol,Token,Status,TT_BASE>::initial(operators);
 		
-		TT<Symbol, Token, Status, TT_BASE>::digits(initial_status,Indicator::acceptable,number,Tokens::number);
+		TT<Symbol, Token, Status, TT_BASE>::digits(initial_status,Indicator::none,number,Tokens::number);
 		TT<Symbol, Token, Status, TT_BASE>::letters(initial_status, Indicator::acceptable, string, Tokens::string);
 
 		TT<Symbol, Token, Status, TT_BASE>::digits(number, Indicator::acceptable, number, Tokens::number);
 
-		TT<Symbol, Token, Status, TT_BASE>::digits(string, Indicator::acceptable, number, Tokens::number);
+		TT<Symbol, Token, Status, TT_BASE>::digits(string, Indicator::acceptable, string, Tokens::string);
 		TT<Symbol, Token, Status, TT_BASE>::letters(string, Indicator::acceptable, string, Tokens::string);
 
 	}

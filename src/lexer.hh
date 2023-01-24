@@ -322,6 +322,7 @@ const char* to_string(Indicator i)
 
 	};
 
+
 /**
 *\brief DFA type A
 *
@@ -329,6 +330,13 @@ const char* to_string(Indicator i)
 template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,typename TT_BASE>
 class A
 {
+public:
+	struct Content
+	{
+		const Symbol* base;
+		size_t length;
+	};
+
 public:
 	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) :
 	    table(&tt),buffer(&b),actual_state(false),
@@ -368,9 +376,6 @@ public:
 				actual_state = actual_transition->token > Tokens::none;
                 next_status = actual_transition->next;
 
-				//
-				
-
 			}
 
             //std::cout << "whiel : Step 2\n";
@@ -380,7 +385,6 @@ public:
 				actual_transition->print(std::cout);
 				std::cout << "\n";
 				
-
             }
 
             //std::cout << "whiel : Step 3\n";
@@ -392,6 +396,7 @@ public:
 			//repetir loop
 			{
 				index++;
+				actual_status = next_status;
 				prev_transition = actual_transition;
 			}
         }
@@ -420,6 +425,7 @@ public:
 			actual_state = true;
 			return prev_transition->token;
 		}
+
 		return Tokens::none;
 	}
 	bool next(const Symbol* str)
@@ -455,7 +461,7 @@ public:
 			return false;
 		}
 	}
-	Token next(std::list<std::string>& tk)
+	/*Token next(std::list<std::string>& tk)
 	{
 		Token next_token = next();
 		tk.push_back("");
@@ -467,7 +473,7 @@ public:
 		str.append(buf + token_len,token_len);
 
 		return next_token;
-	}
+	}*/
 
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
