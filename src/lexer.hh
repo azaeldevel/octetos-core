@@ -249,6 +249,17 @@ template<typename C> bool equal(const C* initial, const C* target)
 
 	};
 
+	template<typename Symbol /*Input*/>
+	struct Content
+	{
+		const Symbol* base;
+		size_t length;
+
+		void load(std::string& str) const
+		{
+			str.insert(0, base, length);
+		}
+	};
 
 /**
 *\brief DFA type A
@@ -258,16 +269,6 @@ template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,type
 class A
 {
 public:
-	struct Content
-	{
-		const Symbol* base;
-		size_t length;
-
-		void load(std::string& str) const
-		{
-			str.insert(0,base, length);
-		}
-	};
 
 public:
 	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),actual_state(false),index(0),actual_status(0),initial_status(0)
@@ -355,7 +356,7 @@ public:
 
 		return Tokens::none;
 	}
-	Tokens next(Content& content)
+	Tokens next(Content<Symbol>& content)
 	{
 		Tokens token = next();
 		if (token <= Tokens::none) return token;
