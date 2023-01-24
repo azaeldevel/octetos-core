@@ -191,5 +191,12 @@ int main(int argc, char* argv[])
 	if (token_str.compare("alpha2") != 0) std::cout << "Fail asas: " << token_str << "\n";
 	
 
+
+
+	constexpr std::array<int,5> myVec = { 1, 2, 4, 3 };
+
+	std::vector vec = {1,2,3,4};
+	//constexpr v3::Buffer semver_buff3("269.56.9-alpha+archlinux");
+
 	return EXIT_SUCCESS;
 }

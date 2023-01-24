@@ -23,7 +23,7 @@ namespace oct::core::v3
 {
 
 
-template<typename C> size_t strlen(const C* str)
+template<typename C> constexpr size_t strlen(const C* str)
 {
 	if(not str) return 0;
 	size_t i = 0;
@@ -34,7 +34,7 @@ template<typename C> size_t strlen(const C* str)
 	return i;
 }
 
-template<typename C> size_t copy(const C* origin, size_t leng,C** dest)
+template<typename C> constexpr size_t copy(const C* origin, size_t leng,C** dest)
 {
 	if(not origin) return 0;
 	if(not dest) return 0;
@@ -107,21 +107,21 @@ public:
 
 		buffer = new T[_size + 1];
 		std::ifstream ifs(file, std::ifstream::binary);
+
+		std::filebuf* pbuf;
+		std::ifstream sfile;
 		pbuf = ifs.rdbuf();
 		pbuf->sgetn (buffer,_size);
+
+		if (sfile.is_open()) sfile.close();
 	}
-	Buffer(const T* string) : buffer(NULL)
+	constexpr Buffer(const T* string) : _size(v3::strlen(string)),buffer(new T[_size + 1])
 	{
-		_size = v3::strlen(string);
-		if(_size > 0)
-		{
-			buffer = new T[_size + 1];
-			v3::copy(string,_size,&buffer);
-		}
+		//std::cout << "Sieze : " << _size << "\n";
+		if(_size > 0) v3::copy(string, _size, &buffer);
 	}
 	~Buffer()
 	{
-		if(sfile.is_open()) sfile.close();
 		if(buffer) delete[] buffer;
 	}
 	explicit operator const T*()const
@@ -141,10 +141,8 @@ public:
 	}
 
 protected:
-	T* buffer;
 	std::uintmax_t _size;
-	std::filebuf* pbuf;
-	std::ifstream sfile;
+	T* buffer;
 };
 
 
