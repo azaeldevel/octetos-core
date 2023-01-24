@@ -9,6 +9,8 @@
 #include <array>
 //#include "arrays.hh"
 #include "Buffer-v3.hh"
+#include <string>
+#include <list>
 
 namespace oct::core::v3::lc
 {
@@ -41,12 +43,13 @@ enum class Tokens : int
 	integer,
 	decimal,//incluye punto flotante
 	letter,//caracter
+	digit,//cararte digito
 	string,
 	identifier,
 	keyword,
 	softword,
 	expresion,
-
+	semver_operator,
 };
 
 const char* to_string(Tokens t)
@@ -81,6 +84,8 @@ const char* to_string(Tokens t)
 		return "softword";
 	case Tokens::expresion:
 		return "expresion";
+	case Tokens::semver_operator:
+		return "semver operator";
 	}
 
 	return NULL;
@@ -161,13 +166,13 @@ private:
 
 enum class Indicator : Status
 {
-	none,
+	none,//no es us estado determinado, sin mebago, no cambia el estado previo por lo que se podria decir no no tiene efecto en el estado
 	accept,//estado de aceptacion, sin embargo deve terminar de inmediato
 	acceptable,//estado de aceptacion, sin embario que termine de inmediato
-	reject,//rechazar y terminar de imendiato
-	rejectable,//estado de rechazo, sin embargo no es necesario que termina de inmediato
-	prefix,//prefijo de analisis
-	error,//
+	//reject,//rechazar y terminar de imendiato
+	//rejectable,//estado de rechazo, sin embargo no es necesario que termina de inmediato
+	//prefix,//prefijo de analisis
+	//error,//
 	//finalized,
 	//terminate,//terminar de enmediato
 };
@@ -178,13 +183,14 @@ const char* to_string(Indicator i)
 	case Indicator::none: return "none";
 	case Indicator::acceptable: return "acceptable";
 	case Indicator::accept: return "accept";
-	case Indicator::reject: return "reject";
-	case Indicator::prefix: return "prefix";
+	//case Indicator::reject: return "reject";
+	//case Indicator::prefix: return "prefix";
 	//case Indicator::terminate: return "terminate";
 	}
 	return "Unknow";
 }
 
+	//TODO: todos los elementos deven matener el automata en el estado aceptable, termina cuando no es aceptable la cadena
 	template<typename Token,typename Status/*Status*/>
 	struct Transition
 	{
@@ -218,7 +224,7 @@ const char* to_string(Indicator i)
 			for(size_t i = 0; i < MAX_SIMBOLS; i++)
 			{
 				//std::cout << "initial : " << status << " - " << i << "\n";
-				TT_BASE::at(status)[(size_t)i].indicator = Indicator::reject;
+				TT_BASE::at(status)[i].indicator = Indicator::none;
 				TT_BASE::at(status)[i].next = 0;
 				TT_BASE::at(status)[i].token = Token::none;
 			}
@@ -228,10 +234,38 @@ const char* to_string(Indicator i)
 		{
 			for(size_t i = 0; i < MAX_SIMBOLS; i++)
 			{
-				TT_BASE::at(status)[i].indicator = Indicator::reject;
+				TT_BASE::at(status)[i].indicator = Indicator::none;
 				TT_BASE::at(status)[i].next = 0;
 				TT_BASE::at(status)[i].token = token;
 			}
+			return true;
+		}
+		constexpr bool digits(Status status, Indicator indicator,Status next, Token token)
+		{
+			for (size_t i = 48; i < 58; i++)
+			{
+				TT_BASE::at(status)[i].indicator = indicator;
+				TT_BASE::at(status)[i].next = next;
+				TT_BASE::at(status)[i].token = token;
+			}
+
+			return true;
+		}
+		constexpr bool letters(Status status, Indicator indicator, Status next, Token token)
+		{
+			for (size_t i = 65; i < 91; i++)
+			{
+				TT_BASE::at(status)[i].indicator = indicator;
+				TT_BASE::at(status)[i].next = next;
+				TT_BASE::at(status)[i].token = token;
+			}
+			for (size_t i = 97; i < 123; i++)
+			{
+				TT_BASE::at(status)[i].indicator = indicator;
+				TT_BASE::at(status)[i].next = next;
+				TT_BASE::at(status)[i].token = token;
+			}
+
 			return true;
 		}
 		constexpr bool initial(Status status,Indicator indicator,Token token)
@@ -254,12 +288,6 @@ const char* to_string(Indicator i)
 			}
 			return true;
 		}
-		/*Status add_status()
-		{
-			TT_BASE::resize(TT_BASE::size() + 1);
-			Status status = TT_BASE::size() - 1;
-			return status;
-		}*/
 		bool acceptable(Status status, Symbol symbol,Token token,Status next)
 		{
 			TT_BASE::at(status)[symbol].indicator = Indicator::acceptable;
@@ -267,14 +295,15 @@ const char* to_string(Indicator i)
 			TT_BASE::at(status)[symbol].next = next;
 			return true;
 		}
-		bool accept(Status status, Symbol symbol,Token token)
+		/*
+		bool accept(Status status, Symbol symbol, Token token)
 		{
 			TT_BASE::at(status)[symbol].indicator = Indicator::accept;
 			TT_BASE::at(status)[symbol].token = token;
 			TT_BASE::at(status)[symbol].next = 0;
 			return true;
 		}
-		bool prefix(Status status, Symbol symbol,Status next)
+		bool prefix(Status status, Symbol symbol, Status next)
 		{
 			TT_BASE::at(status)[symbol].indicator = Indicator::prefix;
 			TT_BASE::at(status)[symbol].token = Token::none;
@@ -288,12 +317,7 @@ const char* to_string(Indicator i)
 			TT_BASE::at(status)[symbol].next = -1;
 			return true;
 		}
-		/*void print(std::ostream& out, Status status, Symbol symbol)
-		{
-			out << status << "--" << symbol << "->" << TT_BASE::at(status)[symbol].next << " - ";
-			to_string(TT_BASE::at(status)[symbol].token);
-
-		}*/
+		*/
 	private:
 
 	};
@@ -308,7 +332,7 @@ class A
 public:
 	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) :
 	    table(&tt),buffer(&b),actual_state(Indicator::none),
-	    index(0),actual_status(0),initial_status(0),prefix_start(false),prefix_end(false)
+	    index(0),actual_status(0),initial_status(0)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
 		_echo = false;
@@ -320,11 +344,15 @@ public:
 	    //std::cout << "A<>::next : Step 0\n";
         actual_status = initial_status;
         actual_state = Indicator::none;
-        prefix_start = false;
+        /*
+		prefix_start = false;
         prefix_end = false;
         prefix_index = 0;
-		accepted_transition = NULL;
+		*/
+		actual_transition = NULL;
 		prev_transition = NULL;
+		token_begin = index;
+		token_end = 0;
 
 	    const Symbol* buff = (const Symbol*)*buffer;
         while(index < buffer->size() and actual_status < table->size())
@@ -337,57 +365,39 @@ public:
             {
                 input = buff[index];
                 actual_transition = &(table->at(actual_status).at(input));
-                actual_state = step(actual_transition);
+				actual_state = actual_transition->indicator;
                 next_status = actual_transition->next;
 
 				//
-				if (prev_transition) if (prev_transition->indicator != Indicator::prefix and actual_transition->indicator == Indicator::prefix)
-				{
-					/*std::cout << "Inicio de prefijo detectado\n";
-					std::cout << actual_status << "--'" << input << "'->";
-					prev_transition->print(std::cout);
-					std::cout << "\n";*/
-					accepted_transition = prev_transition;
-					prefix_start = true;
-				}
-                if(actual_transition->indicator == Indicator::prefix) prefix_index++;
 				
-				//
-                //if(actual_transition->indicator == Indicator::prefix and prefix_index > 0) prefix_start = true;
-                if(actual_transition->token == Tokens::none and next_status < 0) prefix_end = true;
 
 			}
 
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-                
-				/*if (prefix_start and prefix_end) std::cout << actual_status << "--'" << input << "'->end\n";
-                else std::cout << actual_status << "--'" << input << "'->" << next_status << "\n";
-				std::cout << "index : " << index << "\n";
-				*/
-
+				std::cout << actual_status << "--'" << input << "'->";
+				actual_transition->print(std::cout);
+				std::cout << "\n";
+				
 
             }
 
             //std::cout << "whiel : Step 3\n";
             //>>>finalizing
             {
-                if(actual_state == Indicator::accept)
-                {
-                    index++;
-                    actual_status = next_status;
-					prev_transition = actual_transition;
-					if (actual_transition->indicator == Indicator::accept) break;
-                }
-                else if(actual_state == Indicator::reject)
-                {
-                    break;
-                }
+				if (actual_state == Indicator::none) break;
             }
+
+			//repetir loop
+			{
+				index++;
+				prev_transition = actual_transition;
+			}
         }
 #ifdef OCTETOS_CORE_ENABLE_DEV
-		/*if (actual_state == Indicator::accept)
+		/*
+		if (actual_state == Indicator::accept)
 		{
 			std::cout << "Acepted\n";
 		}
@@ -398,29 +408,45 @@ public:
 		else
 		{
 
-		}*/
+		}
+		*/
 #endif
-		if(prefix_end) index -= prefix_index;
-		if (actual_state == Indicator::accept)
-		{
-			//std::cout << "return accept\n";
-			if (accepted_transition and prefix_start and prefix_end)
-			{
-				//accepted_transition->print(std::cout);
-				//std::cout << "\n";
-				return accepted_transition->token;
-			}
-
-			return actual_transition->token;
-		}
-		else if (actual_state == Indicator::reject)
-		{
-			//std::cout << "return none\n\n";
-			return Tokens::none;
-		}
-
-		//std::cout << "return none\n\n";
+		/*std::cout << "Finalizando ..\n";
+		std::cout << actual_status << "--'" << input << "'->";
+		if (prev_transition) prev_transition->print(std::cout);
+		std::cout << "\n";*/
+		if (prev_transition) return prev_transition->token;
 		return Tokens::none;
+	}
+	bool next(const Symbol* str)
+	{
+		size_t leng = strlen(str);
+		const Symbol* buf = (const Symbol*)*buffer;
+		buf += index;
+		if (strncmp(buf, str, leng) == 0)
+		{
+			actual_state = Indicator::accept;
+			index += leng;
+			return true;
+		}
+		else
+		{
+			actual_state = Indicator::none;
+			return false;
+		}
+	}
+	Token next(std::list<std::string>& tk)
+	{
+		Token next_token = next();
+		tk.push_back("");
+		std::string& str = tk.back();
+		const Symbol* buf = (const Symbol*) *buffer;
+		buf += token_begin;
+		size_t token_len = token_end - token_begin;
+		std::cout << "Buffer : " << buf[0] << " - " << token_len << "\n";
+		str.append(buf + token_len,token_len);
+
+		return next_token;
 	}
 
 #ifdef OCTETOS_CORE_ENABLE_DEV
@@ -431,71 +457,11 @@ public:
 #endif
 	bool is_accepted()const
 	{
-		if (actual_state == Indicator::accept) return true;
+		if (actual_state == Indicator::accept or actual_state == Indicator::acceptable) return true;
 
 		return false;
 	}
 private:
-
-	/**
-	*\brief Determina el estado actual del automata, solo puede estar en 1 de los sigueinetes estados: inicial,aceptacion, rechazo, error o finalizado.
-	*\param t La trasicion actual que afecta al automata.
-	*/
-    Indicator step(const Transition<Token,Status>* t)
-    {
-        switch(actual_state)
-        {
-        case Indicator::none:
-            if(actual_status != initial_status) return Indicator::error;
-            switch(t->indicator)
-            {
-            case Indicator::none:
-                return Indicator::error;
-            case Indicator::accept:
-                return Indicator::accept;
-            case Indicator::acceptable:
-                return Indicator::accept;
-            case Indicator::reject:
-                return Indicator::reject;
-            case Indicator::rejectable:
-                return Indicator::reject;
-            case Indicator::prefix:
-                return Indicator::accept;
-            case Indicator::error:
-                return Indicator::error;
-            }
-            break;
-        case Indicator::accept:
-            switch(t->indicator)
-            {
-            case Indicator::none:
-                return Indicator::reject;
-            case Indicator::accept:
-                return Indicator::accept;
-            case Indicator::acceptable:
-                return Indicator::accept;
-            case Indicator::reject:
-                return Indicator::reject;
-            case Indicator::rejectable:
-                return Indicator::reject;
-            case Indicator::prefix:
-                return Indicator::accept;
-            case Indicator::error:
-                return Indicator::error;
-            }
-            break;
-        case Indicator::reject:
-            return Indicator::reject;
-        case Indicator::error:
-            return Indicator::error;
-        case Indicator::acceptable:
-        case Indicator::rejectable:
-        case Indicator::prefix:
-            return Indicator::error;
-        }
-
-        return Indicator::error;
-    }
 
 
 private:
@@ -503,14 +469,15 @@ private:
 	Buffer<Symbol>* buffer;
 	Symbol input;
 	Indicator actual_state;//estado del automata actual
-	size_t index,prefix_index;
+	size_t index,token_begin,token_end;//prefix_index
     const Transition<Token,Status> *actual_transition, *accepted_transition, *prev_transition;
     Status actual_status,next_status;//numero del estado actual del automata
     const Status initial_status;
-    bool prefix_start,prefix_end;
+    //bool prefix_start,prefix_end;
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	bool _echo;
 #endif
+
 };
 
 
