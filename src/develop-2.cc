@@ -1,6 +1,8 @@
 
 #include <iostream>
 #include <cstring>
+#include <vector>
+
 #include "lexers-v3.hh"
 
 namespace v3 = oct::core::v3;
@@ -24,7 +26,7 @@ int main(int argc, char* argv[])
 	//const char* buff_end = buf_start + length;
 	v3::lc::A semver_lex1(semver_tt_1,semver_buff1);
 	v3::lc::Content<char> content_semver;
-	std::cout << "input1 : " << input1 << "\n"; 
+	std::cout << "input1 : " << input1 << "\n";
 	//semver_lex1.echo(true);
 
 	semver_tk1 = semver_lex1.next(content_semver);
@@ -107,7 +109,7 @@ int main(int argc, char* argv[])
 	if (token_str.compare("archlinux") != 0) std::cout << "Fail : " << token_str << "\n";
 
 	std::cout << "\n\n\n";
-	
+
 	std::list<std::string> tokens;
 	const char* input2 = "269.5t6.9-alpha2";
 	v3::Buffer semver_buff2(input2);
@@ -189,7 +191,7 @@ int main(int argc, char* argv[])
 	if (not semver_lex2.is_accepted()) std::cout << "Rechazado\n";
 	if (content_semver.length != 6) std::cout << "Fail length\n";
 	if (token_str.compare("alpha2") != 0) std::cout << "Fail asas: " << token_str << "\n";
-	
+
 	std::cout << "\n\n\n";
 
 	typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>, v3::lc::ASCII_LENGTH>, 2> TT_Integer;

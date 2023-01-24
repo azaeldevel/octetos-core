@@ -3,9 +3,9 @@
 #include <CUnit/Basic.h>
 
 #if defined __linux__
-#include "config.h"
+    #include "config.h"
 #elifdef _WIN32 || _WIN64
-#error "detected"
+
 #else
 
 #endif
@@ -17,7 +17,7 @@
 #endif
 
 int main(int argc, char *argv[])
-{	
+{
 	/* initialize the CUnit test registry */
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 
@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	
+
 	if ((NULL == CU_add_test(pSuite_v2, "Developing..", v2_developing)))
 	{
 		CU_cleanup_registry();
