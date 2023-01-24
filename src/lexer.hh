@@ -20,36 +20,52 @@ typedef size_t Index;
 static const unsigned char MAX_SIMBOLS = 128;
 
 enum class Tokens : int
-{//https://www.asciitable.com/,https://www.rapidtables.com/code/text/ascii-table.html
-	none = -1,//ASCII>>>
-	NUL		= 0,
+{//https://www.charset.org/utf-8,https://www.asciitable.com/,https://www.rapidtables.com/code/text/ascii-table.html
+	none = -1,
+	//ASCII>>>
+	NUL = 0,
 	SOH,
 	STX,
 	EOT,
 
 
-	US 		= 31,
+	US = 31,
 	space,
 
 
-	plus 	= '+',
-	minus 	= '-',
-	dot 	= '.',
+	plus	= '+',
+	minus	= '-',
+	dot		= '.',
 
-	DEL		= 127,
-	//UTF >>>
-	tokens	= 0x11000000,
+	EuroSign	= 218,
+	//>>>Extended ASCII
+
+
+
+
+
+
+	y_Diaeresis = 255,//ÿ
+	//>>>UTF-8
+	a_Macron	= 256,
+	
+	s_Coptic	= 999,
+	//Inicode >>>
+
+
+	//>>>Tokens
+	tokens	= 0x110000,
 	number,
-	integer,
-	decimal,//incluye punto flotante
-	letter,//caracter
-	digit,//cararte digito
+		integer,
+		decimal,//incluye punto flotante
+		digit,//cararte digito
 	string,
+		letter,//caracter
 	identifier,
 	keyword,
 	softword,
 	expresion,
-	semver_operator,
+
 };
 
 const char* to_string(Tokens t)
@@ -84,8 +100,6 @@ const char* to_string(Tokens t)
 		return "softword";
 	case Tokens::expresion:
 		return "expresion";
-	case Tokens::semver_operator:
-		return "semver operator";
 	}
 
 	return NULL;
@@ -125,46 +139,7 @@ template<typename C> bool equal(const C* initial, const C* target)
 	return true;
 }
 
-#define Buffer_Base core::v3::Buffer<T>
-/**
-*\brief
-*
-*/
-/*template<typename T>
-class Buffer : public Buffer_Base
-{
-public:
-
-public:
-	Buffer(const std::filesystem::path& file) : core::v3::Buffer<T>(file)//,base(0)
-	{
-	}
-	Buffer(const T* string) : core::v3::Buffer<T>(string)//,base(0)
-	{
-	}
-	~Buffer()
-	{
-	}
-
-	T operator[](uintmax_t i)const
-	{
-		//std::cout << "if(" << i << " < " << _size << ") return " << int(buffer[i]) << "\n";
-		uintmax_t _index = i + base;
-		if(_index < Buffer_Base::_size) return Buffer_Base::buffer[_index];
-
-		return T(0);
-	}
-	void jump(uintmax_t b)
-	{
-		base = b;
-	}
-protected:
-	//uintmax_t base;
-
-private:
-};*/
-
-enum class Indicator : Status
+/*enum class Indicator : Status
 {
 	none,//no es us estado determinado, sin mebago, no cambia el estado previo por lo que se podria decir no no tiene efecto en el estado
 	accept,//estado de aceptacion, sin embargo deve terminar de inmediato
@@ -175,8 +150,8 @@ enum class Indicator : Status
 	//error,//
 	//finalized,
 	//terminate,//terminar de enmediato
-};
-const char* to_string(Indicator i)
+};*/
+/*const char* to_string(Indicator i)
 {
 	switch(i)
 	{
@@ -188,9 +163,8 @@ const char* to_string(Indicator i)
 	//case Indicator::terminate: return "terminate";
 	}
 	return "Unknow";
-}
+}*/
 
-	//TODO: todos los elementos deven matener el automata en el estado aceptable, termina cuando no es aceptable la cadena
 	template<typename Token,typename Status/*Status*/>
 	struct Transition
 	{
@@ -202,7 +176,7 @@ const char* to_string(Indicator i)
 		{
 			out << next << " - ";
 			const char* strtoken = to_string(token);
-			if (strtoken) out << strtoken << ", ";
+			if (strtoken) out << strtoken;
 			//out << to_string(indicator);
 		}
 	};
@@ -217,14 +191,13 @@ const char* to_string(Indicator i)
 	class TT : public TT_BASE
 	{
 	public:
-		TT() = default;
+		constexpr TT() = default;
 
 		constexpr bool initial(Status status)
 		{
 			for(size_t i = 0; i < MAX_SIMBOLS; i++)
 			{
 				//std::cout << "initial : " << status << " - " << i << "\n";
-				//TT_BASE::at(status)[i].indicator = Indicator::none;
 				TT_BASE::at(status)[i].next = 0;
 				TT_BASE::at(status)[i].token = Token::none;
 			}
@@ -234,90 +207,37 @@ const char* to_string(Indicator i)
 		{
 			for(size_t i = 0; i < MAX_SIMBOLS; i++)
 			{
-				//TT_BASE::at(status)[i].indicator = Indicator::none;
 				TT_BASE::at(status)[i].next = 0;
 				TT_BASE::at(status)[i].token = token;
 			}
 			return true;
 		}
-		constexpr bool digits(Status status, Indicator indicator,Status next, Token token)
+		constexpr bool digits(Status status,Status next, Token token)
 		{
 			for (size_t i = 48; i < 58; i++)
 			{
-				//TT_BASE::at(status)[i].indicator = indicator;
 				TT_BASE::at(status)[i].next = next;
 				TT_BASE::at(status)[i].token = token;
 			}
 
 			return true;
 		}
-		constexpr bool letters(Status status, Indicator indicator, Status next, Token token)
+		constexpr bool letters(Status status, Status next, Token token)
 		{
 			for (size_t i = 65; i < 91; i++)
 			{
-				//TT_BASE::at(status)[i].indicator = indicator;
 				TT_BASE::at(status)[i].next = next;
 				TT_BASE::at(status)[i].token = token;
 			}
 			for (size_t i = 97; i < 123; i++)
 			{
-				//TT_BASE::at(status)[i].indicator = indicator;
 				TT_BASE::at(status)[i].next = next;
 				TT_BASE::at(status)[i].token = token;
 			}
 
 			return true;
 		}
-		constexpr bool initial(Status status,Indicator indicator,Token token)
-		{
-			for(size_t i = 0; i < MAX_SIMBOLS; i++)
-			{
-				//TT_BASE::at(status)[i].indicator = indicator;
-				TT_BASE::at(status)[i].next = 0;
-				TT_BASE::at(status)[i].token = token;
-			}
-			return true;
-		}
-		constexpr bool initial(Status status,Indicator indicator)
-		{
-			for(size_t i = 0; i < MAX_SIMBOLS; i++)
-			{
-				//::at(status)[i].indicator = indicator;
-				TT_BASE::at(status)[i].next = 0;
-				TT_BASE::at(status)[i].token = Token::none;
-			}
-			return true;
-		}
-		bool acceptable(Status status, Symbol symbol,Token token,Status next)
-		{
-			TT_BASE::at(status)[symbol].indicator = Indicator::acceptable;
-			TT_BASE::at(status)[symbol].token = token;
-			TT_BASE::at(status)[symbol].next = next;
-			return true;
-		}
-		/*
-		bool accept(Status status, Symbol symbol, Token token)
-		{
-			TT_BASE::at(status)[symbol].indicator = Indicator::accept;
-			TT_BASE::at(status)[symbol].token = token;
-			TT_BASE::at(status)[symbol].next = 0;
-			return true;
-		}
-		bool prefix(Status status, Symbol symbol, Status next)
-		{
-			TT_BASE::at(status)[symbol].indicator = Indicator::prefix;
-			TT_BASE::at(status)[symbol].token = Token::none;
-			TT_BASE::at(status)[symbol].next = next;
-			return true;
-		}
-		bool prefix(Status status, Symbol symbol)
-		{
-			TT_BASE::at(status)[symbol].indicator = Indicator::prefix;
-			TT_BASE::at(status)[symbol].token = Token::none;
-			TT_BASE::at(status)[symbol].next = -1;
-			return true;
-		}
-		*/
+
 	private:
 
 	};
@@ -355,11 +275,6 @@ public:
 	    //std::cout << "A<>::next : Step 0\n";
         actual_status = initial_status;
         actual_state = false;
-        /*
-		prefix_start = false;
-        prefix_end = false;
-        prefix_index = 0;
-		*/
 		actual_transition = NULL;
 		prev_transition = NULL;
 		token_start = index;
@@ -369,7 +284,6 @@ public:
         while(index < buffer->size() and actual_status < table->size())
         {
             //std::cout << "whiel : Step 0\n";
-            //if(actual_state == Indicator::finalized) break;
 
             //std::cout << "whiel : Step 1\n";
             //>>>reading data
@@ -479,19 +393,6 @@ public:
 			return false;
 		}
 	}
-	/*Token next(std::list<std::string>& tk)
-	{
-		Token next_token = next();
-		tk.push_back("");
-		std::string& str = tk.back();
-		const Symbol* buf = (const Symbol*) *buffer;
-		buf += token_begin;
-		size_t token_len = token_end - token_begin;
-		std::cout << "Buffer : " << buf[0] << " - " << token_len << "\n";
-		str.append(buf + token_len,token_len);
-
-		return next_token;
-	}*/
 
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
