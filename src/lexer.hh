@@ -17,7 +17,7 @@ namespace oct::core::v3::lc
 typedef int Status;
 typedef int Token;
 typedef size_t Index;
-static const unsigned char MAX_SIMBOLS = 128;
+static const unsigned char ASCII_LENGTH = 128;
 
 enum class Tokens : int
 {//https://www.charset.org/utf-8,https://www.asciitable.com/,https://www.rapidtables.com/code/text/ascii-table.html
@@ -195,7 +195,7 @@ template<typename C> bool equal(const C* initial, const C* target)
 
 		constexpr bool initial(Status status)
 		{
-			for(size_t i = 0; i < MAX_SIMBOLS; i++)
+			for(size_t i = 0; i < ASCII_LENGTH; i++)
 			{
 				//std::cout << "initial : " << status << " - " << i << "\n";
 				TT_BASE::at(status)[i].next = 0;
@@ -205,14 +205,14 @@ template<typename C> bool equal(const C* initial, const C* target)
 		}
 		constexpr bool initial(Status status,Token token)
 		{
-			for(size_t i = 0; i < MAX_SIMBOLS; i++)
+			for(size_t i = 0; i < ASCII_LENGTH; i++)
 			{
 				TT_BASE::at(status)[i].next = 0;
 				TT_BASE::at(status)[i].token = token;
 			}
 			return true;
 		}
-		constexpr bool digits(Status status,Status next, Token token)
+		constexpr bool numbers(Status status, Token token,Status next)
 		{
 			for (size_t i = 48; i < 58; i++)
 			{
@@ -222,7 +222,7 @@ template<typename C> bool equal(const C* initial, const C* target)
 
 			return true;
 		}
-		constexpr bool letters(Status status, Status next, Token token)
+		constexpr bool alphabet(Status status, Token token, Status next)
 		{
 			for (size_t i = 65; i < 91; i++)
 			{
@@ -234,6 +234,13 @@ template<typename C> bool equal(const C* initial, const C* target)
 				TT_BASE::at(status)[i].next = next;
 				TT_BASE::at(status)[i].token = token;
 			}
+
+			return true;
+		}
+		constexpr bool symbol(Status status, Token token, Status next, Symbol i)
+		{
+			TT_BASE::at(status)[i].next = next;
+			TT_BASE::at(status)[i].token = token;
 
 			return true;
 		}

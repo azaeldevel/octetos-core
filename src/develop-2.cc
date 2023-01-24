@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 		std::cout << "strlen : fallo\n";
 	}
 	v3::lc::Tokens semver_tk1;
-	typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens,v3::lc::Status>,v3::lc::MAX_SIMBOLS>,3> TT_BASE;
+	typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens,v3::lc::Status>,v3::lc::ASCII_LENGTH>,3> TT_BASE;
 	v3::lc::Semver_TT<char,v3::lc::Tokens,v3::lc::Status,TT_BASE> semver_tt_1;
 	std::string token_str;
 	v3::Buffer semver_buff1(input1);

@@ -12,26 +12,26 @@ template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,type
 class Semver_TT : public TT<Symbol,Token,Status,TT_BASE>
 {
 public:
-	Semver_TT()
+	constexpr Semver_TT()
 	{
 		init();
 	}
-	void init()
+	constexpr void init()
 	{
 		Status initial_status = 0;
-		TT<Symbol,Token,Status,TT_BASE>::initial(initial_status);
+		TT<Symbol, Token, Status, TT_BASE>::initial(initial_status);
 		Status number = 1;
-		TT<Symbol,Token,Status,TT_BASE>::initial(number);
+		TT<Symbol, Token, Status, TT_BASE>::initial(number);
 		Status string = 2;
-		TT<Symbol,Token,Status,TT_BASE>::initial(string);
+		TT<Symbol, Token, Status, TT_BASE>::initial(string);
 		
-		TT<Symbol, Token, Status, TT_BASE>::digits(initial_status,number,Tokens::number);
-		TT<Symbol, Token, Status, TT_BASE>::letters(initial_status, string, Tokens::string);
+		TT<Symbol, Token, Status, TT_BASE>::numbers(initial_status,Tokens::number,number);
+		TT<Symbol, Token, Status, TT_BASE>::alphabet(initial_status,Tokens::string,string);
 
-		TT<Symbol, Token, Status, TT_BASE>::digits(number, number, Tokens::number);
+		TT<Symbol, Token, Status, TT_BASE>::numbers(number,Tokens::number,number);
 
-		TT<Symbol, Token, Status, TT_BASE>::digits(string, string, Tokens::string);
-		TT<Symbol, Token, Status, TT_BASE>::letters(string, string, Tokens::string);
+		TT<Symbol, Token, Status, TT_BASE>::numbers(string,Tokens::string, string);
+		TT<Symbol, Token, Status, TT_BASE>::alphabet(string,Tokens::string, string);
 
 
 	}
