@@ -128,9 +128,61 @@ int main(int argc, char* argv[])
 	if (semver_lex1.is_accepted()) std::cout << "Aceptado\n";
 	else std::cout << "Rechazado\n";
 	std::cout << "\n";
+	std::cout << "\n";
+	std::cout << "\n";
 
-	//semver_tk1 = semver_lex1.next();
-	//print(semver_tk1,input1);
+	const char* input2 = "269.5t6.9-lapha2";
+	v3::Buffer semver_buff2(input2);
+	v3::lc::A semver_lex2(semver_tt_1, semver_buff2);
+
+	semver_tk1 = semver_lex2.next();
+	//semver_lex1.token_to_string(token_str);
+	//std::cout << "token_str : " << token_str << "\n";
+	print(semver_tk1, input2);
+	if (semver_lex2.is_accepted()) std::cout << "Aceptado\n";
+	else std::cout << "Rechazado\n";
+	std::cout << "\n";
+
+	semver_tk1 = semver_lex2.next();
+	//semver_lex1.token_to_string(token_str);
+	//std::cout << "token_str : " << token_str << "\n";
+	print(semver_tk1, input2);
+	if (semver_lex2.is_accepted()) std::cout << "Aceptado\n";
+	else std::cout << "Rechazado\n";
+	std::cout << "\n";
+
+	semver_tk1 = semver_lex2.next();
+	//semver_lex1.token_to_string(token_str);
+	//std::cout << "token_str : " << token_str << "\n";
+	print(semver_tk1, input2);
+	if (semver_lex2.is_accepted()) std::cout << "Aceptado\n";
+	else std::cout << "Rechazado\n";
+	std::cout << "\n";
+
+	semver_tk1 = semver_lex2.next();
+	//semver_lex1.token_to_string(token_str);
+	//std::cout << "token_str : " << token_str << "\n";
+	print(semver_tk1, input2);
+	if (semver_lex2.is_accepted()) std::cout << "Aceptado\n";
+	else std::cout << "Rechazado\n";
+	std::cout << "\n";
+
+	semver_tk1 = semver_lex2.next();
+	//semver_lex1.token_to_string(token_str);
+	//std::cout << "token_str : " << token_str << "\n";
+	print(semver_tk1, input2);
+	if (semver_lex2.is_accepted()) std::cout << "Aceptado\n";
+	else std::cout << "Rechazado\n";
+	std::cout << "\n";
+
+	semver_tk1 = semver_lex2.next();
+	//semver_lex1.token_to_string(token_str);
+	//std::cout << "token_str : " << token_str << "\n";
+	print(semver_tk1, input2);
+	if (semver_lex2.is_accepted()) std::cout << "Aceptado\n";
+	else std::cout << "Rechazado\n";
+	std::cout << "\n";
+
 
 
 	return EXIT_SUCCESS;
