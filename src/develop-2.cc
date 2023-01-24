@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 	else std::cout << "Rechazado\n";
 	std::cout << "\n";
 
-	if (semver_lex1.next("-"))
+	if (semver_lex1.next('-'))
 	{
 		if (semver_lex1.is_accepted()) std::cout << "Aceptado '-'\n";
 		else std::cout << "Rechazado '-'\n";
@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
 	else std::cout << "Rechazado\n";
 	std::cout << "\n";
 
-	if (semver_lex1.next("+"))
+	if (semver_lex1.next('+'))
 	{
 		if (semver_lex1.is_accepted()) std::cout << "Aceptado '+'\n";
 		else std::cout << "Rechazado '+'\n";

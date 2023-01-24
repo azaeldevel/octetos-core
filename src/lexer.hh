@@ -194,7 +194,7 @@ const char* to_string(Indicator i)
 	template<typename Token,typename Status/*Status*/>
 	struct Transition
 	{
-		Indicator indicator;
+		//Indicator indicator;
 		Status next;
 		Token token;
 
@@ -203,7 +203,7 @@ const char* to_string(Indicator i)
 			out << next << " - ";
 			const char* strtoken = to_string(token);
 			if (strtoken) out << strtoken << ", ";
-			out << to_string(indicator);
+			//out << to_string(indicator);
 		}
 	};
 
@@ -224,7 +224,7 @@ const char* to_string(Indicator i)
 			for(size_t i = 0; i < MAX_SIMBOLS; i++)
 			{
 				//std::cout << "initial : " << status << " - " << i << "\n";
-				TT_BASE::at(status)[i].indicator = Indicator::none;
+				//TT_BASE::at(status)[i].indicator = Indicator::none;
 				TT_BASE::at(status)[i].next = 0;
 				TT_BASE::at(status)[i].token = Token::none;
 			}
@@ -234,7 +234,7 @@ const char* to_string(Indicator i)
 		{
 			for(size_t i = 0; i < MAX_SIMBOLS; i++)
 			{
-				TT_BASE::at(status)[i].indicator = Indicator::none;
+				//TT_BASE::at(status)[i].indicator = Indicator::none;
 				TT_BASE::at(status)[i].next = 0;
 				TT_BASE::at(status)[i].token = token;
 			}
@@ -244,7 +244,7 @@ const char* to_string(Indicator i)
 		{
 			for (size_t i = 48; i < 58; i++)
 			{
-				TT_BASE::at(status)[i].indicator = indicator;
+				//TT_BASE::at(status)[i].indicator = indicator;
 				TT_BASE::at(status)[i].next = next;
 				TT_BASE::at(status)[i].token = token;
 			}
@@ -255,13 +255,13 @@ const char* to_string(Indicator i)
 		{
 			for (size_t i = 65; i < 91; i++)
 			{
-				TT_BASE::at(status)[i].indicator = indicator;
+				//TT_BASE::at(status)[i].indicator = indicator;
 				TT_BASE::at(status)[i].next = next;
 				TT_BASE::at(status)[i].token = token;
 			}
 			for (size_t i = 97; i < 123; i++)
 			{
-				TT_BASE::at(status)[i].indicator = indicator;
+				//TT_BASE::at(status)[i].indicator = indicator;
 				TT_BASE::at(status)[i].next = next;
 				TT_BASE::at(status)[i].token = token;
 			}
@@ -272,7 +272,7 @@ const char* to_string(Indicator i)
 		{
 			for(size_t i = 0; i < MAX_SIMBOLS; i++)
 			{
-				TT_BASE::at(status)[i].indicator = indicator;
+				//TT_BASE::at(status)[i].indicator = indicator;
 				TT_BASE::at(status)[i].next = 0;
 				TT_BASE::at(status)[i].token = token;
 			}
@@ -282,7 +282,7 @@ const char* to_string(Indicator i)
 		{
 			for(size_t i = 0; i < MAX_SIMBOLS; i++)
 			{
-				TT_BASE::at(status)[i].indicator = indicator;
+				//::at(status)[i].indicator = indicator;
 				TT_BASE::at(status)[i].next = 0;
 				TT_BASE::at(status)[i].token = Token::none;
 			}
@@ -331,7 +331,7 @@ class A
 {
 public:
 	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) :
-	    table(&tt),buffer(&b),actual_state(Indicator::none),
+	    table(&tt),buffer(&b),actual_state(false),
 	    index(0),actual_status(0),initial_status(0)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
@@ -343,7 +343,7 @@ public:
 	{
 	    //std::cout << "A<>::next : Step 0\n";
         actual_status = initial_status;
-        actual_state = Indicator::none;
+        actual_state = false;
         /*
 		prefix_start = false;
         prefix_end = false;
@@ -365,7 +365,7 @@ public:
             {
                 input = buff[index];
                 actual_transition = &(table->at(actual_status).at(input));
-				actual_state = actual_transition->indicator;
+				actual_state = actual_transition->token > Tokens::none;
                 next_status = actual_transition->next;
 
 				//
@@ -386,7 +386,7 @@ public:
             //std::cout << "whiel : Step 3\n";
             //>>>finalizing
             {
-				if (actual_state == Indicator::none) break;
+				if (not actual_state) break;
             }
 
 			//repetir loop
@@ -417,10 +417,7 @@ public:
 		std::cout << "\n";*/
 		if (prev_transition) 
 		{
-			if (prev_transition->indicator == Indicator::accept or prev_transition->indicator == Indicator::acceptable)
-			{
-				actual_state = Indicator::accept;
-			}
+			actual_state = true;
 			return prev_transition->token;
 		}
 		return Tokens::none;
@@ -432,13 +429,13 @@ public:
 		buf += index;
 		if (strncmp(buf, str, leng) == 0)
 		{
-			actual_state = Indicator::accept;
+			actual_state = true;
 			index += leng;
 			return true;
 		}
 		else
 		{
-			actual_state = Indicator::none;
+			actual_state = false;
 			return false;
 		}
 	}
@@ -448,13 +445,13 @@ public:
 		buf += index;
 		if (buf[0] == s)
 		{
-			actual_state = Indicator::accept;
+			actual_state = true;
 			index++;
 			return true;
 		}
 		else
 		{
-			actual_state = Indicator::none;
+			actual_state = false;
 			return false;
 		}
 	}
@@ -480,9 +477,7 @@ public:
 #endif
 	bool is_accepted()const
 	{
-		if (actual_state == Indicator::accept or actual_state == Indicator::acceptable) return true;
-
-		return false;
+		return actual_state;
 	}
 private:
 
@@ -491,7 +486,7 @@ private:
 	const TT<Symbol,Token,Status,TT_BASE>* table;
 	Buffer<Symbol>* buffer;
 	Symbol input;
-	Indicator actual_state;//estado del automata actual
+	bool actual_state;//estado del automata actual
 	size_t index,token_begin,token_end;//prefix_index
     const Transition<Token,Status> *actual_transition, *accepted_transition, *prev_transition;
     Status actual_status,next_status;//numero del estado actual del automata
