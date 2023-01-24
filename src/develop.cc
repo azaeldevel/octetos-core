@@ -118,15 +118,7 @@ enum class semver_tokes : int
 
 int main(int argc, char* argv[])
 {
-	//oct::core::Table<testRow_1> table1;
-	oct::core::v3::arrays::Wrapper table2(persons_array,6);
-	std::cout << "No ordenado\n";
-	table2.print(std::cout);
-	std::cout << "Ordenado\n";
-	//table2.sort();
-	table2.print(std::cout);
-	//std::cout << "sizeof(rows_array) : " << sizeof(rows_array)  <<"\n";
+	OCTETOS_CORE_DECLSPCE_DLL
 	
-
 	return EXIT_SUCCESS;
 }
