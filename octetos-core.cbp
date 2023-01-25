@@ -34,9 +34,6 @@
 					<Add option="-s `pkg-config libconfig++ --libs`" />
 					<Add library="user32" />
 				</Linker>
-				<ExtraCommands>
-					<Add before="cmd /c bison -d -o src\semver.tab.c src\semver.y" />
-				</ExtraCommands>
 			</Target>
 			<Target title="testing">
 				<Option output="bin/Debug/testing.exe" prefix_auto="0" extension_auto="0" />
@@ -228,12 +225,10 @@
 		</Unit>
 		<Unit filename="src/semver.tab.c">
 			<Option compilerVar="CC" />
-			<Option target="liboctetos-core-dbg" />
-			<Option target="liboctetos-core-r" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src/semver.tab.h">
-			<Option target="liboctetos-core-dbg" />
-			<Option target="liboctetos-core-r" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src/shell.cc">
 			<Option target="liboctetos-core-dbg" />

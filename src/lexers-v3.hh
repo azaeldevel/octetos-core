@@ -7,7 +7,6 @@
 namespace oct::core::v3::lc
 {
 
-
 template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,typename TT_BASE/*Status*/>
 class Semver_TT : public TT<Symbol,Token,Status,TT_BASE>
 {
@@ -98,6 +97,8 @@ public:
 private:
 
 };
+
+
 }
 
 #endif
