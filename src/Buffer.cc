@@ -82,8 +82,13 @@ Buffer::Buffer(const char* str)
 	begin = 0;
 	forward = -1;
 	text = NULL;
-	
-	strcpy(buffer1,str);
+#ifdef COMPILER_VS
+	strcpy_s(buffer1, bsize,str);
+#elif defined COMPILER_GCC
+	strcpy(buffer1, str);
+#else
+#error "opilador Desconocido."
+#endif
 }
 Buffer::~Buffer()
 {

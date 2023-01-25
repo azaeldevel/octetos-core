@@ -421,7 +421,13 @@ namespace oct::core::v2
         if (prerelease) delete[] prerelease;
         std::size_t leng = strlen(prer) + 1;
         prerelease = new char[leng];
-        strcpy(prerelease,prer);
+#ifdef COMPILER_VS
+        strcpy_s(prerelease, leng, prer);
+#elif defined COMPILER_GCC
+        strcpy(prerelease, prer);
+#else
+#error "Compilador Desconocido."
+#endif
     }
 	void Semver::free_prerelease()
 	{
@@ -433,7 +439,13 @@ namespace oct::core::v2
         if (build) delete[] build;
         std::size_t leng = strlen(strb) + 1;
         build = new char[leng];
+#ifdef COMPILER_VS
+        strcpy_s(build, leng, strb);
+#elif defined COMPILER_GCC
         strcpy(build, strb);
+#else
+#error "Compilador Desconocido."
+#endif
     }
 	void Semver::free_build()
 	{

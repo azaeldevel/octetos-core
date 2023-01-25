@@ -1167,8 +1167,7 @@ void v2_testMemory()
 		node1 = node1->get_previous();
 		node1_count--;
 	}
-
-
+	
 	oct::core::Allocator<int>::List list2,list3;
 	list2.push_back(0);
 	list2.push_back(1);
