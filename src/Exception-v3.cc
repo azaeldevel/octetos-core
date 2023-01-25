@@ -23,17 +23,17 @@
 
 #include <string.h>
 //#include <glibmm/i18n.h>
-#define _(MSG) MSG
+//#define _(MSG) MSG
 #include "Exception-v3.hh"
 
 namespace oct::core::v3
 {
 
 
-Exception::Exception() : _code(0),_filename(NULL),_line(0),_message(NULL),autofree(false)
+Exception::Exception() noexcept : _code(0),_filename(NULL),_line(0),_message(NULL),autofree(false)
 {
 }
-Exception::Exception(const Exception& e) : _code(e._code),_filename(e._filename),_line(e._line),autofree(e.autofree),_message(NULL)
+Exception::Exception(const Exception& e) noexcept : _code(e._code),_filename(e._filename),_line(e._line),autofree(e.autofree),_message(NULL)
 {
 	if(autofree) copy(e._message);
 }
@@ -44,47 +44,47 @@ Exception::Exception(Exception&& e) noexcept : _code(e._code), _filename(e._file
 }
 
 
-Exception::Exception(unsigned int c) : _code(c),_filename(NULL),_line(0),_message(NULL),autofree(false)
+Exception::Exception(unsigned int c) noexcept : _code(c),_filename(NULL),_line(0),_message(NULL),autofree(false)
 {
 }
-Exception::Exception(unsigned int c,const char* fn, unsigned int l) : _code(c),_filename(fn),_line(l),_message(NULL),autofree(false)
-{
-}
-
-Exception::Exception(unsigned int c,const char* s) : _code(c),_message(s),_filename(NULL),_line(0),autofree(false)
-{
-}
-Exception::Exception(unsigned int c,const char* s,const char* fn, unsigned int l) : _code(c),_message(s),_filename(fn),_line(l),autofree(false)
+Exception::Exception(unsigned int c,const char* fn, unsigned int l) noexcept : _code(c),_filename(fn),_line(l),_message(NULL),autofree(false)
 {
 }
 
-Exception::Exception(const std::string& m) : _code(0),_filename(NULL),_line(0),autofree(true)
+Exception::Exception(unsigned int c,const char* s) noexcept : _code(c),_message(s),_filename(NULL),_line(0),autofree(false)
 {
-	copy(m);
 }
-Exception::Exception(const std::string& m,const char* f, unsigned int l) : _code(0),_filename(f),_line(l),autofree(true)
+Exception::Exception(unsigned int c,const char* s,const char* fn, unsigned int l) noexcept: _code(c),_message(s),_filename(fn),_line(l),autofree(false)
 {
-	copy(m);
 }
 
-Exception::Exception(unsigned int c,const std::string& m) : _code(c),_filename(NULL),_line(0),autofree(true)
+Exception::Exception(const std::string& m) noexcept : _code(0),_filename(NULL),_line(0),autofree(true)
 {
 	copy(m);
 }
-Exception::Exception(unsigned int c,const std::string& m,const char* f, unsigned int l) : _code(c),_filename(f),_line(l),autofree(true)
+Exception::Exception(const std::string& m,const char* f, unsigned int l) noexcept : _code(0),_filename(f),_line(l),autofree(true)
 {
 	copy(m);
 }
 
+Exception::Exception(unsigned int c,const std::string& m) noexcept : _code(c),_filename(NULL),_line(0),autofree(true)
+{
+	copy(m);
+}
+Exception::Exception(unsigned int c,const std::string& m,const char* f, unsigned int l) noexcept : _code(c),_filename(f),_line(l),autofree(true)
+{
+	copy(m);
+}
 
-Exception::Exception(const char* s) : _code(0),_message(s),_filename(NULL),_line(0),autofree(false)
+
+Exception::Exception(const char* s) noexcept : _code(0),_message(s),_filename(NULL),_line(0),autofree(false)
 {
 }
-Exception::Exception(const char* s,const char* fn, unsigned int l) : _code(0),_message(s),_filename(fn),_line(l),autofree(false)
+Exception::Exception(const char* s,const char* fn, unsigned int l) noexcept : _code(0),_message(s),_filename(fn),_line(l),autofree(false)
 {
 }
 
-Exception::~Exception()
+Exception::~Exception() noexcept
 {
 	if(autofree) if(_message) delete _message;
 }
@@ -132,11 +132,11 @@ const char* Exception::subject()const
 	return _message;
 }
 
-const char* Exception::what() const throw ()
+/*const char* Exception::what() const throw ()
 {
 	return _message;
-}
-std::string Exception::describe() const throw ()
+}*/
+std::string Exception::describe() const noexcept
 {
 	std::string msg;
 	if(_filename)
@@ -147,14 +147,14 @@ std::string Exception::describe() const throw ()
 	}
 	if(_code > 0)
 	{
-		msg += _(" - Code ") + std::to_string(_code) ;
+		msg += " - error(" + std::to_string(_code) << ")";
 	}
 	if(_message)
 	{
 		msg += "\n\t";
 		msg += _message;
 	}
-	else if(_code > 0)
+	if(_code > 0)
 	{
 		msg += "\n\t";
 		msg += this->what();

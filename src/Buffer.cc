@@ -65,7 +65,8 @@ void Buffer::proceed()
 	text = (char*) malloc(len);
 	memcpy(text,&(buffer1[begin]),len);
 	text[len] = 0;
-	begin = forward + 1;
+	begin = forward + 1; 
+	if (not text) return;
 	bufs.push_back(text);
 }
 char Buffer::next_char()
@@ -78,6 +79,7 @@ Buffer::Buffer(const char* str)
 	bsize = short(strlen(str)) + 1;
 	
 	buffer1 = (char*) malloc(bsize);
+	if(not buffer1) return;
 	buffer2 = NULL;
 	begin = 0;
 	forward = -1;
@@ -92,9 +94,11 @@ Buffer::Buffer(const char* str)
 }
 Buffer::~Buffer()
 {
-	for(char* p : bufs)
+	if (buffer1) free(buffer1);
+	if (buffer2) free(buffer2);
+	for (char* p : bufs)
 	{
-		delete p;
+		if(p) free(p);
 	}
 }
 

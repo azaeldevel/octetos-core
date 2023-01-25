@@ -119,6 +119,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,25 +137,17 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\Buffer-v3.cc" />
-    <ClCompile Include="..\src\Buffer.cc" />
     <ClCompile Include="..\src\Error.cc" />
     <ClCompile Include="..\src\Exception-v2.cc" />
     <ClCompile Include="..\src\Exception-v3.cc" />
-    <ClCompile Include="..\src\semver-lexer.2.cc" />
-    <ClCompile Include="..\src\semver-lexer.3.cc" />
-    <ClCompile Include="..\src\Version-parser-v2.cc" />
-    <ClCompile Include="..\src\Version-parser-v3.cc" />
-    <ClCompile Include="..\src\Version-v2.cc" />
-    <ClCompile Include="..\src\Version-v3.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\arrays.hh" />
     <ClInclude Include="..\src\Buffer-v3.hh" />
-    <ClInclude Include="..\src\Buffer.hh" />
     <ClInclude Include="..\src\core.hh" />
     <ClInclude Include="..\src\data.hh" />
     <ClInclude Include="..\src\defines.hh" />
