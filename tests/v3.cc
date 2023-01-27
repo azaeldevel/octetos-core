@@ -2,18 +2,14 @@
 
 #include "v3.hh"
 
+#include <string.h>
+#include <iostream>
 #if defined(__linux__)
     #include <src/Exception-v3.hh>
-    #include <src/Version-v3.hh>
-    #include <string.h>
-    #include <iostream>
-	#include <src/lexer-semver-v3.hh>
+    //#include <src/Version-v3.hh>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <core/src/Exception-v3.hh>
     //#include <core/src/Version-v3.hh>
-	#include <string.h>
-	#include <iostream>
-	#include <core/src/lexer-semver-v3.hh>
 #else
 	#error "Plataforma desconocida"
 #endif

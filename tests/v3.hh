@@ -6,9 +6,15 @@
 
 #include <CUnit/Basic.h>
 
-#include <core/src/Exception-v3.hh>
-//#include "tests.hh"
 
+//#include "tests.hh"
+#if defined(__linux__)
+    #include <src/Exception-v3.hh>
+#elif defined(_WIN32) || defined(_WIN64)
+    #include <core/src/Exception-v3.hh>
+#else
+	#error "Plataforma desconocida"
+#endif
 
 int v3_init(void);
 int v3_clean(void);

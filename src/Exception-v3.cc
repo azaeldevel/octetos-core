@@ -147,7 +147,7 @@ std::string Exception::describe() const noexcept
 	}
 	if(_code > 0)
 	{
-		msg += " - error(" + std::to_string(_code) << ")";
+		msg += " - error(" + std::to_string(_code) + ")";
 	}
 	if(_message)
 	{

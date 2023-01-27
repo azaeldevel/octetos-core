@@ -8,11 +8,11 @@ AM_CPPFLAGS = \
 
 AM_CFLAGS =\
 	 -Wall\
-	 -g
+	 -g 
 
 
 LIBS = $(OCTETOS_CORE_BASE_LIBS) 
-FLAGS = $(OCTETOS_CORE_BASE_FLAGS) -I$(top_builddir) -I/usr/include/glibmm-2.4 -I/usr/lib/glibmm-2.4/include -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
+FLAGS = $(OCTETOS_CORE_BASE_FLAGS) -DCOMPILER_GCC -I$(top_builddir) -I/usr/include/glibmm-2.4 -I/usr/lib/glibmm-2.4/include -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
 if OCTETOS_CORE_ENABLE_DEV
 FLAGS += -DOCTETOS_CORE_ENABLE_DEV
 endif
