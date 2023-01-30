@@ -14,6 +14,7 @@
 #include <list>
 #include <fstream>
 #include <iostream>
+#include <concepts>
 
 #include "Exception-v3.hh"
 
@@ -22,8 +23,9 @@
 namespace oct::core::v3
 {
 
+template<typename T> concept CHAR = std::same_as<char, T> || std::same_as<wchar_t,T>;
 
-template<typename C> constexpr size_t strlen(const C* str)
+template<CHAR C> constexpr size_t strlen(const C* str)
 {
 	if(not str) return 0;
 	size_t i = 0;
@@ -34,7 +36,7 @@ template<typename C> constexpr size_t strlen(const C* str)
 	return i;
 }
 
-template<typename C> constexpr size_t copy(const C* origin, size_t leng,C** dest)
+template<CHAR C> constexpr size_t copy(const C* origin, size_t leng,C*& dest)
 {
 	if(not origin) return 0;
 	if(not dest) return 0;
@@ -42,10 +44,10 @@ template<typename C> constexpr size_t copy(const C* origin, size_t leng,C** dest
 	
 	for(size_t i = 0;i < leng; i++)
 	{
-		dest[0][i] = origin[i];
+		dest[i] = origin[i];
 		//std::cout << "C : " << (*dest)[i] << "\n";
 	}
-	dest[0][leng] = (C)0;
+	dest[leng] = (C)0;
 
 	return leng;
 }
@@ -115,10 +117,10 @@ public:
 
 		if (sfile.is_open()) sfile.close();
 	}
-	constexpr Buffer(const T* string) : _size(v3::strlen(string)),buffer(new T[_size + 1])
+	Buffer(const T* string) : _size(v3::strlen(string)),buffer(new T[_size + 1])
 	{
 		//std::cout << "Sieze : " << _size << "\n";
-		if(_size > 0) v3::copy(string, _size, &buffer);
+		if(_size > 0) v3::copy(string, _size, buffer);
 	}
 	~Buffer()
 	{
