@@ -7,38 +7,27 @@
 namespace oct::core::v3::lc
 {
 
-template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/>
-class Semver_TT : public TT<Symbol,Token,Status>
+
+constexpr TT<char, Tokens, Status> creat_tt_semver()
 {
-public:
-	constexpr Semver_TT(size_t size) : TT<Symbol, Token, Status>(size)
-	{
-		init();
-	}
-	constexpr void init()
-	{
-		TT<Symbol, Token, Status>::resize(3);
-		Status initial_status = 0;
-		TT<Symbol, Token, Status>::initial(initial_status);
-		Status number = 1;
-		TT<Symbol, Token, Status>::initial(number);
-		Status string = 2;
-		TT<Symbol, Token, Status>::initial(string);
-		
-		TT<Symbol, Token, Status>::numbers(initial_status,Tokens::number,number);
-		TT<Symbol, Token, Status>::alphabet(initial_status,Tokens::string,string);
+	TT<char, Tokens, Status> semver(3);
+	Status initial_status = 0;
+	semver.initial(initial_status);
+	Status number = 1;
+	semver.initial(number);
+	Status string = 2;
+	semver.initial(string);
 
-		TT<Symbol, Token, Status>::numbers(number,Tokens::number,number);
+	semver.numbers(initial_status, Tokens::number, number);
+	semver.alphabet(initial_status, Tokens::string, string);
 
-		TT<Symbol, Token, Status>::numbers(string,Tokens::string, string);
-		TT<Symbol, Token, Status>::alphabet(string,Tokens::string, string);
+	semver.numbers(number, Tokens::number, number);
 
+	semver.numbers(string, Tokens::string, string);
+	semver.alphabet(string, Tokens::string, string);
 
-	}
-
-private:
-
-};
+	return semver;
+}
 
 template<typename Symbol /*Input*/, typename Token, typename Status/*Status*/>
 class Integer_TT : public TT<Symbol, Token, Status>
@@ -50,7 +39,6 @@ public:
 	}
 	constexpr void init()
 	{
-		TT<Symbol, Token, Status>::resize(2);
 		Status initial_status = 0;
 		TT<Symbol, Token, Status>::initial(initial_status);
 		Status integer = 1;
@@ -75,7 +63,6 @@ public:
 	}
 	constexpr void init()
 	{
-		TT<Symbol, Token, Status>::resize(3);
 		Status initial_status = 0;
 		TT<Symbol, Token, Status>::initial(initial_status);
 		Status integer = 1;

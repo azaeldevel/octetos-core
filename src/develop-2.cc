@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 	}
 	v3::lc::Tokens semver_tk1;
 	//std::array<std::array<v3::lc::Transition<v3::lc::Tokens,v3::lc::Status>,v3::lc::ASCII_LENGTH>,3> TT_Semver;
-	v3::lc::Semver_TT<char,v3::lc::Tokens,v3::lc::Status> semver_tt_1(3);
+	v3::lc::TT<char,v3::lc::Tokens,v3::lc::Status> semver_tt_1 = v3::lc::creat_tt_semver();
 	std::string token_str;
 	v3::Buffer semver_buff1(input1);
 	const char* buf_start = (const char*)semver_buff1;

@@ -139,19 +139,20 @@ template<typename C> bool equal(const C* initial, const C* target)
 	return true;
 }
 
-/*enum class Indicator : Status
+enum class Indicator : Status
 {
 	none,//no es us estado determinado, sin mebago, no cambia el estado previo por lo que se podria decir no no tiene efecto en el estado
 	accept,//estado de aceptacion, sin embargo deve terminar de inmediato
 	acceptable,//estado de aceptacion, sin embario que termine de inmediato
-	//reject,//rechazar y terminar de imendiato
-	//rejectable,//estado de rechazo, sin embargo no es necesario que termina de inmediato
+	reject,//rechazar y terminar de imendiato
+	rejectable,//estado de rechazo, sin embargo no es necesario que termina de inmediato
 	//prefix,//prefijo de analisis
-	//error,//
 	//finalized,
-	//terminate,//terminar de enmediato
-};*/
-/*const char* to_string(Indicator i)
+	error,//el simbolo no se esperaba
+	unknow,//simbolo que no pertenece al lenguaje
+	terminate,//terminar de enmediato, sin embargo no tienne efecto en el estado actual del automamta(podria decirse qu es lo mismo que el buffer se termine)
+};
+const char* to_string(Indicator i)
 {
 	switch(i)
 	{
@@ -163,12 +164,12 @@ template<typename C> bool equal(const C* initial, const C* target)
 	//case Indicator::terminate: return "terminate";
 	}
 	return "Unknow";
-}*/
+}
 
 	template<typename Token,typename Status/*Status*/>
 	struct Transition
 	{
-		//Indicator indicator;
+		Indicator indicator;
 		Status next;
 		Token token;
 
@@ -205,6 +206,19 @@ template<typename C> bool equal(const C* initial, const C* target)
 			}
 		}
 
+		constexpr TT(const TT& tt)
+		{
+			TT_BASE::resize(tt.size());
+			for (size_t s = 0; s < tt.size(); s++)
+			{
+				TT_BASE::at(s).resize(tt.at(s).size());
+				for (size_t t = 0; t < TT_BASE::at(s).size(); t++)
+				{
+					TT_BASE::at(s).at(t) = tt[s][t];
+				}
+			}
+		}
+
 		constexpr bool initial(Status status)
 		{
 			for(size_t i = 0; i < ASCII_LENGTH; i++)
@@ -212,10 +226,11 @@ template<typename C> bool equal(const C* initial, const C* target)
 				//std::cout << "initial : " << status << " - " << i << "\n";
 				TT_BASE::at(status)[i].next = 0;
 				TT_BASE::at(status)[i].token = Token::none;
+				TT_BASE::at(status)[i].indicator = Indicator::unknow;
 			}
 			return true;
 		}
-		constexpr bool initial(Status status,Token token)
+		/*constexpr bool initial(Status status, Token token)
 		{
 			for(size_t i = 0; i < ASCII_LENGTH; i++)
 			{
@@ -223,13 +238,14 @@ template<typename C> bool equal(const C* initial, const C* target)
 				TT_BASE::at(status)[i].token = token;
 			}
 			return true;
-		}
+		}*/
 		constexpr bool numbers(Status status, Token token,Status next)
 		{
 			for (size_t i = 48; i < 58; i++)
 			{
 				TT_BASE::at(status)[i].next = next;
 				TT_BASE::at(status)[i].token = token;
+				TT_BASE::at(status)[i].indicator = Indicator::acceptable;
 			}
 
 			return true;
@@ -240,11 +256,13 @@ template<typename C> bool equal(const C* initial, const C* target)
 			{
 				TT_BASE::at(status)[i].next = next;
 				TT_BASE::at(status)[i].token = token;
+				TT_BASE::at(status)[i].indicator = Indicator::acceptable;
 			}
 			for (size_t i = 97; i < 123; i++)
 			{
 				TT_BASE::at(status)[i].next = next;
 				TT_BASE::at(status)[i].token = token;
+				TT_BASE::at(status)[i].indicator = Indicator::acceptable;
 			}
 
 			return true;
@@ -253,6 +271,7 @@ template<typename C> bool equal(const C* initial, const C* target)
 		{
 			TT_BASE::at(status)[i].next = next;
 			TT_BASE::at(status)[i].token = token;
+			TT_BASE::at(status)[i].indicator = Indicator::acceptable;
 
 			return true;
 		}
@@ -299,6 +318,7 @@ public:
 		prev_transition = NULL;
 		token_start = index;
 		token_end = 0;
+		bool terminate = false;
 
 	    const Symbol* buff = (const Symbol*)*buffer;
         while(index < buffer->size() and actual_status < table->size())
@@ -313,6 +333,12 @@ public:
 				actual_state = actual_transition->token > Tokens::none;
                 next_status = actual_transition->next;
 
+
+				//verificando terminacion
+				if (actual_transition->indicator == Indicator::unknow) terminate = true;
+				else if (actual_transition->indicator == Indicator::reject) terminate = true;
+				else if (actual_transition->indicator == Indicator::terminate) terminate = true;
+				else if (actual_transition->indicator == Indicator::error) terminate = true;
 			}
 
             //std::cout << "whiel : Step 2\n";
@@ -329,6 +355,7 @@ public:
             //>>>finalizing
             {
 				if (not actual_state) break;
+				if (terminate) break;
             }
 
 			//repetir loop
