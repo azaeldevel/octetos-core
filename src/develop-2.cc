@@ -16,16 +16,16 @@ int main(int argc, char* argv[])
 	{
 		std::cout << "strlen : fallo\n";
 	}
-	v3::lc::Tokens semver_tk1;
-	//std::array<std::array<v3::lc::Transition<v3::lc::Tokens,v3::lc::Status>,v3::lc::ASCII_LENGTH>,3> TT_Semver;
-	v3::lc::TT<char,v3::lc::Tokens,v3::lc::Status> semver_tt_1 = v3::lc::creat_tt_semver();
+	v3::lex::Tokens semver_tk1;
+	//std::array<std::array<v3::lex::Transition<v3::lex::Tokens,v3::lex::Status>,v3::lex::ASCII_LENGTH>,3> TT_Semver;
+	v3::lex::TT<char,v3::lex::Tokens,v3::lex::Status> semver_tt_1 = v3::lex::creat_tt_semver();
 	std::string token_str;
 	v3::Buffer semver_buff1(input1);
 	const char* buf_start = (const char*)semver_buff1;
 	//size_t length = strlen(input1);
 	//const char* buff_end = buf_start + length;
-	v3::lc::A semver_lex1(semver_tt_1,semver_buff1);
-	v3::lc::Content<char> content_semver;
+	v3::lex::A semver_lex1(semver_tt_1,semver_buff1);
+	v3::lex::Content<char> content_semver;
 	std::cout << "input1 : " << input1 << "\n";
 	//semver_lex1.echo(true);
 
@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
 	std::list<std::string> tokens;
 	const char* input2 = "269.5t6.9-alpha2";
 	v3::Buffer semver_buff2(input2);
-	v3::lc::A semver_lex2(semver_tt_1, semver_buff2);
+	v3::lex::A semver_lex2(semver_tt_1, semver_buff2);
 	buf_start = (const char*)semver_buff2;
 	//length = strlen(input2);
 	//buff_end = buf_start + length;
@@ -194,15 +194,15 @@ int main(int argc, char* argv[])
 
 	std::cout << "\n\n\n";
 
-	//typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>, v3::lc::ASCII_LENGTH>, 2> TT_Integer;
+	//typedef std::array<std::array<v3::lex::Transition<v3::lex::Tokens, v3::lex::Status>, v3::lex::ASCII_LENGTH>, 2> TT_Integer;
 	const char* input3 = "2694564756";
-	v3::lc::Integer_TT<char, v3::lc::Tokens, v3::lc::Status> semver_tt_2(2);
+	v3::lex::Integer_TT<char, v3::lex::Tokens, v3::lex::Status> semver_tt_2(2);
 	v3::Buffer semver_buff3(input3);
 	buf_start = (const char*)semver_buff3;
 	//size_t length = strlen(input1);
 	//const char* buff_end = buf_start + length;
-	v3::lc::A semver_lex3(semver_tt_2, semver_buff3);
-	v3::lc::Content<char> content_integer;
+	v3::lex::A semver_lex3(semver_tt_2, semver_buff3);
+	v3::lex::Content<char> content_integer;
 	std::cout << "input3 : " << input3 << "\n";
 
 	semver_tk1 = semver_lex3.next(content_integer);
@@ -219,15 +219,15 @@ int main(int argc, char* argv[])
 
 	std::cout << "\n\n\n";
 
-	//typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>, v3::lc::ASCII_LENGTH>, 4> TT_Real;
+	//typedef std::array<std::array<v3::lex::Transition<v3::lex::Tokens, v3::lex::Status>, v3::lex::ASCII_LENGTH>, 4> TT_Real;
 	const char* input_decimal = "2694564756.032564";
-	v3::lc::Real_TT<char, v3::lc::Tokens, v3::lc::Status> decimal_tt(4);
+	v3::lex::Real_TT<char, v3::lex::Tokens, v3::lex::Status> decimal_tt(4);
 	v3::Buffer decimal_buff(input_decimal);
 	buf_start = (const char*)decimal_buff;
 	//size_t length = strlen(input1);
 	//const char* buff_end = buf_start + length;
-	v3::lc::A decimal_lex(decimal_tt, decimal_buff);
-	v3::lc::Content<char> content_decimal;
+	v3::lex::A decimal_lex(decimal_tt, decimal_buff);
+	v3::lex::Content<char> content_decimal;
 	std::cout << "input : " << input_decimal << "\n";
 
 	semver_tk1 = decimal_lex.next(content_decimal);
@@ -247,8 +247,8 @@ int main(int argc, char* argv[])
 	std::vector vec = {1,2,3,4};
 	//constexpr v3::Buffer semver_buff3("269.56.9-alpha+archlinux");
 
-	//constexpr v3::lc::Semver_TT<char, v3::lc::Tokens, v3::lc::Status, TT_Semver> semver_tt_5;
-	//const v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>& t = semver_tt_2[0][0];
+	//constexpr v3::lex::Semver_TT<char, v3::lex::Tokens, v3::lex::Status, TT_Semver> semver_tt_5;
+	//const v3::lex::Transition<v3::lex::Tokens, v3::lex::Status>& t = semver_tt_2[0][0];
 
 
 

@@ -12,7 +12,7 @@
 #include <string>
 #include <list>
 
-namespace oct::core::v3::lc
+namespace oct::core::v3::lex
 {
 typedef int Status;
 typedef int Token;
