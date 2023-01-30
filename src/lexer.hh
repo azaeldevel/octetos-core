@@ -173,22 +173,15 @@ const char* to_string(Indicator i)
 		Status next;
 		Token token;
 
-		void print(std::ostream& out) const
+		/*void print(std::ostream& out) const
 		{
 			out << next << " - ";
 			const char* strtoken = to_string(token);
 			if (strtoken) out << strtoken;
 			//out << to_string(indicator);
-		}
+		}*/
 	};
-
-	struct Selector
-	{
-		unsigned int i;
-		unsigned short j;
-	};
-
-	
+		
 	template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/>
 	class TT : public std::vector<std::vector<Transition<Token, Status>>>
 	{
@@ -329,16 +322,17 @@ public:
             //>>>reading data
             {
                 input = buff[index];
-                actual_transition = (const Transition<Token, Status> *) & (table->at(actual_status).at(input));
+                actual_transition = (const Transition<Token, Status>*) & (table->at(actual_status).at(input));
 				actual_state = actual_transition->token > Tokens::none;
                 next_status = actual_transition->next;
 
-
 				//verificando terminacion
+				/*
 				if (actual_transition->indicator == Indicator::unknow) terminate = true;
 				else if (actual_transition->indicator == Indicator::reject) terminate = true;
 				else if (actual_transition->indicator == Indicator::terminate) terminate = true;
 				else if (actual_transition->indicator == Indicator::error) terminate = true;
+				*/
 			}
 
             //std::cout << "whiel : Step 2\n";
@@ -383,15 +377,21 @@ public:
 		}
 		*/
 #endif
-		/*std::cout << "Finalizando ..\n";
+		/*
+		std::cout << "Finalizando ..\n";
 		std::cout << actual_status << "--'" << input << "'->";
 		if (prev_transition) prev_transition->print(std::cout);
-		std::cout << "\n";*/
-		if (prev_transition) 
+		std::cout << "\n";
+		*/
+		if (prev_transition)
 		{
 			actual_state = true;
 			return prev_transition->token;
 		}
+		else if (actual_transition->indicator == Indicator::unknow) return (Tokens)input;
+		else if (actual_transition->indicator == Indicator::reject) return (Tokens)input;
+		else if (actual_transition->indicator == Indicator::terminate) return (Tokens)input;
+		else if (actual_transition->indicator == Indicator::error) return (Tokens)input;
 
 		return Tokens::none;
 	}
