@@ -72,7 +72,57 @@ private:
 	void copy(const char*);
 };
 
+/*
+struct ED_A
+{
+	const char* message;
+};
+struct ED_B : public ED_A
+{
+	const char* filename;
+	unsigned int line;
+};
+struct ED_C : public ED_B
+{
+	unsigned int code;
+};
 
+template <typename D>
+class exception : public std::exception
+{
+public:
+	exception(const exception&)noexcept = default;
+
+	virtual const char* what() const noexcept
+	{
+		return ed.message;
+	}
+private:
+	D ed;
+};
+template <typename D>
+class exception : public std::exception
+{
+public:
+	exception(const exception&)noexcept = default;
+
+	exception(const char* message) noexcept
+	{
+		ed.mesage = message;
+	}
+	exception(const char* message, const char* filename, unsigned int line)noexcept
+	{
+		ed.mesage = message;
+	}
+
+	virtual const char* what() const noexcept
+	{
+		return ed.message;
+	}
+private:
+	D ed;
+
+};*/
 
 }
 

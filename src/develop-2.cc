@@ -17,8 +17,8 @@ int main(int argc, char* argv[])
 		std::cout << "strlen : fallo\n";
 	}
 	v3::lc::Tokens semver_tk1;
-	typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens,v3::lc::Status>,v3::lc::ASCII_LENGTH>,3> TT_Semver;
-	v3::lc::Semver_TT<char,v3::lc::Tokens,v3::lc::Status, TT_Semver> semver_tt_1;
+	//std::array<std::array<v3::lc::Transition<v3::lc::Tokens,v3::lc::Status>,v3::lc::ASCII_LENGTH>,3> TT_Semver;
+	v3::lc::Semver_TT<char,v3::lc::Tokens,v3::lc::Status> semver_tt_1(3);
 	std::string token_str;
 	v3::Buffer semver_buff1(input1);
 	const char* buf_start = (const char*)semver_buff1;
@@ -194,9 +194,9 @@ int main(int argc, char* argv[])
 
 	std::cout << "\n\n\n";
 
-	typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>, v3::lc::ASCII_LENGTH>, 2> TT_Integer;
+	//typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>, v3::lc::ASCII_LENGTH>, 2> TT_Integer;
 	const char* input3 = "2694564756";
-	v3::lc::Integer_TT<char, v3::lc::Tokens, v3::lc::Status, TT_Integer> semver_tt_2;
+	v3::lc::Integer_TT<char, v3::lc::Tokens, v3::lc::Status> semver_tt_2(2);
 	v3::Buffer semver_buff3(input3);
 	buf_start = (const char*)semver_buff3;
 	//size_t length = strlen(input1);
@@ -219,9 +219,9 @@ int main(int argc, char* argv[])
 
 	std::cout << "\n\n\n";
 
-	typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>, v3::lc::ASCII_LENGTH>, 4> TT_Real;
+	//typedef std::array<std::array<v3::lc::Transition<v3::lc::Tokens, v3::lc::Status>, v3::lc::ASCII_LENGTH>, 4> TT_Real;
 	const char* input_decimal = "2694564756.032564";
-	v3::lc::Real_TT<char, v3::lc::Tokens, v3::lc::Status, TT_Real> decimal_tt;
+	v3::lc::Real_TT<char, v3::lc::Tokens, v3::lc::Status> decimal_tt(4);
 	v3::Buffer decimal_buff(input_decimal);
 	buf_start = (const char*)decimal_buff;
 	//size_t length = strlen(input1);

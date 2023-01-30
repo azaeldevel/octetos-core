@@ -187,11 +187,23 @@ template<typename C> bool equal(const C* initial, const C* target)
 		unsigned short j;
 	};
 
-	template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,typename TT_BASE>
-	class TT : public TT_BASE
+	
+	template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/>
+	class TT : public std::vector<std::vector<Transition<Token, Status>>>
 	{
 	public:
-		constexpr TT() = default;
+		typedef std::vector<std::vector<Transition<Token, Status>>> TT_BASE;
+
+	public:
+		constexpr TT(size_t size)
+		{
+			TT_BASE::resize(size);
+			for (size_t i = 0; i < size; i++)
+			{
+				TT_BASE::at(i).resize(ASCII_LENGTH);
+				initial(i);
+			}
+		}
 
 		constexpr bool initial(Status status)
 		{
@@ -265,13 +277,13 @@ template<typename C> bool equal(const C* initial, const C* target)
 *\brief DFA type A
 *
 */
-template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/,typename TT_BASE>
+template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/>
 class A
 {
 public:
 
 public:
-	A(const TT<Symbol,Token,Status,TT_BASE>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),actual_state(false),index(0),actual_status(0),initial_status(0)
+	A(const TT<Symbol,Token,Status>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),actual_state(false),index(0),actual_status(0),initial_status(0)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
 		_echo = false;
@@ -297,7 +309,7 @@ public:
             //>>>reading data
             {
                 input = buff[index];
-                actual_transition = &(table->at(actual_status).at(input));
+                actual_transition = (const Transition<Token, Status> *) & (table->at(actual_status).at(input));
 				actual_state = actual_transition->token > Tokens::none;
                 next_status = actual_transition->next;
 
@@ -416,7 +428,7 @@ private:
 
 
 private:
-	const TT<Symbol,Token,Status,TT_BASE>* table;
+	const TT<Symbol,Token,Status>* table;
 	Buffer<Symbol>* buffer;
 	Symbol input;
 	bool actual_state;//estado del automata actual
