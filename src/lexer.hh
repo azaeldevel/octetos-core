@@ -26,6 +26,7 @@ enum class Tokens : int
 	NUL = 0,
 	SOH,
 	STX,
+	ETX,
 	EOT,
 	ENQ,
 	ACK,
@@ -59,12 +60,89 @@ enum class Tokens : int
 	double_quote,
 	symbol_numbers,
 	symbol_money,
+	percen,
+	ampersan,
+	single_quote,
+	parenthesis_open,
+	parenthesis_close,
+	asterisk,
+	plus,
+	minus,
+	dot,
+	symbol_diagonal,
+	digit_0		= 48,
+	digit_1,
+	digit_2,
+	digit_3,
+	digit_4,
+	digit_5,
+	digit_6,
+	digit_7,
+	digit_8,
+	digit_9,
+	symbol_column,
+	semicolumn,
+	less,
+	equal,
+	grater,
+	question,
+	arroba,
+	//>>upper case
+	char_A		= 65,
+	char_B,
+	char_C,
+	char_D,
+	char_E,
+	char_F,
+	char_G,
+	char_H,
+	char_I,
+	char_J,
+	char_K,
+	char_L,
+	char_M,
+	char_N,
+	char_O,
+	char_P,
+	char_Q,
+	char_R,
+	char_S,
+	char_T,
+	char_U,
+	char_V,
+	char_W,
+	char_X,
+	char_Y,
+	char_Z,
+	//>>
 
-
-
-	plus	= '+',
-	minus	= '-',
-	dot		= '.',
+	//>>>
+	char_a		=	97,
+	char_b,
+	char_c,
+	char_d,
+	char_e,
+	char_f,
+	char_g,
+	char_h,
+	char_i,
+	char_j,
+	char_k,
+	char_l,
+	char_m,
+	char_n,
+	char_o,
+	char_p,
+	char_q,
+	char_r,
+	char_s,
+	char_t,
+	char_u,
+	char_v,
+	char_w,
+	char_x,
+	char_y,
+	char_z,
 
 	EuroSign	= 218,
 	//>>>Extended ASCII
@@ -185,16 +263,17 @@ const char* to_string(Indicator i)
 {
 	switch(i)
 	{
-	case Indicator::none: return "none";
-	case Indicator::acceptable: return "acceptable";
-	case Indicator::accept: return "accept";
-	case Indicator::reject: return "reject";
-	case Indicator::rejectable: return "rejectable";
-	//case Indicator::prefix: return "prefix";
-	case Indicator::error: return "error";
-	case Indicator::unknow: return "unknow";
-	case Indicator::terminate: return "terminate";
+		case Indicator::none: return "none";
+		case Indicator::acceptable: return "acceptable";
+		case Indicator::accept: return "accept";
+		case Indicator::reject: return "reject";
+		case Indicator::rejectable: return "rejectable";
+		//case Indicator::prefix: return "prefix";
+		case Indicator::error: return "error";
+		case Indicator::unknow: return "unknow";
+		case Indicator::terminate: return "terminate";
 	}
+
 	return "Unknow";
 }
 
@@ -205,13 +284,15 @@ const char* to_string(Indicator i)
 		Status next;
 		Token token;
 
-		/*void print(std::ostream& out) const
+		/*
+		void print(std::ostream& out) const
 		{
 			out << next << " - ";
 			const char* strtoken = to_string(token);
 			if (strtoken) out << strtoken;
 			//out << to_string(indicator);
-		}*/
+		}
+		*/
 	};
 		
 	template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/>
@@ -301,13 +382,13 @@ const char* to_string(Indicator i)
 
 			return true;
 		}
-		constexpr bool symbol(Status status, Token token, Status next, Symbol i)
+		constexpr Transition<Token, Status>& symbol(Status status, Token token, Status next, Symbol i)
 		{
 			TT_BASE::at(status)[i].next = next;
 			TT_BASE::at(status)[i].token = token;
 			TT_BASE::at(status)[i].indicator = Indicator::acceptable;
 
-			return true;
+			return TT_BASE::at(status)[i];
 		}
 
 	private:
@@ -352,32 +433,28 @@ public:
 		prev_transition = NULL;
 		token_start = index;
 		token_end = 0;
-		bool terminate = false;
-
+		
 	    const Symbol* buff = (const Symbol*)*buffer;
         while(index < buffer->size() and actual_status < table->size())
         {
             //std::cout << "whiel : Step 0\n";
+
 
             //std::cout << "whiel : Step 1\n";
             //>>>reading data
             {
                 input = buff[index];
                 actual_transition = (const Transition<Token, Status>*) &(table->at(actual_status).at(input));
-				actual_state = actual_transition->token > Tokens::none;
                 next_status = actual_transition->next;
 
-				//verificando terminacion
-				if (actual_transition->indicator == Indicator::unknow) terminate = true;
-				else if (actual_transition->indicator == Indicator::error) terminate = true;
-				else if (actual_transition->indicator == Indicator::reject) terminate = true;
-				else if (actual_transition->indicator == Indicator::terminate) terminate = true;
+				//>>>
+
 			}
 
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-				//std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
+				std::cout << "|-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
 				//actual_transition->print(std::cout);
 				//std::cout << "\n";
 				
@@ -387,12 +464,19 @@ public:
             //std::cout << "whiel : Step 3\n";
             //>>>finalizing
             {
-				if (terminate)
+				//verificando terminacion
+				bool terminate_and_advance = false;
+				if (actual_transition->indicator == Indicator::unknow) terminate_and_advance = true;
+				else if (actual_transition->indicator == Indicator::error) terminate_and_advance = true;
+				else if (actual_transition->indicator == Indicator::reject) terminate_and_advance = true;
+				else if (actual_transition->indicator == Indicator::terminate) terminate_and_advance = true;
+				if (terminate_and_advance)
 				{
 					index++;
 					break;
 				}
-				if (not actual_state) break;
+				else if (actual_transition->indicator == Indicator::accept) break;
+				//if (not actual_state) break;
             }
 
 			//repetir loop
@@ -421,7 +505,7 @@ public:
 		*/
 #endif
 		/*
-		std::cout << "Finalizando ..\n";
+		std::cout << "Finalizando..\n";
 		std::cout << actual_status << "--'" << input << "'->";
 		if (prev_transition) prev_transition->print(std::cout);
 		std::cout << "\n";
@@ -431,12 +515,15 @@ public:
 			actual_state = true;
 			return prev_transition->token;
 		}
-		else if (actual_transition->indicator == Indicator::error) return (Tokens)input;
-		else if (actual_transition->indicator == Indicator::unknow) return (Tokens)input;
-		else if (actual_transition->indicator == Indicator::reject) return (Tokens)input;
-		else if (actual_transition->indicator == Indicator::terminate) return (Tokens)input;
+		else if (actual_transition)
+		{
+			if (actual_transition->indicator == Indicator::error) return (Token)input;
+			else if (actual_transition->indicator == Indicator::unknow) return (Token)input;
+			else if (actual_transition->indicator == Indicator::reject) return (Token)input;
+			else if (actual_transition->indicator == Indicator::terminate) return (Token)input;
+		}
 
-		return Tokens::none;
+		return Token::none;
 	}
 	Tokens next(TokenDefinition<Symbol>& content)
 	{
@@ -483,16 +570,19 @@ public:
 			return false;
 		}
 	}
-
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
 	{
 		_echo = e;
 	}
 #endif
-	bool is_accepted()const
+	bool is_accepted() const
 	{
 		return actual_state;
+	}
+	Indicator get_indicator () const
+	{
+		return actual_transition ? actual_transition->indicator : Indicator::none;
 	}
 private:
 

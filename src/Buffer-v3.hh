@@ -115,7 +115,7 @@ public:
 		std::ifstream sfile;
 		pbuf = ifs.rdbuf();
 		pbuf->sgetn (buffer,_size);
-		//std::cout << "Buffer content : >>\n" << buffer << "<<\n";
+		//std::cout << "Buffer content : >>" << buffer << "<<\n";
 
 		if (sfile.is_open()) sfile.close();
 	}
