@@ -106,6 +106,7 @@ public:
 
 		_size = std::filesystem::file_size(file);
 		if(_size == 0) return;
+		//std::cout << "Buffer size : " << _size << "\n";
 
 		buffer = new T[_size + 1];
 		std::ifstream ifs(file, std::ifstream::binary);
@@ -114,6 +115,7 @@ public:
 		std::ifstream sfile;
 		pbuf = ifs.rdbuf();
 		pbuf->sgetn (buffer,_size);
+		//std::cout << "Buffer content : >>\n" << buffer << "<<\n";
 
 		if (sfile.is_open()) sfile.close();
 	}

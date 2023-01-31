@@ -27,10 +27,39 @@ enum class Tokens : int
 	SOH,
 	STX,
 	EOT,
-
-
+	ENQ,
+	ACK,
+	BEL,
+	BS,
+	TAB,
+	LF,
+	VT,
+	FF,
+	CR,
+	SO,
+	SI,
+	DLE,
+	DC1,
+	DC2,
+	DC3,
+	DC4,
+	NAK,
+	SYN,
+	ETB,
+	CAN,
+	EM,
+	SUB,
+	ESC,
+	FS,
+	GS,
+	RS,
 	US = 31,
 	space,
+	exclamation_mark,
+	double_quote,
+	symbol_numbers,
+	symbol_money,
+
 
 
 	plus	= '+',
@@ -159,9 +188,12 @@ const char* to_string(Indicator i)
 	case Indicator::none: return "none";
 	case Indicator::acceptable: return "acceptable";
 	case Indicator::accept: return "accept";
-	//case Indicator::reject: return "reject";
+	case Indicator::reject: return "reject";
+	case Indicator::rejectable: return "rejectable";
 	//case Indicator::prefix: return "prefix";
-	//case Indicator::terminate: return "terminate";
+	case Indicator::error: return "error";
+	case Indicator::unknow: return "unknow";
+	case Indicator::terminate: return "terminate";
 	}
 	return "Unknow";
 }
@@ -189,7 +221,7 @@ const char* to_string(Indicator i)
 		typedef std::vector<std::vector<Transition<Token, Status>>> TT_BASE;
 
 	public:
-		constexpr TT(size_t size)
+		constexpr TT(size_t size, std::vector<Symbol> ss) : simbols(ss)
 		{
 			TT_BASE::resize(size);
 			for (size_t i = 0; i < size; i++)
@@ -197,8 +229,16 @@ const char* to_string(Indicator i)
 				TT_BASE::at(i).resize(ASCII_LENGTH);
 				initial(i);
 			}
+			for (size_t s = 0; s < TT_BASE::size(); s++)
+			{
+				//std::cout << "\n";
+				for (Symbol c : ss)
+				{
+					//std::cout << "Estado : " << s << " - Symbol : " << c << "\n";
+					TT_BASE::at(s)[c].indicator = Indicator::error;//todos la entradas para todos los estados deveran producir error a menos que se indique lo contrario.
+				}
+			}
 		}
-
 		constexpr TT(const TT& tt)
 		{
 			TT_BASE::resize(tt.size());
@@ -211,7 +251,6 @@ const char* to_string(Indicator i)
 				}
 			}
 		}
-
 		constexpr bool initial(Status status)
 		{
 			for(size_t i = 0; i < ASCII_LENGTH; i++)
@@ -223,7 +262,8 @@ const char* to_string(Indicator i)
 			}
 			return true;
 		}
-		/*constexpr bool initial(Status status, Token token)
+		/*
+		constexpr bool initial(Status status, Token token)
 		{
 			for(size_t i = 0; i < ASCII_LENGTH; i++)
 			{
@@ -231,7 +271,8 @@ const char* to_string(Indicator i)
 				TT_BASE::at(status)[i].token = token;
 			}
 			return true;
-		}*/
+		}
+		*/
 		constexpr bool numbers(Status status, Token token,Status next)
 		{
 			for (size_t i = 48; i < 58; i++)
@@ -270,11 +311,11 @@ const char* to_string(Indicator i)
 		}
 
 	private:
-
+		const std::vector<Symbol> simbols;
 	};
 
 	template<typename Symbol /*Input*/>
-	struct Content
+	struct TokenDefinition
 	{
 		const Symbol* base;
 		size_t length;
@@ -322,34 +363,36 @@ public:
             //>>>reading data
             {
                 input = buff[index];
-                actual_transition = (const Transition<Token, Status>*) & (table->at(actual_status).at(input));
+                actual_transition = (const Transition<Token, Status>*) &(table->at(actual_status).at(input));
 				actual_state = actual_transition->token > Tokens::none;
                 next_status = actual_transition->next;
 
 				//verificando terminacion
-				/*
 				if (actual_transition->indicator == Indicator::unknow) terminate = true;
+				else if (actual_transition->indicator == Indicator::error) terminate = true;
 				else if (actual_transition->indicator == Indicator::reject) terminate = true;
 				else if (actual_transition->indicator == Indicator::terminate) terminate = true;
-				else if (actual_transition->indicator == Indicator::error) terminate = true;
-				*/
 			}
 
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-				/*
-				std::cout << actual_status << "--'" << input << "'->";
-				actual_transition->print(std::cout);
-				std::cout << "\n";
-				*/
+				//std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
+				//actual_transition->print(std::cout);
+				//std::cout << "\n";
+				
+
             }
 
             //std::cout << "whiel : Step 3\n";
             //>>>finalizing
             {
+				if (terminate)
+				{
+					index++;
+					break;
+				}
 				if (not actual_state) break;
-				if (terminate) break;
             }
 
 			//repetir loop
@@ -388,14 +431,14 @@ public:
 			actual_state = true;
 			return prev_transition->token;
 		}
+		else if (actual_transition->indicator == Indicator::error) return (Tokens)input;
 		else if (actual_transition->indicator == Indicator::unknow) return (Tokens)input;
 		else if (actual_transition->indicator == Indicator::reject) return (Tokens)input;
 		else if (actual_transition->indicator == Indicator::terminate) return (Tokens)input;
-		else if (actual_transition->indicator == Indicator::error) return (Tokens)input;
 
 		return Tokens::none;
 	}
-	Tokens next(Content<Symbol>& content)
+	Tokens next(TokenDefinition<Symbol>& content)
 	{
 		Tokens token = next();
 		if (token <= Tokens::none) return token;
