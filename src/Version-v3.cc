@@ -40,7 +40,7 @@ namespace oct::core::v3
 	Semver version(PACKAGE_VERSION);
 
 
-	
+
 	Semver::Exception::Exception()
 	{
 	}
@@ -59,9 +59,9 @@ namespace oct::core::v3
 	Semver::Exception::~Exception()
 	{
 	}
-	
+
 	/*const char* Semver::Exception::what() const throw ()
-	{	
+	{
 		return _message;
 	}*/
 
@@ -256,7 +256,7 @@ namespace oct::core::v3
         patch = v.patch;
         if(v.prerelease)copy_prerelease(v.prerelease);
         if(v.build)copy_build(v.build);
-		
+
         return *this;
     }
     void Semver::set(Number major, Number minor, Number patch, const std::string& prestr)
@@ -389,7 +389,7 @@ namespace oct::core::v3
         return false;
     }
 
-	
+
     void Semver::copy_prerelease(const char* prer)
     {
         if (prerelease) delete[] prerelease;
@@ -413,7 +413,7 @@ namespace oct::core::v3
         if (build) delete[] build;
         std::size_t leng = strlen(strb) + 1;
         build = new char[leng];
-        
+
 #ifdef COMPILER_VS
         strcpy_s(build, leng, strb);
 #elif defined COMPILER_GCC
