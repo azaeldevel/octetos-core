@@ -8,7 +8,7 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/octetos-core" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output="bin/obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option projectCompilerOptionsRelation="0" />
@@ -34,7 +34,7 @@
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-g -std=c++20" />
+					<Add option="-Wall -g -std=c++20" />
 				</Compiler>
 			</Target>
 			<Target title="version">
