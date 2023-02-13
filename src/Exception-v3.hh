@@ -22,10 +22,13 @@
  * */
 
 #include <exception>
+#include <source_location>
+
 #include "core.hh"
 
 namespace oct::core::v3
 {
+
 class OCTETOS_CORE_DECLSPCE_DLL Exception : public std::exception
 {
 public:
@@ -72,57 +75,57 @@ private:
 	void copy(const char*);
 };
 
-/*
-struct ED_A
-{
-	const char* message;
-};
-struct ED_B : public ED_A
-{
-	const char* filename;
-	unsigned int line;
-};
-struct ED_C : public ED_B
-{
-	unsigned int code;
-};
-
-template <typename D>
 class exception : public std::exception
 {
 public:
-	exception(const exception&)noexcept = default;
+	typedef int errono;
 
-	virtual const char* what() const noexcept
-	{
-		return ed.message;
-	}
-private:
-	D ed;
-};
-template <typename D>
-class exception : public std::exception
-{
 public:
 	exception(const exception&)noexcept = default;
+	exception(exception&&) noexcept = default;
 
-	exception(const char* message) noexcept
+	exception(errono code, const std::source_location& location = std::source_location::current())noexcept : _code(code), _location(location), _code_flag(true)
 	{
-		ed.mesage = message;
 	}
-	exception(const char* message, const char* filename, unsigned int line)noexcept
+	exception(errono code, const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(code), _location(location), _message(message), _code_flag(true)
 	{
-		ed.mesage = message;
+	}
+	exception(const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(0), _location(location), _message(message), _code_flag(false)
+	{
+	}
+	virtual ~exception()noexcept
+	{
+	}
+
+	inline errono code()const
+	{
+		return _code;
 	}
 
 	virtual const char* what() const noexcept
 	{
-		return ed.message;
-	}
-private:
-	D ed;
+		if (description.empty())
+		{
+			description = _location.file_name();
+			description += ":";
+			description += std::to_string(_location.line()) + " ";
+			if (_code_flag) description += "- " + std::to_string(_code);
+			if (not _message.empty()) description += _message;
+		}
 
-};*/
+		return description.c_str();
+	}
+
+protected:
+	errono _code;
+	bool _code_flag;
+	std::string _message;
+	std::source_location _location;
+
+private:
+	mutable std::string description;
+};
+
 
 }
 
