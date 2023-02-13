@@ -79,18 +79,23 @@ class exception : public std::exception
 {
 public:
 	typedef int errono;
+	static const errono err_none = 0;
 
 public:
 	exception(const exception&)noexcept = default;
 	exception(exception&&) noexcept = default;
 
+
+	exception(const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _location(location), _code_flag(true)
+	{
+	}
 	exception(errono code, const std::source_location& location = std::source_location::current())noexcept : _code(code), _location(location), _code_flag(true)
 	{
 	}
 	exception(errono code, const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(code), _location(location), _message(message), _code_flag(true)
 	{
 	}
-	exception(const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(0), _location(location), _message(message), _code_flag(false)
+	exception(const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _location(location), _message(message), _code_flag(false)
 	{
 	}
 	virtual ~exception()noexcept
