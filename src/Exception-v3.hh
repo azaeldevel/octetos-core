@@ -86,7 +86,7 @@ public:
 	exception(exception&&) noexcept = default;
 
 
-	exception(const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _location(location), _code_flag(true)
+	exception(const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _location(location), _code_flag(false)
 	{
 	}
 	exception(errono code, const std::source_location& location = std::source_location::current())noexcept : _code(code), _location(location), _code_flag(true)
