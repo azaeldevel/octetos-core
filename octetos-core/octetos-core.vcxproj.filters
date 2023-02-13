@@ -41,9 +41,6 @@
     <ClInclude Include="..\src\core.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\data.hh">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\defines.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>

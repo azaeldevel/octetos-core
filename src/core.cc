@@ -53,7 +53,8 @@ namespace oct
     #error "Pltaforma desconocida"
 #endif
 }
-namespace oct::core
+
+namespace oct::core::v2
 {
 
 	unsigned int getDayID()
@@ -105,4 +106,17 @@ namespace oct::core
 	}
 	
 	
+}
+
+namespace oct::core::v3
+{
+
+
+}
+
+
+namespace oct::core
+{
+
+
 }

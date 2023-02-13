@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\arrays.hh" />
+    <ClInclude Include="..\src\core.hh" />
     <ClInclude Include="..\src\defines.hh" />
   </ItemGroup>
   <ItemGroup>
