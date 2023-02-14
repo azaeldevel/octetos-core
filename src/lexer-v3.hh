@@ -454,6 +454,7 @@ const char* to_string(Indicator i)
 			}
 			state_max = create();
 			TT_BASE::at(state_current)[input].next = state_max;
+			TT_BASE::at(state_current)[input].token = token;
 			TT_BASE::at(state_current)[input].indicator = Indicator::acceptable;
 			for (size_t k = 0; k < length_transition(); k++)
 			{
@@ -497,6 +498,14 @@ const char* to_string(Indicator i)
 				input = simbols[i];
 				TT_BASE::at(state_max)[input].next = state_max;
 				TT_BASE::at(state_max)[input].indicator = Indicator::acceptable;
+				TT_BASE::at(state_max)[input].token = token;
+			}
+			for (size_t i = 0; i < prefixs.size(); i++)//reading char by char..
+			{
+				input = prefixs[i];
+				if (std::find(simbols.begin(), simbols.end(), input) != simbols.end()) continue;
+				TT_BASE::at(state_max)[input].next = 0;
+				TT_BASE::at(state_max)[input].indicator = Indicator::accept;
 				TT_BASE::at(state_max)[input].token = token;
 			}
 
@@ -549,7 +558,9 @@ public:
 		token_start = index;
 		token_end = 0;
 		prefix_transition = NULL;
+		acceptable_transition = NULL;
 		bool prefix_ended = false;
+		bool acceptable_ended = false;
 	    const Symbol* buff = (const Symbol*)*buffer;
 		prefix_start = 0;
 
@@ -570,13 +581,17 @@ public:
 				{
 					prefix_transition = actual_transition;
 					prefix_start = index;
-					//std::cout << "iniciando ...by prefix\n"; 
-					//actual_transition->print(std::cout);
-					//std::cout << "\n";
 				}
 				else if (actual_transition->indicator == Indicator::accept) prefix_ended = true;
 				else if (actual_transition->indicator == Indicator::reject) prefix_ended = true;
 
+				//--acceptable-->accept|reject
+				if (actual_transition->indicator == Indicator::acceptable and not acceptable_ended)
+				{
+					acceptable_transition = actual_transition;
+				}
+				else if (actual_transition->indicator == Indicator::accept) acceptable_ended = true;
+				else if (actual_transition->indicator == Indicator::reject) acceptable_ended = true;
 				//>>>
 
 			}
@@ -586,10 +601,10 @@ public:
             {
 				//std::cout << "Input : '" << int(input) << "'\n";
 				//std::cout << "Input : '" << int('\n') << "'\n";
-				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
+				if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
 				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
 				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
-				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";*/
+				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
 				/*std::cout << "Index : '" << index << "'\n"; */
 				
 				//>>>
@@ -601,7 +616,12 @@ public:
             {
 				//verificando terminacion
 				bool terminate_and_advance = false;
-				if (prefix_transition and prefix_ended)
+				if (acceptable_transition and acceptable_ended)
+				{
+					//std::cout << "terminating ...by prefix\n";
+					break;
+				}
+				else if (prefix_transition and prefix_ended)
 				{
 					//std::cout << "terminating ...by prefix\n";
 					index = prefix_start;
@@ -635,7 +655,12 @@ public:
 #ifdef OCTETOS_CORE_ENABLE_DEV
 		
 #endif
-		if (actual_transition->indicator == Indicator::accept)
+		if (acceptable_transition and acceptable_ended)
+		{
+			actual_state = true;
+			return actual_transition->token;
+		}
+		else if (actual_transition->indicator == Indicator::accept)
 		{
 			actual_state = true;
 			return actual_transition->token;
@@ -751,7 +776,7 @@ private:
 	Symbol input;
 	bool actual_state;//estado del automata actual
 	size_t index,token_start,token_end;//prefix_index
-    const Transition<Token, State> *actual_transition, *prev_transition, *prefix_transition;
+    const Transition<Token, State> *actual_transition, *prev_transition, *prefix_transition, *acceptable_transition;
 	State actual_status,next_status;//numero del estado actual del automata
     const State initial_status;
     bool prefix_start;
