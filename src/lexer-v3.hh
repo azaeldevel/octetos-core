@@ -279,7 +279,7 @@ enum class Indicator : State
 	//finalized,
 	error,//el simbolo no se esperaba
 	unknow,//simbolo que no pertenece al lenguaje
-	terminate,//terminar de enmediato, sin embargo no tienne efecto en el estado actual del automamta(podria decirse qu es lo mismo que el buffer se termine),acceptable --> terminate, rejectable --> terminate
+	//terminate,//terminar de enmediato, sin embargo no tienne efecto en el estado actual del automamta(podria decirse qu es lo mismo que el buffer se termine),acceptable --> terminate, rejectable --> terminate
 };
 const char* to_string(Indicator i)
 {
@@ -293,7 +293,7 @@ const char* to_string(Indicator i)
 		case Indicator::prefix: return "prefix";
 		case Indicator::error: return "error";
 		case Indicator::unknow: return "unknow";
-		case Indicator::terminate: return "terminate";
+		//case Indicator::terminate: return "terminate";
 	}
 
 	return "Unknow";
@@ -649,7 +649,7 @@ public:
                 actual_transition = (const Transition<Token, State>*) &(table->at(actual_status).at(input));
                 next_status = actual_transition->next;
 
-				//--prefix-->accept
+				//--prefix-->accept|reject
 				if (actual_transition->indicator == Indicator::prefix)
 				{
 					selected_transition = actual_transition;
@@ -659,15 +659,8 @@ public:
 					//std::cout << "\n";
 				}
 				else if (actual_transition->indicator == Indicator::accept) selected_ended = true;
-				//--acceptable-->accept
-				if (actual_transition->indicator == Indicator::acceptable)
-				{
-					selected_transition = actual_transition;
-					//std::cout << "iniciando ...by prefix\n"; 
-					//actual_transition->print(std::cout);
-					//std::cout << "\n";
-				}
-				else if (actual_transition->indicator == Indicator::accept) selected_ended = true;
+				else if (actual_transition->indicator == Indicator::reject) selected_ended = true;
+
 				//>>>
 
 			}
@@ -677,10 +670,10 @@ public:
             {
 				//std::cout << "Input : '" << int(input) << "'\n";
 				//std::cout << "Input : '" << int('\n') << "'\n";
-				if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
+				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
 				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
 				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
-				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
+				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";*/
 				/*std::cout << "Index : '" << index << "'\n"; */
 				
 				//>>>
@@ -695,12 +688,12 @@ public:
 				if (selected_transition and selected_ended)
 				{
 					//std::cout << "terminating ...by prefix\n";
+					index = prefix_start;
 					break;
 				}
 				else if (actual_transition->indicator == Indicator::unknow) terminate_and_advance = true;
 				else if (actual_transition->indicator == Indicator::error) terminate_and_advance = true;
 				else if (actual_transition->indicator == Indicator::reject) terminate_and_advance = true;
-				else if (actual_transition->indicator == Indicator::terminate) terminate_and_advance = true;
 				if (terminate_and_advance)
 				{
 					index++;
@@ -743,6 +736,10 @@ public:
 		{
 			return actual_transition->token;
 		}
+		else if (actual_transition->indicator == Indicator::reject)
+		{
+			return actual_transition->token;
+		}
 		else if (selected_transition and selected_ended)
 		{
 			//std::cout << "Return token : ";
@@ -765,7 +762,6 @@ public:
 			if (actual_transition->indicator == Indicator::error) return (Token)input;
 			else if (actual_transition->indicator == Indicator::unknow) return (Token)input;
 			else if (actual_transition->indicator == Indicator::reject) return (Token)input;
-			else if (actual_transition->indicator == Indicator::terminate) return (Token)input;
 		}
 
 		return Token::none;
