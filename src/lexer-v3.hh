@@ -38,7 +38,6 @@ namespace oct::core::v3::lex
 {
 typedef int State;
 typedef size_t Index;
-//static const unsigned char ASCII_LENGTH = 128;
 
 enum class Tokens : int
 {//https://www.charset.org/utf-8,https://www.asciitable.com/,https://www.rapidtables.com/code/text/ascii-table.html
