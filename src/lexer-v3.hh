@@ -37,9 +37,8 @@
 namespace oct::core::v3::lex
 {
 typedef int State;
-typedef int Token;
 typedef size_t Index;
-static const unsigned char ASCII_LENGTH = 128;
+//static const unsigned char ASCII_LENGTH = 128;
 
 enum class Tokens : int
 {//https://www.charset.org/utf-8,https://www.asciitable.com/,https://www.rapidtables.com/code/text/ascii-table.html
@@ -186,16 +185,7 @@ enum class Tokens : int
 
 	//>>>Tokens
 	tokens	= 0x110000,
-	number,
-		integer,
-		decimal,//incluye punto flotante
-		digit,//cararte digito
-	string,
-		letter,//caracter
-	identifier,
-	keyword,
-	softword,
-	expresion,
+	
 
 };
 
@@ -214,41 +204,11 @@ const char* to_string(Tokens t)
 	case Tokens::dot:
 		return "'.'";
 
-
-	case Tokens::number:
-		return "number";
-	case Tokens::integer:
-		return "integer";
-	case Tokens::decimal:
-		return "decimal";
-	case Tokens::letter:
-		return "letter";
-	case Tokens::string:
-		return "string";
-	case Tokens::identifier:
-		return "identifier";
-	case Tokens::softword:
-		return "softword";
-	case Tokens::expresion:
-		return "expresion";
 	}
 
 	return NULL;
 }
 
-template<typename C> bool is_whitespace(C c)
-{
-	switch(c)
-	{
-		case ' ':
-		case '\t':
-		case '\n':
-			return true;
-		default :
-			return false;
-	}
-	return false;
-}
 
 template<typename C> bool equal(const C* initial, const C* target)
 {
@@ -278,24 +238,21 @@ enum class Indicator : State
 	reject,//rechazar y terminar de imendiato
 	rejectable,//equivalente a none, sin embargo, puede equvaler a rejet en cietas circunstacion
 	prefix,//prefijo de analisis, un vez establecido es valido hasta encontrar el proximo accept, no sera en otro caso valido.
-	//finalized,
 	error,//el simbolo no se esperaba
 	unknow,//simbolo que no pertenece al lenguaje
-	//terminate,//terminar de enmediato, sin embargo no tienne efecto en el estado actual del automamta(podria decirse qu es lo mismo que el buffer se termine),acceptable --> terminate, rejectable --> terminate
 };
 const char* to_string(Indicator i)
 {
 	switch(i)
 	{
 		case Indicator::none: return "none";
-		//case Indicator::acceptable: return "acceptable";
+		case Indicator::acceptable: return "acceptable";
 		case Indicator::accept: return "accept";
 		case Indicator::reject: return "reject";
-		//case Indicator::rejectable: return "rejectable";
+		case Indicator::rejectable: return "rejectable";
 		case Indicator::prefix: return "prefix";
 		case Indicator::error: return "error";
 		case Indicator::unknow: return "unknow";
-		//case Indicator::terminate: return "terminate";
 	}
 
 	return "Unknow";
@@ -307,24 +264,11 @@ const char* to_string(Indicator i)
 		Indicator indicator;
 		State next;
 		Token token;
-		//bool seted;
 
 		Transition() : indicator(Indicator::unknow),next(-1), token(Token::none)
 		{
 		}
 		Transition(const Transition& obj) = default;
-
-		/*
-		const Transition& operator =(const Transition& obj)
-		{
-			indicator = obj.indicator;
-			next = obj.next;
-			token = obj.token;
-			seted = obj.seted;
-
-			return *this;
-		}
-		*/
 
 		void print(std::ostream& out) const
 		{
@@ -365,7 +309,6 @@ const char* to_string(Indicator i)
 			if (TT_BASE::size() != size_inital + to_add) exception("El tamaño del contenedor no es el adecuado.");
 			size_t size_post = TT_BASE::size();
 			size_t base_post = size_inital > 0 ? size_inital - 1 : 0;
-			//static_assert(TT_BASE::capacity() == to_add, "El contenedor no se ajusto al tamanp requerido");
 			for (size_t i = base_post; i < size_post; i++)
 			{
 				TT_BASE::at(i).resize(length_transition());
@@ -396,20 +339,7 @@ const char* to_string(Indicator i)
 				}
 			}
 		}
-
-		/*constexpr bool initial(State status)
-		{
-			for(size_t i = 0; i < length_transition(); i++)
-			{
-				//std::cout << "initial : " << status << " - " << i << "\n";
-				TT_BASE::at(status)[i].next = -1;
-				TT_BASE::at(status)[i].token = Token::none;
-				TT_BASE::at(status)[i].indicator = Indicator::unknow;
-				TT_BASE::at(status)[i].seted = false;
-			}
-			return true;
-		}*/
-		
+				
 		constexpr const std::vector<Symbol>& simbols() const
 		{
 			return _simbols;
@@ -514,7 +444,6 @@ const char* to_string(Indicator i)
 				}
 				else
 				{
-					//TT_BASE::at(state_current)[input].seted = true;
 					TT_BASE::at(state_current)[input].indicator = Indicator::none;
 					if (i + 1 < sz_str)//si hay mas texto que leer de la palabra
 					{
@@ -534,7 +463,6 @@ const char* to_string(Indicator i)
 				TT_BASE::at(state_max)[k].next = 0;
 				TT_BASE::at(state_max)[k].token = token;
 				TT_BASE::at(state_max)[k].indicator = Indicator::accept;
-				//TT_BASE::at(state_max)[k].seted = true;
 			}
 
 			return state_max;
@@ -706,20 +634,7 @@ public:
 			}
         }
 #ifdef OCTETOS_CORE_ENABLE_DEV
-		/*
-		if (actual_state == Indicator::accept)
-		{
-			std::cout << "Acepted\n";
-		}
-		else if (actual_state == Indicator::reject)
-		{
-			std::cout << "Rejected\n";
-		}
-		else
-		{
-
-		}
-		*/
+		
 #endif
 		if (actual_transition->indicator == Indicator::accept)
 		{
@@ -728,12 +643,6 @@ public:
 		}
 		else if (prefix_transition and prefix_ended)
 		{
-			//std::cout << "Return token : ";
-			//prefix_transition->print(std::cout);
-			//std::cout << "\n";
-			//std::cout << "Input : '" << input << "'\n";
-			//std::cout << "Index : '" << index << "'\n";
-			//std::cout << "Token : '" << int(prefix_transition->token) << "'\n";
 			actual_state = true;
 			index = index - prefix_start + 1;
 			return actual_transition->token;
