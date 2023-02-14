@@ -526,6 +526,7 @@ const char* to_string(Indicator i)
 			}
 			state_max = create();
 			TT_BASE::at(state_current)[input].next = state_max;
+			TT_BASE::at(state_current)[input].indicator = Indicator::acceptable;
 			for (size_t k = 0; k < length_transition(); k++)
 			{
 				if (std::find(prefixs.begin(), prefixs.end(), Symbol(k)) == prefixs.end()) continue;
