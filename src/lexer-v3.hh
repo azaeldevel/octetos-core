@@ -188,24 +188,43 @@ enum class Tokens : int
 
 };
 
-const char* to_string(Tokens t)
+template<typename Token> std::string to_string(Token t)
 {
-	switch (t)
-	{
-	case Tokens::none:
-		return "none";
-	case Tokens::space:
-		return "' '";
-	case Tokens::plus:
-		return "'+'";
-	case Tokens::minus:
-		return "'-'";
-	case Tokens::dot:
-		return "'.'";
+	std::string str;
 
+	if (t <= Token::US)
+	{
+		return "control char";
+	}
+	else if (t >= Token::digit_0 or t <= Token::digit_9)
+	{
+		std::string str_token(0,char(t));
+		str = "Digito '" + str_token + "'";
+		return str;
+	}
+	else if (t >= Token::char_A or t <= Token::char_Z)
+	{
+		std::string str_token(0,char(t));
+		str = "Letra '" + str_token + "'";
+		return str;
+	}
+	else if (t > Token::tokens)
+	{
+		if (t > Token::keyword_auto)
+		{
+			return "keyword auto";
+		}
+		else if (t > Token::keyword_break)
+		{
+			return "keyword break";
+		}
+		else if (t > Token::keyword_case)
+		{
+			return "keyword case";
+		}
 	}
 
-	return NULL;
+	return std::to_string((int)t);
 }
 
 
@@ -429,7 +448,7 @@ const char* to_string(Indicator i)
 		
 		constexpr State word(const char* str, Token token, const std::vector<Symbol>& prefixs)
 		{
-			size_t sz_str = std::strlen(str);
+			size_t sz_str = strlen(str);
 			if (sz_str == 0) return EMPTY_INPUT;
 			State state_current = initial_state, state_max = initial_state;
 			Symbol input;
