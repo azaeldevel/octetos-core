@@ -333,13 +333,23 @@ const char* to_string(Indicator i)
 		}
 	};
 
-		
+	template<typename Symbol, typename Token>
+	struct pair_keyword
+	{
+		const Symbol* string;
+		Token token;
+	};
+
 	template<typename Symbol /*Input*/,typename Token,typename State/*Status*/>
 	class TT : public std::vector<std::vector<Transition<Token, State>>>
 	{
 	public:
 		typedef std::vector<Transition<Token, State>> TT_SYMBOLS;
 		typedef std::vector<TT_SYMBOLS> TT_BASE;
+		static const State EMPTY_STATE = -1;
+		static const State EMPTY_INPUT = -2;
+		static const State USED = -3;
+
 		static constexpr  unsigned int length_transition()
 		{
 			//if (typeid(Symbol) == typeid(char)) return 128;//ascci table
@@ -403,75 +413,178 @@ const char* to_string(Indicator i)
 			return _simbols;
 		}
 
+		int check(std::ostream& out, Indicator indicator = Indicator::unknow, State state = initial_state) const
+		{
+			if (state < 0) return 0;
+			if (state >= TT_BASE::size()) return 0;//caso base
+
+			int erros = 0;
+
+			for (Symbol s = 0; s < TT_BASE::at(state).size(); s++)//cheking para cada simbolo en el estado actual
+			{
+				if (indicator == Indicator::none)
+				{
+					if (TT_BASE::at(state)[s].indicator == Indicator::none)
+					{
+					}
+					else if (TT_BASE::at(state)[s].indicator == Indicator::prefix)
+					{
+					}
+					else if (TT_BASE::at(state)[s].indicator == Indicator::acceptable)
+					{
+					}
+					else if (TT_BASE::at(state)[s].indicator == Indicator::accept)
+					{
+					}
+					else
+					{
+						out << state << ":" << Symbol(s) << " - " << "Unavez que se estable un estado como inidicador none, los estados posteriores solo puede ser, none, prefix, acceptable, accept\n";
+						erros++;
+					}
+				}
+				else if (indicator == Indicator::prefix)
+				{
+					if (TT_BASE::at(state)[s].indicator == Indicator::none)
+					{
+					}
+					else if (TT_BASE::at(state)[s].indicator == Indicator::accept)
+					{
+					}
+					else
+					{
+						out << state << ":" << Symbol(s) << " - " << "Unavez que se estable un estado como inidicador prefix, los estados posteriores none, acceptable, accept\n";
+						erros++;
+					}
+				}
+				else if (indicator == Indicator::acceptable)
+				{
+					if (TT_BASE::at(state)[s].indicator == Indicator::none)
+					{
+					}
+					else if (TT_BASE::at(state)[s].indicator == Indicator::terminate)
+					{
+					}
+					else
+					{
+						out << state << ":" << Symbol(s) << " - " << "Unavez que se estable un estado como inidicador acceptable, los estados posteriores none, terminate\n";
+						erros++;
+					}
+				}
+				if (state == TT_BASE::at(state)[s].next) return 0;
+				erros += check(out, TT_BASE::at(state)[s].indicator, TT_BASE::at(state)[s].next);
+			}
+
+
+			return erros;
+		}
+
 		void print(std::ostream & out, State state = initial_state)
 		{
 			if (state > TT_BASE::size() - 1) return;//caso base
 
 			for (Symbol s = 0; s < TT_BASE::at(state).size(); s++)
 			{
-				if (TT_BASE::at(state)[s].seted)
+				if (TT_BASE::at(state)[s].next >= 0)
 				{
 					if (state == initial_state) out << "|-";
 					else out << "\t|-";
-					if(s <= Symbol(Token::US)) out << state << "--control char-->" << TT_BASE::at(state)[s].next << "\n";
-					else out << state << "--'" << s << "'-->" << TT_BASE::at(state)[s].next << "\n";
-					print(out, TT_BASE::at(state)[s].next);
+					if(s <= Symbol(Token::US)) out << state << "--control char-->" << TT_BASE::at(state)[s].next << " ";
+					else out << state << "--'" << s << "'-->" << TT_BASE::at(state)[s].next << " ";
+					out << to_string(TT_BASE::at(state)[s].indicator) << " ";
+					if(TT_BASE::at(state)[s].token > Token::none) out << std::to_string((int)TT_BASE::at(state)[s].token) << " ";
+					out << "\n";
+					if (TT_BASE::at(state)[s].next >= 0) 
+					{
+						if (TT_BASE::at(state)[s].next == state) 
+						{
+							out << "\t|->*\n";
+							return;
+						}
+						else if (TT_BASE::at(state)[s].next > initial_state)
+						{
+							print(out, TT_BASE::at(state)[s].next);
+						}
+					}
 				}
 			}
 		}
 
-		constexpr bool word(const char* str, Token token, const std::vector<Symbol>& prefixs)
+		
+		constexpr State word(const char* str, Token token, const std::vector<Symbol>& prefixs)
 		{
 			size_t sz_str = std::strlen(str);
+			if (sz_str == 0) return EMPTY_INPUT;
 			State state_current = initial_state, state_max = initial_state;
-			for(size_t i = 0; i < sz_str; i++)//reading char by char..
+			Symbol input;
+			for (size_t i = 0; i < sz_str; i++)//reading char by char..
 			{
-				Symbol input = str[i];
-				TT_BASE::at(state_current)[input].seted = true;
-				TT_BASE::at(state_current)[input].indicator = Indicator::none;
-				if (i + 1 < sz_str)//si hay mas texto que leer de la palabra
+				input = str[i];
+				if (TT_BASE::at(state_current)[input].seted)
 				{
-					state_max = create();
-					TT_BASE::at(state_current)[input].next = state_max;
-					state_current = state_max;
+					state_current = TT_BASE::at(state_current)[input].next;
+					continue;
 				}
-
-				/*
-				for (size_t t = 0; t < length_transition(); t++)
+				else
 				{
-						if (t == (unsigned char)str[i]) continue;//excluye el simbolo aceptable
-						//prefijo de analisis
+					TT_BASE::at(state_current)[input].seted = true;
+					TT_BASE::at(state_current)[input].indicator = Indicator::none;
+					if (i + 1 < sz_str)//si hay mas texto que leer de la palabra
+					{
 						state_max = create();
-						for (size_t k = 0; k < length_transition(); k++)
-						{
-							if (std::find(prefixs.begin(), prefixs.end(), Symbol(k)) == prefixs.end()) continue;
-
-							TT_BASE::at(state_post)[i].next = 0;
-							TT_BASE::at(state_post)[str[i]].token = token;
-							TT_BASE::at(state_post)[str[i]].indicator = Indicator::accept;
-						}
+						TT_BASE::at(state_current)[input].next = state_max;
+						state_current = state_max;
+					}
 				}
-				*/
+			}
+			state_max = create();
+			TT_BASE::at(state_current)[input].next = state_max;
+			for (size_t k = 0; k < length_transition(); k++)
+			{
+				if (std::find(prefixs.begin(), prefixs.end(), Symbol(k)) == prefixs.end()) continue;
+
+				TT_BASE::at(state_max)[k].next = 0;
+				TT_BASE::at(state_max)[k].token = token;
+				TT_BASE::at(state_max)[k].indicator = Indicator::accept;
+				TT_BASE::at(state_max)[k].seted = true;
 			}
 
-			return false;
+			return state_max;
 		}
-		bool identifier()
+
+		constexpr State repeat(State state_current,Symbol input, Token token, const std::vector<Symbol>& prefixs)
 		{
-
-
-			return false;
 		}
-		bool integer()
+		constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
+			State state_current = initial_state, state_max = initial_state;
+			if (simbols.empty()) return EMPTY_INPUT;
+			Symbol input;
 
+			//verificacion
+			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
+			{
+				input = simbols[i];
+				if (TT_BASE::at(state_current)[input].next >= 0) return USED;
+			}
 
-			return false;
-		}
-		bool decimals()
-		{
+			//
+			state_max = create();
+			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
+			{
+				input = simbols[i];
+				TT_BASE::at(state_current)[input].next = state_max;
+				TT_BASE::at(state_current)[input].indicator = Indicator::none;
+				TT_BASE::at(state_current)[input].token = token;
+			}
+			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
+			{
+				input = simbols[i];
+				TT_BASE::at(state_max)[input].next = state_max;
+				TT_BASE::at(state_max)[input].indicator = Indicator::none;
+				TT_BASE::at(state_max)[input].token = token;
+			}
 
-			return false;
+			return state_max;
 		}
 
 
@@ -546,7 +659,7 @@ public:
 					//std::cout << "\n";
 				}
 				else if (actual_transition->indicator == Indicator::accept) selected_ended = true;
-				//--acceptable-->terminate
+				//--acceptable-->accept
 				if (actual_transition->indicator == Indicator::acceptable)
 				{
 					selected_transition = actual_transition;
@@ -554,7 +667,7 @@ public:
 					//actual_transition->print(std::cout);
 					//std::cout << "\n";
 				}
-				else if (actual_transition->indicator == Indicator::terminate) selected_ended = true;
+				else if (actual_transition->indicator == Indicator::accept) selected_ended = true;
 				//>>>
 
 			}
@@ -596,7 +709,6 @@ public:
 				}
 				else if (actual_transition->indicator == Indicator::accept)
 				{
-					index++;
 					//std::cout << "terminating ...\n";
 					break;
 				}
@@ -641,7 +753,7 @@ public:
 			//std::cout << "Token : '" << int(prefix_transition->token) << "'\n";
 			actual_state = true;
 			index = index - prefix_start + 1;
-			return selected_transition->token;
+			return actual_transition->token;
 		}
 		else if (prev_transition)
 		{
