@@ -307,9 +307,9 @@ const char* to_string(Indicator i)
 		Indicator indicator;
 		State next;
 		Token token;
-		bool seted;
+		//bool seted;
 
-		Transition() : indicator(Indicator::unknow),next(-1), token(Token::none), seted(false)
+		Transition() : indicator(Indicator::unknow),next(-1), token(Token::none)
 		{
 		}
 		Transition(const Transition& obj) = default;
@@ -507,14 +507,14 @@ const char* to_string(Indicator i)
 			for (size_t i = 0; i < sz_str; i++)//reading char by char..
 			{
 				input = str[i];
-				if (TT_BASE::at(state_current)[input].seted)
+				if (TT_BASE::at(state_current)[input].indicator != Indicator::unknow)
 				{
 					state_current = TT_BASE::at(state_current)[input].next;
 					continue;
 				}
 				else
 				{
-					TT_BASE::at(state_current)[input].seted = true;
+					//TT_BASE::at(state_current)[input].seted = true;
 					TT_BASE::at(state_current)[input].indicator = Indicator::none;
 					if (i + 1 < sz_str)//si hay mas texto que leer de la palabra
 					{
@@ -534,7 +534,7 @@ const char* to_string(Indicator i)
 				TT_BASE::at(state_max)[k].next = 0;
 				TT_BASE::at(state_max)[k].token = token;
 				TT_BASE::at(state_max)[k].indicator = Indicator::accept;
-				TT_BASE::at(state_max)[k].seted = true;
+				//TT_BASE::at(state_max)[k].seted = true;
 			}
 
 			return state_max;
