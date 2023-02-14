@@ -1,7 +1,9 @@
 
 
-#ifndef OCTETOS_CORE_LC_V3_HH
-#define OCTETOS_CORE_LC_V3_HH
+#ifndef OCTETOS_CORE_LEXER_V3_HH
+#define OCTETOS_CORE_LEXER_V3_HH
+ 
+
 
 /**
  *
@@ -28,12 +30,13 @@
 #include <array>
 #include <string>
 #include <list>
+#include <algorithm>
 
 #include "Buffer-v3.hh"
 
 namespace oct::core::v3::lex
 {
-typedef int Status;
+typedef int State;
 typedef int Token;
 typedef size_t Index;
 static const unsigned char ASCII_LENGTH = 128;
@@ -52,7 +55,7 @@ enum class Tokens : int
 	BEL,
 	BS,
 	TAB,
-	NL,
+	LF,
 	VT,
 	FF,
 	CR,
@@ -265,7 +268,7 @@ template<typename C> bool equal(const C* initial, const C* target)
 	return true;
 }
 
-enum class Indicator : Status
+enum class Indicator : State
 {
 	none,//no es us estado determinado, sin mebago, no cambia el estado previo por lo que se podria decir no no tiene efecto en el estado
 	accept,//estado de aceptacion, sin embargo deve terminar de inmediato
@@ -296,14 +299,31 @@ const char* to_string(Indicator i)
 	return "Unknow";
 }
 
-	template<typename Token,typename Status/*Status*/>
+	template<typename Token,typename State/*Status*/>
 	struct Transition
 	{
 		Indicator indicator;
-		Status next;
+		State next;
 		Token token;
+		bool seted;
 
-		
+		Transition() : indicator(Indicator::unknow),next(-1), token(Token::none), seted(false)
+		{
+		}
+		Transition(const Transition& obj) = default;
+
+		/*
+		const Transition& operator =(const Transition& obj)
+		{
+			indicator = obj.indicator;
+			next = obj.next;
+			token = obj.token;
+			seted = obj.seted;
+
+			return *this;
+		}
+		*/
+
 		void print(std::ostream& out) const
 		{
 			out << next << " - ";
@@ -312,137 +332,154 @@ const char* to_string(Indicator i)
 			out << to_string(indicator);
 		}
 	};
+
 		
-	template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/>
-	class TT : public std::vector<std::vector<Transition<Token, Status>>>
+	template<typename Symbol /*Input*/,typename Token,typename State/*Status*/>
+	class TT : public std::vector<std::vector<Transition<Token, State>>>
 	{
 	public:
-		typedef std::vector<std::vector<Transition<Token, Status>>> TT_BASE;
+		typedef std::vector<Transition<Token, State>> TT_SYMBOLS;
+		typedef std::vector<TT_SYMBOLS> TT_BASE;
+		static constexpr  unsigned int length_transition()
+		{
+			//if (typeid(Symbol) == typeid(char)) return 128;//ascci table
+			
+			return 128;
+		}
+		constexpr State create(size_t to_add = 1)
+		{
+			size_t size_inital = TT_BASE::size();
+			TT_BASE::resize(size_inital + to_add);
+			if (TT_BASE::size() != size_inital + to_add) exception("El tamaño del contenedor no es el adecuado.");
+			size_t size_post = TT_BASE::size();
+			size_t base_post = size_inital > 0 ? size_inital - 1 : 0;
+			//static_assert(TT_BASE::capacity() == to_add, "El contenedor no se ajusto al tamanp requerido");
+			for (size_t i = base_post; i < size_post; i++)
+			{
+				TT_BASE::at(i).resize(length_transition());
+				//initial(i);
+			}
+
+			return State(TT_BASE::size() - 1);
+		}
 
 	public:
-		constexpr TT(size_t size, std::vector<Symbol> ss) : simbols(ss)
+		constexpr TT(const std::vector<Symbol>& ss) : _simbols(ss)
 		{
-			TT_BASE::resize(size);
-			for (size_t i = 0; i < size; i++)
-			{
-				TT_BASE::at(size_t(i)).resize(ASCII_LENGTH);
-				initial(size_t(i));
-			}
-			for (size_t s = 0; s < TT_BASE::size(); s++)
-			{
-				//std::cout << "\n";
-				for (Symbol c : ss)
+			std::sort(_simbols.begin(), _simbols.end(), [](int a, int b)
 				{
-					//std::cout << "Estado : " << s << " - Symbol : " << c << "\n";
-					TT_BASE::at(s)[c].indicator = Indicator::error;//todos la entradas para todos los estados deveran producir error a menos que se indique lo contrario.
-				}
-			}
+					return a < b;
+				});
+			State inital_state = create();
 		}
-		constexpr TT(const TT& tt)
+		constexpr TT(const TT& tt) : TT_BASE(tt), _simbols(tt._simbols)
 		{
 			TT_BASE::resize(tt.size());
 			for (size_t s = 0; s < tt.size(); s++)
 			{
-				TT_BASE::at(s).resize(tt.at(s).size());
-				for (size_t t = 0; t < TT_BASE::at(s).size(); t++)
+				TT_BASE::at(s).resize(tt.size());
+				for (size_t t = 0; t < tt.at(s).size(); t++)
 				{
-					TT_BASE::at(s).at(t) = tt[s][t];
+					TT_BASE::at(s)[t] = tt.at(s)[t];
 				}
 			}
 		}
-		constexpr bool initial(Status status)
+
+		/*constexpr bool initial(State status)
 		{
-			for(size_t i = 0; i < ASCII_LENGTH; i++)
+			for(size_t i = 0; i < length_transition(); i++)
 			{
 				//std::cout << "initial : " << status << " - " << i << "\n";
-				TT_BASE::at(status)[i].next = 0;
+				TT_BASE::at(status)[i].next = -1;
 				TT_BASE::at(status)[i].token = Token::none;
 				TT_BASE::at(status)[i].indicator = Indicator::unknow;
+				TT_BASE::at(status)[i].seted = false;
 			}
 			return true;
-		}
-		/*
-		constexpr bool initial(Status status, Token token)
+		}*/
+		
+		constexpr const std::vector<Symbol>& simbols() const
 		{
-			for(size_t i = 0; i < ASCII_LENGTH; i++)
+			return _simbols;
+		}
+
+		void print(std::ostream & out, State state = initial_state)
+		{
+			if (state > TT_BASE::size() - 1) return;//caso base
+
+			for (Symbol s = 0; s < TT_BASE::at(state).size(); s++)
 			{
-				TT_BASE::at(status)[i].next = 0;
-				TT_BASE::at(status)[i].token = token;
+				if (TT_BASE::at(state)[s].seted)
+				{
+					if (state == initial_state) out << "|-";
+					else out << "\t|-";
+					if(s <= Symbol(Token::US)) out << state << "--control char-->" << TT_BASE::at(state)[s].next << "\n";
+					else out << state << "--'" << s << "'-->" << TT_BASE::at(state)[s].next << "\n";
+					print(out, TT_BASE::at(state)[s].next);
+				}
 			}
-			return true;
 		}
-		*/
-		constexpr bool numbers(Status status, Token token,Status next)
+
+		constexpr bool word(const char* str, Token token, const std::vector<Symbol>& prefixs)
 		{
-			for (size_t i = 48; i < 58; i++)
+			size_t sz_str = std::strlen(str);
+			State state_current = initial_state, state_max = initial_state;
+			for(size_t i = 0; i < sz_str; i++)//reading char by char..
 			{
-				TT_BASE::at(status)[i].next = next;
-				TT_BASE::at(status)[i].token = token;
-				TT_BASE::at(status)[i].indicator = Indicator::acceptable;
+				Symbol input = str[i];
+				TT_BASE::at(state_current)[input].seted = true;
+				TT_BASE::at(state_current)[input].indicator = Indicator::none;
+				if (i + 1 < sz_str)//si hay mas texto que leer de la palabra
+				{
+					state_max = create();
+					TT_BASE::at(state_current)[input].next = state_max;
+					state_current = state_max;
+				}
+
+				/*
+				for (size_t t = 0; t < length_transition(); t++)
+				{
+						if (t == (unsigned char)str[i]) continue;//excluye el simbolo aceptable
+						//prefijo de analisis
+						state_max = create();
+						for (size_t k = 0; k < length_transition(); k++)
+						{
+							if (std::find(prefixs.begin(), prefixs.end(), Symbol(k)) == prefixs.end()) continue;
+
+							TT_BASE::at(state_post)[i].next = 0;
+							TT_BASE::at(state_post)[str[i]].token = token;
+							TT_BASE::at(state_post)[str[i]].indicator = Indicator::accept;
+						}
+				}
+				*/
 			}
 
-			return true;
+			return false;
 		}
-		constexpr bool alphabet(Status status, Token token, Status next)
+		bool identifier()
 		{
-			for (size_t i = 65; i < 91; i++)
-			{
-				TT_BASE::at(status)[i].next = next;
-				TT_BASE::at(status)[i].token = token;
-				TT_BASE::at(status)[i].indicator = Indicator::acceptable;
-			}
-			for (size_t i = 97; i < 123; i++)
-			{
-				TT_BASE::at(status)[i].next = next;
-				TT_BASE::at(status)[i].token = token;
-				TT_BASE::at(status)[i].indicator = Indicator::acceptable;
-			}
 
-			return true;
+
+			return false;
 		}
-		constexpr Transition<Token, Status>& symbol(Status status, Token token, Status next, Symbol i)
+		bool integer()
 		{
-			TT_BASE::at(status)[i].next = next;
-			TT_BASE::at(status)[i].token = token;
-			TT_BASE::at(status)[i].indicator = Indicator::acceptable;
 
-			return TT_BASE::at(status)[i];
+
+			return false;
 		}
-		constexpr Transition<Token, Status>& prefix(Status status, Token token, Status next, Symbol i)
+		bool decimals()
 		{
-			TT_BASE::at(status)[i].next = next;
-			TT_BASE::at(status)[i].token = token;
-			TT_BASE::at(status)[i].indicator = Indicator::prefix;
 
-			return TT_BASE::at(status)[i];
+			return false;
 		}
-		constexpr Transition<Token, Status>& accept(Status status, Token token, Status next, Symbol i)
-		{
-			TT_BASE::at(status)[i].next = next;
-			TT_BASE::at(status)[i].token = token;
-			TT_BASE::at(status)[i].indicator = Indicator::accept;
 
-			return TT_BASE::at(status)[i];
-		}
-		constexpr Transition<Token, Status>& acceptable(Status status, Token token, Status next, Symbol i)
-		{
-			TT_BASE::at(status)[i].next = next;
-			TT_BASE::at(status)[i].token = token;
-			TT_BASE::at(status)[i].indicator = Indicator::acceptable;
-
-			return TT_BASE::at(status)[i];
-		}
-		constexpr Transition<Token, Status>& terminate(Status status, Token token, Status next, Symbol i)
-		{
-			TT_BASE::at(status)[i].next = next;
-			TT_BASE::at(status)[i].token = token;
-			TT_BASE::at(status)[i].indicator = Indicator::terminate;
-
-			return TT_BASE::at(status)[i];
-		}
 
 	private:
-		const std::vector<Symbol> simbols;
+		
+	private:
+		std::vector<Symbol> _simbols;
+		static const State initial_state = 0;
 	};
 
 	template<typename Symbol /*Input*/>
@@ -461,13 +498,13 @@ const char* to_string(Indicator i)
 *\brief DFA type A
 *
 */
-template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/>
+template<typename Symbol /*Input*/,typename Token,typename State/*State*/>
 class A
 {
 public:
 
 public:
-	A(const TT<Symbol,Token,Status>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),actual_state(false),index(0),actual_status(0),initial_status(0)
+	A(const TT<Symbol,Token, State>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),actual_state(false),index(0),actual_status(0),initial_status(0)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
 		_echo = false;
@@ -496,7 +533,7 @@ public:
             //>>>reading data
             {
                 input = buff[index];
-                actual_transition = (const Transition<Token, Status>*) &(table->at(actual_status).at(input));
+                actual_transition = (const Transition<Token, State>*) &(table->at(actual_status).at(input));
                 next_status = actual_transition->next;
 
 				//--prefix-->accept
@@ -527,11 +564,11 @@ public:
             {
 				//std::cout << "Input : '" << int(input) << "'\n";
 				//std::cout << "Input : '" << int('\n') << "'\n";
-				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
+				if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
 				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
 				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
-				else std::cout << "|-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
-				std::cout << "Index : '" << index << "'\n";*/
+				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
+				/*std::cout << "Index : '" << index << "'\n"; */
 				
 				//>>>
 
@@ -684,14 +721,14 @@ private:
 
 
 private:
-	const TT<Symbol,Token,Status>* table;
+	const TT<Symbol,Token, State>* table;
 	Buffer<Symbol>* buffer;
 	Symbol input;
 	bool actual_state;//estado del automata actual
 	size_t index,token_start,token_end;//prefix_index
-    const Transition<Token,Status> *actual_transition, *prev_transition, *selected_transition;
-    Status actual_status,next_status;//numero del estado actual del automata
-    const Status initial_status;
+    const Transition<Token, State> *actual_transition, *prev_transition, *selected_transition;
+	State actual_status,next_status;//numero del estado actual del automata
+    const State initial_status;
     bool prefix_start;
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	bool _echo;

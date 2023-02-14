@@ -24,9 +24,12 @@
     <ClInclude Include="..\src\core.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\lexer-v3.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\develop.cc">
+    <ClCompile Include="..\src\develop-iso-90.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

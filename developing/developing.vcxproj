@@ -142,9 +142,10 @@
     <ClInclude Include="..\src\arrays.hh" />
     <ClInclude Include="..\src\core.hh" />
     <ClInclude Include="..\src\defines.hh" />
+    <ClInclude Include="..\src\lexer-v3.hh" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\develop.cc" />
+    <ClCompile Include="..\src\develop-iso-90.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
