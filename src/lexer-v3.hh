@@ -529,71 +529,6 @@ const char* to_string(Indicator i)
 
 			return state_max;
 		}*/
-		/*
-		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
-		*/
-		constexpr State prefixing(State state_current, const std::vector<Symbol>& prefixs, Token token)
-		{
-			for (size_t k = 0; k < length_transition(); k++)
-			{
-				if (std::find(prefixs.begin(), prefixs.end(), Symbol(k)) == prefixs.end()) continue;
-
-				TT_BASE::at(state_current)[k].next = 0;
-				TT_BASE::at(state_current)[k].token = token;
-				TT_BASE::at(state_current)[k].indicator = Indicator::accept;
-			}
-
-			return state_current;
-		}
-		constexpr State one(Symbol simbol)
-		{
-			State state_next = initial_state;
-
-			if (TT_BASE::at(initial_state)[simbol].next < initial_state)
-			{
-				state_next = create();
-				TT_BASE::at(initial_state)[simbol].next = state_next;
-			}
-			else
-			{
-				return TT_BASE::at(initial_state)[simbol].next;
-			}
-
-			return initial_state;
-		}
-		constexpr State one(Symbol simbol, State state_current)
-		{
-			State state_next = initial_state;
-			//verificacion
-			if (TT_BASE::at(state_current)[simbol].next < initial_state)
-			{
-				state_next = create();
-				TT_BASE::at(state_current)[simbol].next = state_next;
-			}
-			else
-			{
-				return TT_BASE::at(state_current)[simbol].next;
-			}		
-
-			return state_next;
-		}
-		constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs, Token token)
-		{
-			State state_next = initial_state;
-
-			if (TT_BASE::at(state_current)[simbol].next < initial_state)
-			{
-				state_next = create();
-				TT_BASE::at(state_current)[simbol].next = state_next;
-				prefixing(state_next,prefixs,token);
-			}
-			else
-			{
-				return TT_BASE::at(state_current)[simbol].next;
-			}
-			
-			return state_next;
-		}
 		constexpr State word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs)
 		{
 			size_t sz_str = strlen(str);
@@ -612,13 +547,7 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
-		/*
-		*\brief Optinen el siguente estado capas de continer
-		*
-		*/
-		constexpr State last(const std::vector<Symbol> simbols, const std::vector<Symbol>& prefixs)
-		{
-		}
+
 		constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
 			State state_current = initial_state, state_last = initial_state, state_next = initial_state;
@@ -637,14 +566,8 @@ const char* to_string(Indicator i)
 				}				
 			}
 
-			state_next = create();
-			for (size_t i = 0; i < simbols.size(); i++)
-			{
-				TT_BASE::at(state_current)[simbols[i]].next = state_next;
-				TT_BASE::at(state_current)[simbols[i]].indicator = Indicator::acceptable;
-				TT_BASE::at(state_current)[simbols[i]].token = token;
-			}
-			prefixing(state_next, prefixs, token);
+			state_next = one(simbols,state_current,prefixs,token);
+
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
 				TT_BASE::at(state_next)[simbols[i]].next = state_next;
@@ -654,8 +577,92 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
+		constexpr State identifier(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
+		{
+			
+
+
+
+		}
 
 	private:
+		/*
+		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
+		*/
+		constexpr State prefixing(State state_current, const std::vector<Symbol>& prefixs, Token token)
+		{
+			for (size_t k = 0; k < length_transition(); k++)
+			{
+				if (std::find(prefixs.begin(), prefixs.end(), Symbol(k)) == prefixs.end()) continue;
+
+				TT_BASE::at(state_current)[k].next = 0;
+				TT_BASE::at(state_current)[k].token = token;
+				TT_BASE::at(state_current)[k].indicator = Indicator::accept;
+			}
+
+			return state_current;
+		}
+		constexpr State one(const std::vector<Symbol>& simbols, State state_current, const std::vector<Symbol>& prefixs, Token token)
+		{
+			State state_next = initial_state;
+
+			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
+			{
+				if (TT_BASE::at(state_current)[simbols[i]].next < initial_state)//usable?
+				{
+
+				}
+				else//ya se ha asignado a una relga
+				{
+					//state_next = last(simbols,prefixs);
+					return USED;
+				}
+			}
+
+			state_next = create();
+			for (size_t i = 0; i < simbols.size(); i++)
+			{
+				TT_BASE::at(state_current)[simbols[i]].next = state_next;
+				TT_BASE::at(state_current)[simbols[i]].indicator = Indicator::acceptable;
+				TT_BASE::at(state_current)[simbols[i]].token = token;
+			}
+			prefixing(state_next, prefixs, token);
+
+			return state_next;
+		}
+		constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs, Token token)
+		{
+			State state_next = initial_state;
+
+			if (TT_BASE::at(state_current)[simbol].next < initial_state)
+			{
+				state_next = create();
+				TT_BASE::at(state_current)[simbol].next = state_next;
+				prefixing(state_next, prefixs, token);
+			}
+			else
+			{
+				return TT_BASE::at(state_current)[simbol].next;
+			}
+
+			return state_next;
+		}
+		constexpr State one(Symbol simbol, State state_current)
+		{
+			State state_next = initial_state;
+			//verificacion
+			if (TT_BASE::at(state_current)[simbol].next < initial_state)
+			{
+				state_next = create();
+				TT_BASE::at(state_current)[simbol].next = state_next;
+			}
+			else
+			{
+				return TT_BASE::at(state_current)[simbol].next;
+			}
+
+			return state_next;
+		}
 		
 	private:
 		std::vector<Symbol> _simbols;
