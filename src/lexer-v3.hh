@@ -258,6 +258,7 @@ enum class Indicator : State
 	prefix,//prefijo de analisis, un vez establecido es valido hasta encontrar el proximo accept, no sera en otro caso valido.
 	error,//el simbolo no se esperaba
 	unknow,//simbolo que no pertenece al lenguaje
+	used,
 };
 const char* to_string(Indicator i)
 {
@@ -314,27 +315,13 @@ const char* to_string(Indicator i)
 		static const State EMPTY_INPUT = -2;
 		static const State USED = -3;
 		static const State AMBIGUOS = -4;
+		static const State NOT_SYMBOL = -5;
 
 		static constexpr  unsigned int length_transition()
 		{
 			//if (typeid(Symbol) == typeid(char)) return 128;//ascci table
 			
 			return 128;
-		}
-		constexpr State create(size_t to_add = 1)
-		{
-			size_t size_inital = TT_BASE::size();
-			TT_BASE::resize(size_inital + to_add);
-			if (TT_BASE::size() != size_inital + to_add) exception("El tamaño del contenedor no es el adecuado.");
-			size_t size_post = TT_BASE::size();
-			size_t base_post = size_inital > 0 ? size_inital - 1 : 0;
-			for (size_t i = base_post; i < size_post; i++)
-			{
-				TT_BASE::at(i).resize(length_transition());
-				//initial(i);
-			}
-
-			return State(TT_BASE::size() - 1);
 		}
 
 	public:
@@ -534,11 +521,14 @@ const char* to_string(Indicator i)
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) return EMPTY_INPUT;
 			State state_current = initial_state, state_next = initial_state;
-			Symbol input;
+			Symbol input,next_input;
 			for (size_t i = 0; i < sz_str; i++)
 			{
 				input = str[i];
-				state_next = one(input, state_current);
+				if (not is_simbol(input)) return NOT_SYMBOL;
+				if(i + 1 < sz_str) state_next = one(input, state_current);
+				else state_next = one(input, state_current);//TODO add frefix here
+
 				if (state_next < 0) return state_next;
 				state_current = state_next;
 			}
@@ -563,7 +553,9 @@ const char* to_string(Indicator i)
 				{
 					//state_next = last(simbols,prefixs);
 					return USED;
-				}				
+				}		
+
+				if (not is_simbol(simbols[i])) return NOT_SYMBOL;
 			}
 
 			state_next = one(simbols,state_current,prefixs,token);
@@ -601,14 +593,59 @@ const char* to_string(Indicator i)
 			return state_current;
 		}
 		/*
+		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
+		*/
+		constexpr State prefixing(State state_current, const std::vector<Symbol>& prefixs)
+		{
+			for (size_t k = 0; k < length_transition(); k++)
+			{
+				if (std::find(prefixs.begin(), prefixs.end(), Symbol(k)) == prefixs.end()) continue;
+
+				TT_BASE::at(state_current)[k].token = Token::none;
+				TT_BASE::at(state_current)[k].indicator = Indicator::none;
+			}
+
+			return state_current;
+		}
+		/*
 		*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
 		*/
 		constexpr bool if_prefixed(State state_current, const std::vector<Symbol>& prefixs)
 		{
 			for (size_t i = 0; i < prefixs.size(); i++)
 			{
-				if (TT_BASE::at(state_current)[prefixs[i]].indicator != Indicator::accept) return false;
-				if (TT_BASE::at(state_current)[prefixs[i]].token == Token::none) return false;
+				if (TT_BASE::at(state_current)[prefixs[i]].indicator == Indicator::accept and TT_BASE::at(state_current)[prefixs[i]].token > Token::none and TT_BASE::at(state_current)[prefixs[i]].next == 0) continue;
+				if (TT_BASE::at(state_current)[prefixs[i]].indicator == Indicator::none and TT_BASE::at(state_current)[prefixs[i]].token == Token::none) continue;
+
+				return false;
+			}
+
+			return true;
+		}
+		/*
+		*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
+		*/
+		constexpr bool if_prefixed_soft(State state_current, const std::vector<Symbol>& prefixs)
+		{
+			for (size_t i = 0; i < prefixs.size(); i++)
+			{
+				if (TT_BASE::at(state_current)[prefixs[i]].indicator == Indicator::none and TT_BASE::at(state_current)[prefixs[i]].token == Token::none) continue;
+
+				return false;
+			}
+
+			return true;
+		}
+		/*
+		*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
+		*/
+		constexpr bool if_prefixed_hard(State state_current, const std::vector<Symbol>& prefixs)
+		{
+			for (size_t i = 0; i < prefixs.size(); i++)
+			{
+				if (TT_BASE::at(state_current)[prefixs[i]].indicator == Indicator::accept and TT_BASE::at(state_current)[prefixs[i]].token > Token::none and TT_BASE::at(state_current)[prefixs[i]].next == 0) continue;
+
+				return false;
 			}
 
 			return true;
@@ -687,18 +724,56 @@ const char* to_string(Indicator i)
 			State state_next = initial_state;
 			//verificacion
 			if (TT_BASE::at(state_current)[simbol].next < initial_state)
-			{
-				state_next = create();
+			{				
 				TT_BASE::at(state_current)[simbol].next = state_next;
 			}
-			else
+			else // agrega una rama, una para el nuevo simbolo
 			{
+				state_next = create();
+				State state_old;
+				TT_BASE::at(state_current)[simbol].next = state_next;
+
 				return TT_BASE::at(state_current)[simbol].next;
 			}
 
 			return state_next;
 		}
-		
+		constexpr State create()
+		{
+			size_t size_inital = TT_BASE::size();
+			TT_BASE::resize(size_inital + 1);
+			if (TT_BASE::size() != size_inital + 1) exception("El tamaño del contenedor no es el adecuado.");
+			size_t size_post = TT_BASE::size();
+			size_t base_post = size_inital > 0 ? size_inital - 1 : 0;
+			for (size_t i = base_post; i < size_post; i++)
+			{
+				TT_BASE::at(i).resize(length_transition());
+				//initial(i);
+			}
+
+			return State(TT_BASE::size() - 1);
+		}
+		constexpr State create(size_t to_add)
+		{
+			size_t size_inital = TT_BASE::size();
+			TT_BASE::resize(size_inital + to_add);
+			if (TT_BASE::size() != size_inital + to_add) exception("El tamaño del contenedor no es el adecuado.");
+			size_t size_post = TT_BASE::size();
+			size_t base_post = size_inital > 0 ? size_inital - 1 : 0;
+			for (size_t i = base_post; i < size_post; i++)
+			{
+				TT_BASE::at(i).resize(length_transition());
+				//initial(i);
+			}
+
+			return State(TT_BASE::size() - 1);
+		}
+		bool is_simbol(Symbol s)const
+		{
+			if (std::find(_simbols.begin(), _simbols.end(), Symbol(s)) != _simbols.end()) return true;
+
+			return false;
+		}
 	private:
 		std::vector<Symbol> _simbols;
 		static const State initial_state = 0;
