@@ -283,7 +283,7 @@ const char* to_string(Indicator i)
 		State next;
 		Token token;
 
-		Transition() : indicator(Indicator::unknow),next(-1), token(Token::none)
+		Transition() : indicator(Indicator::none),next(-1), token(Token::none)
 		{
 		}
 		Transition(const Transition& obj) = default;
@@ -420,33 +420,33 @@ const char* to_string(Indicator i)
 
 			for (Symbol s = 0; s < TT_BASE::at(state).size(); s++)
 			{
+				if (TT_BASE::at(state)[s].next < initial_state) continue;
+
+				if (state == initial_state) out << "|-";
+				else out << "\t|-";
+				if (s <= Symbol(Token::US)) out << state << "--control char-->" << TT_BASE::at(state)[s].next << " ";
+				else out << state << "--'" << s << "'-->" << TT_BASE::at(state)[s].next << " ";
+				out << to_string(TT_BASE::at(state)[s].indicator) << " ";
+				if (TT_BASE::at(state)[s].token > Token::none) out << std::to_string((int)TT_BASE::at(state)[s].token) << " ";
+				out << "\n";
+
 				if (TT_BASE::at(state)[s].next >= 0)
 				{
-					if (state == initial_state) out << "|-";
-					else out << "\t|-";
-					if(s <= Symbol(Token::US)) out << state << "--control char-->" << TT_BASE::at(state)[s].next << " ";
-					else out << state << "--'" << s << "'-->" << TT_BASE::at(state)[s].next << " ";
-					out << to_string(TT_BASE::at(state)[s].indicator) << " ";
-					if(TT_BASE::at(state)[s].token > Token::none) out << std::to_string((int)TT_BASE::at(state)[s].token) << " ";
-					out << "\n";
-					if (TT_BASE::at(state)[s].next >= 0) 
+					if (TT_BASE::at(state)[s].next == state)
 					{
-						if (TT_BASE::at(state)[s].next == state) 
-						{
-							out << "\t|->*\n";
-							return;
-						}
-						else if (TT_BASE::at(state)[s].next > initial_state)
-						{
-							print(out, TT_BASE::at(state)[s].next);
-						}
+						out << "\t|->*\n";
+						return;
+					}
+					else if (TT_BASE::at(state)[s].next > initial_state)
+					{
+						print(out, TT_BASE::at(state)[s].next);
 					}
 				}
 			}
 		}
 
 		
-		constexpr State word(const char* str, Token token, const std::vector<Symbol>& prefixs)
+		/*constexpr State word(const char* str, Token token, const std::vector<Symbol>& prefixs)
 		{
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) return EMPTY_INPUT;
@@ -485,12 +485,10 @@ const char* to_string(Indicator i)
 			}
 
 			return state_max;
-		}
+		}*/
 
-		constexpr State repeat(State state_current,Symbol input, Token token, const std::vector<Symbol>& prefixs)
-		{
-		}
-		constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
+		
+		/*constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
 			State state_current = initial_state, state_max = initial_state;
 			if (simbols.empty()) return EMPTY_INPUT;
@@ -529,6 +527,108 @@ const char* to_string(Indicator i)
 			}
 
 			return state_max;
+		}*/
+		constexpr State one(Symbol simbol)
+		{
+			//verificacion
+			if (TT_BASE::at(initial_state)[simbol].next >= 0) return USED;
+
+			TT_BASE::at(initial_state)[simbol].next = 0;
+			TT_BASE::at(initial_state)[simbol].indicator = Indicator::accept;
+
+			return initial_state;
+		}
+		constexpr State one(Symbol simbol, State state_current)
+		{
+			State state_next = initial_state;
+			//verificacion
+			if (TT_BASE::at(state_current)[simbol].next < initial_state)
+			{
+				state_next = create();
+				TT_BASE::at(state_current)[simbol].next = state_next;
+			}
+			else
+			{
+				return TT_BASE::at(state_current)[simbol].next;
+			}
+
+			
+
+			return state_next;
+		}
+		constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs)
+		{
+			State state_next = initial_state;
+			//verificacion
+			if (TT_BASE::at(state_current)[simbol].next < initial_state)
+			{
+				state_next = create();
+				TT_BASE::at(state_current)[simbol].next = state_next;
+				for (size_t i = 0; i < prefixs.size(); i++)
+				{
+					if (simbol == prefixs[i]) continue;
+
+					TT_BASE::at(state_next)[simbol].next = 0;
+				}
+			}
+			else
+			{
+				return TT_BASE::at(state_current)[simbol].next;
+			}
+			
+			return state_next;
+		}
+		constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs, Indicator indicator, Token token)
+		{
+			State state_next = initial_state;
+			//verificacion
+			if (TT_BASE::at(state_current)[simbol].next < initial_state)
+			{
+				state_next = create();
+				TT_BASE::at(state_current)[simbol].next = state_next;
+				for (size_t i = 0; i < prefixs.size(); i++)
+				{
+					if (simbol == prefixs[i]) continue;
+
+					TT_BASE::at(state_next)[simbol].next = 0;
+					TT_BASE::at(state_next)[simbol].indicator = indicator;
+					TT_BASE::at(state_next)[simbol].token = token;
+				}				
+			}
+			else
+			{
+				return TT_BASE::at(state_current)[simbol].next;
+			}
+
+
+			return state_next;
+		}
+		constexpr State symbol(Symbol simbol, Token token, const std::vector<Symbol>& prefixs)
+		{
+
+		}
+		constexpr State word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs)
+		{
+			size_t sz_str = strlen(str);
+			if (sz_str == 0) return EMPTY_INPUT;
+			State state_current = initial_state, state_next = initial_state;
+			Symbol input;
+			for (size_t i = 0; i < sz_str; i++)
+			{
+				input = str[i];
+				state_next = one(input, state_current);
+				if (state_next < 0) return state_next;
+				state_current = state_next;
+			}
+
+			for (size_t k = 0; k < length_transition(); k++)
+			{
+				if (std::find(prefixs.begin(), prefixs.end(), Symbol(k)) == prefixs.end()) continue;
+
+				TT_BASE::at(state_next)[k].next = 0;
+				TT_BASE::at(state_next)[k].token = token;
+				TT_BASE::at(state_next)[k].indicator = Indicator::accept;
+			}
 		}
 
 
@@ -653,7 +753,7 @@ public:
 				}
 				else if (actual_transition->indicator == Indicator::unknow) terminate_and_advance = true;
 				else if (actual_transition->indicator == Indicator::error) terminate_and_advance = true;
-				else if (actual_transition->indicator == Indicator::reject) terminate_and_advance = true;
+				else if (actual_transition->next < 0) terminate_and_advance = true;
 				if (terminate_and_advance)
 				{
 					index++;
@@ -700,7 +800,7 @@ public:
 			actual_state = false;
 			return (Token)input;
 		}
-		else if (actual_transition->indicator == Indicator::reject)
+		else if(actual_transition->next < 0)
 		{
 			actual_state = false;
 			return (Token)input;
