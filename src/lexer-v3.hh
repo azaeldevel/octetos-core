@@ -571,8 +571,6 @@ const char* to_string(Indicator i)
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
 				TT_BASE::at(state_next)[simbols[i]].next = state_next;
-				TT_BASE::at(state_next)[simbols[i]].indicator = Indicator::acceptable;
-				TT_BASE::at(state_next)[simbols[i]].token = token;
 			}
 
 			return state_next;
@@ -601,6 +599,19 @@ const char* to_string(Indicator i)
 			}
 
 			return state_current;
+		}
+		/*
+		*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
+		*/
+		constexpr bool if_prefixed(State state_current, const std::vector<Symbol>& prefixs)
+		{
+			for (size_t i = 0; i < prefixs.size(); i++)
+			{
+				if (TT_BASE::at(state_current)[prefixs[i]].indicator != Indicator::accept) return false;
+				if (TT_BASE::at(state_current)[prefixs[i]].token == Token::none) return false;
+			}
+
+			return true;
 		}
 		constexpr State one(const std::vector<Symbol>& simbols, State state_current, const std::vector<Symbol>& prefixs, Token token)
 		{
@@ -642,11 +653,35 @@ const char* to_string(Indicator i)
 			}
 			else
 			{
-				return TT_BASE::at(state_current)[simbol].next;
+				if(if_prefixed(state_next, prefixs, token)) return TT_BASE::at(state_current)[simbol].next;
+
+				return AMBIGUOS;
 			}
 
 			return state_next;
 		}
+		/*
+		*\brief Crea una transitcion para el estado y simbolo indicado
+		*/
+		constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs)
+		{
+			State state_next = initial_state;
+			//verificacion
+			if (TT_BASE::at(state_current)[simbol].next < initial_state)
+			{
+				state_next = create();
+				TT_BASE::at(state_current)[simbol].next = state_next;
+			}
+			else
+			{
+				if (if_prefixed(state_next, prefixs)) return TT_BASE::at(state_current)[simbol].next;
+			}
+
+			return state_next;
+		}
+		/*
+		*\brief Crea una transitcion para el estado y simbolo indicado
+		*/
 		constexpr State one(Symbol simbol, State state_current)
 		{
 			State state_next = initial_state;
