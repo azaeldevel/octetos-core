@@ -473,7 +473,7 @@ const char* to_string(Indicator i)
 		constexpr void word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs)
 		{
 			size_t sz_str = strlen(str);
-			if (sz_str == 0) throw core_next::exception("El input esta vacio");
+			if (sz_str == 0) throw exception("El input esta vacio");
 			State state_current = initial_state, state_next = initial_state, state_last = initial_state;
 			Symbol input;
 			for (size_t i = 0; i < sz_str; i++)
@@ -486,7 +486,7 @@ const char* to_string(Indicator i)
                     msg_not_symbols = "' ' ";
                     msg_not_symbols[1] = input;
                     msg_not_symbols += "no es un simbolo del lenguaje";
-                    throw core_next::exception(msg_not_symbols);
+                    throw exception(msg_not_symbols);
                 }
 				state_next = one(input, state_current);
 				state_current = state_next;
@@ -503,7 +503,7 @@ const char* to_string(Indicator i)
                 msg += (const char*)sim;
                 msg += ", La transicion ya esta ocupada, no se puede usar para el token ";
                 msg += str;
-                throw core_next::exception(msg);
+                throw exception(msg);
             }
 			prefixing(state_next, prefixs, token);
 		}
@@ -511,7 +511,7 @@ const char* to_string(Indicator i)
 		constexpr void almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
 			State state_current = initial_state, state_last = initial_state, state_next = initial_state;
-			if (simbols.empty()) throw core_next::exception("El input esta vacio");
+			if (simbols.empty()) throw exception("El input esta vacio");
 
 			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
 			{
@@ -522,7 +522,7 @@ const char* to_string(Indicator i)
 				else//ya se ha asignado a una relga
 				{
 					//state_next = last(simbols,prefixs);
-					throw core_next::exception("El estado no esta vacio");
+					throw exception("El estado no esta vacio");
 				}
 			}
 
@@ -552,7 +552,7 @@ const char* to_string(Indicator i)
             {
                 std::string msg;
                 msg = "En el estado " + std::to_string(state_current) + ", no se puede colocar los prefijo ya que al menos una transicion esta usada";
-                throw core_next::exception(msg);
+                throw exception(msg);
             }
 
 			for (size_t k = 0; k < length_transition(); k++)
