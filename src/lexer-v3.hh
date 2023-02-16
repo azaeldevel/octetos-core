@@ -598,6 +598,13 @@ const char* to_string(Indicator i)
 		*/
 		constexpr State prefixing(State state_current, const std::vector<Symbol>& prefixs, Token token)
 		{
+            if(if_prefixed(state_current,prefixs))
+            {
+                std::string msg;
+                msg = "En el estado " + std::to_string(state_current) + ", no se puede colocar los prefijo ya que al menos una transicion esta usada";
+                throw core_next::exception(msg);
+            }
+
 			for (size_t k = 0; k < length_transition(); k++)
 			{
 				if (std::find(prefixs.begin(), prefixs.end(), Symbol(k)) == prefixs.end()) continue;
@@ -612,15 +619,24 @@ const char* to_string(Indicator i)
 		/*
 		*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
 		*/
+		constexpr bool if_prefixed(Symbol symbol,State state_current)
+		{
+			if (TT_BASE::at(state_current)[symbol].indicator == Indicator::accept and TT_BASE::at(state_current)[symbol].next == 0 and TT_BASE::at(state_current)[symbol].token > Token::none) return true;
+
+			return false;
+		}
+		/*
+		*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
+		*/
 		constexpr bool if_prefixed(State state_current, const std::vector<Symbol>& prefixs)
 		{
 			for (size_t i = 0; i < prefixs.size(); i++)
 			{
-				if (TT_BASE::at(state_current)[prefixs[i]].indicator != Indicator::accept) return false;
-				if (TT_BASE::at(state_current)[prefixs[i]].token == Token::none) return false;
+				if (TT_BASE::at(state_current)[prefixs[i]].indicator == Indicator::accept and TT_BASE::at(state_current)[prefixs[i]].next == 0) return true;
+				//if (TT_BASE::at(state_current)[prefixs[i]].token == Token::none) return false;
 			}
 
-			return true;
+			return false;
 		}
 		constexpr State one(const std::vector<Symbol>& simbols, State state_current, const std::vector<Symbol>& prefixs, Token token)
 		{
