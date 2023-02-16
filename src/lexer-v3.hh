@@ -2,7 +2,7 @@
 
 #ifndef OCTETOS_CORE_LEXER_V3_HH
 #define OCTETOS_CORE_LEXER_V3_HH
- 
+
 
 
 /**
@@ -177,14 +177,14 @@ enum class Tokens : int
 	y_Diaeresis = 255,//ÿ
 	//>>>UTF-8
 	a_Macron	= 256,
-	
+
 	s_Coptic	= 999,
 	//Inicode >>>
 
 
 	//>>>Tokens
 	tokens	= 0x110000,
-	
+
 
 };
 
@@ -318,7 +318,7 @@ const char* to_string(Indicator i)
 		static constexpr  unsigned int length_transition()
 		{
 			//if (typeid(Symbol) == typeid(char)) return 128;//ascci table
-			
+
 			return 128;
 		}
 		constexpr State create(size_t to_add = 1)
@@ -358,7 +358,7 @@ const char* to_string(Indicator i)
 				}
 			}
 		}
-				
+
 		constexpr const std::vector<Symbol>& simbols() const
 		{
 			return _simbols;
@@ -446,7 +446,7 @@ const char* to_string(Indicator i)
 			}
 		}
 
-		
+
 		/*constexpr State word(const char* str, Token token, const std::vector<Symbol>& prefixs)
 		{
 			size_t sz_str = strlen(str);
@@ -488,7 +488,7 @@ const char* to_string(Indicator i)
 			return state_max;
 		}*/
 
-		
+
 		/*constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
 			State state_current = initial_state, state_max = initial_state;
@@ -563,7 +563,7 @@ const char* to_string(Indicator i)
 				{
 					//state_next = last(simbols,prefixs);
 					return USED;
-				}				
+				}
 			}
 
 			state_next = one(simbols,state_current,prefixs,token);
@@ -577,7 +577,7 @@ const char* to_string(Indicator i)
 		}
 		constexpr State identifier(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
-			
+
 
 
 
@@ -698,7 +698,13 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
-		
+		constexpr is_recurive(Symbol simbol, State state_current)const
+		{
+            if(TT_BASE::at(state_current)[simbol].next == state_current) return true;
+
+            return false;
+		}
+
 	private:
 		std::vector<Symbol> _simbols;
 		static const State initial_state = 0;
@@ -790,7 +796,7 @@ public:
 				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
 				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
 				/*std::cout << "Index : '" << index << "'\n"; */
-				
+
 				//>>>
 
             }
@@ -837,7 +843,7 @@ public:
 			}
         }
 #ifdef OCTETOS_CORE_ENABLE_DEV
-		
+
 #endif
 		if (acceptable_transition and acceptable_ended)
 		{
