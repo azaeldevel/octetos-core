@@ -382,7 +382,16 @@ const char* to_string(Indicator i)
 			return _simbols;
 		}
 
-		int check(std::ostream& out, Indicator indicator = Indicator::unknow, State state = initial_state) const
+		const Transition<Token, State>* get(State state, Symbol simbol) const
+		{
+			return &TT_BASE::at(state)[simbol];
+		}
+		size_t size() const
+		{
+			return TT_BASE::size();
+		}
+
+		int check(std::ostream& out, Indicator indicator = Indicator::none, State state = initial_state) const
 		{
 			if (state < 0) return 0;
 			if (state >= TT_BASE::size()) return 0;//caso base
@@ -396,9 +405,6 @@ const char* to_string(Indicator i)
 					if (TT_BASE::at(state)[s].indicator == Indicator::none)
 					{
 					}
-					else if (TT_BASE::at(state)[s].indicator == Indicator::prefix)
-					{
-					}
 					else if (TT_BASE::at(state)[s].indicator == Indicator::accept)
 					{
 					}
@@ -408,32 +414,21 @@ const char* to_string(Indicator i)
 						erros++;
 					}
 				}
-				else if (indicator == Indicator::prefix)
-				{
-					if (TT_BASE::at(state)[s].indicator == Indicator::none)
-					{
-					}
-					else if (TT_BASE::at(state)[s].indicator == Indicator::accept)
-					{
-					}
-					else if (TT_BASE::at(state)[s].indicator == Indicator::reject)
-					{
-					}
-					else
-					{
-						out << state << ":" << Symbol(s) << " - " << "Unavez que se estable un estado como inidicador prefix, los estados posteriores none, acceptable, accept\n";
-						erros++;
-					}
-				}
+
 				if (state == TT_BASE::at(state)[s].next) return 0;
-				erros += check(out, TT_BASE::at(state)[s].indicator, TT_BASE::at(state)[s].next);
+				else if (state > TT_BASE::at(state)[s].next)
+				{
+					erros += check(out, TT_BASE::at(state)[s].indicator, TT_BASE::at(state)[s].next);
+				}
+				
+				return 0;
 			}
 
 
 			return erros;
 		}
 
-		void print(std::ostream & out, State state = initial_state)
+		void print(std::ostream & out, State state = initial_state, int indend = 0)
 		{
 			if (state > TT_BASE::size() - 1) return;//caso base
 
@@ -443,6 +438,7 @@ const char* to_string(Indicator i)
 
 				if (state == initial_state) out << "|-";
 				else out << "\t|-";
+
 				if (s <= Symbol(Token::US)) out << state << "--control char-->" << TT_BASE::at(state)[s].next << " ";
 				else out << state << "--'" << s << "'-->" << TT_BASE::at(state)[s].next << " ";
 				out << to_string(TT_BASE::at(state)[s].indicator) << " ";
@@ -510,33 +506,7 @@ const char* to_string(Indicator i)
 
 		constexpr void almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
-			State state_current = initial_state, state_last = initial_state, state_next = initial_state;
-			if (simbols.empty()) throw exception("El input esta vacio");
-
-			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
-			{
-				if(not is_symbol(simbols[i]))
-                {
-                    std::string msg_not_symbols;
-                    msg_not_symbols = "' ' ";
-                    msg_not_symbols[1] = simbols[i];
-                    msg_not_symbols += "no es un simbolo del lenguaje";
-                    throw exception(msg_not_symbols);
-                }
-				if(is_used(simbols[i],state_current))
-                {
-                    std::string msg;
-                    char sim[] = {' ','\0'};
-                    sim[0] = simbols[i];
-                    msg = "En el estado " + std::to_string(state_current) + ", para el simbolo ";
-                    msg += (const char*)sim;
-                    msg += ", La transicion ya esta ocupada, no se puede usar para el token ";
-                    msg += std::to_string((int)token);
-                    throw exception(msg);
-                }
-			}
-
-			state_next = one(simbols,state_current,prefixs,token);
+			State state_next = one(simbols,token,prefixs);
 
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
@@ -544,7 +514,7 @@ const char* to_string(Indicator i)
 			}
 
 		}
-		constexpr void one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
+		constexpr State one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
 			State state_current = initial_state, state_last = initial_state, state_next = initial_state;
 			if (simbols.empty()) throw exception("El input esta vacio");
@@ -573,12 +543,10 @@ const char* to_string(Indicator i)
 			}
 
 			state_next = one(simbols, state_current, prefixs, token);
+			return state_next;
 		}
 		constexpr State identifier(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
-
-
-
 
 		}
 
