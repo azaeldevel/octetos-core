@@ -422,7 +422,7 @@ const char* to_string(Indicator i)
 				{
 					erros += check(out, TT_BASE::at(state)[s].indicator, TT_BASE::at(state)[s].next);
 				}
-				
+
 				return 0;
 			}
 
@@ -550,10 +550,6 @@ const char* to_string(Indicator i)
 			state_next = one(simbols, state_current, prefixs, token);
 			return state_next;
 		}
-		constexpr State identifier(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
-		{
-
-		}
 
 	private:
 		/*
@@ -658,7 +654,7 @@ const char* to_string(Indicator i)
 					}
 				}
 			}
-			
+
 			state_next = create();
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
