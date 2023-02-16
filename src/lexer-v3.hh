@@ -384,7 +384,9 @@ const char* to_string(Indicator i)
 
 		const Transition<Token, State>* get(State state, Symbol simbol) const
 		{
-			return &TT_BASE::at(state)[simbol];
+			if(state < TT_BASE::size()) return &TT_BASE::at(state)[simbol];
+
+			return NULL;
 		}
 		size_t size() const
 		{
@@ -466,7 +468,7 @@ const char* to_string(Indicator i)
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
-		constexpr void word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs)
+		constexpr State word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs)
 		{
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) throw exception("El input esta vacio");
@@ -502,9 +504,11 @@ const char* to_string(Indicator i)
                 throw exception(msg);
             }
 			prefixing(state_next, prefixs, token);
+
+			return state_next;
 		}
 
-		constexpr void almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
+		constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
 			State state_next = one(simbols,token,prefixs);
 
@@ -513,6 +517,7 @@ const char* to_string(Indicator i)
 				TT_BASE::at(state_next)[simbols[i]].next = state_next;
 			}
 
+			return state_next;
 		}
 		constexpr State one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
