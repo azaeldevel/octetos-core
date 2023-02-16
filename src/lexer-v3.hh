@@ -449,89 +449,12 @@ const char* to_string(Indicator i)
 			}
 		}
 
-
-		/*constexpr State word(const char* str, Token token, const std::vector<Symbol>& prefixs)
-		{
-			size_t sz_str = strlen(str);
-			if (sz_str == 0) return EMPTY_INPUT;
-			State state_current = initial_state, state_max = initial_state;
-			Symbol input;
-			for (size_t i = 0; i < sz_str; i++)//reading char by char..
-			{
-				input = str[i];
-				if (TT_BASE::at(state_current)[input].indicator != Indicator::unknow)
-				{
-					state_current = TT_BASE::at(state_current)[input].next;
-					continue;
-				}
-				else
-				{
-					TT_BASE::at(state_current)[input].indicator = Indicator::none;
-					if (i + 1 < sz_str)//si hay mas texto que leer de la palabra
-					{
-						state_max = create();
-						TT_BASE::at(state_current)[input].next = state_max;
-						state_current = state_max;
-					}
-				}
-			}
-			state_max = create();
-			TT_BASE::at(state_current)[input].next = state_max;
-			TT_BASE::at(state_current)[input].token = token;
-			TT_BASE::at(state_current)[input].indicator = Indicator::acceptable;
-			for (size_t k = 0; k < length_transition(); k++)
-			{
-				if (std::find(prefixs.begin(), prefixs.end(), Symbol(k)) == prefixs.end()) continue;
-
-				TT_BASE::at(state_max)[k].next = 0;
-				TT_BASE::at(state_max)[k].token = token;
-				TT_BASE::at(state_max)[k].indicator = Indicator::accept;
-			}
-
-			return state_max;
-		}*/
-
-
-		/*constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
-		{
-			State state_current = initial_state, state_max = initial_state;
-			if (simbols.empty()) return EMPTY_INPUT;
-			Symbol input;
-
-			//verificacion
-			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
-			{
-				input = simbols[i];
-				if (TT_BASE::at(state_current)[input].next >= 0) return USED;
-			}
-
-			//
-			state_max = create();
-			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
-			{
-				input = simbols[i];
-				TT_BASE::at(state_current)[input].next = state_max;
-				TT_BASE::at(state_current)[input].indicator = Indicator::acceptable;
-				TT_BASE::at(state_current)[input].token = token;
-			}
-			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
-			{
-				input = simbols[i];
-				TT_BASE::at(state_max)[input].next = state_max;
-				TT_BASE::at(state_max)[input].indicator = Indicator::acceptable;
-				TT_BASE::at(state_max)[input].token = token;
-			}
-			for (size_t i = 0; i < prefixs.size(); i++)//reading char by char..
-			{
-				input = prefixs[i];
-				if (std::find(simbols.begin(), simbols.end(), input) != simbols.end()) continue;
-				TT_BASE::at(state_max)[input].next = 0;
-				TT_BASE::at(state_max)[input].indicator = Indicator::accept;
-				TT_BASE::at(state_max)[input].token = token;
-			}
-
-			return state_max;
-		}*/
+        /*
+        *\brief Agreaga la palabra indicada al anlizador
+        *\param str cadeda de texto que deve acetar el analizador
+        *\param prefixs lista de simbolos que determinan que la palabra ha terminado
+        *\param token token retornado por el analizador si detecta la palabra
+        */
 		constexpr void word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs)
 		{
 			size_t sz_str = strlen(str);
