@@ -567,7 +567,6 @@ const char* to_string(Indicator i)
                 msg += str;
                 throw core_next::exception(msg);
             }
-			//state_next = one(input, state_current);
 			prefixing(state_next, prefixs, token);
 		}
 
