@@ -536,13 +536,12 @@ const char* to_string(Indicator i)
 		{
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) throw core_next::exception("El input esta vacio");
-			State state_current = initial_state, state_next = initial_state;
+			State state_current = initial_state, state_next = initial_state, state_last = initial_state;
 			Symbol input;
-
 			for (size_t i = 0; i < sz_str; i++)
 			{
+			    state_last = state_next;
 				input = str[i];
-
 				if(not is_symbol(input))
                 {
                     std::string msg_not_symbols;
@@ -551,14 +550,11 @@ const char* to_string(Indicator i)
                     msg_not_symbols += "no es un simbolo del lenguaje";
                     throw core_next::exception(msg_not_symbols);
                 }
-				if(is_recursive(input, state_current)) throw core_next::exception("Lenguaje ambiguo");
-				//if(not is_empty_transition(input, state_current)) throw core_next::exception("El estado no esta vacio");
-
 				state_next = one(input, state_current);
-				//if (state_next < 0) return state_next;
 				state_current = state_next;
 			}
 
+            if(state_next != TT_BASE::at(state_last)[str[sz_str - 1]].next) throw core_next::exception("Terminacion incorrecta de secuencia");
 			prefixing(state_next, prefixs, token);
 		}
 
@@ -699,14 +695,14 @@ const char* to_string(Indicator i)
 		{
 			State state_next = initial_state;
 			//verificacion
-			if (TT_BASE::at(state_current)[simbol].next < initial_state)
+			if(is_used(simbol,state_current))
 			{
-				state_next = create();
-				TT_BASE::at(state_current)[simbol].next = state_next;
+				return TT_BASE::at(state_current)[simbol].next;
 			}
 			else
 			{
-				return TT_BASE::at(state_current)[simbol].next;
+				state_next = create();
+				TT_BASE::at(state_current)[simbol].next = state_next;
 			}
 
 			return state_next;
@@ -728,6 +724,12 @@ const char* to_string(Indicator i)
 			if (std::find(_simbols.begin(), _simbols.end(), Symbol(s)) == _simbols.end()) return false;
 
 			return true;
+		}
+		constexpr is_used(Symbol simbol, State state_current)const
+		{
+            if(TT_BASE::at(state_current)[simbol].next < initial_state) return false;
+
+            return true;
 		}
 	private:
 		std::vector<Symbol> _simbols;
