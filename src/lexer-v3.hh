@@ -515,15 +515,25 @@ const char* to_string(Indicator i)
 
 			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
 			{
-				if (TT_BASE::at(state_current)[simbols[i]].next < initial_state)//usable?
-				{
-
-				}
-				else//ya se ha asignado a una relga
-				{
-					//state_next = last(simbols,prefixs);
-					throw exception("El estado no esta vacio");
-				}
+				if(not is_symbol(simbols[i]))
+                {
+                    std::string msg_not_symbols;
+                    msg_not_symbols = "' ' ";
+                    msg_not_symbols[1] = simbols[i];
+                    msg_not_symbols += "no es un simbolo del lenguaje";
+                    throw exception(msg_not_symbols);
+                }
+				if(is_used(simbols[i],state_current))
+                {
+                    std::string msg;
+                    char sim[] = {' ','\0'};
+                    sim[0] = simbols[i];
+                    msg = "En el estado " + std::to_string(state_current) + ", para el simbolo ";
+                    msg += (const char*)sim;
+                    msg += ", La transicion ya esta ocupada, no se puede usar para el token ";
+                    msg += std::to_string((int)token);
+                    throw exception(msg);
+                }
 			}
 
 			state_next = one(simbols,state_current,prefixs,token);
