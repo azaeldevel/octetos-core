@@ -306,7 +306,7 @@ const char* to_string(Indicator i)
 	};
 
 	template<typename Symbol /*Input*/,typename Token,typename State/*Status*/>
-	class TT : public std::vector<std::vector<Transition<Token, State>>>
+	class TT : private std::vector<std::vector<Transition<Token, State>>>
 	{
 	public:
 		typedef std::vector<Transition<Token, State>> TT_SYMBOLS;
@@ -804,7 +804,7 @@ public:
             //>>>reading data
             {
                 input = buff[index];
-                actual_transition = (const Transition<Token, State>*) &(table->at(actual_status).at(input));
+                actual_transition = table->get(actual_status,input);
                 next_status = actual_transition->next;
 
 				//--prefix-->accept|reject
