@@ -554,7 +554,20 @@ const char* to_string(Indicator i)
 				state_current = state_next;
 			}
 
-            if(state_next != TT_BASE::at(state_last)[str[sz_str - 1]].next) throw core_next::exception("Terminacion incorrecta de secuencia");
+			//la ultima transicion deve estar vacio para ser usada con este token
+			Symbol last_symbol = str[sz_str];
+			if(is_used(last_symbol,state_last))
+            {
+                std::string msg;
+                char sim[] = {' ','\0'};
+                sim[0] = last_symbol;
+                msg = "En el estado " + std::to_string(state_last) + ", para el simbolo ";
+                msg += (const char*)sim;
+                msg += ", La transicion ya esta ocupada, no se puede usar para el token ";
+                msg += str;
+                throw core_next::exception(msg);
+            }
+			//state_next = one(input, state_current);
 			prefixing(state_next, prefixs, token);
 		}
 
