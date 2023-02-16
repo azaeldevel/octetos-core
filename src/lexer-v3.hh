@@ -32,6 +32,7 @@
 #include <list>
 #include <algorithm>
 
+#include "core.hh"
 #include "Buffer-v3.hh"
 
 namespace oct::core::v3::lex
@@ -314,6 +315,8 @@ const char* to_string(Indicator i)
 		static const State EMPTY_INPUT = -2;
 		static const State USED = -3;
 		static const State AMBIGUOS = -4;
+		static const State NOT_SYMBOL = -5;
+		//static const State EMPTY_TRANSITION = -6;
 
 		static constexpr  unsigned int length_transition()
 		{
@@ -529,29 +532,40 @@ const char* to_string(Indicator i)
 
 			return state_max;
 		}*/
-		constexpr State word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs)
+		constexpr void word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs)
 		{
 			size_t sz_str = strlen(str);
-			if (sz_str == 0) return EMPTY_INPUT;
+			if (sz_str == 0) throw core_next::exception("El input esta vacio");
 			State state_current = initial_state, state_next = initial_state;
 			Symbol input;
+
 			for (size_t i = 0; i < sz_str; i++)
 			{
 				input = str[i];
+
+				if(not is_symbol(input))
+                {
+                    std::string msg_not_symbols;
+                    msg_not_symbols = "' ' ";
+                    msg_not_symbols[1] = input;
+                    msg_not_symbols += "no es un simbolo del lenguaje";
+                    throw core_next::exception(msg_not_symbols);
+                }
+				if(is_recursive(input, state_current)) throw core_next::exception("Lenguaje ambiguo");
+				//if(not is_empty_transition(input, state_current)) throw core_next::exception("El estado no esta vacio");
+
 				state_next = one(input, state_current);
-				if (state_next < 0) return state_next;
+				//if (state_next < 0) return state_next;
 				state_current = state_next;
 			}
 
 			prefixing(state_next, prefixs, token);
-
-			return state_next;
 		}
 
-		constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
+		constexpr void almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
 			State state_current = initial_state, state_last = initial_state, state_next = initial_state;
-			if (simbols.empty()) return EMPTY_INPUT;
+			if (simbols.empty()) throw core_next::exception("El input esta vacio");
 
 			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
 			{
@@ -562,7 +576,7 @@ const char* to_string(Indicator i)
 				else//ya se ha asignado a una relga
 				{
 					//state_next = last(simbols,prefixs);
-					return USED;
+					throw core_next::exception("El estado no esta vacio");
 				}
 			}
 
@@ -573,7 +587,6 @@ const char* to_string(Indicator i)
 				TT_BASE::at(state_next)[simbols[i]].next = state_next;
 			}
 
-			return state_next;
 		}
 		constexpr State identifier(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
@@ -698,13 +711,24 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
-		constexpr is_recurive(Symbol simbol, State state_current)const
+		constexpr is_recursive(Symbol simbol, State state_current)const
 		{
             if(TT_BASE::at(state_current)[simbol].next == state_current) return true;
 
             return false;
 		}
+		constexpr is_empty_transition(Symbol simbol, State state_current)const
+		{
+            if(TT_BASE::at(state_current)[simbol].next < initial_state) return true;
 
+            return false;
+		}
+		constexpr bool is_symbol(Symbol s) const
+		{
+			if (std::find(_simbols.begin(), _simbols.end(), Symbol(s)) == _simbols.end()) return false;
+
+			return true;
+		}
 	private:
 		std::vector<Symbol> _simbols;
 		static const State initial_state = 0;
