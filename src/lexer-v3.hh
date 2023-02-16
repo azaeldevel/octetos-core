@@ -544,6 +544,36 @@ const char* to_string(Indicator i)
 			}
 
 		}
+		constexpr void one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
+		{
+			State state_current = initial_state, state_last = initial_state, state_next = initial_state;
+			if (simbols.empty()) throw exception("El input esta vacio");
+
+			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
+			{
+				if (not is_symbol(simbols[i]))
+				{
+					std::string msg_not_symbols;
+					msg_not_symbols = "' ' ";
+					msg_not_symbols[1] = simbols[i];
+					msg_not_symbols += "no es un simbolo del lenguaje";
+					throw exception(msg_not_symbols);
+				}
+				if (is_used(simbols[i], state_current))
+				{
+					std::string msg;
+					char sim[] = { ' ','\0' };
+					sim[0] = simbols[i];
+					msg = "En el estado " + std::to_string(state_current) + ", para el simbolo ";
+					msg += (const char*)sim;
+					msg += ", La transicion ya esta ocupada, no se puede usar para el token ";
+					msg += std::to_string((int)token);
+					throw exception(msg);
+				}
+			}
+
+			state_next = one(simbols, state_current, prefixs, token);
+		}
 		constexpr State identifier(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
 		{
 
@@ -600,9 +630,10 @@ const char* to_string(Indicator i)
 		}
 		constexpr State one(const std::vector<Symbol>& simbols, State state_current, const std::vector<Symbol>& prefixs, Token token)
 		{
-			State state_next = initial_state;
-
-			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
+			State state_next = initial_state, state_first_used = initial_state;
+			bool all_empty = true;
+			//buscar si la transicion puede ser un subconjunto de una existente
+			for (size_t i = 0; i < simbols.size(); i++)
 			{
 				if (TT_BASE::at(state_current)[simbols[i]].next < initial_state)//usable?
 				{
@@ -610,11 +641,51 @@ const char* to_string(Indicator i)
 				}
 				else//ya se ha asignado a una relga
 				{
-					//state_next = last(simbols,prefixs);
-					return USED;
+					all_empty = false;
+					break;
 				}
 			}
+			if (not all_empty)//hay algunas usadas, es posuble continuar on este conjunto de transsiones?
+			{
+				for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
+				{
+					if (TT_BASE::at(state_current)[simbols[i]].next < initial_state)//usable?
+					{
 
+					}
+					else//ya se ha asignado a una relga
+					{
+						state_first_used = TT_BASE::at(state_current)[simbols[i]].next;
+						break;
+					}
+				}
+				if (state_first_used != initial_state)
+				{
+					for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
+					{
+						if (TT_BASE::at(state_current)[simbols[i]].next < initial_state)//usable?
+						{
+
+						}
+						else if (TT_BASE::at(state_current)[simbols[i]].next == state_first_used)
+						{
+
+						}
+						else
+						{
+							std::string msg;
+							char sim[] = { ' ','\0' };
+							sim[0] = simbols[i];
+							msg = "En el estado " + std::to_string(state_current) + ", para el simbolo ";
+							msg += (const char*)sim;
+							msg += ", La transicion ya esta ocupada, no se puede usar para el token ";
+							msg += std::to_string((int)token);
+							throw exception(msg);
+						}
+					}
+				}
+			}
+			
 			state_next = create();
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
@@ -683,13 +754,13 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
-		constexpr is_recursive(Symbol simbol, State state_current)const
+		constexpr bool is_recursive(Symbol simbol, State state_current)const
 		{
             if(TT_BASE::at(state_current)[simbol].next == state_current) return true;
 
             return false;
 		}
-		constexpr is_empty_transition(Symbol simbol, State state_current)const
+		constexpr bool is_empty_transition(Symbol simbol, State state_current)const
 		{
             if(TT_BASE::at(state_current)[simbol].next < initial_state) return true;
 
@@ -701,7 +772,7 @@ const char* to_string(Indicator i)
 
 			return true;
 		}
-		constexpr is_used(Symbol simbol, State state_current)const
+		constexpr bool is_used(Symbol simbol, State state_current)const
 		{
             if(TT_BASE::at(state_current)[simbol].next < initial_state) return false;
 
