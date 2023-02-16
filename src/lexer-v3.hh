@@ -697,7 +697,7 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
-		constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs, Token token)
+		/*constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs, Token token)
 		{
 			State state_next = initial_state;
 
@@ -715,11 +715,11 @@ const char* to_string(Indicator i)
 			}
 
 			return state_next;
-		}
+		}*/
 		/*
 		*\brief Crea una transitcion para el estado y simbolo indicado
 		*/
-		constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs)
+		/*constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs)
 		{
 			State state_next = initial_state;
 			//verificacion
@@ -734,7 +734,7 @@ const char* to_string(Indicator i)
 			}
 
 			return state_next;
-		}
+		}*/
 		/*
 		*\brief Crea una transitcion para el estado y simbolo indicado
 		*/
