@@ -324,7 +324,22 @@ const char* to_string(Indicator i)
 
 			return 128;
 		}
-		constexpr State create(size_t to_add = 1)
+		constexpr State create()
+		{
+			size_t size_inital = TT_BASE::size();
+			TT_BASE::resize(size_inital + 1);
+			if (TT_BASE::size() != size_inital + 1) exception("El tamaño del contenedor no es el adecuado.");
+			size_t size_post = TT_BASE::size();
+			size_t base_post = size_inital > 0 ? size_inital - 1 : 0;
+			for (size_t i = base_post; i < size_post; i++)
+			{
+				TT_BASE::at(i).resize(length_transition());
+				//initial(i);
+			}
+
+			return State(TT_BASE::size() - 1);
+		}
+		constexpr State create(size_t to_add)
 		{
 			size_t size_inital = TT_BASE::size();
 			TT_BASE::resize(size_inital + to_add);
