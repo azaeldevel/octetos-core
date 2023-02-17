@@ -115,7 +115,7 @@ public:
 			description += ":";
 			description += std::to_string(_location.line()) + " ";
 			if (_code_flag) description += "- " + std::to_string(_code);
-			if (not _message.empty()) description += _message;
+			if (not _message.empty()) description += "\n\t" + _message;
 		}
 
 		return description.c_str();

@@ -526,10 +526,11 @@ const char* to_string(Indicator i)
 			{
 				if (not is_symbol(simbols[i]))
 				{
+				    char minimsg[] = {'>','?','<', '\0'};
+					minimsg[1] = simbols[i];
 					std::string msg_not_symbols;
-					msg_not_symbols = "' ' ";
-					msg_not_symbols[1] = simbols[i];
-					msg_not_symbols += "no es un simbolo del lenguaje";
+					msg_not_symbols = (const char*)minimsg;
+					msg_not_symbols += ", no es un simbolo del lenguaje";
 					throw exception(msg_not_symbols);
 				}
 				if (is_used(simbols[i], state_current))
@@ -938,7 +939,7 @@ public:
 				{
 					return actual_transition->token;
 				}
-				
+
 				return (Token)input;//se retorna el ultomo token
 			}
 		}
@@ -958,7 +959,7 @@ public:
 
 		return token;
 	}
-	
+
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
 	{
