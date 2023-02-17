@@ -26,9 +26,16 @@ public:
             _begin[i] = list.begin()[i];
         }
     }
-    constexpr array(const array& a) : _size(a._size),_begin(new T)
+    array(const array& a) : _size(a._size),_begin(new T)
     {
-
+        for(size_t i = 0; i < _size; i++)
+        {
+            _begin[i] = a._begin[i];
+        }
+    }
+    constexpr ~array()
+    {
+        delete[] _begin;
     }
     const T* begin() const
     {
@@ -36,7 +43,15 @@ public:
     }
     const T* end() const
     {
-        return _begin + (_size - 1);
+        return _begin + _size;
+    }
+    T* begin()
+    {
+        return _begin;
+    }
+    T* end()
+    {
+        return _begin + _size;
     }
     T& operator [](size_t i)
     {
@@ -44,16 +59,7 @@ public:
 
         throw exception("Indice fuera de rango");
     }
-/*#if defined(__GNUC__)
 
-#elif defined(__clang__)
-    #error "Sin emplementar"
-#elif defined(_MSC_VER)
-    #error "Sin emplementar"
-#else
-    #error "Compilador desconocido"
-#endif
-*/
 private:
 
 private:
@@ -65,3 +71,4 @@ private:
 
 
 #endif
+
