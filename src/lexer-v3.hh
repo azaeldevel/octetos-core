@@ -356,12 +356,10 @@ const char* to_string(Indicator i)
 		}
 
 	public:
+	    constexpr TT() = default;
 		constexpr TT(const std::vector<Symbol>& ss) : _simbols(ss)
 		{
-			std::sort(_simbols.begin(), _simbols.end(), [](int a, int b)
-				{
-					return a < b;
-				});
+			sort_symbols();
 			State inital_state = create();
 		}
 		constexpr TT(const TT& tt) : TT_BASE(tt), _simbols(tt._simbols)
@@ -550,6 +548,17 @@ const char* to_string(Indicator i)
 			state_next = one(simbols, state_current, prefixs, token);
 			return state_next;
 		}
+    protected:
+        constexpr void sort_symbols()
+        {
+			std::sort(_simbols.begin(), _simbols.end(), [](int a, int b)
+				{
+					return a < b;
+				});
+		}
+
+		std::vector<Symbol> _simbols;
+		static const State initial_state = 0;
 
 	private:
 		/*
@@ -748,8 +757,6 @@ const char* to_string(Indicator i)
             return true;
 		}
 	private:
-		std::vector<Symbol> _simbols;
-		static const State initial_state = 0;
 	};
 
 	template<typename Symbol /*Input*/>
