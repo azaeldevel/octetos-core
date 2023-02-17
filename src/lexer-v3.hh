@@ -954,6 +954,7 @@ public:
 		content.base = (const Symbol*)*buffer;
 		content.base += token_start;
 		content.length = token_end - token_start;
+		content.token = token;
 
 		return token;
 	}
