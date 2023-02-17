@@ -209,7 +209,7 @@ template<typename Token> std::string to_string(Token t)
 		str = "Letra '" + str_token + "'";
 		return str;
 	}
-	else if (t > Token::tokens)
+	else if (t > Token::base)
 	{
 		if (t > Token::keyword_auto)
 		{
@@ -759,15 +759,18 @@ const char* to_string(Indicator i)
 	private:
 	};
 
-	template<typename Symbol /*Input*/>
-	struct TokenDefinition
+	template<typename Symbol /*Input*/, typename Token>
+	struct Tokenized
 	{
 		const Symbol* base;
 		size_t length;
+		Token token;
 
-		void load(std::string& str) const
+		operator std::string()const
 		{
+			std::string str;
 			str.insert(0, base, length);
+			return str;
 		}
 	};
 
@@ -781,7 +784,7 @@ class A
 public:
 
 public:
-	A(const TT<Symbol,Token, State>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),actual_state(false),index(0),actual_status(0),initial_status(0)
+	A(const TT<Symbol,Token, State>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),index(0),actual_status(0),initial_status(0)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
 		_echo = false;
@@ -791,7 +794,6 @@ public:
     Token next()
 	{
         actual_status = initial_status;
-        actual_state = false;
 		actual_transition = NULL;
 		prev_transition = NULL;
 		token_start = index;
@@ -840,10 +842,10 @@ public:
             {
 				//std::cout << "Input : '" << int(input) << "'\n";
 				//std::cout << "Input : '" << int('\n') << "'\n";
-				if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
+				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
 				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
 				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
-				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
+				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";*/
 				/*std::cout << "Index : '" << index << "'\n"; */
 
 				//>>>
@@ -877,6 +879,7 @@ public:
 				if (terminate_and_advance)
 				{
 					index++;
+					token_end = index;
 					//std::cout << "terminating ...\n";
 					break;
 				}
@@ -894,35 +897,33 @@ public:
 #ifdef OCTETOS_CORE_ENABLE_DEV
 
 #endif
-		if (acceptable_transition and acceptable_ended)
+		if (not actual_transition and index == buffer->size())
 		{
-			actual_state = true;
+			return Token::none;
+		}
+		else if (acceptable_transition and acceptable_ended)
+		{
 			return actual_transition->token;
 		}
 		else if (actual_transition->indicator == Indicator::accept)
 		{
-			actual_state = true;
 			return actual_transition->token;
 		}
 		else if (prefix_transition and prefix_ended)
 		{
-			actual_state = true;
 			index = index - prefix_start + 1;
 			return actual_transition->token;
 		}
 		else if (actual_transition->indicator == Indicator::error)
 		{
-			actual_state = false;
 			return (Token)input;
 		}
 		else if (actual_transition->indicator == Indicator::unknow)
 		{
-			actual_state = false;
 			return (Token)input;
 		}
 		else if(actual_transition->next < 0)
-		{
-			actual_state = false;
+		{;
 			return (Token)input;
 		}
 		else
@@ -931,26 +932,23 @@ public:
 			{
 				if (actual_transition->indicator == Indicator::accept)
 				{
-					actual_state = true;
 					return actual_transition->token;
 				}
 				else if (actual_transition->indicator == Indicator::acceptable)
 				{
-					actual_state = true;
 					return actual_transition->token;
 				}
-
-				actual_state = false;
+				
 				return (Token)input;//se retorna el ultomo token
 			}
 		}
 
 		return Token::eoi;
 	}
-	Tokens next(TokenDefinition<Symbol>& content)
+	Token next(Tokenized<Symbol,Token>& content)
 	{
-		Tokens token = next();
-		if (token <= Tokens::none) return token;
+		Token token = next();
+		if (token <= Token::none) return token;
 		if (token_start >= token_end) return token;
 
 		content.base = (const Symbol*)*buffer;
@@ -959,53 +957,13 @@ public:
 
 		return token;
 	}
-	bool next(const Symbol* str)
-	{
-		size_t leng = strlen(str);
-		const Symbol* buf = (const Symbol*)*buffer;
-		buf += index;
-		if (strncmp(buf, str, leng) == 0)
-		{
-			actual_state = true;
-			index += leng;
-			return true;
-		}
-		else
-		{
-			actual_state = false;
-			return false;
-		}
-	}
-	bool next(Symbol s)
-	{
-		const Symbol* buf = (const Symbol*)*buffer;
-		buf += index;
-		if (buf[0] == s)
-		{
-			actual_state = true;
-			index++;
-			return true;
-		}
-		else
-		{
-			actual_state = false;
-			return false;
-		}
-	}
+	
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
 	{
 		_echo = e;
 	}
 #endif
-	bool is_accepted() const
-	{
-		return actual_state;
-	}
-	Indicator get_indicator () const
-	{
-		return actual_transition ? actual_transition->indicator : Indicator::none;
-	}
 private:
 
 
@@ -1013,7 +971,6 @@ private:
 	const TT<Symbol,Token, State>* table;
 	Buffer<Symbol>* buffer;
 	Symbol input;
-	bool actual_state;//estado del automata actual
 	size_t index,token_start,token_end;//prefix_index
     const Transition<Token, State> *actual_transition, *prev_transition, *prefix_transition, *acceptable_transition;
 	State actual_status,next_status;//numero del estado actual del automata
