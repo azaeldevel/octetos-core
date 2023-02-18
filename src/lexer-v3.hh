@@ -313,7 +313,8 @@ const char* to_string(Indicator i)
 		none,
 		error,
 		extend,//busca entre las posibles transiciones posibles conbionacioness
-		only_free,
+		only_free,//solo operara sobre las transisciones libres
+		join_same,//realiza la operacion, pero reultilizara el o los estados posbles para el token inidcado
 	};
 
 	template<typename Symbol /*Input*/,typename Token,typename State/*Status*/>
@@ -579,6 +580,12 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
+		constexpr State some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag)
+		{
+			State state_next = one(simbols,token,prefixs,flag);
+			some(simbols,token,prefixs,flag,initial_state,state_next);
+			return state_next;
+		}
     protected:
         constexpr void sort_symbols()
         {
@@ -654,7 +661,7 @@ const char* to_string(Indicator i)
 					break;
 				}
 			}
-			if (not all_empty)//hay algunas usadas, es posuble continuar on este conjunto de transsiones?
+			if (not all_empty)//hay algunas usadas, es posible continuar on este conjunto de transsiones?
 			{
 				for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
 				{
@@ -786,6 +793,20 @@ const char* to_string(Indicator i)
             if(TT_BASE::at(state_current)[simbol].next < initial_state) return false;
 
             return true;
+		}
+		constexpr void some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag,State current,State target)
+		{
+			for (size_t i = 0; i < simbols.size(); i++)
+			{
+				if(is_used(simbols[i],current))
+				{
+					some(simbols,token,prefixs,flag,TT_BASE::at(current)[simbols[i]].next,target);
+				}
+				else
+				{
+					TT_BASE::at(current)[simbols[i]].next = target;
+				}
+			}
 		}
 	private:
 	};
