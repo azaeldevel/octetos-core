@@ -394,7 +394,7 @@ const char* to_string(Indicator i)
 
 		const Transition<Token, State>* get(State state, Symbol simbol) const
 		{
-			if(state < TT_BASE::size()) return &TT_BASE::at(state)[simbol];
+			if((size_t)state < TT_BASE::size()) return &TT_BASE::at(state)[simbol];
 
 			return NULL;
 		}
@@ -442,9 +442,9 @@ const char* to_string(Indicator i)
 
 		void print(std::ostream & out, State state = initial_state, int indend = 0)
 		{
-			if (state > TT_BASE::size() - 1) return;//caso base
+			if ((size_t)state > TT_BASE::size() - 1) return;//caso base
 
-			for (Symbol s = 0; s < TT_BASE::at(state).size(); s++)
+			for (Symbol s = 0; (size_t)s < TT_BASE::at(state).size(); s++)
 			{
 				if (TT_BASE::at(state)[s].next < initial_state) continue;
 
@@ -534,7 +534,7 @@ const char* to_string(Indicator i)
 		}
 		constexpr State one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag)
 		{
-			State state_current = initial_state, state_last = initial_state, state_next = initial_state;
+			State state_current = initial_state, state_next = initial_state;
 			if (simbols.empty()) throw exception("El input esta vacio");
 
 			for (size_t i = 0; i < simbols.size(); i++)
@@ -857,7 +857,7 @@ public:
 	    const Symbol* buff = (const Symbol*)*buffer;
 		prefix_start = 0;
 
-        while(index < buffer->size() and actual_status < table->size())
+        while(index < buffer->size() and (size_t)actual_status < table->size())
         {
             //std::cout << "whiel : Step 0\n";
 
