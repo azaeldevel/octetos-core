@@ -175,7 +175,7 @@ enum class Tokens : int
 
 
 
-	y_Diaeresis = 255,//ÿ
+	y_Diaeresis = 255,//Ã¿
 	//>>>UTF-8
 	a_Macron	= 256,
 
@@ -305,6 +305,13 @@ const char* to_string(Indicator i)
 		Token token;
 	};
 
+	enum class Flag
+	{
+		none,
+		error,
+		extend,
+	};
+
 	template<typename Symbol /*Input*/,typename Token,typename State/*Status*/>
 	class TT : private std::vector<std::vector<Transition<Token, State>>>
 	{
@@ -328,7 +335,7 @@ const char* to_string(Indicator i)
 		{
 			size_t size_inital = TT_BASE::size();
 			TT_BASE::resize(size_inital + 1);
-			if (TT_BASE::size() != size_inital + 1) exception("El tamaño del contenedor no es el adecuado.");
+			if (TT_BASE::size() != size_inital + 1) exception("El tamaÃ±o del contenedor no es el adecuado.");
 			size_t size_post = TT_BASE::size();
 			size_t base_post = size_inital > 0 ? size_inital - 1 : 0;
 			for (size_t i = base_post; i < size_post; i++)
@@ -343,7 +350,7 @@ const char* to_string(Indicator i)
 		{
 			size_t size_inital = TT_BASE::size();
 			TT_BASE::resize(size_inital + to_add);
-			if (TT_BASE::size() != size_inital + to_add) exception("El tamaño del contenedor no es el adecuado.");
+			if (TT_BASE::size() != size_inital + to_add) exception("El tamaÃ±o del contenedor no es el adecuado.");
 			size_t size_post = TT_BASE::size();
 			size_t base_post = size_inital > 0 ? size_inital - 1 : 0;
 			for (size_t i = base_post; i < size_post; i++)
@@ -466,7 +473,7 @@ const char* to_string(Indicator i)
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
-		constexpr State word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs)
+		constexpr State word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs,Flag flag)
 		{
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) throw exception("El input esta vacio");
@@ -506,9 +513,9 @@ const char* to_string(Indicator i)
 			return state_next;
 		}
 
-		constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
+		constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag)
 		{
-			State state_next = one(simbols,token,prefixs);
+			State state_next = one(simbols,token,prefixs,flag);
 
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
@@ -517,7 +524,7 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
-		constexpr State one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs)
+		constexpr State one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag)
 		{
 			State state_current = initial_state, state_last = initial_state, state_next = initial_state;
 			if (simbols.empty()) throw exception("El input esta vacio");

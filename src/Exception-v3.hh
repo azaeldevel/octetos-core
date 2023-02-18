@@ -86,16 +86,16 @@ public:
 	exception(exception&&) noexcept = default;
 
 
-	exception(const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _location(location), _code_flag(false)
+	exception(const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _code_flag(false), _location(location)
 	{
 	}
-	exception(errono code, const std::source_location& location = std::source_location::current())noexcept : _code(code), _location(location), _code_flag(true)
+	exception(errono code, const std::source_location& location = std::source_location::current())noexcept : _code(code), _code_flag(true), _location(location)
 	{
 	}
-	exception(errono code, const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(code), _location(location), _message(message), _code_flag(true)
+	exception(errono code, const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(code), _code_flag(true), _message(message), _location(location)
 	{
 	}
-	exception(const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _location(location), _message(message), _code_flag(false)
+	exception(const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _code_flag(false), _message(message), _location(location)
 	{
 	}
 	virtual ~exception()noexcept
