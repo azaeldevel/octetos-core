@@ -305,11 +305,15 @@ const char* to_string(Indicator i)
 		Token token;
 	};
 
+	/*
+	*\brief Para indicar a la clase TT la decicion que deve tomar en caso de conflictos al momente de crear transisiones
+	*/
 	enum class Flag
 	{
 		none,
 		error,
-		extend,
+		extend,//busca entre las posibles transiciones posibles conbionacioness
+		only_free,
 	};
 
 	template<typename Symbol /*Input*/,typename Token,typename State/*Status*/>
@@ -483,14 +487,17 @@ const char* to_string(Indicator i)
 			{
 			    state_last = state_next;
 				input = str[i];
-				if(not is_symbol(input))
-                {
-                    std::string msg_not_symbols;
-                    msg_not_symbols = "' ' ";
-                    msg_not_symbols[1] = input;
-                    msg_not_symbols += "no es un simbolo del lenguaje";
-                    throw exception(msg_not_symbols);
-                }
+				if(Flag::error == flag)
+				{
+					if(not is_symbol(input))
+					{
+						std::string msg_not_symbols;
+						msg_not_symbols = "' ' ";
+						msg_not_symbols[1] = input;
+						msg_not_symbols += "no es un simbolo del lenguaje";
+						throw exception(msg_not_symbols);
+					}
+				}
 				state_next = one(input, state_current);
 				state_current = state_next;
 			}
@@ -529,7 +536,7 @@ const char* to_string(Indicator i)
 			State state_current = initial_state, state_last = initial_state, state_next = initial_state;
 			if (simbols.empty()) throw exception("El input esta vacio");
 
-			for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
+			for (size_t i = 0; i < simbols.size(); i++)
 			{
 				if (not is_symbol(simbols[i]))
 				{
@@ -540,20 +547,36 @@ const char* to_string(Indicator i)
 					msg_not_symbols += ", no es un simbolo del lenguaje";
 					throw exception(msg_not_symbols);
 				}
-				if (is_used(simbols[i], state_current))
+				if(Flag::error == flag)
 				{
-					std::string msg;
-					char sim[] = { ' ','\0' };
-					sim[0] = simbols[i];
-					msg = "En el estado " + std::to_string(state_current) + ", para el simbolo ";
-					msg += (const char*)sim;
-					msg += ", La transicion ya esta ocupada, no se puede usar para el token ";
-					msg += std::to_string((int)token);
-					throw exception(msg);
+					if (is_used(simbols[i], state_current))
+					{
+						std::string msg;
+						char sim[] = { ' ','\0' };
+						sim[0] = simbols[i];
+						msg = "En el estado " + std::to_string(state_current) + ", para el simbolo ";
+						msg += (const char*)sim;
+						msg += ", La transicion ya esta ocupada, no se puede usar para el token ";
+						msg += std::to_string((int)token);
+						throw exception(msg);
+					}
 				}
 			}
+			if(flag == Flag::only_free)
+			{
+				state_next = create();
+				for (size_t i = 0; i < simbols.size(); i++)
+				{
+					if (not is_used(simbols[i],state_current)) TT_BASE::at(state_next)[simbols[i]].next = state_next;
+				}
+				prefixing(state_next,prefixs,token);
+				return state_next;
+			}
+			else
+			{
+				state_next = one(simbols, state_current, prefixs, token);
+			}
 
-			state_next = one(simbols, state_current, prefixs, token);
 			return state_next;
 		}
     protected:
