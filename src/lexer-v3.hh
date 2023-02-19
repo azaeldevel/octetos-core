@@ -582,7 +582,7 @@ const char* to_string(Indicator i)
 		}
 		constexpr State some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag)
 		{
-			State state_next = one(simbols,token,prefixs,flag);
+			State state_next = create();
 			some(simbols,token,prefixs,flag,initial_state,state_next);
 			return state_next;
 		}
@@ -713,44 +713,6 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
-		/*constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs, Token token)
-		{
-			State state_next = initial_state;
-
-			if (TT_BASE::at(state_current)[simbol].next < initial_state)
-			{
-				state_next = create();
-				TT_BASE::at(state_current)[simbol].next = state_next;
-				prefixing(state_next, prefixs, token);
-			}
-			else
-			{
-				if(if_prefixed(state_next, prefixs, token)) return TT_BASE::at(state_current)[simbol].next;
-
-				return AMBIGUOS;
-			}
-
-			return state_next;
-		}*/
-		/*
-		*\brief Crea una transitcion para el estado y simbolo indicado
-		*/
-		/*constexpr State one(Symbol simbol, State state_current, const std::vector<Symbol>& prefixs)
-		{
-			State state_next = initial_state;
-			//verificacion
-			if (TT_BASE::at(state_current)[simbol].next < initial_state)
-			{
-				state_next = create();
-				TT_BASE::at(state_current)[simbol].next = state_next;
-			}
-			else
-			{
-				if (if_prefixed(state_next, prefixs)) return TT_BASE::at(state_current)[simbol].next;
-			}
-
-			return state_next;
-		}*/
 		/*
 		*\brief Crea una transitcion para el estado y simbolo indicado
 		*/
@@ -796,15 +758,22 @@ const char* to_string(Indicator i)
 		}
 		constexpr void some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag,State current,State target)
 		{
+		    State next;
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
 				if(is_used(simbols[i],current))
 				{
-					some(simbols,token,prefixs,flag,TT_BASE::at(current)[simbols[i]].next,target);
+				    if(TT_BASE::at(current)[simbols[i]].token == token) continue;
+				    if(TT_BASE::at(current)[simbols[i]].next == target) continue;
+				    next = TT_BASE::at(current)[simbols[i]].next;
+				    if(TT_BASE::at(next)[simbols[i]].token == token) continue;
+				    if(TT_BASE::at(next)[simbols[i]].next == target) continue;
+					some(simbols,token,prefixs,flag,next,target);
 				}
 				else
 				{
 					TT_BASE::at(current)[simbols[i]].next = target;
+					TT_BASE::at(current)[simbols[i]].token = token;
 				}
 			}
 		}
