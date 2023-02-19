@@ -758,7 +758,6 @@ const char* to_string(Indicator i)
 		}
 		constexpr void some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag,State current,State target)
 		{
-		    State next = initial_state;
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
 				if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::accept and TT_BASE::at(current)[simbols[i]].next >= 0)
@@ -768,9 +767,13 @@ const char* to_string(Indicator i)
                 {
 					TT_BASE::at(current)[simbols[i]].next = target;
                 }
+				else if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::none and TT_BASE::at(current)[simbols[i]].next >= 0  and TT_BASE::at(current)[simbols[i]].token == Token::none)
+                {
+					some(simbols,token,prefixs,flag,TT_BASE::at(current)[simbols[i]].next,target);
+                }
 				else
 				{
-					//some(simbols,token,prefixs,flag,next,target);
+
 				}
 			}
 		}
