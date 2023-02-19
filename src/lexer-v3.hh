@@ -580,7 +580,7 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
-		constexpr State some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag)
+		constexpr State some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag,State begin_in)
 		{
 			State state_next = create();
 			some(simbols,token,prefixs,flag,initial_state,state_next);
@@ -771,7 +771,7 @@ const char* to_string(Indicator i)
                 }
 				else if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::none and TT_BASE::at(current)[simbols[i]].next >= 0  and TT_BASE::at(current)[simbols[i]].token == Token::none)
                 {//used but not prefixed
-					some(simbols,token,prefixs,flag,TT_BASE::at(current)[simbols[i]].next,target);
+					//some(simbols,token,prefixs,flag,TT_BASE::at(current)[simbols[i]].next,target);
                 }
 				else
 				{
