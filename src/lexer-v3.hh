@@ -568,7 +568,7 @@ const char* to_string(Indicator i)
 				state_next = create();
 				for (size_t i = 0; i < simbols.size(); i++)
 				{
-					if (not is_used(simbols[i],state_current)) TT_BASE::at(state_next)[simbols[i]].next = state_next;
+					if (not is_used(simbols[i],state_current)) TT_BASE::at(state_current)[simbols[i]].next = state_next;
 				}
 				prefixing(state_next,prefixs,token);
 				return state_next;
