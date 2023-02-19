@@ -584,6 +584,7 @@ const char* to_string(Indicator i)
 		{
 			State state_next = create();
 			some(simbols,token,prefixs,flag,initial_state,state_next);
+			prefixing(state_next,prefixs,token);
 			return state_next;
 		}
     protected:
@@ -760,15 +761,16 @@ const char* to_string(Indicator i)
 		{
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
-				if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::accept and TT_BASE::at(current)[simbols[i]].next >= 0)
-				{
+				if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::accept and TT_BASE::at(current)[simbols[i]].next == 0)
+				{//prefixed
+
 				}
-				else if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::none and TT_BASE::at(current)[simbols[i]].next < 0  and TT_BASE::at(current)[simbols[i]].token == Token::none)
-                {
+				else if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::none and TT_BASE::at(current)[simbols[i]].next < 0 and TT_BASE::at(current)[simbols[i]].token == Token::none)
+                {//initailized
 					TT_BASE::at(current)[simbols[i]].next = target;
                 }
 				else if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::none and TT_BASE::at(current)[simbols[i]].next >= 0  and TT_BASE::at(current)[simbols[i]].token == Token::none)
-                {
+                {//used but not prefixed
 					some(simbols,token,prefixs,flag,TT_BASE::at(current)[simbols[i]].next,target);
                 }
 				else
