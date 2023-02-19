@@ -758,22 +758,19 @@ const char* to_string(Indicator i)
 		}
 		constexpr void some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag,State current,State target)
 		{
-		    State next;
+		    State next = initial_state;
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
-				if(is_used(simbols[i],current))
+				if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::accept and TT_BASE::at(current)[simbols[i]].next >= 0)
 				{
-				    if(TT_BASE::at(current)[simbols[i]].token == token) continue;
-				    if(TT_BASE::at(current)[simbols[i]].next == target) continue;
-				    next = TT_BASE::at(current)[simbols[i]].next;
-				    if(TT_BASE::at(next)[simbols[i]].token == token) continue;
-				    if(TT_BASE::at(next)[simbols[i]].next == target) continue;
-					some(simbols,token,prefixs,flag,next,target);
 				}
+				else if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::none and TT_BASE::at(current)[simbols[i]].next < 0  and TT_BASE::at(current)[simbols[i]].token == Token::none)
+                {
+					TT_BASE::at(current)[simbols[i]].next = target;
+                }
 				else
 				{
-					TT_BASE::at(current)[simbols[i]].next = target;
-					TT_BASE::at(current)[simbols[i]].token = token;
+					//some(simbols,token,prefixs,flag,next,target);
 				}
 			}
 		}
