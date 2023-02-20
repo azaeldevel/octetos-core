@@ -541,7 +541,7 @@ const char* to_string(Indicator i)
 			{
 				if (not is_symbol(simbols[i]))
 				{
-				    char minimsg[] = {'>','?','<', '\0'};
+				    char minimsg[] = {'\'','?','\'', '\0'};
 					minimsg[1] = simbols[i];
 					std::string msg_not_symbols;
 					msg_not_symbols = (const char*)minimsg;
@@ -566,26 +566,30 @@ const char* to_string(Indicator i)
 			if(flag == Flag::only_free)
 			{
 				state_next = create();
+				prefixing(state_next,prefixs,token);
 				for (size_t i = 0; i < simbols.size(); i++)
 				{
 					if (not is_used(simbols[i],state_current)) TT_BASE::at(state_current)[simbols[i]].next = state_next;
 				}
-				prefixing(state_next,prefixs,token);
 				return state_next;
 			}
 			else
 			{
-				state_next = one(simbols, state_current, prefixs, token);
+				state_next = one(simbols, state_current, prefixs, token);//Usar una funcion homegena
 			}
 
 			return state_next;
 		}
-		constexpr State some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag,State begin_in)
+		constexpr State some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag,State extend)
 		{
-			State state_next = create();
-			some(simbols,token,prefixs,flag,initial_state,state_next);
-			prefixing(state_next,prefixs,token);
-			return state_next;
+			//State next = create();
+			//prefixing(next,prefixs,token);
+			for (size_t i = 0; i < simbols.size(); i++)
+			{
+				TT_BASE::at(extend)[simbols[i]].next = extend;
+			}
+			some(simbols,token,prefixs,flag,initial_state,extend);
+			return initial_state;
 		}
     protected:
         constexpr void sort_symbols()
@@ -600,6 +604,19 @@ const char* to_string(Indicator i)
 		static const State initial_state = 0;
 
 	private:
+		/*
+		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
+		*/
+		constexpr State prefixing(State state_current, const std::vector<Symbol>& prefixs, Token token,Symbol symbol)
+		{
+			if (std::find(prefixs.begin(), prefixs.end(), symbol) == prefixs.end()) return initial_state;
+
+			TT_BASE::at(state_current)[symbol].next = 0;
+			TT_BASE::at(state_current)[symbol].token = token;
+			TT_BASE::at(state_current)[symbol].indicator = Indicator::accept;
+
+			return state_current;
+		}
 		/*
 		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
 		*/
@@ -759,19 +776,23 @@ const char* to_string(Indicator i)
 		}
 		constexpr void some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag,State current,State target)
 		{
+			if(target == current) return;
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
 				if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::accept and TT_BASE::at(current)[simbols[i]].next == 0)
 				{//prefixed
 
 				}
-				else if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::none and TT_BASE::at(current)[simbols[i]].next < 0 and TT_BASE::at(current)[simbols[i]].token == Token::none)
+				else if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::none and TT_BASE::at(current)[simbols[i]].next == -1 and TT_BASE::at(current)[simbols[i]].token == Token::none)
                 {//initailized
+                	//prefixing(current,prefixs,token,simbols[i]);
 					TT_BASE::at(current)[simbols[i]].next = target;
                 }
 				else if(TT_BASE::at(current)[simbols[i]].indicator == Indicator::none and TT_BASE::at(current)[simbols[i]].next >= 0  and TT_BASE::at(current)[simbols[i]].token == Token::none)
                 {//used but not prefixed
-					//some(simbols,token,prefixs,flag,TT_BASE::at(current)[simbols[i]].next,target);
+                	//if(TT_BASE::at(current)[simbols[i]].next < 0) continue;
+                	if(TT_BASE::at(current)[simbols[i]].next == current) continue;
+					some(simbols,token,prefixs,flag,TT_BASE::at(current)[simbols[i]].next,target);
                 }
 				else
 				{
@@ -865,10 +886,10 @@ public:
             {
 				//std::cout << "Input : '" << int(input) << "'\n";
 				//std::cout << "Input : '" << int('\n') << "'\n";
-				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
+				if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
 				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
 				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
-				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";*/
+				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
 				/*std::cout << "Index : '" << index << "'\n"; */
 
 				//>>>
