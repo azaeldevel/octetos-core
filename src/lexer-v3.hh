@@ -798,6 +798,7 @@ const char* to_string(Indicator i)
 					for (size_t j = 0; j < simbols.size(); j++)
 					{
 						if(simbols[i] == simbols[j]) continue;
+						if(is_used(simbols[j],current)) continue;
 						TT_BASE::at(current)[simbols[j]].next = target;
 					}
                 }
