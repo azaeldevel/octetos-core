@@ -587,6 +587,8 @@ const char* to_string(Indicator i)
 			for (size_t i = 0; i < simbols.size(); i++)
 			{
 				TT_BASE::at(extend)[simbols[i]].next = extend;
+				TT_BASE::at(extend)[simbols[i]].indicator = Indicator::acceptable;
+				TT_BASE::at(extend)[simbols[i]].token = token;
 			}
 			some(simbols,token,prefixs,flag,initial_state,extend);
 			return initial_state;
@@ -793,6 +795,11 @@ const char* to_string(Indicator i)
                 	//if(TT_BASE::at(current)[simbols[i]].next < 0) continue;
                 	if(TT_BASE::at(current)[simbols[i]].next == current) continue;
 					some(simbols,token,prefixs,flag,TT_BASE::at(current)[simbols[i]].next,target);
+					for (size_t j = 0; j < simbols.size(); j++)
+					{
+						if(simbols[i] == simbols[j]) continue;
+						TT_BASE::at(current)[simbols[j]].next = target;
+					}
                 }
 				else
 				{
@@ -941,9 +948,18 @@ public:
 #ifdef OCTETOS_CORE_ENABLE_DEV
 
 #endif
-		if (not actual_transition and index == buffer->size())
+		if (not actual_transition)
+		{
+			//std::cout << "terminating ...\n";
+			return Token::none;
+		}
+		else if (not actual_transition and index == buffer->size())
 		{
 			return Token::none;
+		}
+		else if (actual_transition->indicator == Indicator::acceptable and index == buffer->size())
+		{
+			return actual_transition->token;
 		}
 		else if (acceptable_transition and acceptable_ended)
 		{
@@ -967,7 +983,7 @@ public:
 			return (Token)input;
 		}
 		else if(actual_transition->next < 0)
-		{;
+		{
 			return (Token)input;
 		}
 		else
