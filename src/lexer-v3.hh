@@ -521,6 +521,11 @@ const char* to_string(Indicator i)
 			return state_next;
 		}
 
+		/*
+        *\brief equvalente a eloperador de expresion regular +
+        *\param prefixs lista de simbolos que determinan que la palabra ha terminado
+        *\param token token retornado por el analizador si detecta la palabra
+        */
 		constexpr State almost_one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag)
 		{
 			State state_next = one(simbols,token,prefixs,flag);
@@ -532,6 +537,12 @@ const char* to_string(Indicator i)
 
 			return state_next;
 		}
+
+		/*
+        *\brief equvalente a eloperador de expresion regular ?
+        *\param prefixs lista de simbolos que determinan que la palabra ha terminado
+        *\param token token retornado por el analizador si detecta la palabra
+        */
 		constexpr State one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag)
 		{
 			State state_current = initial_state, state_next = initial_state;
@@ -548,7 +559,22 @@ const char* to_string(Indicator i)
 					msg_not_symbols += ", no es un simbolo del lenguaje";
 					throw exception(msg_not_symbols);
 				}
-				if(Flag::error == flag)
+			}
+			if(flag == Flag::only_free)
+			{
+				state_next = create();
+				prefixing(state_next,prefixs,token);
+				for (size_t i = 0; i < simbols.size(); i++)
+				{
+					if (not is_used(simbols[i],state_current)) TT_BASE::at(state_current)[simbols[i]].next = state_next;
+				}
+			}
+			else if(Flag::error == flag)
+			{
+				//state_next = one(simbols, state_current, prefixs, token);//Usar una funcion homegena
+				state_next = create();
+				prefixing(state_next,prefixs,token);
+				for (size_t i = 0; i < simbols.size(); i++)
 				{
 					if (is_used(simbols[i], state_current))
 					{
@@ -561,25 +587,18 @@ const char* to_string(Indicator i)
 						msg += std::to_string((int)token);
 						throw exception(msg);
 					}
+					TT_BASE::at(state_current)[simbols[i]].next = state_next;
 				}
-			}
-			if(flag == Flag::only_free)
-			{
-				state_next = create();
-				prefixing(state_next,prefixs,token);
-				for (size_t i = 0; i < simbols.size(); i++)
-				{
-					if (not is_used(simbols[i],state_current)) TT_BASE::at(state_current)[simbols[i]].next = state_next;
-				}
-				return state_next;
-			}
-			else
-			{
-				state_next = one(simbols, state_current, prefixs, token);//Usar una funcion homegena
 			}
 
 			return state_next;
 		}
+
+		/*
+        *\brief equvalente a eloperador de expresion regular *
+        *\param prefixs lista de simbolos que determinan que la palabra ha terminado
+        *\param token token retornado por el analizador si detecta la palabra
+        */
 		constexpr State some(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag,State extend)
 		{
 			//State next = create();
@@ -609,7 +628,7 @@ const char* to_string(Indicator i)
 		/*
 		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
 		*/
-		constexpr State prefixing(State state_current, const std::vector<Symbol>& prefixs, Token token,Symbol symbol)
+		/*constexpr State prefixing(State state_current, const std::vector<Symbol>& prefixs, Token token,Symbol symbol)
 		{
 			if (std::find(prefixs.begin(), prefixs.end(), symbol) == prefixs.end()) return initial_state;
 
@@ -618,7 +637,7 @@ const char* to_string(Indicator i)
 			TT_BASE::at(state_current)[symbol].indicator = Indicator::accept;
 
 			return state_current;
-		}
+		}*/
 		/*
 		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
 		*/
@@ -645,12 +664,12 @@ const char* to_string(Indicator i)
 		/*
 		*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
 		*/
-		constexpr bool if_prefixed(Symbol symbol,State state_current)
+		/*constexpr bool if_prefixed(Symbol symbol,State state_current)
 		{
 			if (TT_BASE::at(state_current)[symbol].indicator == Indicator::accept and TT_BASE::at(state_current)[symbol].next == 0 and TT_BASE::at(state_current)[symbol].token > Token::none) return true;
 
 			return false;
-		}
+		}*/
 		/*
 		*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
 		*/
@@ -894,10 +913,10 @@ public:
             {
 				//std::cout << "Input : '" << int(input) << "'\n";
 				//std::cout << "Input : '" << int('\n') << "'\n";
-				if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
+				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
 				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
 				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
-				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
+				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";*/
 				/*std::cout << "Index : '" << index << "'\n"; */
 
 				//>>>
