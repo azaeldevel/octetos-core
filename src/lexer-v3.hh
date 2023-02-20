@@ -499,7 +499,15 @@ const char* to_string(Indicator i)
 						throw exception(msg_not_symbols);
 					}
 				}
-				state_next = one(input, state_current);
+				if(is_used(input,state_current))
+				{
+					state_next = TT_BASE::at(state_current)[input].next;
+				}
+				else
+				{
+					state_next = create();
+					TT_BASE::at(state_current)[input].next = state_next;
+				}
 				state_current = state_next;
 			}
 
@@ -664,15 +672,6 @@ const char* to_string(Indicator i)
 		/*
 		*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
 		*/
-		/*constexpr bool if_prefixed(Symbol symbol,State state_current)
-		{
-			if (TT_BASE::at(state_current)[symbol].indicator == Indicator::accept and TT_BASE::at(state_current)[symbol].next == 0 and TT_BASE::at(state_current)[symbol].token > Token::none) return true;
-
-			return false;
-		}*/
-		/*
-		*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
-		*/
 		constexpr bool if_prefixed(State state_current, const std::vector<Symbol>& prefixs)
 		{
 			for (size_t i = 0; i < prefixs.size(); i++)
@@ -683,79 +682,11 @@ const char* to_string(Indicator i)
 
 			return false;
 		}
-		constexpr State one(const std::vector<Symbol>& simbols, State state_current, const std::vector<Symbol>& prefixs, Token token)
-		{
-			State state_next = initial_state, state_first_used = initial_state;
-			bool all_empty = true;
-			//buscar si la transicion puede ser un subconjunto de una existente
-			for (size_t i = 0; i < simbols.size(); i++)
-			{
-				if (TT_BASE::at(state_current)[simbols[i]].next < initial_state)//usable?
-				{
 
-				}
-				else//ya se ha asignado a una relga
-				{
-					all_empty = false;
-					break;
-				}
-			}
-			if (not all_empty)//hay algunas usadas, es posible continuar on este conjunto de transsiones?
-			{
-				for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
-				{
-					if (TT_BASE::at(state_current)[simbols[i]].next < initial_state)//usable?
-					{
-
-					}
-					else//ya se ha asignado a una relga
-					{
-						state_first_used = TT_BASE::at(state_current)[simbols[i]].next;
-						break;
-					}
-				}
-				if (state_first_used != initial_state)
-				{
-					for (size_t i = 0; i < simbols.size(); i++)//reading char by char..
-					{
-						if (TT_BASE::at(state_current)[simbols[i]].next < initial_state)//usable?
-						{
-
-						}
-						else if (TT_BASE::at(state_current)[simbols[i]].next == state_first_used)
-						{
-
-						}
-						else
-						{
-							std::string msg;
-							char sim[] = { ' ','\0' };
-							sim[0] = simbols[i];
-							msg = "En el estado " + std::to_string(state_current) + ", para el simbolo ";
-							msg += (const char*)sim;
-							msg += ", La transicion ya esta ocupada, no se puede usar para el token ";
-							msg += std::to_string((int)token);
-							throw exception(msg);
-						}
-					}
-				}
-			}
-
-			state_next = create();
-			for (size_t i = 0; i < simbols.size(); i++)
-			{
-				TT_BASE::at(state_current)[simbols[i]].next = state_next;
-				TT_BASE::at(state_current)[simbols[i]].indicator = Indicator::acceptable;
-				TT_BASE::at(state_current)[simbols[i]].token = token;
-			}
-			prefixing(state_next, prefixs, token);
-
-			return state_next;
-		}
 		/*
 		*\brief Crea una transitcion para el estado y simbolo indicado
 		*/
-		constexpr State one(Symbol simbol, State state_current)
+		/*constexpr State one(Symbol simbol, State state_current)
 		{
 			State state_next = initial_state;
 			//verificacion
@@ -770,7 +701,7 @@ const char* to_string(Indicator i)
 			}
 
 			return state_next;
-		}
+		}*/
 		constexpr bool is_recursive(Symbol simbol, State state_current)const
 		{
             if(TT_BASE::at(state_current)[simbol].next == state_current) return true;
