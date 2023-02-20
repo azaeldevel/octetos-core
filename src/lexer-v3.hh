@@ -602,6 +602,37 @@ const char* to_string(Indicator i)
 			return state_next;
 		}
 
+		constexpr State one(Symbol symbol, Token token, const std::vector<Symbol>& prefixs, Flag flag = Flag::none)
+		{
+			State state_next = initial_state;
+
+			if (not is_symbol(symbol))
+			{
+				char minimsg[] = {'\'','?','\'', '\0'};
+				minimsg[1] = symbol;
+				std::string msg_not_symbols;
+				msg_not_symbols = (const char*)minimsg;
+				msg_not_symbols += ", no es un simbolo del lenguaje";
+				throw exception(msg_not_symbols);
+			}
+			if (is_used(symbol, initial_state))
+			{
+				std::string msg;
+				char minimsg[] = {'\'','?','\'', '\0'};
+				minimsg[1] = symbol;
+				msg = "En el estado " + std::to_string(initial_state) + ", para el simbolo ";
+				msg += (const char*)minimsg;
+				msg += ", La transicion ya esta ocupada, no se puede usar para el token ";
+				msg += std::to_string((int)token);
+				throw exception(msg);
+			}
+
+			state_next = create();
+			prefixing(state_next,prefixs,token);
+
+			return initial_state;
+		}
+
 		/*
         *\brief equvalente a eloperador de expresion regular *
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
@@ -683,25 +714,6 @@ const char* to_string(Indicator i)
 			return false;
 		}
 
-		/*
-		*\brief Crea una transitcion para el estado y simbolo indicado
-		*/
-		/*constexpr State one(Symbol simbol, State state_current)
-		{
-			State state_next = initial_state;
-			//verificacion
-			if(is_used(simbol,state_current))
-			{
-				return TT_BASE::at(state_current)[simbol].next;
-			}
-			else
-			{
-				state_next = create();
-				TT_BASE::at(state_current)[simbol].next = state_next;
-			}
-
-			return state_next;
-		}*/
 		constexpr bool is_recursive(Symbol simbol, State state_current)const
 		{
             if(TT_BASE::at(state_current)[simbol].next == state_current) return true;
