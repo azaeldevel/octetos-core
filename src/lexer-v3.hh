@@ -31,6 +31,7 @@
 #include <string>
 #include <list>
 #include <algorithm>
+#include <initializer_list>
 
 #include "core.hh"
 #include "Buffer-v3.hh"
@@ -981,6 +982,42 @@ private:
 };
 
 
+//Transition Table - Tipo B
+template<typename Symbol /*Input*/,typename Token,typename State/*Status*/,size_t amoun_states,size_t amoun_symbols>
+class TTB
+{
+public:
+	constexpr TTB(std::initializer_list<Symbol> ss)
+	{
+		if(amoun_symbols != ss.size()) throw exception("La cantidad de simbolos no coincide con lo indicado en el parametro.");
+		if(0 == ss.size()) throw exception("Listo de simbolos vacia");
+
+		for(size_t i = 0; i < amoun_symbols; i++)
+		{
+			symbols[i] = ss.begin()[i];
+		}
+		sort();
+	}
+
+	const std::array<Symbol,amoun_symbols>& get_symbols() const
+	{
+		return symbols;
+	}
+private:
+	
+	constexpr void sort()
+	{
+		std::sort(symbols.begin(), symbols.end(), [](int a, int b)
+		{
+			return a < b;
+		});
+	}
+
+private:
+	std::array<Symbol,amoun_symbols> symbols;
+	//std::array<,amoun_states> states;
+	//std::array<Transition<Token, State>,128> ar;
+};
 
 }
 
