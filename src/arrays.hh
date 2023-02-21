@@ -25,7 +25,7 @@ public:
             _begin[i] = list.begin()[i];
         }
     }
-    array(const array& a) : _size(a._size),_begin(new T)
+    array(const array& a) : _size(a._size),_begin(new T[a._size])
     {
         for(size_t i = 0; i < _size; i++)
         {
