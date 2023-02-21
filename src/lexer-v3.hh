@@ -997,6 +997,13 @@ public:
 			symbols[i] = ss.begin()[i];
 		}
 		sort();
+		/*for(size_t i = 0; i < states.size(); i++)
+		{
+			for(size_t j = 0; j < states[i].size(); j++)
+			{
+				states[i][j].indicator = Indicator::accept;
+			}
+		}*/
 	}
 
 	const std::array<Symbol,amoun_symbols>& get_symbols() const
@@ -1004,7 +1011,6 @@ public:
 		return symbols;
 	}
 private:
-	
 	constexpr void sort()
 	{
 		std::sort(symbols.begin(), symbols.end(), [](int a, int b)
@@ -1015,8 +1021,7 @@ private:
 
 private:
 	std::array<Symbol,amoun_symbols> symbols;
-	//std::array<,amoun_states> states;
-	//std::array<Transition<Token, State>,128> ar;
+	std::array<std::array<Transition<Token, State>,128>,amoun_states> states;
 };
 
 }
