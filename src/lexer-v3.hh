@@ -374,7 +374,10 @@ const char* to_string(Indicator i)
 			sort_symbols();
 			State inital_state = create();
 		}
-		constexpr TT(const TT& tt) : TT_BASE(tt), _simbols(tt._simbols)
+		constexpr TT(const TT& tt) : TT_BASE(tt), _simbols(tt._simbols),TT_BASE(tt)
+		{
+		}
+		constexpr TT(const TT&& tt) : TT_BASE(tt), _simbols(tt._simbols)
 		{
 			TT_BASE::resize(tt.size());
 			for (size_t s = 0; s < tt.size(); s++)
