@@ -333,22 +333,12 @@ const char* to_string(Indicator i)
 		static constexpr  unsigned int length_transition()
 		{
 			//if (typeid(Symbol) == typeid(char)) return 128;//ascci table
-
 			return 128;
 		}
 		constexpr State create()
 		{
-			size_t size_inital = TT_BASE::size();
-			TT_BASE::resize(size_inital + 1);
-			if (TT_BASE::size() != size_inital + 1) exception("El tamaño del contenedor no es el adecuado.");
-			size_t size_post = TT_BASE::size();
-			size_t base_post = size_inital > 0 ? size_inital - 1 : 0;
-			for (size_t i = base_post; i < size_post; i++)
-			{
-				TT_BASE::at(i).resize(length_transition());
-				//initial(i);
-			}
-
+			TT_BASE::resize(TT_BASE::size() + 1);
+			TT_BASE::at(TT_BASE::size() - 1).resize(length_transition());
 			return State(TT_BASE::size() - 1);
 		}
 		constexpr State create(size_t to_add)
@@ -361,12 +351,11 @@ const char* to_string(Indicator i)
 			for (size_t i = base_post; i < size_post; i++)
 			{
 				TT_BASE::at(i).resize(length_transition());
-				//initial(i);
 			}
 
 			return State(TT_BASE::size() - 1);
 		}
-
+		
 	public:
 	    constexpr TT() = default;
 		constexpr TT(const std::vector<Symbol>& ss) : _simbols(ss)
@@ -374,27 +363,20 @@ const char* to_string(Indicator i)
 			sort_symbols();
 			State inital_state = create();
 		}
-		constexpr TT(const TT& tt) : TT_BASE(tt), _simbols(tt._simbols),TT_BASE(tt)
+		
+		constexpr TT(const TT& tt) : TT_BASE(tt), _simbols(tt._simbols)
 		{
 		}
+		
 		constexpr TT(const TT&& tt) : TT_BASE(tt), _simbols(tt._simbols)
 		{
-			TT_BASE::resize(tt.size());
-			for (size_t s = 0; s < tt.size(); s++)
-			{
-				TT_BASE::at(s).resize(tt.size());
-				for (size_t t = 0; t < tt.at(s).size(); t++)
-				{
-					TT_BASE::at(s)[t] = tt.at(s)[t];
-				}
-			}
 		}
-
+		
 		constexpr const std::vector<Symbol>& simbols() const
 		{
 			return _simbols;
 		}
-
+		
 		const Transition<Token, State>* get(State state, Symbol simbol) const
 		{
 			if((size_t)state < TT_BASE::size()) return &TT_BASE::at(state)[simbol];
@@ -667,19 +649,7 @@ const char* to_string(Indicator i)
 		static const State initial_state = 0;
 
 	private:
-		/*
-		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
-		*/
-		/*constexpr State prefixing(State state_current, const std::vector<Symbol>& prefixs, Token token,Symbol symbol)
-		{
-			if (std::find(prefixs.begin(), prefixs.end(), symbol) == prefixs.end()) return initial_state;
-
-			TT_BASE::at(state_current)[symbol].next = 0;
-			TT_BASE::at(state_current)[symbol].token = token;
-			TT_BASE::at(state_current)[symbol].indicator = Indicator::accept;
-
-			return state_current;
-		}*/
+		
 		/*
 		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
 		*/
@@ -971,6 +941,7 @@ public:
 
 		return Token::eoi;
 	}
+	
 	Token next(Tokenized<Symbol,Token>& content)
 	{
 		Token token = next();
@@ -984,16 +955,16 @@ public:
 
 		return token;
 	}
-
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
 	{
 		_echo = e;
 	}
 #endif
+	
 private:
-
-
+	
+	
 private:
 	const TT<Symbol,Token, State>* table;
 	Buffer<Symbol>* buffer;
@@ -1009,24 +980,6 @@ private:
 
 };
 
-
-
-
-
-
-
-template<typename Symbol /*Input*/,typename Token,typename Status/*Status*/>
-class B
-{
-public:
-	B()
-	{
-
-	}
-
-private:
-	Status actual;
-};
 
 
 }
