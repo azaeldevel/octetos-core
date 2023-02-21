@@ -2,11 +2,10 @@
 #ifndef OCTETOS_CORE_ARRAYS
 #define OCTETOS_CORE_ARRAYS
 
-#include <vector>
 #include <iostream>
 #include <initializer_list>
 
-#include "Exception.hh"
+#include "Exception-v3.hh"
 
 namespace oct::core::v3
 {
@@ -16,10 +15,10 @@ class array
 {
 public:
     constexpr array() = delete;
-    constexpr array(size_t reserved) : _size(reserved),_begin(new T)
+    constexpr array(size_t reserved) : _size(reserved),_begin(new T[reserved])
     {
     }
-    constexpr array(std::initializer_list<T> list) : _size(list.size()),_begin(new T)
+    constexpr array(std::initializer_list<T> list) : _size(list.size()),_begin(new T[list.size()])
     {
         for(size_t i = 0; i < _size; i++)
         {

@@ -14,13 +14,13 @@ int main(int argc, char* argv[])
     {
         std::cout << "Number : " << e << "\n";
     }
-    numbers[0] = -100;
+    //numbers[0] = -100;
 
-    core_here::array numbers2 = numbers;
+    /*core_here::array numbers2 = numbers;
     for(auto e : numbers2)
     {
         std::cout << "Number : " << e << "\n";
-    }
+    }*/
 
 	return EXIT_SUCCESS;
 }
