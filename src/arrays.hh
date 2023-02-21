@@ -52,7 +52,7 @@ public:
     {
         return _begin + _size;
     }
-    T& operator [](size_t i)
+    inline T& operator [](size_t i)
     {
         if(i < _size) return _begin[i];
 
