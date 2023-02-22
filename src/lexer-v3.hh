@@ -289,15 +289,6 @@ const char* to_string(Indicator i)
 		{
 		}
 
-		constexpr Transition(const Transition& obj) = default;
-
-		constexpr void print(std::ostream& out) const
-		{
-			out << next << " - ";
-			std::string strtoken = std::to_string((int)token);
-			out << strtoken << " - ";
-			out << to_string(indicator);
-		}
 	};
 
 	template<typename Symbol, typename Token>
@@ -1018,7 +1009,13 @@ public:
 public:
 	constexpr TTB() : index(-1),error(errors::none)
 	{
-
+		for(size_t i = 0; i < amount_states; i++)
+		{
+			for(size_t j = 0; j < amount_transitions; j++)
+			{
+				tt[i][j].next = -1;
+			}
+		}
 	}
 
 	void print(std::ostream & out, State state = initial_state, size_t indend = 0) const
