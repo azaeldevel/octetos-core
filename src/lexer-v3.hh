@@ -983,6 +983,7 @@ private:
 };
 
 
+
 //Transition Table - Tipo B
 constexpr  unsigned int default_trans()
 {
@@ -992,7 +993,7 @@ constexpr  unsigned int default_trans()
 template<typename Symbol /*Input*/,typename Token,typename State/*Status*/,size_t amoun_states,size_t amoun_symbols>
 class TTB
 {
-private:
+public:
 
 public:
 	constexpr TTB() : index(-1)
@@ -1100,45 +1101,23 @@ protected:
 		return true;
 	}
 
+
 	/*
-	*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
+	*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
 	*/
-	constexpr bool if_prefixed(State state_current, const Symbol* prefixs, size_t length)
+	constexpr State prefixing(State state_current, const Symbol* prefixs, size_t length, Token token)
 	{
-		for (size_t i = 0; i < length; i++)
+		for (size_t k = 0; k < amoun_symbols; k++)
 		{
-			if (tt[(size_t)state_current][(size_t)prefixs[i]].indicator == Indicator::accept and tt[(size_t)state_current][(size_t)prefixs[i]].next == 0) return true;
-			//if (TT_BASE::at(state_current)[prefixs[i]].token == Token::none) return false;
+			if (std::find(prefixs, prefixs + length, Symbol(k)) == prefixs + length) continue;
+
+			get(state_current,k)->next = 0;
+			get(state_current,k)->token = token;
+			get(state_current,k)->indicator = Indicator::accept;
 		}
 
-		return false;
+		return state_current;
 	}
-
-
-
-		/*
-		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
-		*/
-		constexpr State prefixing(State state_current, const Symbol* prefixs,size_t length, Token token)
-		{
-            if(if_prefixed(state_current,prefixs,length))
-            {
-                std::string msg;
-                msg = "En el estado " + std::to_string(state_current) + ", no se puede colocar los prefijo ya que al menos una transicion esta usada";
-                throw exception(msg);
-            }
-
-			for (size_t k = 0; k < amoun_symbols; k++)
-			{
-				if (std::find(prefixs, prefixs + length, Symbol(k)) == prefixs + length) continue;
-
-				get(state_current,k)->next = 0;
-				get(state_current,k)->token = token;
-				get(state_current,k)->indicator = Indicator::accept;
-			}
-
-			return state_current;
-		}
 
         /*
         *\brief Agreaga la palabra indicada al anlizador
@@ -1146,7 +1125,7 @@ protected:
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
-		constexpr State word(const Symbol* str, Token token, const Symbol* prefixs,size_t length,Flag flag)
+		/*constexpr State word(const Symbol* str, Token token, const Symbol* prefixs,size_t length,Flag flag)
 		{
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) throw -1;
@@ -1178,7 +1157,7 @@ protected:
 			prefixing(state_next, prefixs,length, token);
 
 			return state_next;
-		}
+		}*/
 
 
 protected:
