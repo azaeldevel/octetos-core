@@ -488,7 +488,8 @@ const char* to_string(Indicator i)
 				}
 				state_current = state_next;
 			}
-			TT_BASE::at(state_current)[input].indicator = Indicator::acceptable;
+			TT_BASE::at(state_last)[input].token = token;
+			TT_BASE::at(state_last)[input].indicator = Indicator::acceptable;
 
 
 			//la ultima transicion deve estar vacio para ser usada con este token
@@ -964,6 +965,8 @@ protected:
 			}
             state_current = state_next;
 		}
+		get(state_last,input)->token = token;
+		get(state_last,input)->indicator = Indicator::acceptable;
 
         //la ultima transicion deve estar vacio para ser usada con este token
 		Symbol last_symbol = str[sz_str];
@@ -1107,15 +1110,10 @@ public:
 			}
         }
 #ifdef OCTETOS_CORE_ENABLE_DEV
-
 #endif
 		if (not actual_transition)
 		{
 			//std::cout << "terminating ...\n";
-			return Token::none;
-		}
-		else if (not actual_transition and index == buffer->size())
-		{
 			return Token::none;
 		}
 		else if (actual_transition->indicator == Indicator::acceptable and index == buffer->size())
