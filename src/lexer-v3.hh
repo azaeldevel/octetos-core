@@ -488,6 +488,8 @@ const char* to_string(Indicator i)
 				}
 				state_current = state_next;
 			}
+			TT_BASE::at(state_current)[input].indicator = Indicator::acceptable;
+
 
 			//la ultima transicion deve estar vacio para ser usada con este token
 			Symbol last_symbol = str[sz_str];
@@ -1403,6 +1405,222 @@ private:
 
 private:
 	const TTB<Symbol,Token, State,amount_states,amount_transitions,amount_symbols>* table;
+	Buffer<Symbol>* buffer;
+	Symbol input;
+	size_t index,token_start,token_end;//prefix_index
+    const Transition<Token, State> *actual_transition, *prev_transition, *prefix_transition, *acceptable_transition;
+	State actual_status,next_status;//numero del estado actual del automata
+    const State initial_status;
+    bool prefix_start;
+#ifdef OCTETOS_CORE_ENABLE_DEV
+	bool _echo;
+#endif
+
+};
+
+
+template<typename Symbol /*Input*/,typename Token,typename State/*State*/>
+class Lexer
+{
+public:
+
+public:
+	Lexer(const TTA<Symbol,Token, State>& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),index(0),actual_status(0),initial_status(0)
+	{
+#ifdef OCTETOS_CORE_ENABLE_DEV
+		_echo = false;
+#endif
+	}
+
+    Token next()
+	{
+        actual_status = initial_status;
+		actual_transition = NULL;
+		prev_transition = NULL;
+		token_start = index;
+		token_end = 0;
+		prefix_transition = NULL;
+		acceptable_transition = NULL;
+		bool prefix_ended = false;
+		bool acceptable_ended = false;
+	    const Symbol* buff = (const Symbol*)*buffer;
+		prefix_start = 0;
+
+        while(index < buffer->size() and (size_t)actual_status < table->size())
+        {
+            //std::cout << "whiel : Step 0\n";
+
+
+            //std::cout << "whiel : Step 1\n";
+            //>>>reading data
+            {
+                input = buff[index];
+                actual_transition = table->get(actual_status,input);
+                next_status = actual_transition->next;
+
+				//--prefix-->accept|reject
+				if (actual_transition->indicator == Indicator::prefix)
+				{
+					prefix_transition = actual_transition;
+					prefix_start = index;
+				}
+				else if (actual_transition->indicator == Indicator::accept) prefix_ended = true;
+				else if (actual_transition->indicator == Indicator::reject) prefix_ended = true;
+
+				//--acceptable-->accept|reject
+				if (actual_transition->indicator == Indicator::acceptable and not acceptable_ended)
+				{
+					acceptable_transition = actual_transition;
+				}
+				else if (actual_transition->indicator == Indicator::accept) acceptable_ended = true;
+				else if (actual_transition->indicator == Indicator::reject) acceptable_ended = true;
+				//>>>
+
+			}
+
+            //std::cout << "whiel : Step 2\n";
+            //>>>working
+            {
+				//std::cout << "Input : '" << int(input) << "'\n";
+				//std::cout << "Input : '" << int('\n') << "'\n";
+				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
+				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
+				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
+				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";*/
+				/*std::cout << "Index : '" << index << "'\n"; */
+
+				//>>>
+
+            }
+
+            //std::cout << "whiel : Step 3\n";
+            //>>>finalizing
+            {
+				//verificando terminacion
+				bool terminate_and_advance = false;
+				if (acceptable_transition and acceptable_ended)
+				{
+					//std::cout << "terminating ...by prefix\n";
+					break;
+				}
+				else if (prefix_transition and prefix_ended)
+				{
+					//std::cout << "terminating ...by prefix\n";
+					index = prefix_start;
+					break;
+				}
+				else if (actual_transition->indicator == Indicator::accept)
+				{
+					//std::cout << "terminating ...\n";
+					break;
+				}
+				else if (actual_transition->indicator == Indicator::unknow) terminate_and_advance = true;
+				else if (actual_transition->indicator == Indicator::error) terminate_and_advance = true;
+				else if (actual_transition->next < 0) terminate_and_advance = true;
+				if (terminate_and_advance)
+				{
+					index++;
+					token_end = index;
+					//std::cout << "terminating ...\n";
+					break;
+				}
+            }
+
+			//repetir loop
+			{
+				index++;
+				token_end = index;
+				actual_status = next_status;
+				prev_transition = actual_transition;
+
+			}
+        }
+#ifdef OCTETOS_CORE_ENABLE_DEV
+
+#endif
+		if (not actual_transition)
+		{
+			//std::cout << "terminating ...\n";
+			return Token::none;
+		}
+		else if (not actual_transition and index == buffer->size())
+		{
+			return Token::none;
+		}
+		else if (actual_transition->indicator == Indicator::acceptable and index == buffer->size())
+		{
+			return actual_transition->token;
+		}
+		else if (acceptable_transition and acceptable_ended)
+		{
+			return actual_transition->token;
+		}
+		else if (actual_transition->indicator == Indicator::accept)
+		{
+			return actual_transition->token;
+		}
+		else if (prefix_transition and prefix_ended)
+		{
+			index = index - prefix_start + 1;
+			return actual_transition->token;
+		}
+		else if (actual_transition->indicator == Indicator::error)
+		{
+			return (Token)input;
+		}
+		else if (actual_transition->indicator == Indicator::unknow)
+		{
+			return (Token)input;
+		}
+		else if(actual_transition->next < 0)
+		{
+			return (Token)input;
+		}
+		else
+		{//fin de la entreada?
+			if (index == buffer->size())
+			{
+				if (actual_transition->indicator == Indicator::accept)
+				{
+					return actual_transition->token;
+				}
+				else if (actual_transition->indicator == Indicator::acceptable)
+				{
+					return actual_transition->token;
+				}
+
+				return (Token)input;//se retorna el ultomo token
+			}
+		}
+
+		return Token::eoi;
+	}
+
+	Token next(Tokenized<Symbol,Token>& content)
+	{
+		Token token = next();
+		if (token <= Token::none) return token;
+		if (token_start >= token_end) return token;
+
+		content.base = (const Symbol*)*buffer;
+		content.base += token_start;
+		content.length = token_end - token_start;
+		content.token = token;
+
+		return token;
+	}
+#ifdef OCTETOS_CORE_ENABLE_DEV
+	void echo(bool e)
+	{
+		_echo = e;
+	}
+#endif
+
+private:
+
+
+private:
+	const TTA<Symbol,Token, State>* table;
 	Buffer<Symbol>* buffer;
 	Symbol input;
 	size_t index,token_start,token_end;//prefix_index
