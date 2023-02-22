@@ -991,6 +991,7 @@ enum errors
 		fail_on_word_null_transition,
 		fail_on_used_null_transition,
 		fail_on_create_no_memory,
+		fail_on_word_used_transition,
 	};
 	const char* to_string(errors e)
 	{
@@ -1002,28 +1003,29 @@ enum errors
 			case errors::fail_on_word_null_transition: return "Se returno una transicion nula(word), muy probablement devido a indices fuera de rango";
 			case errors::fail_on_used_null_transition: return "Se returno una transicion nula(is_used), muy probablement devido a indices fuera de rango";
 			case errors::fail_on_create_no_memory: return "No hay memori disponible en para crear mas estados";
+			case errors::fail_on_word_used_transition: return "";
 		}
 
 		return "Error desconocido";
 	}
 
 //Transition Table - Tipo B
-template<typename Symbol /*Input*/,typename Token,typename State/*Status*/,size_t amoun_states,size_t amoun_transitions,size_t amoun_symbols>
+template<typename Symbol /*Input*/,typename Token,typename State/*Status*/,size_t amount_states,size_t amount_transitions,size_t amount_symbols>
 class TTB
 {
 public:
 
 public:
-	constexpr TTB() : index(-1)
+	constexpr TTB() : index(-1),error(errors::none)
 	{
 
 	}
 
 	void print(std::ostream & out, State state = initial_state, size_t indend = 0) const
 	{
-		if ((size_t)state > amoun_states - 1) return;//caso base
+		if ((size_t)state > amount_states - 1) return;//caso base
 
-		for (Symbol s = 0; (size_t)s < amoun_states; s++)
+		for (Symbol s = 0; (size_t)s < amount_states; s++)
 		{
 			if (get(state,s)->next < initial_state) continue;
 
@@ -1064,27 +1066,27 @@ public:
 	}
 	const Transition<Token, State>* get(size_t state,size_t simbol) const
 	{
-		if((size_t)state < amoun_states) if((size_t)simbol < amoun_transitions) return &tt[state][simbol];
+		if((size_t)state < amount_states) if((size_t)simbol < amount_transitions) return &tt[state][simbol];
 
 		return NULL;
 	}
 	constexpr Transition<Token, State>* get(size_t state,size_t simbol)
 	{
-		if(state < amoun_states) if(simbol < amoun_transitions) return &tt[state][simbol];
+		if(state < amount_states) if(simbol < amount_transitions) return &tt[state][simbol];
 
 		return NULL;
 	}
-	size_t get_amoun_states()const
+	size_t get_amount_states()const
 	{
-		return amoun_states;
+		return amount_states;
 	}
-	size_t get_amoun_symbols()const
+	size_t get_amount_symbols()const
 	{
-		return amoun_symbols;
+		return amount_symbols;
 	}
-	size_t get_amoun_transitions()const
+	size_t get_amount_transitions()const
 	{
-		return amoun_transitions;
+		return amount_transitions;
 	}
 	errors get_last_error()const
 	{
@@ -1103,7 +1105,7 @@ private:
 protected:
 	constexpr State create()
 	{
-		if((size_t)index + 1 < amoun_states) return ++index;
+		if((size_t)index + 1 < amount_states) return ++index;
 
 		error = errors::fail_on_create_no_memory;
 		return -1;
@@ -1123,7 +1125,7 @@ protected:
 	}
 	constexpr bool is_symbol(Symbol s)
 	{
-		if (std::find(symbols, symbols + amoun_symbols, Symbol(s)) == symbols + amoun_symbols) return false;
+		if (std::find(symbols, symbols + amount_symbols, Symbol(s)) == symbols + amount_symbols) return false;
 
 		return true;
 	}
@@ -1134,7 +1136,7 @@ protected:
 	*/
 	constexpr State prefixing(State state_current, const Symbol* prefixs, size_t length, Token token)
 	{
-		for (size_t k = 0; k < amoun_transitions; k++)
+		for (size_t k = 0; k < amount_transitions; k++)
 		{
 			if (std::find(prefixs, prefixs + length, Symbol(k)) == prefixs + length) continue;
 
@@ -1154,6 +1156,7 @@ protected:
         */
 		constexpr State word(const Symbol* str, Token token, const Symbol* prefixs,size_t length,Flag flag)
 		{
+            if(error > errors::none) return -1;
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) throw -1;
 			State state_current = initial_state, state_next = initial_state, state_last = initial_state;
@@ -1164,14 +1167,17 @@ protected:
 				input = str[i];
 				if(Flag::error == flag)
 				{
+				    if(error > errors::none) return -1;
 					if(not is_symbol(input))
 					{
 						error = errors::fail_on_word_not_symbol;
 						return -1;
 					}
 				}
+                if(error > errors::none) return -1;
 				if(is_used(input,state_current))
 				{
+				    if(error > errors::none) return -1;
 					if(get(state_current,input))
 					{
 						state_next = get(state_current,input)->next;
@@ -1184,7 +1190,11 @@ protected:
 				}
 				else
 				{
+
+				    if(error > errors::none) return -1;
 					state_next = create();
+				    if(error > errors::none) return -1;
+				    if(state_next < 0) return -1;
 					if(get(state_current,input))
 					{
 						 get(state_current,input)->next = state_next;
@@ -1200,7 +1210,11 @@ protected:
 
 			//la ultima transicion deve estar vacio para ser usada con este token
 			Symbol last_symbol = str[sz_str];
-			if(is_used(last_symbol,state_last)) return -1;
+			if(is_used(last_symbol,state_last))
+            {
+                error = errors::fail_on_word_used_transition;
+                return -1;
+            }
 			prefixing(state_next, prefixs,length, token);
 
 			return state_next;
@@ -1211,8 +1225,8 @@ protected:
 	State index;
 	errors error;
 
-	Symbol symbols[amoun_symbols];
-	Transition<Token, State> tt[amoun_states][amoun_transitions];
+	Symbol symbols[amount_symbols];
+	Transition<Token, State> tt[amount_states][amount_transitions];
 
 	static const State initial_state = 0;
 };
