@@ -985,12 +985,7 @@ private:
 
 
 //Transition Table - Tipo B
-constexpr  unsigned int default_trans()
-{
-	//if (typeid(Symbol) == typeid(char)) return 128;//ascci table
-	return 128;
-}
-template<typename Symbol /*Input*/,typename Token,typename State/*Status*/,size_t amoun_states,size_t amoun_symbols>
+template<typename Symbol /*Input*/,typename Token,typename State/*Status*/,size_t amoun_states,size_t amoun_transitions,size_t amoun_symbols>
 class TTB
 {
 public:
@@ -1046,13 +1041,13 @@ public:
 	}
 	const Transition<Token, State>* get(size_t state,size_t simbol) const
 	{
-		if((size_t)state < amoun_states) if((size_t)state < amoun_symbols) return &tt[state][simbol];
+		if((size_t)state < amoun_states) if((size_t)simbol < amoun_transitions) return &tt[state][simbol];
 
 		return NULL;
 	}
 	constexpr Transition<Token, State>* get(size_t state,size_t simbol)
 	{
-		if(state < amoun_states) if(simbol < amoun_symbols) return &tt[state][simbol];
+		if(state < amoun_states) if(simbol < amoun_transitions) return &tt[state][simbol];
 
 		return NULL;
 	}
@@ -1107,7 +1102,7 @@ protected:
 	*/
 	constexpr State prefixing(State state_current, const Symbol* prefixs, size_t length, Token token)
 	{
-		for (size_t k = 0; k < amoun_symbols; k++)
+		for (size_t k = 0; k < amoun_transitions; k++)
 		{
 			if (std::find(prefixs, prefixs + length, Symbol(k)) == prefixs + length) continue;
 
@@ -1162,7 +1157,7 @@ protected:
 
 protected:
 	Symbol symbols[amoun_symbols];
-	Transition<Token, State> tt[amoun_states][default_trans()];
+	Transition<Token, State> tt[amoun_states][amoun_transitions];
 
 	State index;
 	static const State initial_state = 0;
