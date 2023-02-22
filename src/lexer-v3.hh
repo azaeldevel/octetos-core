@@ -1031,32 +1031,27 @@ public:
 
 			for(size_t i = 0; i < indend; i++)
 			{
-				out << "\t";
+				out << " ";
 			}
 			out << "|-";
 
-			if (s <= Symbol(Token::US)) out << state << "--control char-->" << get(state,s)->next << " ";
-			else out << state << "--'" << s << "'-->" << get(state,s)->next << " ";
+			if (s <= Symbol(Token::US))
+            {
+                out << state << "--control char(" << (int)s << ")";
+            }
+			else
+            {
+                out << state << "--'" << s << "'";
+            }
+
+            out << "-->" << get(state,s)->next << " ";
+
 			out << to_string(get(state,s)->indicator) << " ";
 			if (get(state,s)->token > Token::none) out << std::to_string((int)get(state,s)->token) << " ";
 			out << "\n";
 
-			if (get(state,s)->next >= 0)
-			{
-				if (get(state,s)->next == state)
-				{
-					for(size_t i = 0; i < indend; i++)
-					{
-						out << "\t";
-					}
-					out << "|->*\n";
-					return;
-				}
-				else if (get(state,s)->next > initial_state)
-				{
-					print(out, get(state,s)->next,indend + 1);
-				}
-			}
+            if (get(state,s)->next > initial_state) print(out, get(state,s)->next,indend + 1);
+
 		}
 	}
 
@@ -1148,77 +1143,54 @@ protected:
 		return state_current;
 	}
 
-        /*
-        *\brief Agreaga la palabra indicada al anlizador
-        *\param str cadeda de texto que deve acetar el analizador
-        *\param prefixs lista de simbolos que determinan que la palabra ha terminado
-        *\param token token retornado por el analizador si detecta la palabra
-        */
-		constexpr State word(const Symbol* str, Token token, const Symbol* prefixs,size_t length,Flag flag)
-		{
-            if(error > errors::none) return -1;
-			size_t sz_str = strlen(str);
-			if (sz_str == 0) throw -1;
-			State state_current = initial_state, state_next = initial_state, state_last = initial_state;
-			Symbol input;
-			for (size_t i = 0; i < sz_str; i++)
-			{
-			    state_last = state_next;
-				input = str[i];
-				if(Flag::error == flag)
-				{
-				    if(error > errors::none) return -1;
-					if(not is_symbol(input))
-					{
-						error = errors::fail_on_word_not_symbol;
-						return -1;
-					}
-				}
-                if(error > errors::none) return -1;
-				if(is_used(input,state_current))
-				{
-				    if(error > errors::none) return -1;
-					if(get(state_current,input))
-					{
-						state_next = get(state_current,input)->next;
-					}
-					else
-					{
-						error = errors::fail_on_word_null_transition;
-						return -1;
-					}
-				}
-				else
-				{
-
-				    if(error > errors::none) return -1;
-					state_next = create();
-				    if(error > errors::none) return -1;
-				    if(state_next < 0) return -1;
-					if(get(state_current,input))
-					{
-						 get(state_current,input)->next = state_next;
-					}
-					else
-					{
-						error = errors::fail_on_word_null_transition;
-						return -1;
-					}
-				}
-				state_current = state_next;
-			}
-
-			//la ultima transicion deve estar vacio para ser usada con este token
-			Symbol last_symbol = str[sz_str];
-			if(is_used(last_symbol,state_last))
+    /*
+    *\brief Agreaga la palabra indicada al anlizador
+    *\param str cadeda de texto que deve acetar el analizador
+    *\param prefixs lista de simbolos que determinan que la palabra ha terminado
+    *\param token token retornado por el analizador si detecta la palabra
+    */
+    constexpr State word(const Symbol* str, Token token, const Symbol* prefixs, size_t length, Flag flag)
+	{
+        size_t sz_str = strlen(str);
+        if (sz_str == 0) throw exception("El input esta vacio");
+        State state_current = initial_state, state_next = initial_state, state_last = initial_state;
+        Symbol input;
+		for (size_t i = 0; i < sz_str; i++)
+        {
+            state_last = state_next;
+			input = str[i];
+			if(Flag::error == flag)
             {
-                error = errors::fail_on_word_used_transition;
-                return -1;
+                if(error > errors::none) return -1;
+                if(not is_symbol(input))
+				{
+                    error = errors::fail_on_word_not_symbol;
+                    return -1;
+				}
             }
-			prefixing(state_next, prefixs,length, token);
-
-			return state_next;
+            if(is_used(input,state_current))
+            {
+                state_next = get(state_current,input)->next;
+            }
+            else
+			{
+                state_next = create();
+                get(state_current,input)->next = state_next;
+			}
+            state_current = state_next;
 		}
+
+        //la ultima transicion deve estar vacio para ser usada con este token
+		Symbol last_symbol = str[sz_str];
+		if(is_used(last_symbol,state_last))
+        {
+            error = errors::fail_on_word_used_transition;
+            return -1;
+        }
+        prefixing(state_next, prefixs, length, token);
+
+        return state_next;
+    }
 
 
 protected:
