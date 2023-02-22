@@ -285,12 +285,13 @@ const char* to_string(Indicator i)
 		State next;
 		Token token;
 
-		Transition() : indicator(Indicator::none),next(-1), token(Token::none)
+		constexpr Transition() : indicator(Indicator::none),next(-1), token(Token::none)
 		{
 		}
-		Transition(const Transition& obj) = default;
 
-		void print(std::ostream& out) const
+		constexpr Transition(const Transition& obj) = default;
+
+		constexpr void print(std::ostream& out) const
 		{
 			out << next << " - ";
 			std::string strtoken = std::to_string((int)token);
@@ -318,7 +319,7 @@ const char* to_string(Indicator i)
 		join_same,//realiza la operacion, pero reultilizara el o los estados posbles para el token inidcado
 	};
 
-	template<typename Symbol /*Input*/,typename Token,typename State/*Status*/>
+	template<typename Symbol,typename Token,typename State>
 	class TT : private std::vector<std::vector<Transition<Token, State>>>
 	{
 	public:
@@ -356,7 +357,7 @@ const char* to_string(Indicator i)
 
 			return State(TT_BASE::size() - 1);
 		}
-		
+
 	public:
 	    constexpr TT() = default;
 		constexpr TT(const std::vector<Symbol>& ss) : _simbols(ss)
@@ -364,20 +365,20 @@ const char* to_string(Indicator i)
 			sort_symbols();
 			State inital_state = create();
 		}
-		
+
 		constexpr TT(const TT& tt) : TT_BASE(tt), _simbols(tt._simbols)
 		{
 		}
-		
+
 		constexpr TT(const TT&& tt) : TT_BASE(tt), _simbols(tt._simbols)
 		{
 		}
-		
+
 		constexpr const std::vector<Symbol>& simbols() const
 		{
 			return _simbols;
 		}
-		
+
 		const Transition<Token, State>* get(State state, Symbol simbol) const
 		{
 			if((size_t)state < TT_BASE::size()) return &TT_BASE::at(state)[simbol];
@@ -650,7 +651,7 @@ const char* to_string(Indicator i)
 		static const State initial_state = 0;
 
 	private:
-		
+
 		/*
 		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
 		*/
@@ -942,7 +943,7 @@ public:
 
 		return Token::eoi;
 	}
-	
+
 	Token next(Tokenized<Symbol,Token>& content)
 	{
 		Token token = next();
@@ -962,10 +963,10 @@ public:
 		_echo = e;
 	}
 #endif
-	
+
 private:
-	
-	
+
+
 private:
 	const TT<Symbol,Token, State>* table;
 	Buffer<Symbol>* buffer;
@@ -983,7 +984,210 @@ private:
 
 
 //Transition Table - Tipo B
+constexpr  unsigned int default_trans()
+{
+	//if (typeid(Symbol) == typeid(char)) return 128;//ascci table
+	return 128;
+}
+template<typename Symbol /*Input*/,typename Token,typename State/*Status*/,size_t amoun_states,size_t amoun_symbols>
+class TTB
+{
+private:
 
+public:
+	constexpr TTB() : index(-1)
+	{
+
+	}
+
+	void print(std::ostream & out, State state = initial_state, size_t indend = 0) const
+	{
+		if ((size_t)state > amoun_states - 1) return;//caso base
+
+		for (Symbol s = 0; (size_t)s < amoun_states; s++)
+		{
+			if (get(state,s)->next < initial_state) continue;
+
+			for(size_t i = 0; i < indend; i++)
+			{
+				out << "\t";
+			}
+			out << "|-";
+
+			if (s <= Symbol(Token::US)) out << state << "--control char-->" << get(state,s)->next << " ";
+			else out << state << "--'" << s << "'-->" << get(state,s)->next << " ";
+			out << to_string(get(state,s)->indicator) << " ";
+			if (get(state,s)->token > Token::none) out << std::to_string((int)get(state,s)->token) << " ";
+			out << "\n";
+
+			if (get(state,s)->next >= 0)
+			{
+				if (get(state,s)->next == state)
+				{
+					for(size_t i = 0; i < indend; i++)
+					{
+						out << "\t";
+					}
+					out << "|->*\n";
+					return;
+				}
+				else if (get(state,s)->next > initial_state)
+				{
+					print(out, get(state,s)->next,indend + 1);
+				}
+			}
+		}
+	}
+
+	const Symbol* get_symbols()const
+	{
+		return symbols;
+	}
+	const Transition<Token, State>* get(size_t state,size_t simbol) const
+	{
+		if((size_t)state < amoun_states) if((size_t)state < amoun_symbols) return &tt[state][simbol];
+
+		return NULL;
+	}
+	constexpr Transition<Token, State>* get(size_t state,size_t simbol)
+	{
+		if(state < amoun_states) if(simbol < amoun_symbols) return &tt[state][simbol];
+
+		return NULL;
+	}
+	size_t get_amoun_states()const
+	{
+		return amoun_states;
+	}
+	size_t get_amoun_symbols()const
+	{
+		return amoun_symbols;
+	}
+
+
+private:
+	constexpr void sort()
+	{
+		std::sort(symbols.begin(), symbols.end(), [](int a, int b)
+		{
+			return a < b;
+		});
+	}
+
+protected:
+	constexpr size_t create()
+	{
+		size_t next = index + 1;
+		if(next < amoun_states)
+		{
+			index++;
+			return next;
+		}
+
+		return -1;
+	}
+
+	constexpr bool is_used(Symbol simbol, State state_current)
+	{
+		if(get(state_current,simbol)) if(get(state_current,simbol)->next < initial_state) return false;
+
+		return true;
+	}
+	constexpr bool is_symbol(Symbol s)
+	{
+		if (std::find(symbols, symbols + amoun_symbols, Symbol(s)) == symbols + amoun_symbols) return false;
+
+		return true;
+	}
+
+	/*
+	*\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
+	*/
+	constexpr bool if_prefixed(State state_current, const Symbol* prefixs, size_t length)
+	{
+		for (size_t i = 0; i < length; i++)
+		{
+			if (tt[(size_t)state_current][(size_t)prefixs[i]].indicator == Indicator::accept and tt[(size_t)state_current][(size_t)prefixs[i]].next == 0) return true;
+			//if (TT_BASE::at(state_current)[prefixs[i]].token == Token::none) return false;
+		}
+
+		return false;
+	}
+
+
+
+		/*
+		*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
+		*/
+		constexpr State prefixing(State state_current, const Symbol* prefixs,size_t length, Token token)
+		{
+            if(if_prefixed(state_current,prefixs,length))
+            {
+                std::string msg;
+                msg = "En el estado " + std::to_string(state_current) + ", no se puede colocar los prefijo ya que al menos una transicion esta usada";
+                throw exception(msg);
+            }
+
+			for (size_t k = 0; k < amoun_symbols; k++)
+			{
+				if (std::find(prefixs, prefixs + length, Symbol(k)) == prefixs + length) continue;
+
+				get(state_current,k)->next = 0;
+				get(state_current,k)->token = token;
+				get(state_current,k)->indicator = Indicator::accept;
+			}
+
+			return state_current;
+		}
+
+        /*
+        *\brief Agreaga la palabra indicada al anlizador
+        *\param str cadeda de texto que deve acetar el analizador
+        *\param prefixs lista de simbolos que determinan que la palabra ha terminado
+        *\param token token retornado por el analizador si detecta la palabra
+        */
+		constexpr State word(const Symbol* str, Token token, const Symbol* prefixs,size_t length,Flag flag)
+		{
+			size_t sz_str = strlen(str);
+			if (sz_str == 0) throw -1;
+			State state_current = initial_state, state_next = initial_state, state_last = initial_state;
+			Symbol input;
+			for (size_t i = 0; i < sz_str; i++)
+			{
+			    state_last = state_next;
+				input = str[i];
+				if(Flag::error == flag)
+				{
+					if(not is_symbol(input)) return -1;
+				}
+				if(is_used(input,state_current))
+				{
+					state_next = get(state_current,input) ? get(state_current,input)->next : -1;
+				}
+				else
+				{
+					state_next = create();
+					if(get(state_current,input)) get(state_current,input)->next = state_next;
+				}
+				state_current = state_next;
+			}
+
+			//la ultima transicion deve estar vacio para ser usada con este token
+			Symbol last_symbol = str[sz_str];
+			if(is_used(last_symbol,state_last)) return -1;
+			prefixing(state_next, prefixs,length, token);
+
+			return state_next;
+		}
+
+
+protected:
+	Symbol symbols[amoun_symbols];
+	Transition<Token, State> tt[amoun_states][default_trans()];
+
+	State index;
+	static const State initial_state = 0;
+};
 
 }
 

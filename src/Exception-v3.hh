@@ -75,7 +75,7 @@ private:
 	void copy(const char*);
 };
 
-class exception : public std::exception
+class exception
 {
 public:
 	typedef int errono;
