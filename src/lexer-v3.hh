@@ -1101,22 +1101,24 @@ private:
 	}
 
 protected:
-	constexpr size_t create()
+	constexpr State create()
 	{
-		size_t next = index + 1;
-		if(next < amoun_states)
-		{
-			index++;
-			return next;
-		}
+		if((size_t)index + 1 < amoun_states) return ++index;
 
+		error = errors::fail_on_create_no_memory;
 		return -1;
 	}
 
 	constexpr bool is_used(Symbol simbol, State state_current)
 	{
-		if(get(state_current,simbol)) if(get(state_current,simbol)->next < initial_state) return false;
+		if(not get(state_current,simbol))
+		{
+			error = errors::fail_on_used_null_transition;
+			return false;
+		}
 
+
+		if(get(state_current,simbol)->next < initial_state) return false;
 		return true;
 	}
 	constexpr bool is_symbol(Symbol s)
