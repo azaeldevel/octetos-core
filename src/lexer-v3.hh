@@ -983,6 +983,29 @@ private:
 };
 
 
+enum errors
+	{
+		none,
+		fail_create_firts_estate,
+		fail_on_word_not_symbol,
+		fail_on_word_null_transition,
+		fail_on_used_null_transition,
+		fail_on_create_no_memory,
+	};
+	const char* to_string(errors e)
+	{
+		switch(e)
+		{
+			case errors::none: return "Ninguno";
+			case errors::fail_create_firts_estate: return "Fallo en el contructor al create el estado inical";
+			case errors::fail_on_word_not_symbol: return "Fallo en la funcion word, en encontro un simbolo que no pertenece al lenguaje";
+			case errors::fail_on_word_null_transition: return "Se returno una transicion nula(word), muy probablement devido a indices fuera de rango";
+			case errors::fail_on_used_null_transition: return "Se returno una transicion nula(is_used), muy probablement devido a indices fuera de rango";
+			case errors::fail_on_create_no_memory: return "No hay memori disponible en para crear mas estados";
+		}
+
+		return "Error desconocido";
+	}
 
 //Transition Table - Tipo B
 template<typename Symbol /*Input*/,typename Token,typename State/*Status*/,size_t amoun_states,size_t amoun_transitions,size_t amoun_symbols>
@@ -1059,7 +1082,14 @@ public:
 	{
 		return amoun_symbols;
 	}
-
+	size_t get_amoun_transitions()const
+	{
+		return amoun_transitions;
+	}
+	errors get_last_error()const
+	{
+		return error;
+	}
 
 private:
 	constexpr void sort()
@@ -1120,7 +1150,7 @@ protected:
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
-		/*constexpr State word(const Symbol* str, Token token, const Symbol* prefixs,size_t length,Flag flag)
+		constexpr State word(const Symbol* str, Token token, const Symbol* prefixs,size_t length,Flag flag)
 		{
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) throw -1;
@@ -1132,16 +1162,36 @@ protected:
 				input = str[i];
 				if(Flag::error == flag)
 				{
-					if(not is_symbol(input)) return -1;
+					if(not is_symbol(input))
+					{
+						error = errors::fail_on_word_not_symbol;
+						return -1;
+					}
 				}
 				if(is_used(input,state_current))
 				{
-					state_next = get(state_current,input) ? get(state_current,input)->next : -1;
+					if(get(state_current,input))
+					{
+						state_next = get(state_current,input)->next;
+					}
+					else
+					{
+						error = errors::fail_on_word_null_transition;
+						return -1;
+					}
 				}
 				else
 				{
 					state_next = create();
-					if(get(state_current,input)) get(state_current,input)->next = state_next;
+					if(get(state_current,input))
+					{
+						 get(state_current,input)->next = state_next;
+					}
+					else
+					{
+						error = errors::fail_on_word_null_transition;
+						return -1;
+					}
 				}
 				state_current = state_next;
 			}
@@ -1152,14 +1202,16 @@ protected:
 			prefixing(state_next, prefixs,length, token);
 
 			return state_next;
-		}*/
+		}
 
 
 protected:
+	State index;
+	errors error;
+
 	Symbol symbols[amoun_symbols];
 	Transition<Token, State> tt[amoun_states][amoun_transitions];
 
-	State index;
 	static const State initial_state = 0;
 };
 
