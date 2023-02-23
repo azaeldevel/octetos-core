@@ -32,6 +32,7 @@
 #include <list>
 #include <algorithm>
 #include <initializer_list>
+#include <iterator>
 
 #include "core.hh"
 #include "Buffer-v3.hh"
@@ -1007,7 +1008,7 @@ protected:
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
-	constexpr State one(const Symbol* symbols_array, size_t symbols_length, Token token, const Symbol* prefixs, size_t length,Flag flag)
+	constexpr State one(const Symbol* symbols_array, size_t symbols_length, Token token, const Symbol* prefixs_array, size_t prefixs_length,Flag flag)
 	{
 		State state_current = initial_state, state_next = initial_state;
 		if (symbols_length == 0)
@@ -1029,7 +1030,7 @@ protected:
 		{
 			state_next = create();
 			if(error > errors::none) return -1;
-			prefixing(state_next,prefixs,length,token);
+			prefixing(state_next,prefixs_array,prefixs_length,token);
 			for (size_t i = 0; i < symbols_length; i++)
 			{
 				if (not is_used(symbols_array[i],state_current)) get(state_current,symbols_array[i])->next = state_next;
@@ -1039,7 +1040,7 @@ protected:
 		{
 			state_next = create();
 			if(error > errors::none) return -1;
-			prefixing(state_next,prefixs,length,token);
+			prefixing(state_next,prefixs_array,prefixs_length,token);
 			for (size_t i = 0; i < symbols_length; i++)
 			{
 				if(is_used(symbols_array[i],state_current))
