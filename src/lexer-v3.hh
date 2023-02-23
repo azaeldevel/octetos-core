@@ -528,7 +528,7 @@ const char* to_string(Indicator i)
 		}
 
 		/*
-        *\brief equvalente a eloperador de expresion regular ?
+        *\brief equivalente a eloperador de expresion regular ?
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
@@ -583,6 +583,11 @@ const char* to_string(Indicator i)
 			return state_next;
 		}
 
+		/*
+        *\brief equivalente a eloperador de expresion regular ?
+        *\param prefixs lista de simbolos que determinan que la palabra ha terminado
+        *\param token token retornado por el analizador si detecta la palabra
+        */
 		constexpr State one(Symbol symbol, Token token, const std::vector<Symbol>& prefixs, Flag flag = Flag::none)
 		{
 			State state_next = initial_state;
@@ -768,6 +773,11 @@ enum errors
 		fail_on_used_null_transition,
 		fail_on_create_no_memory,
 		fail_on_word_used_transition,
+		fail_on_one_not_symbol,
+		fail_on_one_used_transition,
+		fail_create_graphic_symbols,
+		fail_create_symbols,
+		fail_create_end_word,
 	};
 	const char* to_string(errors e)
 	{
@@ -779,7 +789,12 @@ enum errors
 			case errors::fail_on_word_null_transition: return "Se returno una transicion nula(word), muy probablement devido a indices fuera de rango";
 			case errors::fail_on_used_null_transition: return "Se returno una transicion nula(is_used), muy probablement devido a indices fuera de rango";
 			case errors::fail_on_create_no_memory: return "No hay memori disponible en para crear mas estados";
-			case errors::fail_on_word_used_transition: return "";
+			case errors::fail_on_word_used_transition: return "En la fuoncion one, la tranciones esta ocuada(is_used)";
+			case errors::fail_on_one_not_symbol: return "Fallo en la funcion one, en encontro un simbolo que no pertenece al lenguaje";
+			case errors::fail_on_one_used_transition: return "En la fuoncion one, la tranciones esta ocuada(is_used)";
+			case errors::fail_create_graphic_symbols: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos 'graphic'";
+			case errors::fail_create_symbols: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos del lenguaje";
+			case errors::fail_create_end_word: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos de 'palabra final '";
 		}
 
 		return "Error desconocido";
@@ -979,6 +994,83 @@ protected:
 
         return state_next;
     }
+
+	/*
+	*\brief equivalente a eloperador de expresion regular ?
+	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
+	*\param token token retornado por el analizador si detecta la palabra
+	*/
+	constexpr State one(const std::vector<Symbol> simbols, Token token, const Symbol* prefixs, size_t length,Flag flag)
+	{
+		State state_current = initial_state, state_next = initial_state;
+		if (simbols.empty()) throw exception("El input esta vacio");
+
+		for (size_t i = 0; i < simbols.size(); i++)
+		{
+			if(error > errors::none) return -1;
+			if(not is_symbol(simbols[i]))
+			{
+				error = errors::fail_on_one_not_symbol;
+				return -1;
+			}
+		}
+		if(flag == Flag::only_free)
+		{
+			state_next = create();
+			if(error > errors::none) return -1;
+			prefixing(state_next,prefixs,length,token);
+			for (size_t i = 0; i < simbols.size(); i++)
+			{
+				if (not is_used(simbols[i],state_current)) get(state_current,simbols[i])->next = state_next;
+			}
+		}
+		else if(Flag::error == flag)
+		{
+			state_next = create();
+			if(error > errors::none) return -1;
+			prefixing(state_next,prefixs,length,token);
+			for (size_t i = 0; i < simbols.size(); i++)
+			{
+				if(is_used(simbols[i],state_current))
+				{
+					error = errors::fail_on_one_used_transition;
+					return -1;
+				}
+				get(state_current,simbols[i])->next = state_next;
+			}
+		}
+
+		return state_next;
+	}
+
+	/*
+	*\brief equivalente a eloperador de expresion regular ?
+	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
+	*\param token token retornado por el analizador si detecta la palabra
+	*/
+	constexpr State one(Symbol symbol, Token token, const Symbol* prefixs, size_t length , Flag flag = Flag::none)
+	{
+		State state_next = initial_state;
+
+		if(error > errors::none) return -1;
+		if(not is_symbol(symbol))
+		{
+			error = errors::fail_on_one_not_symbol;
+			return -1;
+		}
+
+		if (is_used(symbol,initial_state))
+		{
+			error = errors::fail_on_one_used_transition;
+			return -1;
+		}
+
+		state_next = create();
+		if(error > errors::none) return -1;
+		prefixing(state_next,prefixs,length,token);
+
+		return initial_state;
+	}
 
 
 protected:
