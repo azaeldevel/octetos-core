@@ -1056,7 +1056,7 @@ protected:
 	}
 
 	/*
-	*\brief equivalente a el operador ?
+	*\brief Un simbolo
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
@@ -1085,7 +1085,7 @@ protected:
 	}
 
 	/*
-	*\brief equivalente a el operador +
+	*\brief equivalente a el operador de expresion regular +
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
@@ -1108,36 +1108,38 @@ protected:
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
 	constexpr void some(const Symbol* symbols_array, size_t symbols_length, Token token, const Symbol* prefixs_array, size_t prefixs_length,Flag flag,State current,State target)
-	{
-		if(target == current) return;
-		for (size_t i = 0; i < symbols_length; i++)
-		{
-			if(get(current,symbols_array[i])->indicator == Indicator::accept and get(current,symbols_array[i])->next == 0)
-			{//prefixed
+    {
+        if(target == current) return;
+        for (size_t i = 0; i < symbols_length; i++)
+        {
+            if(get(current,symbols_array[i])->indicator == Indicator::accept and get(current,symbols_array[i])->next == 0)
+            {//prefixed
 
-			}
-			else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next == -1 and get(current,symbols_array[i])->token == Token::none)
-			{//initailized
-				//prefixing(current,prefixs,token,simbols[i]);
-				get(current,symbols_array[i])->next = target;
-			}
-			else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next >= 0  and get(current,symbols_array[i])->token == Token::none)
-			{//used but not prefixed
-				if(get(current,symbols_array[i])->next == current) continue;
-				some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,get(current,symbols_array[i])->next,target);
-				for (size_t j = 0; j < symbols_length; j++)
-				{
-					if(symbols_array[i] == symbols_array[j]) continue;
-					if(is_used(symbols_array[j],current)) continue;
-					get(current,symbols_array[j])->next = target;
-				}
-			}
-			else
-			{
+            }
+            else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next == -1 and get(current,symbols_array[i])->token == Token::none)
+            {//initailized
+                	//prefixing(current,prefixs,token,simbols[i]);
+					get(current,symbols_array[i])->next = target;
+            }
+            else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next >= 0  and get(current,symbols_array[i])->token == Token::none)
+            {//used but not prefixed
+                if(get(current,symbols_array[i])->next == current) continue;
+                some(symbols_array[i],symbols_length,token,prefixs_array,prefixs_length,flag,get(current,symbols_array[i])->next,target);
+                for (size_t j = 0; j < symbols_length; j++)
+                {
+                    if(symbols_array[i] == symbols_array[j]) continue;
+                    if(is_used(symbols_array[j],current)) continue;
+                    get(current,symbols_array[j])->next = target;
+                }
+            }
+            else
+            {
 
-			}
-		}
-	}
+            }
+        }
+
+        return target;
+    }
 
     /*
     *\brief equvalente a eloperador de expresion regular *
@@ -1146,16 +1148,14 @@ protected:
     */
     constexpr State some(const Symbol* symbols_array, size_t symbols_length, Token token, const Symbol* prefixs_array, size_t prefixs_length,Flag flag,State extend)
     {
-        //State next = create();
-        //prefixing(next,prefixs,token);
         for (size_t i = 0; i < symbols_length; i++)
         {
             get(extend,symbols_array[i])->next = extend;
 			get(extend,symbols_array[i])->indicator = Indicator::acceptable;
 			get(extend,symbols_array[i])->token = token;
         }
-        some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,initial_state,extend);
-		return initial_state;
+
+		return some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,initial_state,extend);
     }
 
 protected:
