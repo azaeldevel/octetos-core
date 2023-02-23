@@ -778,6 +778,7 @@ enum errors
 		fail_create_graphic_symbols,
 		fail_create_symbols,
 		fail_create_end_word,
+		fail_on_one_empty,
 	};
 	const char* to_string(errors e)
 	{
@@ -795,6 +796,7 @@ enum errors
 			case errors::fail_create_graphic_symbols: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos 'graphic'";
 			case errors::fail_create_symbols: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos del lenguaje";
 			case errors::fail_create_end_word: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos de 'palabra final '";
+			case errors::fail_on_one_empty: return "En la funcion c90::TT::one, Entrada vacia";
 		}
 
 		return "Error desconocido";
@@ -1000,15 +1002,19 @@ protected:
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
-	constexpr State one(const std::vector<Symbol> simbols, Token token, const Symbol* prefixs, size_t length,Flag flag)
+	constexpr State one(const Symbol* symbols_array, size_t symbols_length, Token token, const Symbol* prefixs, size_t length,Flag flag)
 	{
 		State state_current = initial_state, state_next = initial_state;
-		if (simbols.empty()) throw exception("El input esta vacio");
+		if (symbols_length == 0)
+		{
+			error = errors::fail_on_one_empty;
+			return -1;
+		}
 
-		for (size_t i = 0; i < simbols.size(); i++)
+		for (size_t i = 0; i < symbols_length; i++)
 		{
 			if(error > errors::none) return -1;
-			if(not is_symbol(simbols[i]))
+			if(not is_symbol(symbols_array[i]))
 			{
 				error = errors::fail_on_one_not_symbol;
 				return -1;
@@ -1019,9 +1025,9 @@ protected:
 			state_next = create();
 			if(error > errors::none) return -1;
 			prefixing(state_next,prefixs,length,token);
-			for (size_t i = 0; i < simbols.size(); i++)
+			for (size_t i = 0; i < symbols_length; i++)
 			{
-				if (not is_used(simbols[i],state_current)) get(state_current,simbols[i])->next = state_next;
+				if (not is_used(symbols_array[i],state_current)) get(state_current,symbols_array[i])->next = state_next;
 			}
 		}
 		else if(Flag::error == flag)
@@ -1029,14 +1035,14 @@ protected:
 			state_next = create();
 			if(error > errors::none) return -1;
 			prefixing(state_next,prefixs,length,token);
-			for (size_t i = 0; i < simbols.size(); i++)
+			for (size_t i = 0; i < symbols_length; i++)
 			{
-				if(is_used(simbols[i],state_current))
+				if(is_used(symbols_array[i],state_current))
 				{
 					error = errors::fail_on_one_used_transition;
 					return -1;
 				}
-				get(state_current,simbols[i])->next = state_next;
+				get(state_current,symbols_array[i])->next = state_next;
 			}
 		}
 
@@ -1044,7 +1050,7 @@ protected:
 	}
 
 	/*
-	*\brief equivalente a eloperador de expresion regular ?
+	*\brief Un simbolo
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
@@ -1070,6 +1076,24 @@ protected:
 		prefixing(state_next,prefixs,length,token);
 
 		return initial_state;
+	}
+
+	/*
+	*\brief equivalente a el operador de expresion regular +
+	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
+	*\param token token retornado por el analizador si detecta la palabra
+	*/
+	constexpr State almost_one(const Symbol* symbols_array, size_t symbols_length, Token token, const Symbol* prefixs_array, size_t prefixs_length,Flag flag)
+	{
+		State state_next = one(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag);
+		if(error > errors::none) return -1;
+
+		for (size_t i = 0; i < symbols_length; i++)
+		{
+			get(state_next,symbols_array[i])->next = state_next;
+		}
+
+		return state_next;
 	}
 
 
