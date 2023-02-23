@@ -779,6 +779,9 @@ enum errors
 		fail_create_symbols,
 		fail_create_end_word,
 		fail_on_one_empty,
+		fail_create_identifier_begin,
+        fail_create_identifier,
+
 	};
 	const char* to_string(errors e)
 	{
@@ -797,6 +800,8 @@ enum errors
 			case errors::fail_create_symbols: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos del lenguaje";
 			case errors::fail_create_end_word: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos de 'palabra final '";
 			case errors::fail_on_one_empty: return "En la funcion c90::TT::one, Entrada vacia";
+			case errors::fail_create_identifier_begin: return "En la funcion c90::TT::make_symbols, al crear los simbolos inicio de identificador";
+			case errors::fail_create_identifier: return "En la funcion c90::TT::make_symbols, al crear los simbolos de identificador";
 		}
 
 		return "Error desconocido";
@@ -1106,19 +1111,19 @@ protected:
 		if(target == current) return;
 		for (size_t i = 0; i < symbols_length; i++)
 		{
-			if(get(current,symbols_array[i])->indicator == Indicator::accept and get(current,symbols_array[i])->inext == 0)
+			if(get(current,symbols_array[i])->indicator == Indicator::accept and get(current,symbols_array[i])->next == 0)
 			{//prefixed
 
 			}
-			else if(get(current,symbols_array[i])->iindicator == Indicator::none and get(current,symbols_array[i])->inext == -1 and get(current,symbols_array[i])->itoken == Token::none)
+			else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next == -1 and get(current,symbols_array[i])->token == Token::none)
 			{//initailized
 				//prefixing(current,prefixs,token,simbols[i]);
-				get(current,symbols_array[i])->inext = target;
+				get(current,symbols_array[i])->next = target;
 			}
-			else if(get(current,symbols_array[i])->iindicator == Indicator::none and get(current,symbols_array[i])->inext >= 0  and get(current,symbols_array[i])->itoken == Token::none)
+			else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next >= 0  and get(current,symbols_array[i])->token == Token::none)
 			{//used but not prefixed
-				if(get(current,symbols_array[i])->inext == current) continue;
-				some(symbols_array,token,prefixs_array,prefixs_length,flag,get(current,symbols_array[i])->inext,target);
+				if(get(current,symbols_array[i])->next == current) continue;
+				some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,get(current,symbols_array[i])->next,target);
 				for (size_t j = 0; j < symbols_length; j++)
 				{
 					if(symbols_array[i] == symbols_array[j]) continue;
@@ -1132,6 +1137,25 @@ protected:
 			}
 		}
 	}
+
+    /*
+    *\brief equvalente a eloperador de expresion regular *
+    *\param prefixs lista de simbolos que determinan que la palabra ha terminado
+    *\param token token retornado por el analizador si detecta la palabra
+    */
+    constexpr State some(const Symbol* symbols_array, size_t symbols_length, Token token, const Symbol* prefixs_array, size_t prefixs_length,Flag flag,State extend)
+    {
+        //State next = create();
+        //prefixing(next,prefixs,token);
+        for (size_t i = 0; i < symbols_length; i++)
+        {
+            get(extend,symbols_array[i])->next = extend;
+			get(extend,symbols_array[i])->indicator = Indicator::acceptable;
+			get(extend,symbols_array[i])->token = token;
+        }
+        some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,initial_state,extend);
+		return initial_state;
+    }
 
 protected:
 	State index;
