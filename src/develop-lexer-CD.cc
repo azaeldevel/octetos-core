@@ -12,6 +12,8 @@ const std::vector<char> graphic = { '!','"','#','%','\'','(',')','*','+',',','-'
 const std::vector<char> display = { '\a','\b','\f','\n','\r','\t','\v'};
 const std::vector<char> not_c = {' '};
 
+const std::vector<char> alphabet = {' ','\a','\b','\f','\n','\r','\t','\v','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','!','"','#','%','\'','(',')','*','+',',','-','.','/',':',';','<','=','>','?','[','\\',']','^','_','{','|','}','~'};
+
 typedef core_here::lex::TTC<char,core_here::lex::Tokens, core_here::lex::State,1,128> TT;
 
 int main(int argc, char* argv[])
@@ -22,7 +24,7 @@ int main(int argc, char* argv[])
 	//const char* str_c90 = "auto char break switch volatil void int 923456789 5 j a0 aabcd a1_test z juan contianer09 _09cont _09cont % ? #";
 	const char* str_c90 = "auto char break switch volatil void int 923456789 5 j a0 aabcd a1_test z juan contianer09 _09cont _09cont % ? #";
 	core_next::Buffer<char> buff1_c90(str_c90);
-	TT tt_c90(digits);
+	TT tt_c90(alphabet);
 	std::cout << "Size TT : " << tt_c90.size() << "\n";
 	std::cout << "Listing states\n";
 	tt_c90.print(std::cout);

@@ -61,7 +61,7 @@ namespace oct::core::v3::lex
 
 		void make_prefix_deep(State actual,size_t deep)
 		{
-            if(deep >= prefan_length) return;
+            if(deep >= prefan_length + 1) return;
 
             State state;
             for(Symbol s : _simbols)
