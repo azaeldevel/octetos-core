@@ -780,6 +780,7 @@ enum errors
 		fail_on_one_empty,
 		fail_create_identifier_begin,
         fail_create_identifier,
+        fail_on_prefixing_conflict,
 
 	};
 	const char* to_string(errors e)
@@ -801,6 +802,7 @@ enum errors
 			case errors::fail_on_one_empty: return "En la funcion c90::TT::one, Entrada vacia";
 			case errors::fail_create_identifier_begin: return "En la funcion c90::TT::make_symbols, al crear los simbolos inicio de identificador";
 			case errors::fail_create_identifier: return "En la funcion c90::TT::make_symbols, al crear los simbolos de identificador";
+			case errors::fail_on_prefixing_conflict: return "En la funion, prefixig, se tecto cofilicto en los prefijos";
 		}
 
 		return "Error desconocido";
@@ -932,15 +934,35 @@ protected:
 		return true;
 	}
 
+    /*
+    *\brief Verifica si el estado indicado ha sido marcado con los prefijos indicados
+    */
+    constexpr bool if_prefixed(State state_current, const Symbol* prefixs_array, size_t prefixs_length)
+    {
+        for (size_t i = 0; i < prefixs_length; i++)
+        {
+            if (get(state_current,prefixs_array[i])->indicator == Indicator::accept and get(state_current,prefixs_array[i])->next == 0) return true;
+				//if (TT_BASE::at(state_current)[prefixs[i]].token == Token::none) return false;
+        }
+
+        return false;
+    }
 
 	/*
 	*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
 	*/
 	constexpr State prefixing(State state_current, const Symbol* prefixs, size_t length, Token token)
 	{
+	    if(if_prefixed(state_current,prefixs,length))
+        {
+            error = errors::fail_on_prefixing_conflict;
+            return -1;
+        }
+
+        const Symbol* end = prefixs + length;
 		for (size_t k = 0; k < amount_transitions; k++)
 		{
-			if (std::find(prefixs, prefixs + length, Symbol(k)) == prefixs + length) continue;
+			if (std::find(prefixs, end, Symbol(k)) == end) continue;
 
 			get(state_current,k)->next = 0;
 			get(state_current,k)->token = token;
@@ -1078,9 +1100,10 @@ protected:
 		state_next = create();
 		if(error > errors::none) return -1;
 		if(state_next < 0) return -1;
-		prefixing(state_next,prefixs,length,token);
+		State state_prefix  = prefixing(state_next,prefixs,length,token);
+        if(state_prefix < 0 ) return state_prefix;
 
-		return initial_state;
+		return state_next;
 	}
 
 	/*
