@@ -1108,7 +1108,7 @@ protected:
 	constexpr void some(const Symbol* symbols_array, size_t symbols_length, Token token, const Symbol* prefixs_array, size_t prefixs_length,Flag flag,State current,State target)
     {
         if(target == current) return;
-        if(current >= size()) return;
+        if((size_t)current >= amount_states) return;
         //if(target >= size()) return;
 
         for (size_t i = 0; i < symbols_length; i++)
@@ -1153,8 +1153,8 @@ protected:
 			get(extend,symbols_array[i])->indicator = Indicator::acceptable;
 			get(extend,symbols_array[i])->token = token;
         }
-
-		return some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,initial_state,extend);
+        some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,initial_state,extend);
+		return extend;
     }
 
 protected:
