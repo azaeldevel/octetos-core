@@ -1077,6 +1077,7 @@ protected:
 
 		state_next = create();
 		if(error > errors::none) return -1;
+		if(state_next < 0) return -1;
 		prefixing(state_next,prefixs,length,token);
 
 		return initial_state;
