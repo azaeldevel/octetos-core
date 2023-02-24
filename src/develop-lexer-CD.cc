@@ -292,18 +292,21 @@ int main(int argc, char* argv[])
 	{
 		std::cout << "Fallo, se espera keyword auto, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
 	}
+	std::cout << "\n";
 
 	tk_c90 = lex_c90.next();
 	if (tk_c90 != Tokens::space)
 	{
 		std::cout << "Fallo, se espera space, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
 	}
+	std::cout << "\n";
 
 	tk_c90 = lex_c90.next();
 	if (tk_c90 != Tokens::keyword_char)
 	{
 		std::cout << "Fallo, se espera keywod char, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
 	}
+	std::cout << "\n";
 
 	/*tk_c90 = lex_c90.next();
 	if (tk_c90 != Tokens::space)
