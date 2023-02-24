@@ -90,6 +90,12 @@ namespace oct::core::v3::lex
 
 			return NULL;
 		}
+		Transition<Token, State>* get(Symbol simbol)
+		{
+			if((size_t)simbol < states[initial_state].size()) return &states[initial_state][simbol];
+
+			return NULL;
+		}
 		inline size_t size() const
 		{
 			return states.size();
@@ -132,7 +138,7 @@ namespace oct::core::v3::lex
 	}
 
         /*
-        *\brief equivalente a eloperador de expresion regular ?
+        *\brief Uno de los siguientes simbolos
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
@@ -159,6 +165,7 @@ namespace oct::core::v3::lex
 				prefixing(state_next,prefixs,token);
 				for (size_t i = 0; i < simbols.size(); i++)
 				{
+					state_current = get(simbols[i]);
 					if (not is_used(simbols[i],state_current)) get(state_current,simbols[i])->next = state_next;
 				}
 			}
@@ -180,6 +187,7 @@ namespace oct::core::v3::lex
 						msg += std::to_string((int)token);
 						throw exception(msg);
 					}
+					state_current = get(simbols[i]);
 					get(state_current,simbols[i])->next = state_next;
 				}
 			}
@@ -205,7 +213,7 @@ namespace oct::core::v3::lex
 				msg_not_symbols += ", no es un simbolo del lenguaje";
 				throw exception(msg_not_symbols);
 			}
-			if (is_used(symbol, initial_state))
+			if (is_used(symbol, get(symbol)->next))
 			{
 				std::string msg;
 				char minimsg[] = {'\'','?','\'', '\0'};
@@ -218,6 +226,8 @@ namespace oct::core::v3::lex
 			}
 
 			state_next = create();
+			State state_current = get(symbol);
+			get(state_current,symbol)->next = state_next;
 			prefixing(state_next,prefixs,token);
 
 			return initial_state;
@@ -229,11 +239,11 @@ namespace oct::core::v3::lex
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
-		/*constexpr State word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs,Flag flag)
+		constexpr State word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs,Flag flag)
 		{
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) throw exception("El input esta vacio");
-			State state_current = initial_state, state_next = initial_state, state_last = initial_state;
+			State state_current = get(str[0]), state_next = initial_state, state_last = initial_state;
 			Symbol input;
 			for (size_t i = 0; i < sz_str; i++)
 			{
@@ -252,17 +262,17 @@ namespace oct::core::v3::lex
 				}
 				if(is_used(input,state_current))
 				{
-					state_next = TT_BASE::at(state_current)[input].next;
+					state_next = get(state_current,input)->next;
 				}
 				else
 				{
 					state_next = create();
-					TT_BASE::at(state_current)[input].next = state_next;
+					get(state_current,input)->next = state_next;
 				}
 				state_current = state_next;
 			}
-			TT_BASE::at(state_last)[input].token = token;
-			TT_BASE::at(state_last)[input].indicator = Indicator::acceptable;
+			get(state_last,input)->token = token;
+			get(state_last,input)->indicator = Indicator::acceptable;
 
 
 			//la ultima transicion deve estar vacio para ser usada con este token
@@ -281,7 +291,7 @@ namespace oct::core::v3::lex
 			prefixing(state_next, prefixs, token);
 
 			return state_next;
-		}*/
+		}
 
 		/*
         *\brief equvalente a eloperador de expresion regular +
