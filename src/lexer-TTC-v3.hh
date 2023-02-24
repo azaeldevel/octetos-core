@@ -239,11 +239,11 @@ namespace oct::core::v3::lex
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
-		constexpr State word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs,Flag flag)
+		State word(const Symbol* str, Token token, const std::vector<Symbol>& prefixs,Flag flag)
 		{
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) throw exception("El input esta vacio");
-			State state_current = get(str[0]), state_next = initial_state, state_last = initial_state;
+			State state_current = get(str[0])->next, state_next = initial_state, state_last = initial_state;
 			Symbol input;
 			for (size_t i = 0; i < sz_str; i++)
 			{

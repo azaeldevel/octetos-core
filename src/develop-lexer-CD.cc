@@ -202,6 +202,7 @@ const std::vector<char> graphic = { '!','"','#','%','\'','(',')','*','+',',','-'
 const std::vector<char> display = { '\a','\b','\f','\n','\r','\t','\v'};
 const std::vector<char> not_c = {' '};
 const std::vector<char> alphabet = {' ','\a','\b','\f','\n','\r','\t','\v','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','!','"','#','%','\'','(',')','*','+',',','-','.','/',':',';','<','=','>','?','[','\\',']','^','_','{','|','}','~'};
+const std::vector<char> symbols_end_words = {' ','\a','\b','\f','\n','\r','\t','\v','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','!','"','#','%','\'','(',')','*','+',',','-','.','/',':',';','<','=','>','?','[','\\',']','^','_','{','|','}','~'};
 const std::vector<core_here::lex::pair_keyword<char, Tokens>> keywords = {
 		{"auto",Tokens::keyword_auto},
 		{"break",Tokens::keyword_break},
@@ -237,7 +238,34 @@ const std::vector<core_here::lex::pair_keyword<char, Tokens>> keywords = {
 		{"while",Tokens::keyword_while}
 	};
 
-typedef core_here::lex::TTC<char,core_here::lex::Tokens, core_here::lex::State,1,128> TT;
+typedef core_here::lex::TTC<char,Tokens, core_here::lex::State,1,128> TT;
+
+	template<typename Token> std::string to_string(Token t)
+	{
+		std::string str;
+
+		if (t < Token::base)
+		{
+			return core_next::lex::to_string(t);
+		}
+		else if (t > Token::base)
+		{
+			if (t > Token::keyword_auto)
+			{
+				return "keyword auto";
+			}
+			else if (t > Token::keyword_break)
+			{
+				return "keyword break";
+			}
+			else if (t > Token::keyword_case)
+			{
+				return "keyword case";
+			}
+		}
+
+		return std::to_string((int)t);
+	}
 
 int main(int argc, char* argv[])
 {
@@ -248,18 +276,22 @@ int main(int argc, char* argv[])
 	const char* str_c90 = "auto char break switch volatil void int 923456789 5 j a0 aabcd a1_test z juan contianer09 _09cont _09cont % ? #";
 	core_next::Buffer<char> buff1_c90(str_c90);
 	TT tt_c90(alphabet);
+	for (const auto& p : keywords)
+	{
+		tt_c90.word(p.string,p.token, symbols_end_words,core_here::lex::Flag::error);
+	}
 	std::cout << "Size TT : " << tt_c90.size() << "\n";
 	std::cout << "Listing states\n";
 	tt_c90.print(std::cout);
 	std::cout << "\n";
-	core_next::lex::Lexer<char, core_here::lex::Tokens, core_here::lex::State,TT> lex_c90(tt_c90, buff1_c90);
+	core_next::lex::Lexer<char,Tokens, core_here::lex::State,TT> lex_c90(tt_c90, buff1_c90);
 
-	/*std::cout << "\n\n";
-	occ_here::c90::Tokens tk_c90 = lex_c90.next();
-	if (tk_c90 != occ_here::c90::Tokens::keyword_auto)
+	std::cout << "\n\n";
+	Tokens tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::keyword_auto)
 	{
 		std::cout << "Fallo, se espera keyword auto, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
-	}*/
+	}
 
 	return EXIT_SUCCESS;
 }
