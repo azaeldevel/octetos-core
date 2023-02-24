@@ -33,12 +33,14 @@
 
 namespace oct::core::v3::lex
 {
-	template<typename Symbol,typename Token,typename State, size_t amount_transitions>
+    /*
+    *\brief Tabla de Transiciones tipo C
+    *\param prefan_length longitud del prefijo de analisis
+    */
+	template<typename Symbol,typename Token,typename State,size_t prefan_length, size_t amount_transitions>
 	class TTC
 	{
 	public:
-		typedef std::vector<Transition<Token, State>> TT_SYMBOLS;
-		typedef std::vector<TT_SYMBOLS> TT_BASE;
 
 		constexpr State create()
 		{
@@ -52,7 +54,23 @@ namespace oct::core::v3::lex
 		constexpr TTC(const std::vector<Symbol>& ss) : _simbols(ss)
 		{
 			sort_symbols();
-			create();
+			//std::cout << "Size : " << _simbols.size();
+			State state_initial = create();
+			make_prefix_deep(state_initial,0);
+		}
+
+		void make_prefix_deep(State actual,size_t deep)
+		{
+            if(deep >= prefan_length) return;
+
+            State state;
+            for(Symbol s : _simbols)
+            {
+                state = create();
+                get(actual,s)->next = state;
+                //std::cout << actual << "-" << s << "->" << state << "\n";
+                make_prefix_deep(state,deep + 1);
+            }
 		}
 
 		constexpr const std::vector<Symbol>& simbols() const
@@ -72,10 +90,46 @@ namespace oct::core::v3::lex
 
 			return NULL;
 		}
-		size_t size() const
+		inline size_t size() const
 		{
 			return states.size();
 		}
+
+	void print(std::ostream & out, State state = initial_state, size_t indend = 0) const
+	{
+	    //std::cout << "printing..." << state << "\n";
+		if((size_t)state >= size()) return;//caso base
+
+		for (Symbol s = 0; (size_t)s < amount_transitions; s++)
+		{
+		    //std::cout << "printing..." << state << " - '" << s << "'\n";
+			if (get(state,s)->next < initial_state) continue;
+
+			for(size_t i = 0; i < indend; i++)
+			{
+				out << " ";
+			}
+			out << "|-";
+
+			if (s <= Symbol(Token::US))
+            {
+                out << state << "--control char(" << (int)s << ")";
+            }
+			else
+            {
+                out << state << "--'" << s << "'";
+            }
+
+            out << "-->" << get(state,s)->next << " ";
+
+			out << to_string(get(state,s)->indicator) << " ";
+			if (get(state,s)->token > Token::none) out << std::to_string((int)get(state,s)->token) << " ";
+			out << "\n";
+
+            if (get(state,s)->next > initial_state) print(out, get(state,s)->next,indend + 1);
+
+		}
+	}
 
         /*
         *\brief equivalente a eloperador de expresion regular ?
@@ -138,7 +192,7 @@ namespace oct::core::v3::lex
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
-		/*constexpr State one(Symbol symbol, Token token, const std::vector<Symbol>& prefixs, Flag flag = Flag::none)
+		constexpr State one(Symbol symbol, Token token, const std::vector<Symbol>& prefixs, Flag flag = Flag::none)
 		{
 			State state_next = initial_state;
 
@@ -167,7 +221,7 @@ namespace oct::core::v3::lex
 			prefixing(state_next,prefixs,token);
 
 			return initial_state;
-		}*/
+		}
 
         /*
         *\brief Agreaga la palabra indicada al anlizador

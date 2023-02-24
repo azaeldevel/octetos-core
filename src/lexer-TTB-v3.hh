@@ -60,7 +60,7 @@ public:
 	{
 		if ((size_t)state > amount_states - 1) return;//caso base
 
-		for (Symbol s = 0; (size_t)s < amount_states; s++)
+		for (Symbol s = 0; (size_t)s < amount_transitions; s++)
 		{
 			if (get(state,s)->next < initial_state) continue;
 
