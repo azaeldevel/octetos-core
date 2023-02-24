@@ -90,12 +90,6 @@ namespace oct::core::v3::lex
 
 			return NULL;
 		}
-		Transition<Token, State>* get(Symbol simbol)
-		{
-			if((size_t)simbol < states[initial_state].size()) return &states[initial_state][simbol];
-
-			return NULL;
-		}
 		inline size_t size() const
 		{
 			return states.size();
@@ -142,7 +136,7 @@ namespace oct::core::v3::lex
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
-		constexpr State one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag)
+		/*constexpr State one(const std::vector<Symbol> simbols, Token token, const std::vector<Symbol>& prefixs,Flag flag)
 		{
 			State state_current = initial_state, state_next = initial_state;
 			if (simbols.empty()) throw exception("El input esta vacio");
@@ -193,14 +187,14 @@ namespace oct::core::v3::lex
 			}
 
 			return state_next;
-		}
+		}*/
 
 		/*
         *\brief equivalente a eloperador de expresion regular ?
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
-		constexpr State one(Symbol symbol, Token token, const std::vector<Symbol>& prefixs, Flag flag = Flag::none)
+		/*constexpr State one(Symbol symbol, Token token, const std::vector<Symbol>& prefixs, Flag flag = Flag::none)
 		{
 			State state_next = initial_state;
 
@@ -231,7 +225,7 @@ namespace oct::core::v3::lex
 			prefixing(state_next,prefixs,token);
 
 			return initial_state;
-		}
+		}*/
 
         /*
         *\brief Agreaga la palabra indicada al anlizador
@@ -243,7 +237,7 @@ namespace oct::core::v3::lex
 		{
 			size_t sz_str = strlen(str);
 			if (sz_str == 0) throw exception("El input esta vacio");
-			State state_current = get(str[0])->next, state_next = initial_state, state_last = initial_state;
+			State state_current = initial_state, state_next = initial_state, state_last = initial_state;
 			Symbol input;
 			for (size_t i = 0; i < sz_str; i++)
 			{

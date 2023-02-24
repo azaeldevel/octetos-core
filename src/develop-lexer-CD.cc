@@ -280,7 +280,7 @@ int main(int argc, char* argv[])
 	{
 		tt_c90.word(p.string,p.token, symbols_end_words,core_here::lex::Flag::error);
 	}
-	std::cout << "Size TT : " << tt_c90.size() << "\n";
+	//std::cout << "Size TT : " << tt_c90.size() << "\n";
 	std::cout << "Listing states\n";
 	tt_c90.print(std::cout);
 	std::cout << "\n";
@@ -292,6 +292,84 @@ int main(int argc, char* argv[])
 	{
 		std::cout << "Fallo, se espera keyword auto, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
 	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::space)
+	{
+		std::cout << "Fallo, se espera space, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::keyword_char)
+	{
+		std::cout << "Fallo, se espera keywod char, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	/*tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::space)
+	{
+		std::cout << "Fallo, se espera space, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::keyword_break)
+	{
+		std::cout << "Fallo, se espera keywod break, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::space)
+	{
+		std::cout << "Fallo, se espera space, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::keyword_switch)
+	{
+		std::cout << "Fallo, se espera keywod switch, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::space)
+	{
+		std::cout << "Fallo, se espera space, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::keyword_volatil)
+	{
+		std::cout << "Fallo, se espera keywod volatil, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::space)
+	{
+		std::cout << "Fallo, se espera space, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::keyword_void)
+	{
+		std::cout << "Fallo, se espera keywod void, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::space)
+	{
+		std::cout << "Fallo, se espera space, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::keyword_int)
+	{
+		std::cout << "Fallo, se espera keywod int, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}
+
+	tk_c90 = lex_c90.next();
+	if (tk_c90 != Tokens::space)
+	{
+		std::cout << "Fallo, se espera space, se encontro " << to_string(tk_c90) << " - " << std::to_string((int)tk_c90) << "\n";
+	}*/
 
 	return EXIT_SUCCESS;
 }
