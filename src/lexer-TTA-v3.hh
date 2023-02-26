@@ -34,6 +34,7 @@
 #include <initializer_list>
 #include <iterator>
 
+#include "lexer-v3.hh"
 #include "core.hh"
 #include "Buffer-v3.hh"
 

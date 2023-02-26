@@ -172,7 +172,6 @@ protected:
         for (size_t i = 0; i < prefixs_length; i++)
         {
             if (get(state_current,prefixs_array[i])->indicator == Indicator::accept and get(state_current,prefixs_array[i])->next == 0) return true;
-				//if (TT_BASE::at(state_current)[prefixs[i]].token == Token::none) return false;
         }
 
         return false;
@@ -279,6 +278,7 @@ protected:
 		if(flag == Flag::only_free)
 		{
 			state_next = create();
+			if(state_next < 0) return -1;
 			if(error > errors::none) return -1;
 			prefixing(state_next,prefixs_array,prefixs_length,token);
 			for (size_t i = 0; i < symbols_length; i++)
@@ -289,6 +289,7 @@ protected:
 		else if(Flag::error == flag)
 		{
 			state_next = create();
+			if(state_next < 0) return -1;
 			if(error > errors::none) return -1;
 			prefixing(state_next,prefixs_array,prefixs_length,token);
 			for (size_t i = 0; i < symbols_length; i++)
