@@ -63,7 +63,6 @@
 				<Option object_output="bin/obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=" &gt; outfile.txt" />
 				<Option projectCompilerOptionsRelation="0" />
 				<Compiler>
 					<Add option="-g" />

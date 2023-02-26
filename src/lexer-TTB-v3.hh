@@ -189,9 +189,9 @@ protected:
         }
 
         const Symbol* end = prefixs + length;
-		for (size_t k = 0; k < amount_transitions; k++)
+		for (size_t k = 0; k < length; k++)
 		{
-			if (std::find(prefixs, end, Symbol(k)) == end) continue;
+			if (std::find(prefixs, end, Symbol(prefixs[k])) == end) continue;
 
 			get(state_current,k)->next = 0;
 			get(state_current,k)->token = token;
