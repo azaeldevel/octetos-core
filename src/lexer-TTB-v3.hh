@@ -58,10 +58,12 @@ public:
 
 	void print(std::ostream & out, State state = initial_state, size_t indend = 0) const
 	{
-		if ((size_t)state > amount_states - 1) return;//caso base
+	    //std::cout << "printing..." << state << "\n";
+		if((size_t)state >= size()) return;//caso base
 
 		for (Symbol s = 0; (size_t)s < amount_transitions; s++)
 		{
+		    //std::cout << "printing..." << state << " - '" << s << "'\n";
 			if (get(state,s)->next < initial_state) continue;
 
 			for(size_t i = 0; i < indend; i++)
@@ -297,7 +299,7 @@ protected:
 		return state_next;
 	}
 
-/*
+    /*
 	*\brief equivalente a eloperador de expresion regular ?
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
@@ -416,26 +418,20 @@ protected:
             {//prefixed
 
             }
+            else if(get(current,symbols_array[i])->indicator == Indicator::acceptable and get(current,symbols_array[i])->next >= 0)
+            {//used previusly but maybe a sub-set coluld be usable
+                some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,get(current,symbols_array[i])->next,target);
+            }
             else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next == -1 and get(current,symbols_array[i])->token == Token::none)
             {//initailized
                 get(current,symbols_array[i])->next = target;
                 get(current,symbols_array[i])->indicator = Indicator::acceptable;
 				get(current,symbols_array[i])->token = token;
-                //prefixing(current,prefixs_array,prefixs_length,token);
             }
-            else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next >= 0  and get(current,symbols_array[i])->token == Token::none)
+            else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next >= 0)
             {//used but not prefixed
                 if(get(current,symbols_array[i])->next == current) continue;
                 some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,get(current,symbols_array[i])->next,target);
-                /*for (size_t j = 0; j < symbols_length; j++)
-                {
-                    if(symbols_array[i] == symbols_array[j]) continue;
-                    if(is_used(symbols_array[j],current)) continue;
-                    get(current,symbols_array[j])->next = target;
-					//get(current,symbols_array[i])->indicator = Indicator::acceptable;
-					//get(current,symbols_array[i])->token = token;
-                }*/
-                //prefixing(current,prefixs_array,prefixs_length,token);
             }
             else
             {
@@ -456,6 +452,7 @@ protected:
 			get(extend,symbols_array[i])->indicator = Indicator::acceptable;
 			get(extend,symbols_array[i])->token = token;
         }
+
         some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,initial_state,extend);
 		return extend;
     }
