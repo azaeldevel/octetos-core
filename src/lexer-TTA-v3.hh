@@ -148,7 +148,7 @@ namespace oct::core::v3::lex
 			return erros;
 		}
 
-		void print(std::ostream & out, State state = initial_state, int indend = 0)
+		/*void print(std::ostream & out, State state = initial_state, int indend = 0)
 		{
 			if ((size_t)state > TT_BASE::size() - 1) return;//caso base
 
@@ -178,7 +178,7 @@ namespace oct::core::v3::lex
 					}
 				}
 			}
-		}
+		}*/
 
         /*
         *\brief Agreaga la palabra indicada al anlizador

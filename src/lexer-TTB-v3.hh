@@ -58,7 +58,6 @@ public:
 
 	void print(std::ostream & out, State state = initial_state, size_t indend = 0) const
 	{
-	    //std::cout << "printing..." << state << "\n";
 		if((size_t)state >= size()) return;//caso base
 
 		for (Symbol s = 0; (size_t)s < amount_transitions; s++)
@@ -84,10 +83,10 @@ public:
             out << "-->" << get(state,s)->next << " ";
 
 			out << to_string(get(state,s)->indicator) << " ";
-			if (get(state,s)->token > Token::none) out << std::to_string((int)get(state,s)->token) << " ";
+			if (get(state,s)->token > Token::none) get(state,s)->print(out);
 			out << "\n";
 
-            if (get(state,s)->next > initial_state) print(out, get(state,s)->next,indend + 1);
+            if(get(state,s)->next != state) if (get(state,s)->next > initial_state) print(out, get(state,s)->next,indend + 1);
 
 		}
 	}
@@ -195,9 +194,9 @@ protected:
 		{
 			if (std::find(prefixs, end, Symbol(prefixs[k])) == end) continue;
 
-			get(state_current,k)->next = 0;
-			get(state_current,k)->token = token;
-			get(state_current,k)->indicator = Indicator::accept;
+			get(state_current,prefixs[k])->next = 0;
+			get(state_current,prefixs[k])->token = token;
+			get(state_current,prefixs[k])->indicator = Indicator::accept;
 		}
 
 		return state_current;
@@ -273,11 +272,11 @@ protected:
 			state_next = create();
 			if(state_next < 0) return -1;
 			if(error > errors::none) return -1;
+			prefixing(state_next,prefixs_array,prefixs_length,token);
 			for (size_t i = 0; i < symbols_length; i++)
 			{
 				if (not is_used(symbols_array[i],state_current)) get(state_current,symbols_array[i])->next = state_next;
 			}
-			prefixing(state_next,prefixs_array,prefixs_length,token);
 		}
 		else if(Flag::error == flag)
 		{

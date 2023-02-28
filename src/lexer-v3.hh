@@ -452,11 +452,11 @@ public:
             {
 				//std::cout << "Input : '" << int(input) << "'\n";
 				//std::cout << "Input : '" << int('\n') << "'\n";
-				if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
+				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
 				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
 				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
 				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << " : ";
-				actual_transition->print(std::cout);
+				actual_transition->print(std::cout);*/
 				std::cout << "\n";
 
 				//>>>
@@ -471,7 +471,7 @@ public:
 				if (acceptable_transition and acceptable_ended)
 				{
 					//std::cout << "terminating ...by prefix\n";
-					token_end = index - 1;
+					token_end = index;
 					break;
 				}
 				else if (prefix_transition and prefix_ended)
@@ -575,6 +575,16 @@ public:
 		content.token = token;
 
 		return token;
+	}
+
+	size_t get_string_length()const
+	{
+	    return token_end - token_start;
+	}
+	const Symbol* get_string_base()const
+	{
+	    const Symbol* base = (const Symbol*)*buffer;
+	    return base + token_start;
 	}
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
