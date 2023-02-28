@@ -343,7 +343,7 @@ const char* to_string(Indicator i)
 			case errors::fail_on_create_no_memory: return "No hay memori disponible en para crear mas estados";
 			case errors::fail_on_word_used_transition: return "En la fuoncion one, la tranciones esta ocuada(is_used)";
 			case errors::fail_on_one_not_symbol: return "Fallo en la funcion one, en encontro un simbolo que no pertenece al lenguaje";
-			case errors::fail_on_one_used_transition: return "En la fuoncion one, la tranciones esta ocuada(is_used)";
+			case errors::fail_on_one_used_transition: return "En la funcion one, la tranciones esta ocupada(is_used)";
 			case errors::fail_create_graphic_symbols: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos 'graphic'";
 			case errors::fail_create_symbols: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos del lenguaje";
 			case errors::fail_create_end_word: return "En la funcion c90::TT::make_symbols, fallo al crear los simbolos de 'palabra final '";
@@ -421,6 +421,15 @@ public:
 				else if (actual_transition->indicator == Indicator::reject) prefix_ended = true;
 
 				//--acceptable-->accept|reject
+				/*if (actual_transition->indicator == Indicator::acceptable and not acceptable_ended)
+				{
+					acceptable_transition = actual_transition;
+				}
+				else if (actual_transition->indicator == Indicator::accept) acceptable_ended = true;
+				else if (actual_transition->indicator == Indicator::reject) acceptable_ended = true;*/
+				//>>>
+
+				//--acceptable-->acceptable|accept
 				if (actual_transition->indicator == Indicator::acceptable and not acceptable_ended)
 				{
 					acceptable_transition = actual_transition;
@@ -436,10 +445,10 @@ public:
             {
 				//std::cout << "Input : '" << int(input) << "'\n";
 				//std::cout << "Input : '" << int('\n') << "'\n";
-				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
+				if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
 				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
 				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
-				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";*/
+				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << "\n";
 				/*std::cout << "Index : '" << index << "'\n"; */
 
 				//>>>
@@ -454,6 +463,7 @@ public:
 				if (acceptable_transition and acceptable_ended)
 				{
 					//std::cout << "terminating ...by prefix\n";
+					token_end = index - 1;
 					break;
 				}
 				else if (prefix_transition and prefix_ended)
@@ -465,6 +475,7 @@ public:
 				else if (actual_transition->indicator == Indicator::accept)
 				{
 					//std::cout << "terminating ...\n";
+					token_end = index - 1;
 					break;
 				}
 				else if (actual_transition->indicator == Indicator::unknow) terminate_and_advance = true;

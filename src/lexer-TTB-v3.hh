@@ -266,32 +266,22 @@ protected:
 			return -1;
 		}
 
-		for (size_t i = 0; i < symbols_length; i++)
-		{
-			if(error > errors::none) return -1;
-			if(not is_symbol(symbols_array[i]))
-			{
-				error = errors::fail_on_one_not_symbol;
-				return -1;
-			}
-		}
 		if(flag == Flag::only_free)
 		{
 			state_next = create();
 			if(state_next < 0) return -1;
 			if(error > errors::none) return -1;
-			prefixing(state_next,prefixs_array,prefixs_length,token);
 			for (size_t i = 0; i < symbols_length; i++)
 			{
 				if (not is_used(symbols_array[i],state_current)) get(state_current,symbols_array[i])->next = state_next;
 			}
+			prefixing(state_next,prefixs_array,prefixs_length,token);
 		}
 		else if(Flag::error == flag)
 		{
 			state_next = create();
 			if(state_next < 0) return -1;
 			if(error > errors::none) return -1;
-			prefixing(state_next,prefixs_array,prefixs_length,token);
 			for (size_t i = 0; i < symbols_length; i++)
 			{
 				if(is_used(symbols_array[i],state_current))
@@ -301,6 +291,7 @@ protected:
 				}
 				get(state_current,symbols_array[i])->next = state_next;
 			}
+			prefixing(state_next,prefixs_array,prefixs_length,token);
 		}
 
 		return state_next;
@@ -345,7 +336,7 @@ protected:
 			state_next = create();
 			if(state_next < 0) return -1;
 			if(error > errors::none) return -1;
-			//prefixing(state_next,prefixs_array,prefixs_length,token);
+			//sprefixing(state_next,prefixs_array,prefixs_length,token);
 			for (size_t i = 0; i < symbols_length; i++)
 			{
 				if(is_used(symbols_array[i],state_current))
@@ -427,23 +418,27 @@ protected:
             }
             else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next == -1 and get(current,symbols_array[i])->token == Token::none)
             {//initailized
-                //prefixing(current,prefixs,token,simbols[i]);
                 get(current,symbols_array[i])->next = target;
+                get(current,symbols_array[i])->indicator = Indicator::acceptable;
+				get(current,symbols_array[i])->token = token;
+                //prefixing(current,prefixs_array,prefixs_length,token);
             }
             else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next >= 0  and get(current,symbols_array[i])->token == Token::none)
             {//used but not prefixed
                 if(get(current,symbols_array[i])->next == current) continue;
                 some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,get(current,symbols_array[i])->next,target);
-                for (size_t j = 0; j < symbols_length; j++)
+                /*for (size_t j = 0; j < symbols_length; j++)
                 {
                     if(symbols_array[i] == symbols_array[j]) continue;
                     if(is_used(symbols_array[j],current)) continue;
                     get(current,symbols_array[j])->next = target;
-                }
+					//get(current,symbols_array[i])->indicator = Indicator::acceptable;
+					//get(current,symbols_array[i])->token = token;
+                }*/
+                //prefixing(current,prefixs_array,prefixs_length,token);
             }
             else
             {
-
             }
         }
     }
