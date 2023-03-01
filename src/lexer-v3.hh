@@ -452,14 +452,14 @@ public:
             {
 				//std::cout << "Input : '" << int(input) << "'\n";
 				//std::cout << "Input : '" << int('\n') << "'\n";
-				/*
-				if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
+
+				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
 				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
 				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
 				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << " : ";
 				actual_transition->print(std::cout);
-				std::cout << "\n";
-				*/
+				std::cout << "\n";*/
+
 
 				//>>>
 

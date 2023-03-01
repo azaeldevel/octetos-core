@@ -410,44 +410,30 @@ protected:
     {
         if(target == current) return;
         if((size_t)current >= amount_states) return;
-        //if(target >= size()) return;
 
+        auto trans = get(0,0);
         for (size_t i = 0; i < symbols_length; i++)
         {
-            if(get(current,symbols_array[i])->indicator == Indicator::accept and get(current,symbols_array[i])->next == 0)
-            {//prefixed
-
-            }
-            else if(get(current,symbols_array[i])->indicator == Indicator::acceptable and get(current,symbols_array[i])->next >= 0)
-            {//used previusly but maybe a sub-set coluld be usable
-                some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,get(current,symbols_array[i])->next,target);
-            }
-            else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next == -1 and get(current,symbols_array[i])->token == Token::none)
-            {//initailized
-                get(current,symbols_array[i])->next = target;
-                get(current,symbols_array[i])->indicator = Indicator::acceptable;
-				get(current,symbols_array[i])->token = token;
-            }
-            else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->next >= 0)
-            {//used but not prefixed
-                if(get(current,symbols_array[i])->next == current) continue;
-                some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,get(current,symbols_array[i])->next,target);
-            }
-            else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->token == Token::none and get(current,symbols_array[i])->next < 0)
-            {//used but not prefixed
-                for (size_t j = 0; j < symbols_length; j++)
-                {
-                    if(symbols_array[j] == symbols_array[i]) continue;
-                    if(get(current,symbols_array[j])->token != Token::none) continue;
-                    //if(get(current,symbols_array[j])->Indicator != Indicator::none) continue;
-                    get(current,symbols_array[j])->next = target;
-                    get(current,symbols_array[j])->indicator = Indicator::acceptable;
-                    get(current,symbols_array[j])->token = token;
-                }
-            }
-            else
+            trans = get(current,symbols_array[i]);
+            if(trans->next > 0)
             {
+                if(trans->next == current) continue;
+                some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,trans->next,target);
             }
+
+            if(trans->indicator == Indicator::none and trans->token == Token::none and trans->next < 0)
+            {
+                trans->next = target;
+                trans->indicator = Indicator::acceptable;
+				trans->token = token;
+            }
+            else if(trans->indicator == Indicator::none and trans->token == Token::none and trans->next > 0)
+            {
+                trans->indicator = Indicator::acceptable;
+				trans->token = token;
+				prefixing(trans->next,prefixs_array,prefixs_length,token);
+            }
+
         }
     }
 
