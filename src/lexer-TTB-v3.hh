@@ -303,7 +303,7 @@ protected:
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
-	constexpr State one(const Symbol* symbols_array, size_t symbols_length, Token token,Flag flag)
+	/*constexpr State one(const Symbol* symbols_array, size_t symbols_length, Token token,Flag flag)
 	{
 		State state_current = initial_state, state_next = initial_state;
 		if (symbols_length == 0)
@@ -350,13 +350,14 @@ protected:
 		}
 
 		return state_next;
-	}
+	}*/
+
 	/*
 	*\brief Un simbolo
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
-	constexpr State one(Symbol symbol, Token token, const Symbol* prefixs, size_t length , Flag flag = Flag::none)
+	/*constexpr State one(Symbol symbol, Token token, const Symbol* prefixs, size_t length , Flag flag = Flag::none)
 	{
 		State state_next = initial_state;
 
@@ -380,7 +381,7 @@ protected:
         if(state_prefix < 0 ) return state_prefix;
 
 		return state_next;
-	}
+	}*/
 
 	/*
 	*\brief equivalente a el operador de expresion regular +
@@ -431,6 +432,18 @@ protected:
             {//used but not prefixed
                 if(get(current,symbols_array[i])->next == current) continue;
                 some(symbols_array,symbols_length,token,prefixs_array,prefixs_length,flag,get(current,symbols_array[i])->next,target);
+            }
+            else if(get(current,symbols_array[i])->indicator == Indicator::none and get(current,symbols_array[i])->token == Token::none and get(current,symbols_array[i])->next < 0)
+            {//used but not prefixed
+                for (size_t j = 0; j < symbols_length; j++)
+                {
+                    if(symbols_array[j] == symbols_array[i]) continue;
+                    if(get(current,symbols_array[j])->token != Token::none) continue;
+                    //if(get(current,symbols_array[j])->Indicator != Indicator::none) continue;
+                    get(current,symbols_array[j])->next = target;
+                    get(current,symbols_array[j])->indicator = Indicator::acceptable;
+                    get(current,symbols_array[j])->token = token;
+                }
             }
             else
             {
