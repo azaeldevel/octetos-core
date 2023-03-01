@@ -4,7 +4,8 @@ AM_CPPFLAGS = \
 	$(OCTETOS_CORE_BASE_CFLAGS). "\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-DOCTETOS_CORE_LOCALEDIR=\"${OCTETOS_CORE_LOCALEDIR}\"
-	
+
+AM_YFLAGS = -d	
 
 AM_CFLAGS =\
 	 -Wall\
@@ -18,6 +19,7 @@ FLAGS += -DOCTETOS_CORE_ENABLE_DEV
 endif
 
 lib_LTLIBRARIES = liboctetos-core.la
+
 
 liboctetos_core_la_CXXFLAGS = $(FLAGS) 
 liboctetos_core_la_LIBADD = $(LIBS)
@@ -57,8 +59,7 @@ EXTRA_DIST = octetos-core.pc.in
 uninstall-local:
 	-rm -r $(jsdir)
 
-noinst_PROGRAMS = develop develop-2 testArrayCpp testArrayClass
-
+noinst_PROGRAMS = develop develop-2 testArrayCpp testArrayClass develop-lexer-flex-c90 develop-lexer-occ-c90 occ-c90
 bin_PROGRAMS = version
 
 develop_SOURCES = develop.cc 
@@ -78,3 +79,16 @@ testArrayCpp_LDADD = liboctetos-core.la
 
 testArrayClass_SOURCES = testArrayClass.cc 
 testArrayClass_LDADD = liboctetos-core.la
+
+develop_lexer_occ_c90_SOURCES = develop-lexer-occ-c90.cc
+develop_lexer_occ_c90_LDADD = 
+develop_lexer_occ_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS) 
+
+develop_lexer_flex_c90_SOURCES = lexer-c90.l
+develop_lexer_flex_c90_LDADD = -lfl
+develop_lexer_flex_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS)
+
+
+occ_c90_SOURCES = main-occ-c90.cc
+occ_c90_LDADD = 
+occ_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS) 
