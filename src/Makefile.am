@@ -18,7 +18,6 @@ if OCTETOS_CORE_ENABLE_DEV
 FLAGS += -DOCTETOS_CORE_ENABLE_DEV
 endif
 
-lib_LTLIBRARIES = liboctetos-core.la
 
 
 liboctetos_core_la_CXXFLAGS = $(FLAGS) 
@@ -60,7 +59,6 @@ uninstall-local:
 	-rm -r $(jsdir)
 
 noinst_PROGRAMS = develop develop-2 testArrayCpp testArrayClass develop-lexer-flex-c90 develop-lexer-occ-c90 occ-c90
-bin_PROGRAMS = version
 
 develop_SOURCES = develop.cc 
 develop_LDADD = $(LIBS) liboctetos-core.la
@@ -69,7 +67,7 @@ develop_CXXFLAGS = $(FLAGS)
 develop_2_SOURCES = develop-2.cc 
 develop_2_LDADD = $(LIBS) liboctetos-core.la
 develop_2_CXXFLAGS = $(FLAGS)
- 
+
 version_SOURCES = version-main.cc 
 version_LDADD = $(LIBS) liboctetos-core.la
 version_CXXFLAGS = $(FLAGS) 
@@ -88,7 +86,7 @@ develop_lexer_flex_c90_SOURCES = lexer-c90.l
 develop_lexer_flex_c90_LDADD = -lfl
 develop_lexer_flex_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS)
 
-
 occ_c90_SOURCES = main-occ-c90.cc
 occ_c90_LDADD = 
 occ_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS) 
+
