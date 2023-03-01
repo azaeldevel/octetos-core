@@ -398,9 +398,9 @@ public:
 		prev_transition = NULL;
 		token_start = index;
 		token_end = 0;
-		prefix_transition = NULL;
+		//prefix_transition = NULL;
 		acceptable_transition = NULL;
-		bool prefix_ended = false;
+		//bool prefix_ended = false;
 		bool acceptable_ended = false;
 	    const Symbol* buff = (const Symbol*)*buffer;
 		prefix_start = 0;
@@ -417,24 +417,6 @@ public:
                 actual_transition = table->get(actual_status,input);
                 next_status = actual_transition->next;
 
-				//--prefix-->accept|reject
-				if (actual_transition->indicator == Indicator::prefix)
-				{
-					prefix_transition = actual_transition;
-					prefix_start = index;
-				}
-				else if (actual_transition->indicator == Indicator::accept) prefix_ended = true;
-				else if (actual_transition->indicator == Indicator::reject) prefix_ended = true;
-
-				//--acceptable-->accept|reject
-				/*if (actual_transition->indicator == Indicator::acceptable and not acceptable_ended)
-				{
-					acceptable_transition = actual_transition;
-				}
-				else if (actual_transition->indicator == Indicator::accept) acceptable_ended = true;
-				else if (actual_transition->indicator == Indicator::reject) acceptable_ended = true;*/
-				//>>>
-
 				//--acceptable-->acceptable|accept
 				if (actual_transition->indicator == Indicator::acceptable and not acceptable_ended)
 				{
@@ -442,8 +424,7 @@ public:
 				}
 				else if (actual_transition->indicator == Indicator::accept) acceptable_ended = true;
 				else if (actual_transition->indicator == Indicator::reject) acceptable_ended = true;
-				//>>>
-
+				
 			}
 
             //std::cout << "whiel : Step 2\n";
@@ -473,12 +454,6 @@ public:
 				{
 					//std::cout << "terminating ...by prefix\n";
 					token_end = index;
-					break;
-				}
-				else if (prefix_transition and prefix_ended)
-				{
-					//std::cout << "terminating ...by prefix\n";
-					index = prefix_start;
 					break;
 				}
 				else if (actual_transition->indicator == Indicator::accept)
@@ -524,11 +499,6 @@ public:
 		}
 		else if (actual_transition->indicator == Indicator::accept)
 		{
-			return actual_transition->token;
-		}
-		else if (prefix_transition and prefix_ended)
-		{
-			index = index - prefix_start + 1;
 			return actual_transition->token;
 		}
 		else if (actual_transition->indicator == Indicator::error)
