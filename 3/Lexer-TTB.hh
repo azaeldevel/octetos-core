@@ -297,92 +297,7 @@ protected:
 
 		return state_next;
 	}
-
-    /*
-	*\brief equivalente a eloperador de expresion regular ?
-	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
-	*\param token token retornado por el analizador si detecta la palabra
-	*/
-	/*constexpr State one(const Symbol* symbols_array, size_t symbols_length, Token token,Flag flag)
-	{
-		State state_current = initial_state, state_next = initial_state;
-		if (symbols_length == 0)
-		{
-			error = errors::fail_on_one_empty;
-			return -1;
-		}
-
-		for (size_t i = 0; i < symbols_length; i++)
-		{
-			if(error > errors::none) return -1;
-			if(not is_symbol(symbols_array[i]))
-			{
-				error = errors::fail_on_one_not_symbol;
-				return -1;
-			}
-		}
-		if(flag == Flag::only_free)
-		{
-			state_next = create();
-			if(state_next < 0) return -1;
-			if(error > errors::none) return -1;
-			//prefixing(state_next,prefixs_array,prefixs_length,token);
-			for (size_t i = 0; i < symbols_length; i++)
-			{
-				if (not is_used(symbols_array[i],state_current)) get(state_current,symbols_array[i])->next = state_next;
-			}
-		}
-		else if(Flag::error == flag)
-		{
-			state_next = create();
-			if(state_next < 0) return -1;
-			if(error > errors::none) return -1;
-			//sprefixing(state_next,prefixs_array,prefixs_length,token);
-			for (size_t i = 0; i < symbols_length; i++)
-			{
-				if(is_used(symbols_array[i],state_current))
-				{
-					error = errors::fail_on_one_used_transition;
-					return -1;
-				}
-				get(state_current,symbols_array[i])->next = state_next;
-			}
-		}
-
-		return state_next;
-	}*/
-
-	/*
-	*\brief Un simbolo
-	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
-	*\param token token retornado por el analizador si detecta la palabra
-	*/
-	/*constexpr State one(Symbol symbol, Token token, const Symbol* prefixs, size_t length , Flag flag = Flag::none)
-	{
-		State state_next = initial_state;
-
-		if(error > errors::none) return -1;
-		if(not is_symbol(symbol))
-		{
-			error = errors::fail_on_one_not_symbol;
-			return -1;
-		}
-
-		if (is_used(symbol,initial_state))
-		{
-			error = errors::fail_on_one_used_transition;
-			return -1;
-		}
-
-		state_next = create();
-		if(error > errors::none) return -1;
-		if(state_next < 0) return -1;
-		State state_prefix  = prefixing(state_next,prefixs,length,token);
-        if(state_prefix < 0 ) return state_prefix;
-
-		return state_next;
-	}*/
-
+	
 	/*
 	*\brief equivalente a el operador de expresion regular +
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
@@ -431,9 +346,7 @@ protected:
             {
                 trans->indicator = Indicator::acceptable;
 				trans->token = token;
-				prefixing(trans->next,prefixs_array,prefixs_length,token);
-            }
-
+            }				
         }
     }
 
