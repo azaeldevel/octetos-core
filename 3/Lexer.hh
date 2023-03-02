@@ -397,7 +397,7 @@ public:
 		actual_transition = NULL;
 		prev_transition = NULL;
 		token_start = index;
-		token_end = index;
+		token_end = index;//TODO : maybe this asignation could be remove
 		//prefix_transition = NULL;
 		acceptable_transition = NULL;
 		//bool prefix_ended = false;
@@ -465,10 +465,11 @@ public:
 				else if (actual_transition->indicator == Indicator::unknow) terminate_and_advance = true;
 				else if (actual_transition->indicator == Indicator::error) terminate_and_advance = true;
 				else if (actual_transition->next < 0) terminate_and_advance = true;
+
 				if (terminate_and_advance)
 				{
 					index++;
-					token_end = index + 1;
+					token_end = index;
 					//std::cout << "terminating ...\n";
 					break;
 				}
@@ -477,7 +478,7 @@ public:
 			//repetir loop
 			{
 				index++;
-				token_end = index;//TODO : maybe this asignation coulb be remove
+				token_end = index;//TODO : maybe this asignation could be remove
 				actual_status = next_status;
 				prev_transition = actual_transition;
 			}
