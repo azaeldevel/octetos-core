@@ -34,7 +34,7 @@
 #include <initializer_list>
 #include <iterator>
 
-#include "lexer.hh"
+#include "Lexer.hh"
 #include "Buffer.hh"
 
 namespace oct::core::v3::lex

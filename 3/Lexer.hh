@@ -397,7 +397,7 @@ public:
 		actual_transition = NULL;
 		prev_transition = NULL;
 		token_start = index;
-		token_end = 0;
+		token_end = index;
 		//prefix_transition = NULL;
 		acceptable_transition = NULL;
 		//bool prefix_ended = false;
@@ -424,7 +424,7 @@ public:
 				}
 				else if (actual_transition->indicator == Indicator::accept) acceptable_ended = true;
 				else if (actual_transition->indicator == Indicator::reject) acceptable_ended = true;
-				
+
 			}
 
             //std::cout << "whiel : Step 2\n";
@@ -468,7 +468,7 @@ public:
 				if (terminate_and_advance)
 				{
 					index++;
-					token_end = index;
+					token_end = index + 1;
 					//std::cout << "terminating ...\n";
 					break;
 				}
@@ -477,7 +477,7 @@ public:
 			//repetir loop
 			{
 				index++;
-				token_end = index;
+				token_end = index;//TODO : maybe this asignation coulb be remove
 				actual_status = next_status;
 				prev_transition = actual_transition;
 			}
