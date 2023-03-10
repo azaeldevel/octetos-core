@@ -26,4 +26,8 @@ develop_lexer_flex_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS)
 
 occ_c90_SOURCES = main-occ-c90.cc
 occ_c90_LDADD = 
-occ_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS) 
+occ_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS)
+ 
+oas_SOURCES = lexer-c90.l
+oas_LDADD = -lfl
+oas_CXXFLAGS = $(OCTETOS_CC_CFLGAS)
