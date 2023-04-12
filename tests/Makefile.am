@@ -1,5 +1,5 @@
 
-check_PROGRAMS = v2 v3 v2-v3
+check_PROGRAMS = v2
 TESTS= $(check_PROGRAMS)
 
 LIBS = $(OCTETOS_CORE_BASE_LIBS) $(CUNIT_LIBS) $(top_builddir)/src/liboctetos-core.la

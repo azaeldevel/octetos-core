@@ -114,7 +114,7 @@ namespace oct::core
 
 namespace octetos::core
 {
-	typedef oct::core::Licence [[deprecated]] Licence;
+	typedef oct::core::Licence Licence;
 }
 
 #endif

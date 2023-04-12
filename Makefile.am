@@ -1,11 +1,14 @@
 
-SUBDIRS = 3
+SUBDIRS = src
 
 if WITH_DOCS
 SUBDIRS +=  docs
 endif
 if WITH_EXAMPLES
 SUBDIRS += examples
+endif
+if WITH_TESTS
+SUBDIRS += tests
 endif
 
 # SUBDIRS += po

@@ -1,9 +1,8 @@
-AC_INIT(octetos-core,3.0.0-alpha, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.62.0-beta, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
 AC_PROG_CXX
-AM_PROG_LEX
 AX_CXX_COMPILE_STDCXX(20)
 
 dnl ***************************************************************************
@@ -61,4 +60,6 @@ AC_ARG_WITH([examples], AS_HELP_STRING([--with-examples], [Compilando con soport
 
 AC_OUTPUT([
 Makefile
-3/Makefile])
+src/octetos-core.pc
+src/Makefile
+tests/Makefile])

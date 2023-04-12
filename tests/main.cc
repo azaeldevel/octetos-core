@@ -2,8 +2,10 @@
 #include <iostream>
 #include <CUnit/Basic.h>
 
-#if defined __linux__
-    #include "config.h"
+#if defined(__linux__) && defined IDE_CODEBLOCKS
+
+#elif defined __linux__
+
 #elifdef _WIN32 || _WIN64
 
 #else
@@ -75,40 +77,12 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	if ((NULL == CU_add_test(pSuite_v2, "Operaciones genéricas", v2_testOperations_v100)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
 	if ((NULL == CU_add_test(pSuite_v2, "Validacion de Operaciones semver v1.0.0", v2_testImports_v100)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
 
-	/*if ((NULL == CU_add_test(pSuite_v2, "Validacion de parseo semver v2.0.0", v2_testParseString_v200)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-
-	if ((NULL == CU_add_test(pSuite_v2, "Memory modules", v2_testMemory)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}*/
-
-	if ((NULL == CU_add_test(pSuite_v2, "Data modules", v2_testData)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-
-	if ((NULL == CU_add_test(pSuite_v2, "Prueba de Shell class..", v2_testShell)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
 
 	if ((NULL == CU_add_test(pSuite_v2, "Developing..", v2_developing)))
 	{

@@ -25,7 +25,7 @@
 #if defined(__linux__) && defined IDE_CODEBLOCKS
 	#include "config-win.h"
 #elif defined(__linux__)
-
+	#include "config.h"
 #elif defined(_WIN32) || defined(_WIN64)
     #include "config-win.h"
 #else

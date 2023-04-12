@@ -14,19 +14,18 @@
 #include <list>
 #include <algorithm>
 
-#if defined(__linux__)
-    #include "../src/Artifact-v2.hh"
-    #include "../src/memory.hh"
-    #include "../src/data.hh"
-    #include "../src/shell.hh"
+#if defined(__linux__) && defined IDE_CODEBLOCKS
+
+#elif defined(__linux__)
+
 #elif defined(_WIN32) || defined(_WIN64)
-    #include <core/src/Artifact-v2.hh>
-    #include <core/src/memory.hh>
-    #include <core/src/data.hh>
-    #include <core/src/shell.hh>
+
 #else
 	#error "Plataforma desconocida"
 #endif
+
+#include "../src/Artifact-v2.hh"
+#include "../src/Error.hh"
 
 static std::string bdir;
 
@@ -37,10 +36,6 @@ void v2_testParseString_v100();
 void v2_testParseString_v200();
 void v2_testComparators_v100();
 void v2_testOperations_v100();
-void v2_testMemory();
-void v2_testShell();
-void v2_testData();
-void v2_testShell();
 void v2_reduced_parser();
 void v2_developing();
 
