@@ -28,10 +28,10 @@
 namespace oct::core::v2
 {
 
-	Exception::Exception() : filename(NULL), line(0)
+	Exception::Exception() : line(0),filename(NULL)
 	{
 	}
-    Exception::Exception(const std::string& msg) : filename(NULL),line(0)
+    Exception::Exception(const std::string& msg) : line(0),filename(NULL)
     {
 		message = msg;
         text = msg;
@@ -76,13 +76,13 @@ namespace oct::core::v2
 
 
 
-    InternalException::InternalException() : filename(NULL),line(-1),code(-1)
+    InternalException::InternalException() : line(-1),code(-1),filename(NULL)
     {
     }
-    InternalException::InternalException(int c) : filename(NULL),line(-1),code(c)
+    InternalException::InternalException(int c) : line(-1),code(c),filename(NULL)
     {
     }
-    InternalException::InternalException(int c,const char* fn,int l) : filename(fn),line(l),code(c)
+    InternalException::InternalException(int c,const char* fn,int l) : line(l),code(c),filename(fn)
     {
     }
 }

@@ -70,7 +70,7 @@ public:
 
 namespace octetos::core
 {
-	typedef oct::core::Buffer [[deprecated]] Buffer;
+	typedef oct::core::Buffer Buffer;
 }
 
 #endif

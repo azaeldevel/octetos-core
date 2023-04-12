@@ -33,7 +33,7 @@ namespace oct::core::v3
 
 
 
-Semver::Tray::Tray(const char* str, Semver* ver) : buffer(str), version(ver)
+Semver::Tray::Tray(const char* str, Semver* ver) : version(ver),buffer(str)
 {
 }
 
@@ -310,7 +310,7 @@ int Semver::yylex(Semver::Tray* ty)
 				//std::cout << "Estado : PRERELEASE_VALUE\n";
 				//std::cout << "PRER- '" << c << "'\n";
 				char c_post = ty->buffer.check_char(1);
-				while(is_digit(c_post) or is_letter(c_post) and c_post != '+')
+				while((is_digit(c_post) or is_letter(c_post)) and c_post != '+')
 				{
 					//std::cout << "c : '" << c << "'\n";
 					c = ty->buffer.next_char();

@@ -82,11 +82,11 @@ namespace oct::core::v2
 namespace oct::core::v3
 {
 	template < class T >
-	concept Number = std::is_same_v<T, float> or std::is_same_v<T, double> or std::is_same_v<T, int> or std::is_same_v<T, unsigned int> or std::is_same_v<T, long> or std::is_same_v<T, unsigned long>;
+	concept number = std::is_same_v<T, float> or std::is_same_v<T, double> or std::is_same_v<T, int> or std::is_same_v<T, unsigned int> or std::is_same_v<T, long> or std::is_same_v<T, unsigned long>;
 
 
 	//>>>Media
-	template<Number Data> Data media(size_t length, const Data* n)
+	template<number Data> Data media(size_t length, const Data* n)
 	{
 		//std::cout << "media<T>(...)\n";
 		Data v = Data(0);
@@ -99,7 +99,7 @@ namespace oct::core::v3
 		//std::cout << "media<T>(...)  m : " << m << "\n";
 		return m;
 	}
-	template<class Container, Number Data> double media(size_t length, const Container* data, const Data Container::* member)
+	template<class Container, number Data> double media(size_t length, const Container* data, const Data Container::* member)
 	{
 		//std::cout << "media<T>(...)\n";
 		double v = double(0);
@@ -113,7 +113,7 @@ namespace oct::core::v3
 		return m;
 	}
 	//https://www.scs.stanford.edu/~dm/blog/param-pack.html,https://iamsorush.com/posts/cpp-variadic-template/
-	template<Number T, typename ...Args> T media(Args... args)
+	template<number T, typename ...Args> T media(Args... args)
 	{
 		//std::cout << "media<T>(...)\n";
 		T sigma = (args + ...);
@@ -122,7 +122,7 @@ namespace oct::core::v3
 		//std::cout << "media<T>(...)  m : " << m << "\n";
 		return m;
 	}
-	template<Number T, Number R, typename ...Args> R media(Args... args)
+	template<number T, number R, typename ...Args> R media(Args... args)
 	{
 		//std::cout << "media<T>(...)\n";
 		T sigma = (args + ...);
@@ -134,7 +134,7 @@ namespace oct::core::v3
 
 
 	//desviacion estandar
-	template<Number Data> Data desv(size_t length, const Data* numbers)
+	template<number Data> Data desv(size_t length, const Data* numbers)
 	{
 		//std::cout << "media<T>(...)\n";
 		Data m = media<Data>(length, numbers);
@@ -149,7 +149,7 @@ namespace oct::core::v3
 		v = sqrt(v);
 		return v;
 	}
-	template<typename Container, Number Data> Data desv(size_t length, const Container* data, const Data Container::* member)
+	template<typename Container, number Data> Data desv(size_t length, const Container* data, const Data Container::* member)
 	{
 		//std::cout << "media<T>(...)\n";
 		Data m = media<Container>(length, data, member);
@@ -164,9 +164,9 @@ namespace oct::core::v3
 		v = sqrt(v);
 		return v;
 	}
-	template<Number T, typename ...Args> T desv(Args... args)
+	template<number T, typename ...Args> T desv(Args... args)
 	{
-		//std::cout << "desv<T>(...)\n";	
+		//std::cout << "desv<T>(...)\n";
 		T m = media<T>(args...);
 		//std::cout << "media : " << m << "\n";
 
@@ -177,9 +177,9 @@ namespace oct::core::v3
 
 		return d;
 	}
-	template<Number T, Number R, typename ...Args> R desv(Args... args)
+	template<number T, number R, typename ...Args> R desv(Args... args)
 	{
-		//std::cout << "desv<T>(...)\n";	
+		//std::cout << "desv<T>(...)\n";
 		R m = media<T, R>(args...);
 		//std::cout << "media : " << m << "\n";
 

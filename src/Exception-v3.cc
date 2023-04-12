@@ -33,7 +33,7 @@ namespace oct::core::v3
 Exception::Exception() noexcept : _code(0),_filename(NULL),_line(0),_message(NULL),autofree(false)
 {
 }
-Exception::Exception(const Exception& e) noexcept : _code(e._code),_filename(e._filename),_line(e._line),autofree(e.autofree),_message(NULL)
+Exception::Exception(const Exception& e) noexcept : _code(e._code),_filename(e._filename),_line(e._line),_message(NULL),autofree(e.autofree)
 {
 	if(autofree) copy(e._message);
 }
@@ -51,10 +51,10 @@ Exception::Exception(unsigned int c,const char* fn, unsigned int l) noexcept : _
 {
 }
 
-Exception::Exception(unsigned int c,const char* s) noexcept : _code(c),_message(s),_filename(NULL),_line(0),autofree(false)
+Exception::Exception(unsigned int c,const char* s) noexcept : _code(c),_filename(NULL),_line(0),_message(s),autofree(false)
 {
 }
-Exception::Exception(unsigned int c,const char* s,const char* fn, unsigned int l) noexcept: _code(c),_message(s),_filename(fn),_line(l),autofree(false)
+Exception::Exception(unsigned int c,const char* s,const char* fn, unsigned int l) noexcept: _code(c),_filename(fn),_line(l),_message(s),autofree(false)
 {
 }
 
@@ -77,10 +77,10 @@ Exception::Exception(unsigned int c,const std::string& m,const char* f, unsigned
 }
 
 
-Exception::Exception(const char* s) noexcept : _code(0),_message(s),_filename(NULL),_line(0),autofree(false)
+Exception::Exception(const char* s) noexcept : _code(0),_filename(NULL),_line(0),_message(s),autofree(false)
 {
 }
-Exception::Exception(const char* s,const char* fn, unsigned int l) noexcept : _code(0),_message(s),_filename(fn),_line(l),autofree(false)
+Exception::Exception(const char* s,const char* fn, unsigned int l) noexcept : _code(0),_filename(fn),_line(l),_message(s),autofree(false)
 {
 }
 
@@ -94,7 +94,7 @@ void Exception::copy(const std::string& m)
 	char* msg = new char[m.size() + 1];
 #ifdef COMPILER_VS
 	strcpy_s(msg, m.size(), m.c_str());
-#elif defined COMPILER_GCC
+#elif defined __GNUC__
 	strcpy(msg,m.c_str());
 #else
 	#error "Compilador desconocido"
@@ -107,7 +107,7 @@ void Exception::copy(const char* m)
 	char* msg = new char[size_m + 1];
 #ifdef COMPILER_VS
 	strcpy_s(msg, size_m, m);
-#elif defined COMPILER_GCC
+#elif defined __GNUC__
 	strcpy(msg,m);
 #else
 #error "Compildaor desconocido"

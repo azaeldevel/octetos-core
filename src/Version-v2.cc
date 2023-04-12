@@ -22,8 +22,10 @@
 #include <typeinfo>
 #include <string.h>
 
-#if defined(__linux__)
-    #include <config.h>
+#if defined(__linux__) && defined IDE_CODEBLOCKS
+	#include "config-win.h"
+#elif defined(__linux__)
+
 #elif defined(_WIN32) || defined(_WIN64)
     #include "config-win.h"
 #else
@@ -255,7 +257,7 @@ namespace oct::core::v2
         patch = v.patch;
         if(v.prerelease)copy_prerelease(v.prerelease);
         if(v.build)copy_build(v.build);
-		
+
         return *this;
     }
     const octetos_core_Semver& Semver::operator =(const octetos_core_Semver& v)
@@ -316,9 +318,9 @@ namespace oct::core::v2
     }
 
     std::string Semver::toString(FormatString formato) const
-    {		
+    {
 		std::string strver;
-				
+
 		if(major > -1)
 		{
 			strver += std::to_string(major);
@@ -327,17 +329,17 @@ namespace oct::core::v2
 				strver += "." + std::to_string(minor);
 				if(patch > -1)
 				{
-					strver +=  "." + std::to_string(patch);					
-				}				
-			}			
+					strver +=  "." + std::to_string(patch);
+				}
+			}
 		}
-		
+
 		if(prerelease)
 		{
 			strver += "-";
 			strver += prerelease;
 		}
-		
+
 		if(build)
 		{
 			strver += "+";
@@ -404,7 +406,7 @@ namespace oct::core::v2
 
     bool Semver::empty() const
     {
-        if (major < 0 or minor < 0 and patch < 0) return true;
+        if (major < 0 and minor < 0 and patch < 0) return true;
         return false;
     }
 
@@ -415,7 +417,7 @@ namespace oct::core::v2
 	{
 	}
 
-	
+
     void Semver::copy_prerelease(const char* prer)
     {
         if (prerelease) delete[] prerelease;
@@ -423,7 +425,7 @@ namespace oct::core::v2
         prerelease = new char[leng];
 #ifdef COMPILER_VS
         strcpy_s(prerelease, leng, prer);
-#elif defined COMPILER_GCC
+#elif defined __GNUC__
         strcpy(prerelease, prer);
 #else
 #error "Compilador Desconocido."
@@ -441,7 +443,7 @@ namespace oct::core::v2
         build = new char[leng];
 #ifdef COMPILER_VS
         strcpy_s(build, leng, strb);
-#elif defined COMPILER_GCC
+#elif defined __GNUC__
         strcpy(build, strb);
 #else
 #error "Compilador Desconocido."

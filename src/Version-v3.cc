@@ -22,7 +22,10 @@
 #include <typeinfo>
 #include <string.h>
 
-#if defined(__linux__)
+#if defined(__linux__) && IDE_CODEBLOCKS
+	#include "Exception-v3.hh"
+	#include "config-win.h"
+#elif defined(__linux__)
     #include <config.h>
 	#include "Exception-v3.hh"
 #elif defined(_WIN32) || defined(_WIN64)
@@ -385,7 +388,7 @@ namespace oct::core::v3
 
     bool Semver::empty() const
     {
-        if (major < 0 or minor < 0 and patch < 0) return true;
+        if (major < 0 and minor < 0 and patch < 0) return true;
         return false;
     }
 
@@ -397,7 +400,7 @@ namespace oct::core::v3
         prerelease = new char[leng];
 #ifdef COMPILER_VS
         strcpy_s(prerelease, leng, prer);
-#elif defined COMPILER_GCC
+#elif defined __GNUC__
         strcpy(prerelease, prer);
 #else
 #error "Compilador Desconocido."
@@ -416,7 +419,7 @@ namespace oct::core::v3
 
 #ifdef COMPILER_VS
         strcpy_s(build, leng, strb);
-#elif defined COMPILER_GCC
+#elif defined __GNUC__
         strcpy(build, strb);
 #else
 #error "Compilador Desconocido."

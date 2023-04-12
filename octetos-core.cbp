@@ -6,28 +6,6 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="bin/Debug/octetos-core" prefix_auto="1" extension_auto="1" />
-				<Option object_output="bin/obj/Debug/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Option projectCompilerOptionsRelation="0" />
-				<Compiler>
-					<Add option="-g" />
-				</Compiler>
-			</Target>
-			<Target title="Release">
-				<Option output="bin/Release/octetos-core" prefix_auto="1" extension_auto="1" />
-				<Option object_output="bin/obj/Release/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-O2" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
-			</Target>
 			<Target title="liboctetos-core-dbg">
 				<Option output="bin/Debug/octetos-core.dll" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="0" />
 				<Option object_output="bin/obj/Debug/" />
@@ -35,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wall -g -std=c++20" />
+					<Add option="-DIDE_CODEBLOCKS" />
 				</Compiler>
 			</Target>
 			<Target title="version">
@@ -71,92 +50,58 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall -std=c++20" />
-			<Add option="-DCOMPILER_GCC" />
+			<Add option="-DIDE_CODEBLOCKS" />
 			<Add directory="../../octetos" />
 		</Compiler>
 		<Unit filename="src/Buffer-v3.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Buffer-v3.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Buffer.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Buffer.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Error.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Error.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Exception-v2.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Exception-v2.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Exception-v3.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Exception-v3.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Exception.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Version-parser-v2.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Version-parser-v3.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Version-v2.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Version-v2.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Version-v3.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/Version-v3.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 			<Option target="develop-arrays" />
 		</Unit>
@@ -169,26 +114,10 @@
 		<Unit filename="src/develop-lexer-CD.cc">
 			<Option target="develop-lexer-CD" />
 		</Unit>
-		<Unit filename="src/lexer-TTA-v3.hh">
-			<Option target="develop-lexer-CD" />
-		</Unit>
-		<Unit filename="src/lexer-TTB-v3.hh">
-			<Option target="develop-lexer-CD" />
-		</Unit>
-		<Unit filename="src/lexer-TTC-v3.hh">
-			<Option target="develop-lexer-CD" />
-		</Unit>
-		<Unit filename="src/lexer-v3.hh">
-			<Option target="develop-lexer-CD" />
-		</Unit>
 		<Unit filename="src/semver-lexer.2.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/semver-lexer.3.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="liboctetos-core-dbg" />
 		</Unit>
 		<Unit filename="src/version-main.cc">
