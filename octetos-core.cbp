@@ -12,6 +12,7 @@
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-fPIC" />
 					<Add option="-Wall -g -std=c++20" />
 					<Add option="-DIDE_CODEBLOCKS" />
 				</Compiler>
@@ -46,6 +47,22 @@
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
+			</Target>
+			<Target title="tests-v2">
+				<Option output="bin/Debug/tests-v2" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="`pkg-config --cflags cunit`" />
+					<Add option="-DOCTETOS_CORE_V2" />
+					<Add directory="../core" />
+					<Add directory="bin/Debug" />
+				</Compiler>
+				<Linker>
+					<Add option="`pkg-config --libs cunit`" />
+					<Add library="octetos-core" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
@@ -122,6 +139,15 @@
 		</Unit>
 		<Unit filename="src/version-main.cc">
 			<Option target="version" />
+		</Unit>
+		<Unit filename="tests/main.cc">
+			<Option target="tests-v2" />
+		</Unit>
+		<Unit filename="tests/v2.cc">
+			<Option target="tests-v2" />
+		</Unit>
+		<Unit filename="tests/v2.hh">
+			<Option target="tests-v2" />
 		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
