@@ -1,9 +1,9 @@
-AC_INIT(octetos-core,2.62.0-beta, azael.devel@gmail.com)
+AC_INIT(octetos-core,2.62.1-beta, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
 AC_PROG_CXX
-AX_CXX_COMPILE_STDCXX(20)
+dnl AX_CXX_COMPILE_STDCXX(20)
 
 dnl ***************************************************************************
 dnl Internationalization
