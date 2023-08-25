@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <initializer_list>
-
+#include "entity.hh"
 #include "Exception.hh"
 
 namespace oct::core::v3
@@ -14,7 +14,7 @@ namespace oct::core::v3
     *\param T Tipo de dato de la secuencia
     *\param S La cantidad de datos, si es 0, la asignacion es dinamica
     **/
-    template<typename T,size_t S> class array
+    template<typename T,size_t S> class array : public Entity
     {
     protected:
         T data[S];

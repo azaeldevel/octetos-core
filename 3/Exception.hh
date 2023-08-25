@@ -25,11 +25,13 @@
 #include <source_location>
 #include <string>
 
+#include "entity.hh"
+
 
 namespace oct::core::v3
 {
 
-class exception
+class exception : public Entity
 {
 public:
 	typedef int errono;
