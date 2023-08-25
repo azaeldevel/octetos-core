@@ -36,20 +36,20 @@ public:
 	static const errono err_none = 0;
 
 public:
-	exception(const exception&)noexcept = default;
-	exception(exception&&) noexcept = default;
+	constexpr exception(const exception&)noexcept = default;
+	constexpr exception(exception&&) noexcept = default;
 
 
-	exception(const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _code_flag(false), _location(location)
+	constexpr exception(const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _code_flag(false), _location(location)
 	{
 	}
-	exception(errono code, const std::source_location& location = std::source_location::current())noexcept : _code(code), _code_flag(true), _location(location)
+	constexpr exception(errono code, const std::source_location& location = std::source_location::current())noexcept : _code(code), _code_flag(true), _location(location)
 	{
 	}
-	exception(errono code, const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(code), _code_flag(true), _message(message), _location(location)
+	constexpr exception(errono code, const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(code), _code_flag(true), _message(message), _location(location)
 	{
 	}
-	exception(const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _code_flag(false), _message(message), _location(location)
+	constexpr exception(const std::string& message, const std::source_location& location = std::source_location::current())noexcept : _code(err_none), _code_flag(false), _message(message), _location(location)
 	{
 	}
 	virtual ~exception()noexcept

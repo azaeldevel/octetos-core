@@ -2,15 +2,7 @@
 #include <iostream>
 #include <CUnit/Basic.h>
 
-#if defined(__linux__) && defined IDE_CODEBLOCKS
 
-#elif defined __linux__
-
-#elifdef _WIN32 || _WIN64
-
-#else
-
-#endif
 #ifdef OCTETOS_CORE_V2
 	#include "v2.hh"
 #endif
@@ -103,6 +95,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+    #ifdef OCTETOS_CORE_V3_OCC
 	if ((NULL == CU_add_test(pSuite_v3, "Lenguaje Collection, inner Semver..", v3_lc_innier_semver)))
 	{
 		CU_cleanup_registry();
@@ -123,6 +116,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}*/
+	#endif
 #endif
 
 	/* Run all tests using the CUnit Basic interface */
