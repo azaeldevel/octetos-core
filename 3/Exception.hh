@@ -31,7 +31,7 @@
 namespace oct::core::v3
 {
 
-class exception : public Entity
+class exception
 {
 public:
 	typedef int errono;

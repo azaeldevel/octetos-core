@@ -14,7 +14,7 @@ namespace oct::core::v3
     *\param T Tipo de dato de la secuencia
     *\param S La cantidad de datos, si es 0, la asignacion es dinamica
     **/
-    template<typename T,size_t S> class array : public Entity
+    template<typename T,size_t S> class array
     {
     protected:
         T data[S];
