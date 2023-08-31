@@ -49,25 +49,25 @@ namespace oct::core::v3
         {
             if(i < S) return data[i];
 
-            throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
+            throw std::out_of_range("Indice fuera de rango");
         }
         constexpr const T& operator [](size_t i) const
         {
             if(i < S) return data[i];
 
-            throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
+            throw std::out_of_range("Indice fuera de rango");
         }
         constexpr const T& at(size_t i) const
         {
             if(i < S) return data[i];
 
-            throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
+            throw std::out_of_range("Indice fuera de rango");
         }
         constexpr T& at(size_t i)
         {
             if(i < S) return data[i];
 
-            throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
+            throw std::out_of_range("Indice fuera de rango");
         }
         constexpr array& operator =(const array& s)
         {
