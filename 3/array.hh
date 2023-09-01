@@ -90,6 +90,23 @@ namespace oct::core::v3
             return *this;
         }
 
+        operator T*()
+        {
+            return &data;
+        }
+        operator const T*() const
+        {
+            return &data;
+        }
+        operator void*()
+        {
+            return &data;
+        }
+        operator const void*() const
+        {
+            return &data;
+        }
+
 
         constexpr size_t size() const
         {
