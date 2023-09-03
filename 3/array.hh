@@ -90,21 +90,21 @@ namespace oct::core::v3
             return *this;
         }
 
-        operator T*()
+        constexpr operator T*()
         {
-            return &data;
+            return data;
         }
-        operator const T*() const
+        constexpr operator const T*() const
         {
-            return &data;
+            return data;
         }
-        operator void*()
+        constexpr operator void*()
         {
-            return &data;
+            return data;
         }
-        operator const void*() const
+        constexpr operator const void*() const
         {
-            return &data;
+            return data;
         }
 
 
