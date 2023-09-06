@@ -1,6 +1,6 @@
 
-#ifndef OCTETOS_CORE_ARRAYS
-#define OCTETOS_CORE_ARRAYS
+#ifndef OCTETOS_CORE_V3_ARRAYS
+#define OCTETOS_CORE_V3_ARRAYS
 
 #include <iostream>
 #include <initializer_list>

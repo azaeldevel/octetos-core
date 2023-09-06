@@ -32,13 +32,14 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="--std=c++20 -Wall" />
+			<Add option="--std=c++20 -Wall -pedantic" />
 			<Add option="-DOCTETOS_CORE_V3" />
 			<Add directory="../../octetos" />
 		</Compiler>
 		<Unit filename="3/Exception.hh" />
 		<Unit filename="3/array.hh" />
 		<Unit filename="3/entity.hh" />
+		<Unit filename="3/tree.hh" />
 		<Unit filename="tests/main.cc" />
 		<Unit filename="tests/v3.cc" />
 		<Unit filename="tests/v3.hh" />

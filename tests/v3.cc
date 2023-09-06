@@ -11,6 +11,7 @@
 #elif defined(_WIN32) || defined(_WIN64)
     #include <core/src/Exception-v3.hh>
     //#include <core/src/Version-v3.hh>
+    #include <core/3/array.hh>
 #else
 	#error "Plataforma desconocida"
 #endif
@@ -31,6 +32,11 @@ int v3_clean(void)
 
 void v3_developing()
 {
+
+
+}
+void v3_array()
+{
     core::array<int,6> array1 {-1,5,6,9,8,7};
     CU_ASSERT(array1[0] == -1);
     CU_ASSERT(array1[1] == 5);
@@ -48,4 +54,3 @@ void v3_developing()
     CU_ASSERT(base1[5] == 7);
 
 }
-
