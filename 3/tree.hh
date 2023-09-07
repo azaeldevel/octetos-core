@@ -30,7 +30,8 @@ namespace oct::core::v3
 
 struct Node
 {
-    //virtual T& value() = 0;
+    virtual bool is_branch() = 0;
+    virtual bool is_data() = 0;
 };
 
 class Branch : public Node
@@ -48,9 +49,15 @@ public:
     const Node*& operator [](size_t index) const;
     Node*& at(size_t index);
     const Node*& at(size_t index) const;
-};
-struct Nested : public Branch
-{
+
+    virtual bool is_branch()
+    {
+        return true;
+    }
+    virtual bool is_data()
+    {
+        return false;
+    }
 };
 
 struct Root : public Branch
@@ -58,18 +65,28 @@ struct Root : public Branch
 public:
     Root() = default;
     Root(size_t size);
+
+
+    virtual bool is_branch()
+    {
+        return true;
+    }
+    virtual bool is_data()
+    {
+        return false;
+    }
 };
 
-template<class T> struct Type : public Node
+template<class T> struct Data : public Node
 {
     T data;
 
-    Type() = default;
-    Type(T& t) : data(t)
+    Data() = default;
+    Data(T& t) : data(t)
     {
     }
 
-    Type& operator = (const T& t)
+    Data& operator = (const T& t)
     {
         data = t;
 
@@ -83,6 +100,16 @@ template<class T> struct Type : public Node
     operator const T&() const
     {
         return data;
+    }
+
+
+    virtual bool is_branch()
+    {
+        return false;
+    }
+    virtual bool is_data()
+    {
+        return true;
     }
 };
 

@@ -64,13 +64,13 @@ void v3_tree()
 
     core::Root root1(4);
 
-    core::Type<int> num1;
+    core::Data<int> num1;
     num1 = 156;
-    core::Type<float> num2;
+    core::Data<float> num2;
     num2 = 157;
-    core::Type<double> num3;
+    core::Data<double> num3;
     num3 = 158;
-    core::Type<unsigned long> num4;
+    core::Data<unsigned long> num4;
     num4 = 159;
 
     root1[0] = &num1;
