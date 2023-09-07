@@ -39,6 +39,7 @@
 		<Unit filename="3/Exception.hh" />
 		<Unit filename="3/array.hh" />
 		<Unit filename="3/entity.hh" />
+		<Unit filename="3/numbers.hh" />
 		<Unit filename="3/tree.hh" />
 		<Unit filename="tests/main.cc" />
 		<Unit filename="tests/v3.cc" />
