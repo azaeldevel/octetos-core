@@ -20,6 +20,7 @@ int v3_init(void);
 int v3_clean(void);
 void v3_developing();
 void v3_array();
+void v3_tree();
 
 
 #endif

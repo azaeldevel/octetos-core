@@ -4,14 +4,19 @@
 
 #include <string.h>
 #include <iostream>
+#include <variant>
+
+
 #if defined(__linux__)
     //#include <src/Exception-v3.hh>
     //#include <src/Version-v3.hh>
     #include <core/3/array.hh>
+    #include <core/3/tree.hh>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <core/src/Exception-v3.hh>
     //#include <core/src/Version-v3.hh>
     #include <core/3/array.hh>
+    #include <core/3/tree.hh>
 #else
 	#error "Plataforma desconocida"
 #endif
@@ -53,4 +58,10 @@ void v3_array()
     CU_ASSERT(base1[4] == 8);
     CU_ASSERT(base1[5] == 7);
 
+}
+void v3_tree()
+{
+    core::Number<std::variant<int,float>> num1;
+    //num1 = 1.3f;
+    //std::cout << num1 << "\n";
 }

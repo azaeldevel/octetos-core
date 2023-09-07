@@ -30,26 +30,26 @@ namespace oct::core::v3
 
 template<class T> struct Node
 {
-    virtual T& value() = 0;
+    //virtual T& value() = 0;
 };
 
-template<class T> struct Branch : public Node
+template<class T> struct Branch : public Node<T>
 {
     T* childs;
 };
 
 
 
-template<class T> struct Root : public Branch
+template<class T> struct Root : public Branch<T>
 {
 };
 
-template<class T> struct Number : public Node
+template<class T> struct Number : public Node<T>
 {
     T number;
 };
 
-template<class T> struct Nested : public Branch
+template<class T> struct Nested : public Branch<T>
 {
 
 };
