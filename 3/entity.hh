@@ -23,8 +23,9 @@
  * */
 
 
- #include <concepts>
-
+#include <concepts>
+#include <cctype>
+#include <cstddef>
 
 namespace oct::core::v3
 {

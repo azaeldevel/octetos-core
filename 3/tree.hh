@@ -28,30 +28,62 @@
 namespace oct::core::v3
 {
 
-template<class T> struct Node
+struct Node
 {
     //virtual T& value() = 0;
 };
 
-template<class T> struct Branch : public Node<T>
+class Branch : public Node
 {
-    T* childs;
+private:
+    Node** childs;
+    size_t size;
+
+public:
+    Branch();
+    Branch(size_t s);
+    ~Branch();
+
+    Node*& operator [](size_t index);
+    const Node*& operator [](size_t index) const;
+    Node*& at(size_t index);
+    const Node*& at(size_t index) const;
+};
+struct Nested : public Branch
+{
 };
 
-
-
-template<class T> struct Root : public Branch<T>
+struct Root : public Branch
 {
+public:
+    Root() = default;
+    Root(size_t size);
 };
 
-template<class T> struct Number : public Node<T>
+template<class T> struct Type : public Node
 {
-    T number;
-};
+    T data;
 
-template<class T> struct Nested : public Branch<T>
-{
+    Type() = default;
+    Type(T& t) : data(t)
+    {
+    }
 
+    Type& operator = (const T& t)
+    {
+        data = t;
+
+        return *this;
+    }
+
+    operator T&()
+    {
+        return data;
+    }
+    operator const T&() const
+    {
+        return data;
+    }
 };
 
 

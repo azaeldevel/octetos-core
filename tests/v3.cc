@@ -61,7 +61,27 @@ void v3_array()
 }
 void v3_tree()
 {
-    core::Number<std::variant<int,float>> num1;
-    //num1 = 1.3f;
-    //std::cout << num1 << "\n";
+
+    core::Root root1(4);
+
+    core::Type<int> num1;
+    num1 = 156;
+    core::Type<float> num2;
+    num2 = 157;
+    core::Type<double> num3;
+    num3 = 158;
+    core::Type<unsigned long> num4;
+    num4 = 159;
+
+    root1[0] = &num1;
+    root1[1] = &num2;
+    root1[2] = &num3;
+    root1[3] = &num4;
+
+    CU_ASSERT(root1[0] == &num1);
+    CU_ASSERT(root1[1] == &num2);
+    CU_ASSERT(root1[2] == &num3);
+    CU_ASSERT(root1[3] == &num4);
+    //auto num = root1[2];
+    //std::cout << (core::Type<double>&)*num << "\n";
 }
