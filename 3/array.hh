@@ -247,7 +247,7 @@ namespace oct::core::v3
 
 
 
-#ifdef OCTETOS_NUMBERS_V0_TTD
+#ifdef OCTETOS_OCTETOS_V3_TDD
         void print(std::ostream& out, bool delim = false) const
         {
             if(delim) out << "(";

@@ -34,6 +34,7 @@
 		<Compiler>
 			<Add option="--std=c++20 -Wall -pedantic" />
 			<Add option="-DOCTETOS_CORE_V3" />
+			<Add option="-DOCTETOS_OCTETOS_V3_TDD" />
 			<Add directory="../../octetos" />
 		</Compiler>
 		<Unit filename="3/Exception.hh" />

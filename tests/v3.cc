@@ -61,7 +61,6 @@ void v3_array()
 }
 void v3_tree()
 {
-
     core::Root root1(4);
 
     core::Data<int> num1;
@@ -82,6 +81,33 @@ void v3_tree()
     CU_ASSERT(root1[1] == &num2);
     CU_ASSERT(root1[2] == &num3);
     CU_ASSERT(root1[3] == &num4);
+
+    CU_ASSERT(root1[3]->is(typeid(num4)));
+    CU_ASSERT_FALSE(root1[3]->is(typeid(num2)));
     //auto num = root1[2];
     //std::cout << (core::Type<double>&)*num << "\n";
+
+    CU_ASSERT(root1.check() == core::qualifier::branch);
+    CU_ASSERT(root1[0]->check() == core::qualifier::data);
+    CU_ASSERT(root1[1]->check() == core::qualifier::data);
+    CU_ASSERT(root1[2]->check() == core::qualifier::data);
+    CU_ASSERT(root1[3]->check() == core::qualifier::data);
+
+    core::Data<int> num5(200);
+    core::Data<int> num6(300);
+    core::Data<int> num7(25);
+    core::Data<float> num8(12.3);
+    core::Math mat1(4,core::Math::Operator::addition);
+    mat1[0] = &num5;
+    mat1[1] = &num6;
+    mat1[2] = &num7;
+    mat1[3] = &num8;
+    core::Root root2(1);
+    root2[0] = &mat1;
+
+    std::cout << "\n";
+    root2.print(std::cout);
+    std::cout << "\n";
+
+
 }
