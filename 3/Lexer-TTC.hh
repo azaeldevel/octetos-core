@@ -287,6 +287,23 @@ public:
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
+	constexpr State circular(const array<Symbol>& symbols_array)
+	{
+        State state_next = one(symbols_array);
+
+		for (size_t i = 0; i < symbols_array.size(); i++)
+		{
+			get(state_next,symbols_array[i])->next = state_next;
+		}
+
+		return state_next;
+	}
+
+	/*
+	*\brief Crea una trasicion recursiva
+	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
+	*\param token token retornado por el analizador si detecta la palabra
+	*/
 	constexpr State circular(const array<Symbol>& symbols_array, State state_next)
 	{
 		for (size_t i = 0; i < symbols_array.size(); i++)
@@ -339,13 +356,40 @@ public:
 		}
 
         state_next = create();
-        std::cout << "new state " << state_next << "\n";
+        //std::cout << "new state " << state_next << "\n";
         if(state_next < 0) return -1;
         if(error > errors::none) return -1;
         for (size_t i = 0; i < symbols_array.size(); i++)
         {
             if (not is_used(symbols_array[i],state_current)) if (not is_used(symbols_array[i],state_next))  get(state_current,symbols_array[i])->next = state_next;
         }
+
+		return state_next;
+	}
+
+	/*
+	*\brief Una transicion exactamente
+	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
+	*\param token token retornado por el analizador si detecta la palabra
+	*/
+	constexpr State one(const array<Symbol>& symbols_array, Token token, const array<Symbol>& prefixs,size_t min, size_t max)
+	{
+		State state_next;
+		if(min >= max) return -1;
+		//if(min == 0 ) return -1;
+		//if(min == 1 ) return -1;
+
+        state_next = one(symbols_array);
+		for(size_t i = 0; i < min - 1; i++)
+		{
+            state_next = one(symbols_array,state_next);
+		}
+        prefixing(state_next,prefixs,token);
+		for(size_t i = min; i < max - 1; i++)
+		{
+            state_next = one(symbols_array,state_next);
+		}
+        prefixing(state_next,prefixs,token);
 
 		return state_next;
 	}
@@ -434,57 +478,6 @@ public:
 		return state_next;
 	}
 
-	/*
-	*\brief 0 o mas de los simbolos
-	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
-	*\param token token retornado por el analizador si detecta la palabra
-	*/
-	constexpr void maybe(const array<Symbol>& symbols_array, Token token, const array<Symbol>& prefixs_array,Flag flag,State current,State target)
-    {
-        if(target == current) return;
-        if((size_t)current >= amount_states) return;
-
-        auto trans = get(0,0);
-        for (size_t i = 0; i < symbols_array.size(); i++)
-        {
-            trans = get(current,symbols_array[i]);
-            if(trans->next > 0)
-            {
-                if(trans->next == current) continue;
-                maybe(symbols_array,token,prefixs_array,flag,trans->next,target);
-            }
-
-            if(trans->indicator == Indicator::none and trans->token == Token::none and trans->next < 0)
-            {
-                trans->next = target;
-                trans->indicator = Indicator::acceptable;
-				trans->token = token;
-            }
-            else if(trans->indicator == Indicator::none and trans->token == Token::none and trans->next > 0)
-            {
-                trans->indicator = Indicator::acceptable;
-				trans->token = token;
-            }
-        }
-    }
-
-    /*
-    *\brief equvalente a eloperador de expresion regular *
-    *\param prefixs lista de simbolos que determinan que la palabra ha terminado
-    *\param token token retornado por el analizador si detecta la palabra
-    */
-    constexpr State maybe(const array<Symbol>& symbols_array, Token token, const array<Symbol>& prefixs_array,Flag flag,State extend)
-    {
-        for (size_t i = 0; i < symbols_array.size(); i++)
-        {
-            get(extend,symbols_array[i])->next = extend;
-			get(extend,symbols_array[i])->indicator = Indicator::acceptable;
-			get(extend,symbols_array[i])->token = token;
-        }
-
-        maybe(symbols_array,token,prefixs_array,flag,initial_state,extend);
-		return extend;
-    }
 
 protected:
 	State index;

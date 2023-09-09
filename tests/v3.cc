@@ -175,21 +175,45 @@ void v3_tree()
 
 }
 
-void v3_lexer_C()
+void v3_TTC_one()
 {
     const core::array<char> digits = {'0','1','2','3','4','5','6','7','8','9'};
     const core::array<char> terms = {'.','-','+',' ','\n'};
-    const core::array<char> nothing = {};
-    const char* input1 = "269.56.9-alpha+archlinux";
     typedef core::lex::TTC<char,core::Semver::Tokens,core::lex::State,11> TT;
-    TT semver_tt1;
 
-    semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
-
-    std::cout << "\n";
-    semver_tt1.print(std::cout,0);
-
+    const char* input1 = "2696565.";
     core::Buffer semver_buff1(input1);
-	core::lex::Lexer<char,core::Semver::Tokens,core::lex::State,TT> semver_lex3(semver_tt1,semver_buff1);
+
+
+    TT semver_tt1;
+    //semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
+    semver_tt1.one(digits);
+    //std::cout << "\n";
+    //semver_tt1.print(std::cout,2);
+	core::lex::Lexer<char,core::Semver::Tokens,core::lex::State,TT> semver_lex1(semver_tt1,semver_buff1);
+    //core::Semver::Tokens token1 = semver_lex1.next();
+    //CU_ASSERT(token1 == core::Semver::Tokens::number);
+
+    TT semver_tt2;
+    //semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
+    core::lex::State state_next_2 = semver_tt2.one(digits);
+    state_next_2 = semver_tt2.one(digits,state_next_2);
+    semver_tt2.prefixing(state_next_2,terms,core::Semver::Tokens::number);
+    semver_tt2.circular(digits,state_next_2);
+    std::cout << "\n";
+    semver_tt2.print(std::cout,0);
+	core::lex::Lexer<char,core::Semver::Tokens,core::lex::State,TT> semver_lex2(semver_tt2,semver_buff1);
+    core::Semver::Tokens token2 = semver_lex1.next();
+    CU_ASSERT(token2 == core::Semver::Tokens::number);
+
+
+
+    TT semver_tt3;
+    //semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
+    semver_tt3.one(digits,core::Semver::Tokens::number,terms,2,5);
+    //std::cout << "\n";
+    //semver_tt3.print(std::cout,2);
+	core::lex::Lexer<char,core::Semver::Tokens,core::lex::State,TT> semver_lex3(semver_tt3,semver_buff1);
+
 
 }

@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	if ((NULL == CU_add_test(pSuite_v3, "Lexer Tipo C class..", v3_lexer_C)))
+	if ((NULL == CU_add_test(pSuite_v3, "Lexer Tipo C class..", v3_TTC_one)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
