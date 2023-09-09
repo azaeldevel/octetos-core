@@ -21,7 +21,7 @@ int v3_clean(void);
 void v3_developing();
 void v3_array();
 void v3_tree();
-void v3_TTC_one();
+void v3_TTC();
 
 
 #endif

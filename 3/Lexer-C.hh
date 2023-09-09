@@ -566,14 +566,14 @@ public:
 			//repetir loop
 			{
 				index++;
-				string_leng++;
 				actual_status = next_status;
 				prev_transition = actual_transition;
 			}
         }
 
         {
-
+            string_leng = index - string_start;
+            index--;
         }
 
         if(actual_transition) return actual_transition->token;

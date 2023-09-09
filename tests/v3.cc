@@ -174,10 +174,10 @@ void v3_tree()
 
 }
 
-void v3_TTC_one()
+void v3_TTC()
 {
     const core::array<char> digits = {'0','1','2','3','4','5','6','7','8','9'};
-    const core::array<char> terms = {'.','-','+',' ','\n'};
+    const core::array<char> terms = {'.','-','+',' ','\n','\t'};
     typedef core::lex::TTC<char,core::Semver::Tokens,core::lex::State,11> TT;
 
     const char* input1 = "2696.";
