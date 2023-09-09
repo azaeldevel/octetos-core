@@ -90,6 +90,11 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+	if ((NULL == CU_add_test(pSuite_v3, "C++ ..", v3_cpp)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
 	if ((NULL == CU_add_test(pSuite_v3, "Developing..", v3_developing)))
 	{
 		CU_cleanup_registry();
@@ -106,11 +111,6 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 	if ((NULL == CU_add_test(pSuite_v3, "Lexer Tipo C class..", v3_TTC)))
-	{
-		CU_cleanup_registry();
-		return CU_get_error();
-	}
-	if ((NULL == CU_add_test(pSuite_v3, "C++ ..", v3_cpp)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
