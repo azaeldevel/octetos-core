@@ -178,20 +178,21 @@ void v3_TTC()
 {
     const core::array<char> digits = {'0','1','2','3','4','5','6','7','8','9'};
     const core::array<char> terms = {'.','-','+',' ','\n','\t'};
+    const core::array<char> separators = {'.','-','+'};
     typedef core::lex::TTC<char,core::Semver::Tokens,core::lex::State,11> TT;
 
-    const char* input1 = "2696.";
+    const char* input1 = "2696.69.36-alpha";
     core::Buffer semver_buff1(input1);
 
 
-    TT semver_tt1;
+    /*TT semver_tt1;
     //semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
     semver_tt1.one(digits);
     //std::cout << "\n";
     //semver_tt1.print(std::cout,2);
 	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex1(semver_tt1,semver_buff1);
     //core::Semver::Tokens token1 = semver_lex1.next();
-    //CU_ASSERT(token1 == core::Semver::Tokens::number);
+    //CU_ASSERT(token1 == core::Semver::Tokens::number);*/
 
     TT semver_tt2;
     //semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
@@ -206,9 +207,16 @@ void v3_TTC()
     semver_lex2.next(token2);
     CU_ASSERT(token2.token == core::Semver::Tokens::number);
     CU_ASSERT(token2.string.compare("2696") == 0)
-    //std::cout << "TK : " << token2.string << "\n";
+    std::cout << "TK : " << token2.string << "\n";
+    state_next_2 = semver_tt2.one(separators,0,true);
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens('.'));
+    CU_ASSERT(token2.string.compare(".") == 0)
+    std::cout << "TK : " << token2.string << "\n";
+    std::cout << "\n";
+    semver_tt2.print(std::cout,0);
 
-
+    /*std::cout << "\n\n";
     TT semver_tt3;
     //semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
     semver_tt3.one(digits,core::Semver::Tokens::number,terms,2,5);
@@ -218,6 +226,6 @@ void v3_TTC()
     core::lex::Tokenized<char,core::Semver::Tokens> token3;
     semver_lex3.next(token3);
     CU_ASSERT(token3.token == core::Semver::Tokens::number);
-    CU_ASSERT(token3.string.compare("2696") == 0)
+    CU_ASSERT(token3.string.compare("2696") == 0)*/
 
 }

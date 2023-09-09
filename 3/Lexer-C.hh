@@ -104,8 +104,7 @@ public:
 
             out << "-->" << get(state,s)->next << " ";
 
-			out << to_string(get(state,s)->indicator) << " ";
-			if (get(state,s)->token > Token::none) get(state,s)->print(out);
+			out << to_string(get(state,s)->indicator);
 			out << "\n";
 
             if(get(state,s)->next != state) if (get(state,s)->next > initial_state) print(out, get(state,s)->next,indend + 1);
@@ -238,6 +237,30 @@ public:
 
 			get(state_current,prefixs[k])->next = 0;
 			get(state_current,prefixs[k])->token = token;
+			get(state_current,prefixs[k])->indicator = Indicator::accept;
+		}
+
+		return state_current;
+	}
+
+	/*
+	*\brief Recorre todos los symbols del estado indicado, caundo encuentra algunos de los prefijos asigna dicha trasision como de aceptacion
+	*/
+	constexpr State prefixing(State state_current,const array<Symbol>& prefixs)
+	{
+	    if(if_prefixed(state_current,prefixs))
+        {
+            error = errors::fail_on_prefixing_conflict;
+            return -1;
+        }
+
+        const Symbol* end = &prefixs[prefixs.size() - 1];
+		for (size_t k = 0; k < prefixs.size(); k++)
+		{
+			if (std::find(&prefixs[0], end, Symbol(prefixs[k])) > end) continue;
+
+			get(state_current,prefixs[k])->next = 0;
+			get(state_current,prefixs[k])->token = Token(prefixs[k]);
 			get(state_current,prefixs[k])->indicator = Indicator::accept;
 		}
 
@@ -413,7 +436,7 @@ public:
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
-	constexpr State one(const array<Symbol>& symbols_array, Token token, const array<Symbol>& prefixs_array,Flag flag)
+	constexpr State one(const array<Symbol>& symbols_array, Token token, const array<Symbol>& prefixs_array)
 	{
 		State state_current = initial_state, state_next = initial_state;
 		if (symbols_array.size() == 0)
@@ -423,7 +446,7 @@ public:
 		}
 
         state_next = create();
-        std::cout << "new state " << state_next << "\n";
+        //std::cout << "new state " << state_next << "\n";
         if(state_next < 0) return -1;
         if(error > errors::none) return -1;
         prefixing(state_next,prefixs_array,token);
@@ -431,6 +454,20 @@ public:
         {
             if (not is_used(symbols_array[i],state_current)) if (not is_used(symbols_array[i],state_next)) get(state_current,symbols_array[i])->next = state_next;
         }
+
+		return state_next;
+	}
+
+	/*
+	*\brief Una transicion exactamente
+	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
+	*\param token token retornado por el analizador si detecta la palabra
+	*/
+	constexpr State one(const array<Symbol>& symbols_array,State state_current,bool autotoken)
+	{
+		State state_next = initial_state;
+		state_next = one(symbols_array,state_current);
+		prefixing(state_current,symbols_array);
 
 		return state_next;
 	}
@@ -472,25 +509,6 @@ public:
 		return state_next;
 	}
 
-
-
-	/*
-	*\brief Uno o mas de los simbolos
-	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
-	*\param token token retornado por el analizador si detecta la palabra
-	*/
-	constexpr State almost_one(const array<Symbol>& symbols_array, Token token, const array<Symbol>& prefixs_array,Flag flag)
-	{
-		State state_next = one(symbols_array,token,prefixs_array,flag);
-		if(error > errors::none) return -1;
-
-		for (size_t i = 0; i < symbols_array.size(); i++)
-		{
-			get(state_next,symbols_array[i])->next = state_next;
-		}
-
-		return state_next;
-	}
 
 
 protected:
@@ -550,7 +568,7 @@ public:
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-				//std::cout << "Input : '" << input[index] << "'\n";
+				std::cout << "Input : '" << input[index] << "'\n";
 				//std::cout << "Input : '" << '\n' << "'\n";
 
 				//>>>
@@ -573,7 +591,7 @@ public:
 
         {
             string_leng = index - string_start;
-            index--;
+            //index--;
         }
 
         if(actual_transition) return actual_transition->token;
