@@ -221,3 +221,11 @@ void v3_TTC()
     CU_ASSERT(token3.string.compare("2696") == 0)
 
 }
+
+void v3_cpp()
+{
+    const char* cstr1 = "Prueba 1...";
+    std::string str1 = std::string(cstr1 + 3,5);
+    //std::cout << "String : " << str1 << "\n";
+    CU_ASSERT(str1.compare("eba 1") == 0);
+}

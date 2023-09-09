@@ -58,7 +58,7 @@ template<CHAR C> constexpr size_t strlen(const C* str)
 	return i;
 }
 
-template<CHAR C> constexpr size_t copy(const C* origin, size_t leng,C*& dest)
+template<CHAR C> constexpr size_t copy(const C* origin, size_t leng,C* dest)
 {
 	if(not origin) return 0;
 	if(not dest) return 0;
