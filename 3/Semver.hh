@@ -2,6 +2,7 @@
 #ifndef OCTEOTOS_CORE_V3_SEMVER_HH
 #define OCTEOTOS_CORE_V3_SEMVER_HH
 
+#include "Lexer-TTC.hh"
 
 namespace oct::core::v3
 {

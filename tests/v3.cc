@@ -9,7 +9,6 @@
 
 #include <core/3/array.hh>
 #include <core/3/tree.hh>
-#include <core/3/Lexer-TTC.hh>
 #include <core/3/Semver.hh>
 #if defined(__linux__)
 
@@ -190,7 +189,7 @@ void v3_TTC_one()
     semver_tt1.one(digits);
     //std::cout << "\n";
     //semver_tt1.print(std::cout,2);
-	core::lex::Lexer<char,core::Semver::Tokens,core::lex::State,TT> semver_lex1(semver_tt1,semver_buff1);
+	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex1(semver_tt1,semver_buff1);
     //core::Semver::Tokens token1 = semver_lex1.next();
     //CU_ASSERT(token1 == core::Semver::Tokens::number);
 
@@ -202,7 +201,7 @@ void v3_TTC_one()
     semver_tt2.circular(digits,state_next_2);
     std::cout << "\n";
     semver_tt2.print(std::cout,0);
-	core::lex::Lexer<char,core::Semver::Tokens,core::lex::State,TT> semver_lex2(semver_tt2,semver_buff1);
+	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex2(semver_tt2,semver_buff1);
     core::Semver::Tokens token2 = semver_lex1.next();
     CU_ASSERT(token2 == core::Semver::Tokens::number);
 
@@ -213,7 +212,7 @@ void v3_TTC_one()
     semver_tt3.one(digits,core::Semver::Tokens::number,terms,2,5);
     //std::cout << "\n";
     //semver_tt3.print(std::cout,2);
-	core::lex::Lexer<char,core::Semver::Tokens,core::lex::State,TT> semver_lex3(semver_tt3,semver_buff1);
+	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex3(semver_tt3,semver_buff1);
 
 
 }
