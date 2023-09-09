@@ -187,7 +187,6 @@ enum class Tokens : int
 	//>>>Tokens
 	base	= 0x110000,
 
-
 };
 
 template<typename Token> std::string to_string(Token t)

@@ -105,6 +105,11 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+	if ((NULL == CU_add_test(pSuite_v3, "Lexer Tipo C class..", v3_lexer_C)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
     #ifdef OCTETOS_CORE_V3_OCC
 	if ((NULL == CU_add_test(pSuite_v3, "Lenguaje Collection, inner Semver..", v3_lc_innier_semver)))
 	{

@@ -7,16 +7,14 @@
 #include <variant>
 
 
+#include <core/3/array.hh>
+#include <core/3/tree.hh>
+#include <core/3/Lexer-TTC.hh>
+#include <core/3/Semver.hh>
 #if defined(__linux__)
-    //#include <src/Exception-v3.hh>
-    //#include <src/Version-v3.hh>
-    #include <core/3/array.hh>
-    #include <core/3/tree.hh>
+
 #elif defined(_WIN32) || defined(_WIN64)
-    #include <core/src/Exception-v3.hh>
-    //#include <core/src/Version-v3.hh>
-    #include <core/3/array.hh>
-    #include <core/3/tree.hh>
+
 #else
 	#error "Plataforma desconocida"
 #endif
@@ -42,7 +40,7 @@ void v3_developing()
 }
 void v3_array()
 {
-    core::array<int,6> array1 {-1,5,6,9,8,7};
+    constexpr core::array<int,6> array1 {-1,5,6,9,8,7};
     CU_ASSERT(array1[0] == -1);
     CU_ASSERT(array1[1] == 5);
     CU_ASSERT(array1[2] == 6);
@@ -50,7 +48,7 @@ void v3_array()
     CU_ASSERT(array1[4] == 8);
     CU_ASSERT(array1[5] == 7);
 
-    int* base1 = array1;
+    const int* base1 = array1;
     CU_ASSERT(base1[0] == -1);
     CU_ASSERT(base1[1] == 5);
     CU_ASSERT(base1[2] == 6);
@@ -58,6 +56,71 @@ void v3_array()
     CU_ASSERT(base1[4] == 8);
     CU_ASSERT(base1[5] == 7);
 
+    core::array<int> array2 {-1,5,6,9,8,7};
+    CU_ASSERT(array1[0] == -1);
+    CU_ASSERT(array1[1] == 5);
+    CU_ASSERT(array1[2] == 6);
+    CU_ASSERT(array1[3] == 9);
+    CU_ASSERT(array1[4] == 8);
+    CU_ASSERT(array1[5] == 7);
+
+    int* base2 = array2;
+    CU_ASSERT(base2[0] == -1);
+    CU_ASSERT(base2[1] == 5);
+    CU_ASSERT(base2[2] == 6);
+    CU_ASSERT(base2[3] == 9);
+    CU_ASSERT(base2[4] == 8);
+    CU_ASSERT(base2[5] == 7);
+
+    core::array<int> array3(core::array<int>{-1,5,6,9,8,7});
+    CU_ASSERT(array3[0] == -1);
+    CU_ASSERT(array3[1] == 5);
+    CU_ASSERT(array3[2] == 6);
+    CU_ASSERT(array3[3] == 9);
+    CU_ASSERT(array3[4] == 8);
+    CU_ASSERT(array3[5] == 7);
+
+    int* base3 = array3;
+    CU_ASSERT(base3[0] == -1);
+    CU_ASSERT(base3[1] == 5);
+    CU_ASSERT(base3[2] == 6);
+    CU_ASSERT(base3[3] == 9);
+    CU_ASSERT(base3[4] == 8);
+    CU_ASSERT(base3[5] == 7);
+
+    core::array<int> array4;
+    array4 = array3;
+    CU_ASSERT(array4[0] == -1);
+    CU_ASSERT(array4[1] == 5);
+    CU_ASSERT(array4[2] == 6);
+    CU_ASSERT(array4[3] == 9);
+    CU_ASSERT(array4[4] == 8);
+    CU_ASSERT(array4[5] == 7);
+
+    int* base4 = array4;
+    CU_ASSERT(base4[0] == -1);
+    CU_ASSERT(base4[1] == 5);
+    CU_ASSERT(base4[2] == 6);
+    CU_ASSERT(base4[3] == 9);
+    CU_ASSERT(base4[4] == 8);
+    CU_ASSERT(base4[5] == 7);
+
+    core::array<int> array5;
+    array5 = {-1,5,6,9,8,7};
+    CU_ASSERT(array5[0] == -1);
+    CU_ASSERT(array5[1] == 5);
+    CU_ASSERT(array5[2] == 6);
+    CU_ASSERT(array5[3] == 9);
+    CU_ASSERT(array5[4] == 8);
+    CU_ASSERT(array5[5] == 7);
+
+    int* base5 = array5;
+    CU_ASSERT(base5[0] == -1);
+    CU_ASSERT(base5[1] == 5);
+    CU_ASSERT(base5[2] == 6);
+    CU_ASSERT(base5[3] == 9);
+    CU_ASSERT(base5[4] == 8);
+    CU_ASSERT(base5[5] == 7);
 }
 void v3_tree()
 {
@@ -105,9 +168,28 @@ void v3_tree()
     core::Root root2(1);
     root2[0] = &mat1;
 
-    std::cout << "\n";
+    /*std::cout << "\n";
     root2.print(std::cout);
-    std::cout << "\n";
+    std::cout << "\n";*/
 
+
+}
+
+void v3_lexer_C()
+{
+    const core::array<char> digits = {'0','1','2','3','4','5','6','7','8','9'};
+    const core::array<char> terms = {'.','-','+',' ','\n'};
+    const core::array<char> nothing = {};
+    const char* input1 = "269.56.9-alpha+archlinux";
+    typedef core::lex::TTC<char,core::Semver::Tokens,core::lex::State,11> TT;
+    TT semver_tt1;
+
+    semver_tt1.one(digits);
+
+    std::cout << "\n";
+    semver_tt1.print(std::cout,0);
+
+    core::Buffer semver_buff1(input1);
+	core::lex::Lexer<char,core::Semver::Tokens,core::lex::State,TT> semver_lex3(semver_tt1,semver_buff1);
 
 }

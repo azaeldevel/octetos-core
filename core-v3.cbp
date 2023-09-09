@@ -37,7 +37,12 @@
 			<Add option="-DOCTETOS_OCTETOS_V3_TDD" />
 			<Add directory="../../octetos" />
 		</Compiler>
+		<Unit filename="3/Buffer.cc" />
+		<Unit filename="3/Buffer.hh" />
 		<Unit filename="3/Exception.hh" />
+		<Unit filename="3/Lexer-TTC.hh" />
+		<Unit filename="3/Lexer.hh" />
+		<Unit filename="3/Semver.hh" />
 		<Unit filename="3/array.hh" />
 		<Unit filename="3/entity.hh" />
 		<Unit filename="3/numbers.hh" />

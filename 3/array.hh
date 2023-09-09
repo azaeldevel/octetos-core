@@ -14,7 +14,7 @@ namespace oct::core::v3
     *\param T Tipo de dato de la secuencia
     *\param S La cantidad de datos, si es 0, la asignacion es dinamica
     **/
-    template<typename T,size_t S> class array
+    template<typename T,size_t S = 0> class array
     {
     protected:
         T data[S];
@@ -158,7 +158,9 @@ namespace oct::core::v3
         bool free;
 
     public:
-        array() = default;
+        array() : S(0),data(NULL),free(true)
+        {
+        }
         array(size_t s, const T& v) : S(s),free(true)
         {
             data = new T[S];
@@ -172,13 +174,14 @@ namespace oct::core::v3
         {
             for(size_t i = 0; i < L; i++) data[i] = v;
         }*/
-        array(const std::initializer_list<T>& l) : S(l.S),free(true)
+        array(const std::initializer_list<T>& l) : S(l.size()),free(true)
         {
             if(l.size() < S) throw std::logic_error("La cantidad de datos indicados no es suficuente para inicializar el objeto");
             if(l.size() > S) throw std::logic_error("La cantidad de datos execede la capacidad del objeto");
 
             data = new T[S];
             const T* c = std::data(l);
+            data = new T[l.size()];
             for(size_t i = 0; i < l.size(); i++)
             {
                 data[i] = c[i];
@@ -188,6 +191,11 @@ namespace oct::core::v3
         {
             data = new T[S];
             for(size_t i = 0; i < S; i++) data[i] = s.data[i];
+        }
+        array(array&& s)  : S(s.S),free(true)
+        {
+            data = s.data;
+            s.data = NULL;
         }
         ~array()
         {
@@ -220,23 +228,43 @@ namespace oct::core::v3
         }
         array& operator =(const array& s)
         {
+            S = s.S;
+            data = new T[S];
             for(size_t i = 0; i < S; i++) data[i] = s.data[i];
 
             return *this;
         }
         array& operator = (std::initializer_list<T> l)
         {
-            if(l.size() < S) throw std::logic_error("La cantidad de datos indicados no es suficuente para inicializar el objeto");
-            if(l.size() > S) throw std::logic_error("La cantidad de datos execede la capacidad del objeto");
+            S = l.size();
 
-            unsigned char i = 0;
-            for(const T& c : l)
+            if(data) delete[] data;
+            data = new T[S];
+            const T* c = std::data(l);
+            data = new T[l.size()];
+            for(size_t i = 0; i < l.size(); i++)
             {
-                data[i] = c;
-                i++;
+                data[i] = c[i];
             }
 
             return *this;
+        }
+
+        operator T*()
+        {
+            return data;
+        }
+        operator const T*() const
+        {
+            return data;
+        }
+        operator void*()
+        {
+            return data;
+        }
+        operator const void*() const
+        {
+            return data;
         }
 
 

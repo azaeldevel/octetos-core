@@ -33,9 +33,11 @@
 #include <algorithm>
 #include <initializer_list>
 #include <iterator>
+#include <vector>
 
 #include "Lexer.hh"
 #include "Buffer.hh"
+#include "array.hh"
 
 namespace oct::core::v3::lex
 {
@@ -240,7 +242,7 @@ namespace oct::core::v3::lex
 		}
 
 		/*
-        *\brief equvalente a eloperador de expresion regular +
+        *\brief equivalente al operador de +
         *\param prefixs lista de simbolos que determinan que la palabra ha terminado
         *\param token token retornado por el analizador si detecta la palabra
         */
