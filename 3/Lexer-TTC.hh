@@ -281,8 +281,51 @@ public:
         return state_next;
     }*/
 
+
 	/*
-	*\brief uno de los simbolos
+	*\brief Crea una trasicion recursiva
+	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
+	*\param token token retornado por el analizador si detecta la palabra
+	*/
+	constexpr State circular(const array<Symbol>& symbols_array, State state_next)
+	{
+		for (size_t i = 0; i < symbols_array.size(); i++)
+		{
+			get(state_next,symbols_array[i])->next = state_next;
+		}
+
+		return state_next;
+	}
+
+	/*
+	*\brief Una transicion exactamente
+	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
+	*\param token token retornado por el analizador si detecta la palabra
+	*/
+	constexpr State one(const array<Symbol>& symbols_array,State state_current)
+	{
+		State state_next = initial_state;
+		if (symbols_array.size() == 0)
+		{
+			error = errors::fail_on_one_empty;
+			return -1;
+		}
+
+        state_next = create();
+        //std::cout << "new state " << state_next << "\n";
+        if(state_next < 0) return -1;
+        if(error > errors::none) return -1;
+        for (size_t i = 0; i < symbols_array.size(); i++)
+        {
+            if (not is_used(symbols_array[i],state_current)) if (not is_used(symbols_array[i],state_next))  get(state_current,symbols_array[i])->next = state_next;
+        }
+
+		return state_next;
+	}
+
+
+	/*
+	*\brief Una transicion exactamente
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
@@ -295,40 +338,20 @@ public:
 			return -1;
 		}
 
-		/*if(flag == Flag::only_free)
-		{*/
-			state_next = create();
-			std::cout << "new state " << state_next << "\n";
-			if(state_next < 0) return -1;
-			if(error > errors::none) return -1;
-			//prefixing(state_next,prefixs_array,token);
-			for (size_t i = 0; i < symbols_array.size(); i++)
-			{
-				if (not is_used(symbols_array[i],state_current)) get(state_current,symbols_array[i])->next = state_next;
-			}
-		/*}
-		else if(Flag::error == flag)
-		{
-			state_next = create();
-			if(state_next < 0) return -1;
-			if(error > errors::none) return -1;
-			for (size_t i = 0; i < symbols_array.size(); i++)
-			{
-				if(is_used(symbols_array[i],state_current))
-				{
-					error = errors::fail_on_one_used_transition;
-					return -1;
-				}
-				get(state_current,symbols_array[i])->next = state_next;
-			}
-			prefixing(state_next,prefixs_array,token);
-		}*/
+        state_next = create();
+        std::cout << "new state " << state_next << "\n";
+        if(state_next < 0) return -1;
+        if(error > errors::none) return -1;
+        for (size_t i = 0; i < symbols_array.size(); i++)
+        {
+            if (not is_used(symbols_array[i],state_current)) if (not is_used(symbols_array[i],state_next))  get(state_current,symbols_array[i])->next = state_next;
+        }
 
 		return state_next;
 	}
 
 	/*
-	*\brief uno de los simbolos
+	*\brief Una transicion exactamente
 	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
 	*\param token token retornado por el analizador si detecta la palabra
 	*/
@@ -341,37 +364,56 @@ public:
 			return -1;
 		}
 
-		/*if(flag == Flag::only_free)
-		{*/
-			state_next = create();
-			std::cout << "new state " << state_next << "\n";
-			if(state_next < 0) return -1;
-			if(error > errors::none) return -1;
-			prefixing(state_next,prefixs_array,token);
-			for (size_t i = 0; i < symbols_array.size(); i++)
-			{
-				if (not is_used(symbols_array[i],state_current)) get(state_current,symbols_array[i])->next = state_next;
-			}
-		/*}
-		else if(Flag::error == flag)
-		{
-			state_next = create();
-			if(state_next < 0) return -1;
-			if(error > errors::none) return -1;
-			for (size_t i = 0; i < symbols_array.size(); i++)
-			{
-				if(is_used(symbols_array[i],state_current))
-				{
-					error = errors::fail_on_one_used_transition;
-					return -1;
-				}
-				get(state_current,symbols_array[i])->next = state_next;
-			}
-			prefixing(state_next,prefixs_array,token);
-		}*/
+        state_next = create();
+        std::cout << "new state " << state_next << "\n";
+        if(state_next < 0) return -1;
+        if(error > errors::none) return -1;
+        prefixing(state_next,prefixs_array,token);
+        for (size_t i = 0; i < symbols_array.size(); i++)
+        {
+            if (not is_used(symbols_array[i],state_current)) if (not is_used(symbols_array[i],state_next)) get(state_current,symbols_array[i])->next = state_next;
+        }
 
 		return state_next;
 	}
+
+
+	/*
+	*\brief Uno o mas de los simbolos
+	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
+	*\param token token retornado por el analizador si detecta la palabra
+	*/
+	constexpr State almost_one(const array<Symbol>& symbols_array)
+	{
+		State state_next = one(symbols_array);
+		if(error > errors::none) return -1;
+
+		state_next = one(symbols_array,state_next);
+		if(error > errors::none) return -1;
+
+		return state_next;
+	}
+
+	/*
+	*\brief Uno o mas de los simbolos
+	*\param prefixs lista de simbolos que determinan que la palabra ha terminado
+	*\param token token retornado por el analizador si detecta la palabra
+	*/
+	constexpr State almost_one(const array<Symbol>& symbols_array, Token token, const array<Symbol>& prefixs_array)
+	{
+		State state_next = one(symbols_array);
+		if(error > errors::none) return -1;
+
+		state_next = one(symbols_array,state_next);
+		if(error > errors::none) return -1;
+
+		circular(symbols_array,state_next);
+
+		prefixing(state_next,prefixs_array,token);
+
+		return state_next;
+	}
+
 
 
 	/*

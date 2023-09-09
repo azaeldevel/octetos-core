@@ -184,7 +184,7 @@ void v3_lexer_C()
     typedef core::lex::TTC<char,core::Semver::Tokens,core::lex::State,11> TT;
     TT semver_tt1;
 
-    semver_tt1.one(digits);
+    semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
 
     std::cout << "\n";
     semver_tt1.print(std::cout,0);
