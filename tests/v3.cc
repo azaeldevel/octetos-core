@@ -180,7 +180,7 @@ void v3_TTC_one()
     const core::array<char> terms = {'.','-','+',' ','\n'};
     typedef core::lex::TTC<char,core::Semver::Tokens,core::lex::State,11> TT;
 
-    const char* input1 = "2696565.";
+    const char* input1 = "2696.";
     core::Buffer semver_buff1(input1);
 
 
@@ -199,12 +199,14 @@ void v3_TTC_one()
     state_next_2 = semver_tt2.one(digits,state_next_2);
     semver_tt2.prefixing(state_next_2,terms,core::Semver::Tokens::number);
     semver_tt2.circular(digits,state_next_2);
-    std::cout << "\n";
-    semver_tt2.print(std::cout,0);
+    //std::cout << "\n";
+    //semver_tt2.print(std::cout,0);
 	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex2(semver_tt2,semver_buff1);
-    core::Semver::Tokens token2 = semver_lex1.next();
-    CU_ASSERT(token2 == core::Semver::Tokens::number);
-
+    core::lex::Tokenized<char,core::Semver::Tokens> token2;
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens::number);
+    CU_ASSERT(token2.string.compare("2696") == 0)
+    //std::cout << "TK : " << token2.string << "\n";
 
 
     TT semver_tt3;
@@ -213,6 +215,9 @@ void v3_TTC_one()
     //std::cout << "\n";
     //semver_tt3.print(std::cout,2);
 	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex3(semver_tt3,semver_buff1);
-
+    core::lex::Tokenized<char,core::Semver::Tokens> token3;
+    semver_lex3.next(token3);
+    CU_ASSERT(token3.token == core::Semver::Tokens::number);
+    CU_ASSERT(token3.string.compare("2696") == 0)
 
 }

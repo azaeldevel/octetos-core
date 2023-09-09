@@ -25,7 +25,7 @@
 
 #include "entity.hh"
 
-#ifdef OCTETOS_OCTETOS_V3_TDD
+#ifdef OCTETOS_CORE_V3_TDD
     #include <iostream>
 #endif // OCTETOS_OCTETOS_V3_TDD
 

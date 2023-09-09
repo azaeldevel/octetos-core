@@ -67,6 +67,8 @@ public:
 			for(size_t j = 0; j < amount_transitions; j++)
 			{
 				tt[i][j].next = -1;
+				tt[i][j].indicator = Indicator::none;
+				tt[i][j].token = Token::none;
 			}
 		}
 		for(size_t i = 0; i < amount_symbols;i++)
@@ -163,6 +165,18 @@ private:
 		{
 			return a < b;
 		});
+	}
+	constexpr void init(State state)
+	{
+		for(size_t i = 0; i < amount_states; i++)
+		{
+			for(size_t j = 0; j < amount_transitions; j++)
+			{
+				tt[state][j].next = -1;
+				tt[state][j].indicator = Indicator::none;
+				tt[state][j].token = Token::none;
+			}
+		}
 	}
 
 public:
@@ -496,62 +510,48 @@ class LC
 public:
 
 public:
-	LC(const TT& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),index(0),actual_status(0),initial_status(0)
+	LC(const TT& tt,Buffer<Symbol>& b) : table(&tt),buffer(&b),index(0),initial_status(0),actual_status(initial_status)
 	{
 #ifdef OCTETOS_CORE_ENABLE_DEV
 		_echo = false;
 #endif
 	}
 
+	bool is_accepted()
+	{
+        if(actual_transition->indicator == Indicator::accept and actual_transition->next == 0 and actual_transition->token > Token::none) return true;
+
+        return false;
+	}
+
     Token next()
 	{
         actual_status = initial_status;
 		actual_transition = NULL;
-		prev_transition = NULL;
-		token_start = index;
-		token_end = index;//TODO : maybe this asignation could be remove
-		//prefix_transition = NULL;
-		acceptable_transition = NULL;
-		//bool prefix_ended = false;
-		bool acceptable_ended = false;
-	    const Symbol* buff = (const Symbol*)*buffer;
-		prefix_start = 0;
+		string_start = index;
+		string_leng = 0;
+	    const Symbol* input = (const Symbol*)*buffer;
+		//prefix_start = 0;
 
         while(index < buffer->size() and (size_t)actual_status < table->size())
         {
             //std::cout << "whiel : Step 0\n";
 
-
             //std::cout << "whiel : Step 1\n";
             //>>>reading data
             {
-                input = buff[index];
-                actual_transition = table->get(actual_status,input);
+                //input = buff[index];
+                actual_transition = table->get(actual_status,input[index]);
                 next_status = actual_transition->next;
 
-				//--acceptable-->acceptable|accept
-				if (actual_transition->indicator == Indicator::acceptable and not acceptable_ended)
-				{
-					acceptable_transition = actual_transition;
-				}
-				else if (actual_transition->indicator == Indicator::accept) acceptable_ended = true;
-				else if (actual_transition->indicator == Indicator::reject) acceptable_ended = true;
 
 			}
 
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-				//std::cout << "Input : '" << int(input) << "'\n";
-				//std::cout << "Input : '" << int('\n') << "'\n";
-
-				/*if (input == '\f') std::cout << "-" << actual_status << "--'new page'->" << next_status << "\n";
-				else if (input == '\n') std::cout << "-" << actual_status << "--'new line'->" << next_status << "\n";
-				else if (input == '\r') std::cout << "-" << actual_status << "--'carrier return'->" << next_status << "\n";
-				else std::cout << "-" << actual_status << "--'" << input << "'->"  << next_status << " : ";
-				actual_transition->print(std::cout);
-				std::cout << "\n";*/
-
+				//std::cout << "Input : '" << input[index] << "'\n";
+				//std::cout << "Input : '" << '\n' << "'\n";
 
 				//>>>
 
@@ -560,114 +560,45 @@ public:
             //std::cout << "whiel : Step 3\n";
             //>>>finalizing
             {
-				//verificando terminacion
-				bool terminate_and_advance = false;
-				if (acceptable_transition and acceptable_ended)
-				{
-					//std::cout << "terminating ...by prefix\n";
-					token_end = index;
-					break;
-				}
-				else if (actual_transition->indicator == Indicator::accept)
-				{
-					//std::cout << "terminating ...\n";
-					token_end = index;
-					break;
-				}
-				else if (actual_transition->indicator == Indicator::unknow) terminate_and_advance = true;
-				else if (actual_transition->indicator == Indicator::error) terminate_and_advance = true;
-				else if (actual_transition->next < 0) terminate_and_advance = true;
-
-				if (terminate_and_advance)
-				{
-					index++;
-					token_end = index;
-					//std::cout << "terminating ...\n";
-					break;
-				}
+                if(is_accepted()) break;
             }
 
 			//repetir loop
 			{
 				index++;
-				token_end = index;//TODO : maybe this asignation could be remove
+				string_leng++;
 				actual_status = next_status;
 				prev_transition = actual_transition;
 			}
         }
-#ifdef OCTETOS_CORE_ENABLE_DEV
-#endif
-		if (not actual_transition)
-		{
-			//std::cout << "terminating ...\n";
-			return Token::none;
-		}
-		else if (actual_transition->indicator == Indicator::acceptable and index == buffer->size())
-		{
-			return actual_transition->token;
-		}
-		else if (acceptable_transition and acceptable_ended)
-		{
-			return actual_transition->token;
-		}
-		else if (actual_transition->indicator == Indicator::accept)
-		{
-			return actual_transition->token;
-		}
-		else if (actual_transition->indicator == Indicator::error)
-		{
-			return (Token)input;
-		}
-		else if (actual_transition->indicator == Indicator::unknow)
-		{
-			return (Token)input;
-		}
-		else if(actual_transition->next < 0)
-		{
-			return (Token)input;
-		}
-		else
-		{//fin de la entreada?
-			if (index == buffer->size())
-			{
-				if (actual_transition->indicator == Indicator::accept)
-				{
-					return actual_transition->token;
-				}
-				else if (actual_transition->indicator == Indicator::acceptable)
-				{
-					return actual_transition->token;
-				}
 
-				return (Token)input;//se retorna el ultomo token
-			}
-		}
+        {
 
-		return Token::eoi;
+        }
+
+        if(actual_transition) return actual_transition->token;
+        else if(index >= buffer->size()) return Token::eoi;
+
+		return Token::none;
 	}
 
-	Token next(Tokenized<Symbol,Token>& content)
+	void next(Tokenized<Symbol,Token>& content)
 	{
-		Token token = next();
-		if (token <= Token::none) return token;
-		if (token_start >= token_end) return token;
+		content.string.clear();
+		content.token = next();
 
-		content.base = (const Symbol*)*buffer;
-		content.base += token_start;
-		content.length = token_end - token_start;
-		content.token = token;
+        content.string = std::string(*buffer,string_leng);
 
-		return token;
 	}
 
 	size_t get_string_length()const
 	{
-	    return token_end - token_start;
+	    return string_leng;
 	}
 	const Symbol* get_string_base()const
 	{
 	    const Symbol* base = (const Symbol*)*buffer;
-	    return base + token_start;
+	    return base + string_start;
 	}
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	void echo(bool e)
@@ -682,12 +613,12 @@ private:
 private:
 	const TT* table;
 	Buffer<Symbol>* buffer;
-	Symbol input;
-	size_t index,token_start,token_end;//prefix_index
-    const Transition<Token, State> *actual_transition, *prev_transition, *prefix_transition, *acceptable_transition;
-	State actual_status,next_status;//numero del estado actual del automata
+	//Symbol input;
+	size_t index,string_start,string_leng;//prefix_index
+    const Transition<Token, State> *actual_transition, *prev_transition;//, *prefix_transition, *acceptable_transition;
     const State initial_status;
-    bool prefix_start;
+	State actual_status,next_status;//numero del estado actual del automata
+    //bool prefix_start;
 #ifdef OCTETOS_CORE_ENABLE_DEV
 	bool _echo;
 #endif

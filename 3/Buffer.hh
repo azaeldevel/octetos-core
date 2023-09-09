@@ -63,7 +63,7 @@ template<CHAR C> constexpr size_t copy(const C* origin, size_t leng,C*& dest)
 	if(not origin) return 0;
 	if(not dest) return 0;
 	if(origin[leng] != (C)0) return 0;
-	
+
 	for(size_t i = 0;i < leng; i++)
 	{
 		dest[i] = origin[i];
@@ -84,9 +84,9 @@ class Buffer
 {
 public:
 	static const T EOB = T(0);
-	
+
 public:
-	Buffer(const std::filesystem::path& file) 
+	Buffer(const std::filesystem::path& file)
 	{
 		if(not std::filesystem::exists(file)) throw exception("Not found the file to load on Buffer");
 
@@ -114,15 +114,19 @@ public:
 	{
 		if(buffer) delete[] buffer;
 	}
-	explicit operator const T*()const
+	operator const T*()const
+	{
+		return buffer;
+	}
+	operator T*()
 	{
 		return buffer;
 	}
 	T operator[](uintmax_t i)const
-	{	
+	{
 		//std::cout << "if(" << i << " < " << _size << ") return " << int(buffer[i]) << "\n";
-		if(i < _size) return buffer[i];		
-		
+		if(i < _size) return buffer[i];
+
 		return T(0);
 	}
 	std::uintmax_t size() const

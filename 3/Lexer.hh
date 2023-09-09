@@ -365,15 +365,12 @@ const char* to_string(Indicator i)
 	template<typename Symbol /*Input*/, typename Token>
 	struct Tokenized
 	{
-		const Symbol* base;
-		size_t length;
+		std::string string;
 		Token token;
 
-		operator std::string()const
+		operator std::string const&()const
 		{
-			std::string str;
-			str.insert(0, base, length);
-			return str;
+			return string;
 		}
 	};
 
