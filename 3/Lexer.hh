@@ -213,18 +213,7 @@ template<typename Token> std::string to_string(Token t)
 	}
 	else if (t > Token::base)
 	{
-		if (t > Token::keyword_auto)
-		{
-			return "keyword auto";
-		}
-		else if (t > Token::keyword_break)
-		{
-			return "keyword break";
-		}
-		else if (t > Token::keyword_case)
-		{
-			return "keyword case";
-		}
+
 	}
 
 	return std::to_string((int)t);

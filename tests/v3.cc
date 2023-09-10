@@ -217,6 +217,7 @@ void v3_TTC()
     CU_ASSERT(token2.string.compare(".") == 0)
     //std::cout << "TK : " << token2.string << "\n";
     //std::cout << "Token : " << to_string(token2.token) << "\n";
+    //std::cout << "Token : " << (int)token2.token << "\n";
     //std::cout << "\n";
     //semver_tt2.print(std::cout,0);
 

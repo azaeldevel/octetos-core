@@ -100,6 +100,7 @@ public:
 	}
 	void print(std::ostream & out, State state, Symbol symbol) const
 	{
+        const Transition<Token, State>& trans = *get(state,symbol);
 			out << "|-";
 
 			if (symbol <= Symbol(Token::US))
@@ -111,11 +112,11 @@ public:
                 out << state << "--'" << symbol << "'";
             }
 
-            out << "-->" << get(state,symbol)->next << " ";
+            out << "-->" << trans.next << " ";
 
-			out << to_string(get(state,symbol)->indicator);
+			out << to_string(trans.indicator);
 			out << " - ";
-			out << (int)get(state,symbol)->token;
+			out << (int)trans.token;
 			out << "\n";
 	}
 
@@ -573,7 +574,7 @@ public:
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-				table->print(std::cout,actual_status,input[index]);
+				//table->print(std::cout,actual_status,input[index]);
 				//std::cout << "Input : '" << '\n' << "'\n";
 
 				//>>>
@@ -600,7 +601,7 @@ public:
             //index--;
         }
 
-        if(prev_transition) return prev_transition->token;
+        if(actual_transition) return actual_transition->token;
         else if(index >= buffer->size()) return Token::eoi;
 
 		return Token::none;
