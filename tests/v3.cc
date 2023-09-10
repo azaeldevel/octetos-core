@@ -200,8 +200,9 @@ void v3_TTC()
     state_next_2 = semver_tt2.one(digits,state_next_2);
     semver_tt2.prefixing(state_next_2,terms,core::Semver::Tokens::number);
     semver_tt2.circular(digits,state_next_2);
+    state_next_2 = semver_tt2.one(separators,0,true);
     //std::cout << "\n";
-    //semver_tt2.print(std::cout,0);
+    semver_tt2.print(std::cout,0);
 	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex2(semver_tt2,semver_buff1);
     core::lex::Tokenized<char,core::Semver::Tokens> token2;
     semver_lex2.next(token2);
@@ -214,7 +215,7 @@ void v3_TTC()
     CU_ASSERT(token2.string.compare(".") == 0)
     std::cout << "TK : " << token2.string << "\n";
     std::cout << "\n";
-    semver_tt2.print(std::cout,0);
+    //semver_tt2.print(std::cout,0);
 
     /*std::cout << "\n\n";
     TT semver_tt3;

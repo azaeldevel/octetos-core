@@ -560,9 +560,7 @@ public:
             {
                 //input = buff[index];
                 actual_transition = table->get(actual_status,input[index]);
-                next_status = actual_transition->next;
-
-
+                //next_status = actual_transition->next;
 			}
 
             //std::cout << "whiel : Step 2\n";
@@ -572,12 +570,12 @@ public:
 				//std::cout << "Input : '" << '\n' << "'\n";
 
 				//>>>
-
             }
 
             //std::cout << "whiel : Step 3\n";
             //>>>finalizing
             {
+                //string_leng++;
                 if(is_accepted()) break;
             }
 
@@ -590,7 +588,8 @@ public:
         }
 
         {
-            string_leng = index - string_start;
+            if(index == string_start) string_leng = 1;
+            else string_leng = index - string_start;
             //index--;
         }
 
@@ -605,7 +604,9 @@ public:
 		content.string.clear();
 		content.token = next();
 
-        content.string = std::string(*buffer,string_leng);
+		std::cout << "Start : " << string_start << ", leng :" << string_leng << "\n";
+		//const Symbol* buff = (const Symbol*)buffer;
+        content.string = std::string(get_string_base(),string_leng);
 
 	}
 
