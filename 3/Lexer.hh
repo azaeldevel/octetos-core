@@ -197,16 +197,18 @@ template<typename Token> std::string to_string(Token t)
 	{
 		return "control char";
 	}
-	else if (t >= Token::digit_0 or t <= Token::digit_9)
+	else if (t >= Token::digit_0 and t <= Token::digit_9)
 	{
-		std::string str_token(0,char(t));
-		str = "Digito '" + str_token + "'";
+		str.clear();
+		str.insert(0,1,char(t));
+		str = "Digito '" + str + "'";
 		return str;
 	}
-	else if (t >= Token::char_A or t <= Token::char_Z)
+	else if (t >= Token::char_A and t <= Token::char_Z)
 	{
-		std::string str_token(0,char(t));
-		str = "Letra '" + str_token + "'";
+		str.clear();
+		str.insert(0,1,char(t));
+		str = "Letra '" + str + "'";
 		return str;
 	}
 	else if (t > Token::base)

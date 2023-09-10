@@ -91,25 +91,32 @@ public:
 			{
 				out << " ";
 			}
-			out << "|-";
 
-			if (s <= Symbol(Token::US))
-            {
-                out << state << "--control char(" << (int)s << ")";
-            }
-			else
-            {
-                out << state << "--'" << s << "'";
-            }
-
-            out << "-->" << get(state,s)->next << " ";
-
-			out << to_string(get(state,s)->indicator);
-			out << "\n";
+			print(out,state,s);
 
             if(get(state,s)->next != state) if (get(state,s)->next > initial_state) print(out, get(state,s)->next,indend + 1);
 
 		}
+	}
+	void print(std::ostream & out, State state, Symbol symbol) const
+	{
+			out << "|-";
+
+			if (symbol <= Symbol(Token::US))
+            {
+                out << state << "--control char(" << (int)symbol << ")";
+            }
+			else
+            {
+                out << state << "--'" << symbol << "'";
+            }
+
+            out << "-->" << get(state,symbol)->next << " ";
+
+			out << to_string(get(state,symbol)->indicator);
+			out << " - ";
+			out << (int)get(state,symbol)->token;
+			out << "\n";
 	}
 
 	const Symbol* get_symbols()const
@@ -560,13 +567,13 @@ public:
             {
                 //input = buff[index];
                 actual_transition = table->get(actual_status,input[index]);
-                //next_status = actual_transition->next;
+                next_status = actual_transition->next;
 			}
 
             //std::cout << "whiel : Step 2\n";
             //>>>working
             {
-				std::cout << "Input : '" << input[index] << "'\n";
+				table->print(std::cout,actual_status,input[index]);
 				//std::cout << "Input : '" << '\n' << "'\n";
 
 				//>>>
@@ -593,7 +600,7 @@ public:
             //index--;
         }
 
-        if(actual_transition) return actual_transition->token;
+        if(prev_transition) return prev_transition->token;
         else if(index >= buffer->size()) return Token::eoi;
 
 		return Token::none;
@@ -604,7 +611,7 @@ public:
 		content.string.clear();
 		content.token = next();
 
-		std::cout << "Start : " << string_start << ", leng :" << string_leng << "\n";
+		//std::cout << "Start : " << string_start << ", leng :" << string_leng << "\n";
 		//const Symbol* buff = (const Symbol*)buffer;
         content.string = std::string(get_string_base(),string_leng);
 

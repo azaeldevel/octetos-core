@@ -202,19 +202,22 @@ void v3_TTC()
     semver_tt2.circular(digits,state_next_2);
     state_next_2 = semver_tt2.one(separators,0,true);
     //std::cout << "\n";
-    semver_tt2.print(std::cout,0);
+    //semver_tt2.print(std::cout,0);
 	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex2(semver_tt2,semver_buff1);
     core::lex::Tokenized<char,core::Semver::Tokens> token2;
     semver_lex2.next(token2);
     CU_ASSERT(token2.token == core::Semver::Tokens::number);
     CU_ASSERT(token2.string.compare("2696") == 0)
-    std::cout << "TK : " << token2.string << "\n";
+    //std::cout << "TK : " << token2.string << "\n";
+    //std::cout << "Token : " << to_string(token2.token) << "\n";
+    //std::cout << "Token : " << (int)token2.token << "\n";
     state_next_2 = semver_tt2.one(separators,0,true);
     semver_lex2.next(token2);
     CU_ASSERT(token2.token == core::Semver::Tokens('.'));
     CU_ASSERT(token2.string.compare(".") == 0)
-    std::cout << "TK : " << token2.string << "\n";
-    std::cout << "\n";
+    //std::cout << "TK : " << token2.string << "\n";
+    //std::cout << "Token : " << to_string(token2.token) << "\n";
+    //std::cout << "\n";
     //semver_tt2.print(std::cout,0);
 
     /*std::cout << "\n\n";

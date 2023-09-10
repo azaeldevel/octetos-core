@@ -164,6 +164,51 @@ public:
     };
 };
 
+template<typename Token> std::string to_string(Token t)
+{
+	std::string str;
+
+	if (t <= Token::US)
+	{
+		return "control char";
+	}
+	else if (t >= Token::digit_0 and t <= Token::digit_9)
+	{
+		str.clear();
+		str.insert(0,1,char(t));
+		str = "Digito '" + str + "'";
+		return str;
+	}
+	else if (t >= Token::char_A and t <= Token::char_Z)
+	{
+		str.clear();
+		str.insert(0,1,char(t));
+		str = "Letra '" + str + "'";
+		return str;
+	}
+	else if (t > Token::US)
+	{
+		//std::string str_token(0,char(t));
+		str.clear();
+		str.insert(0,1,char(t));
+		str = "Caracter '" + str + "'";
+		return str;
+	}
+	else if (t > Token::base)
+	{
+		if (t > Token::number)
+		{
+			return "number";
+		}
+		else if (t > Token::string)
+		{
+			return "string";
+		}
+	}
+
+	return std::to_string((int)t);
+}
+
 }
 
 
