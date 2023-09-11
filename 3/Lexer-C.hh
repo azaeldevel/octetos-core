@@ -199,7 +199,7 @@ public:
 	{
 		if(not get(state_current,simbol))
 		{
-			error = errors::fail_on_used_null_transition;
+			//error = errors::fail_on_used_null_transition;
 			return false;
 		}
 
