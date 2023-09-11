@@ -346,7 +346,7 @@ const char* to_string(Indicator i)
 			case errors::fail_on_one_empty: return "En la funcion c90::TT::one, Entrada vacia";
 			case errors::fail_create_identifier_begin: return "En la funcion c90::TT::make_symbols, al crear los simbolos inicio de identificador";
 			case errors::fail_create_identifier: return "En la funcion c90::TT::make_symbols, al crear los simbolos de identificador";
-			case errors::fail_on_prefixing_conflict: return "En la funion, prefixig, se tecto cofilicto en los prefijos";
+			case errors::fail_on_prefixing_conflict: return "En la funion, prefixig, se detecto confilicto en los prefijos";
 		}
 
 		return "Error desconocido";
