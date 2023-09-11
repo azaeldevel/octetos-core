@@ -208,18 +208,35 @@ void v3_TTC()
     semver_lex2.next(token2);
     CU_ASSERT(token2.token == core::Semver::Tokens::number);
     CU_ASSERT(token2.string.compare("2696") == 0)
-    //std::cout << "TK : " << token2.string << "\n";
+    std::cout << "TK : " << token2.string << "\n";
     //std::cout << "Token : " << to_string(token2.token) << "\n";
     //std::cout << "Token : " << (int)token2.token << "\n";
     state_next_2 = semver_tt2.one(separators,0,true);
+    //Reading input....
     semver_lex2.next(token2);
     CU_ASSERT(token2.token == core::Semver::Tokens('.'));
     CU_ASSERT(token2.string.compare(".") == 0)
-    //std::cout << "TK : " << token2.string << "\n";
+    std::cout << "TK : " << token2.string << "\n";
     //std::cout << "Token : " << to_string(token2.token) << "\n";
     //std::cout << "Token : " << (int)token2.token << "\n";
     //std::cout << "\n";
     //semver_tt2.print(std::cout,0);
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens::number);
+    CU_ASSERT(token2.string.compare("69") == 0)
+    std::cout << "TK : " << token2.string << "\n";
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens('.'));
+    CU_ASSERT(token2.string.compare(".") == 0)
+    std::cout << "TK : " << token2.string << "\n";
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens::number);
+    CU_ASSERT(token2.string.compare("36") == 0)
+    std::cout << "TK : " << token2.string << "\n";
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens('-'));
+    CU_ASSERT(token2.string.compare("-") == 0)
+    std::cout << "TK : " << token2.string << "\n";
 
     /*std::cout << "\n\n";
     TT semver_tt3;

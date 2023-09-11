@@ -596,9 +596,12 @@ public:
         }
 
         {
-            if(index == string_start) string_leng = 1;
+            if(index == string_start)
+            {
+                string_leng = 1;
+                index++;
+            }
             else string_leng = index - string_start;
-            //index--;
         }
 
         if(actual_transition) return actual_transition->token;
