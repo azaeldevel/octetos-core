@@ -26,7 +26,7 @@
 #include <string>
 #include <concepts>
 #if defined(__linux__)
-	
+
 #elif defined(_WIN32) || defined(_WIN64)
 	#include <core/src/defines.hh>
 #else
@@ -121,7 +121,7 @@ namespace oct::core::v3
 	}
 	template<Number T, typename ...Args> T desv(Args... args)
 	{
-		//std::cout << "desv<T>(...)\n";	
+		//std::cout << "desv<T>(...)\n";
 		T m = media<T>(args...);
 		//std::cout << "media : " << m << "\n";
 
@@ -134,7 +134,7 @@ namespace oct::core::v3
 	}
 	template<Number T, Number R, typename ...Args> R desv(Args... args)
 	{
-		//std::cout << "desv<T>(...)\n";	
+		//std::cout << "desv<T>(...)\n";
 		R m = media<T, R>(args...);
 		//std::cout << "media : " << m << "\n";
 
@@ -150,7 +150,7 @@ namespace oct::core::v3
 	/**
 	*\brief Convierte el string dao en el intero indicado
 	*/
-	template<std::signed_integral T, typename C> T to_number(const C* str)
+	/*template<std::signed_integral T, typename C> T to_number(const C* str)
 	{
 		while (std::isspace(static_cast<unsigned char>(*str)))
 		{
@@ -178,11 +178,11 @@ namespace oct::core::v3
 		}
 
 		return negative ? result : -result;
-	}
+	}*/
 	/**
 	*\brief Convierte el string dao en el intero indicado
 	*/
-	template<std::unsigned_integral T, typename C> T to_number(const C* str)
+	/*template<std::unsigned_integral T, typename C> T to_number(const C* str)
 	{
 		while (std::isspace(static_cast<unsigned char>(*str)))
 		{
@@ -211,7 +211,7 @@ namespace oct::core::v3
 		}
 
 		return result;
-	}
+	}*/
 }
 
 namespace oct::core
