@@ -10,6 +10,8 @@
 #include <core/3/array.hh>
 #include <core/3/tree.hh>
 #include <core/3/Semver.hh>
+#include <core/3/numbers.hh>
+
 #if defined(__linux__)
 
 #elif defined(_WIN32) || defined(_WIN64)
@@ -35,6 +37,16 @@ int v3_clean(void)
 void v3_developing()
 {
 
+    float a = 1.5;
+    float b = 1.5;
+    float c = 1.7;
+    float epsilon = 0.001;
+    float d = b - (epsilon/2);
+    float e = b + (epsilon/2);
+    CU_ASSERT(core::equal(a,b));
+    CU_ASSERT_FALSE(core::equal(a,c));
+    CU_ASSERT(core::equal(a,d,epsilon));
+    CU_ASSERT(core::equal(a,e,epsilon));
 
 }
 void v3_array()
