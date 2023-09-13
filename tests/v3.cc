@@ -36,7 +36,6 @@ int v3_clean(void)
 
 void v3_developing()
 {
-
     float a = 1.5;
     float b = 1.5;
     float c = 1.7;
@@ -47,6 +46,13 @@ void v3_developing()
     CU_ASSERT_FALSE(core::equal(a,c));
     CU_ASSERT(core::equal(a,d,epsilon));
     CU_ASSERT(core::equal(a,e,epsilon));
+
+    int f = 2;
+    int g = 2;
+    int h = 3;
+    CU_ASSERT(core::equal(f,g));
+    CU_ASSERT_FALSE(core::equal(f,h));
+    CU_ASSERT(core::equal(f,h,1));
 
 }
 void v3_array()
@@ -132,6 +138,13 @@ void v3_array()
     CU_ASSERT(base5[3] == 9);
     CU_ASSERT(base5[4] == 8);
     CU_ASSERT(base5[5] == 7);
+
+    //auto array6 = array3.sub<2,2>();
+    //array6.print(std::cout);
+    //CU_ASSERT(array6.size() == 2)
+    //CU_ASSERT(base5[0] == 6);
+    //CU_ASSERT(base5[1] == 9);
+
 }
 void v3_tree()
 {

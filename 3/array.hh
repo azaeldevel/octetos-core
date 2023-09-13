@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <initializer_list>
+#include "numbers.hh"
 #include "entity.hh"
 #include "Exception.hh"
 
@@ -14,8 +15,11 @@ namespace oct::core::v3
     *\param T Tipo de dato de la secuencia
     *\param S La cantidad de datos, si es 0, la asignacion es dinamica
     **/
-    template<typename T,size_t S = 0> class array
+    template<typename T,index auto S = 0,index I = size_t> class array
     {
+    private:
+        typedef array<T,S,I> ARRAY;
+
     protected:
         T data[S];
 
@@ -23,7 +27,7 @@ namespace oct::core::v3
         array() = default;
         constexpr array(const T& v)
         {
-            for(size_t i = 0; i < S; i++) data[i] = v;
+            for(I i = 0; i < S; i++) data[i] = v;
         }
         /*constexpr explicit sequence(const T v[L])
         {
@@ -31,60 +35,62 @@ namespace oct::core::v3
         }*/
         constexpr array(const std::initializer_list<T>& l)
         {
+            //std::cout << "l.size() = " << l.size()<< "\n";
             if(l.size() < S) throw std::logic_error("La cantidad de datos indicados no es suficuente para inicializar el objeto");
-            if(l.size() > S) throw std::logic_error("La cantidad de datos execede la capacidad del objeto");
+            if(l.size() > S) throw exception("La cantidad de datos execede la capacidad del objeto");
+            //static_assert(l.size() == S,"La captidad de objetos afrecido no es exacta");
 
             const T* c = std::data(l);
-            for(size_t i = 0; i < l.size(); i++)
+            for(I i = 0; i < S; i++)
             {
                 data[i] = c[i];
             }
         }
-        constexpr array(const array& s)
+        constexpr array(const ARRAY& s)
         {
-            for(size_t i = 0; i < S; i++) data[i] = s.data[i];
+            for(I i = 0; i < S; i++) data[i] = s.data[i];
         }
 
-        constexpr T& operator [](size_t i)
+        constexpr T& operator [](I i)
         {
             if(i < S) return data[i];
 
             throw std::out_of_range("Indice fuera de rango");
         }
-        constexpr const T& operator [](size_t i) const
+        constexpr const T& operator [](I i) const
         {
             if(i < S) return data[i];
 
             throw std::out_of_range("Indice fuera de rango");
         }
-        constexpr const T& at(size_t i) const
+        constexpr const T& at(I i) const
         {
             if(i < S) return data[i];
 
             throw std::out_of_range("Indice fuera de rango");
         }
-        constexpr T& at(size_t i)
+        constexpr T& at(I i)
         {
             if(i < S) return data[i];
 
             throw std::out_of_range("Indice fuera de rango");
         }
-        constexpr array& operator =(const array& s)
+        constexpr array& operator =(const ARRAY& s)
         {
-            for(size_t i = 0; i < S; i++) data[i] = s.data[i];
+            for(I i = 0; i < S; i++) data[i] = s.data[i];
 
             return *this;
         }
-        constexpr array& operator = (std::initializer_list<T> l)
+        constexpr array& operator = (const std::initializer_list<T>& l)
         {
+            //std::cout << "l.size() = " << l.size()<< "\n";
             if(l.size() < S) throw std::logic_error("La cantidad de datos indicados no es suficuente para inicializar el objeto");
             if(l.size() > S) throw std::logic_error("La cantidad de datos execede la capacidad del objeto");
 
-            unsigned char i = 0;
-            for(const T& c : l)
+            const T* c = std::data(l);
+            for(I i = 0; i < S; i++)
             {
-                data[i] = c;
-                i++;
+                data[i] = c[i];
             }
 
             return *this;
@@ -108,18 +114,28 @@ namespace oct::core::v3
         }
 
 
-        constexpr size_t size() const
+        constexpr I size() const
         {
             return S;
         }
 
+        template<index auto b ,index auto s> constexpr const array<T,s,I>& sub() const
+        {
+            static_assert(b + s >= S,"Fuera de rango, b + s < S");
+
+            const T* a = (const T*)this;
+            a += b;
+
+            return *(const array<T,s,I>*)s;
+        }
 
 
-#ifdef OCTETOS_NUMBERS_V0_TTD
+
+#ifdef OCTETOS_CORE_V3_TDD
         void print(std::ostream& out, bool delim = false) const
         {
             if(delim) out << "(";
-                for(size_t i = 0; i < S; i++)
+                for(I i = 0; i < S; i++)
                 {
                     if(i > 0) out << ",";
                     out << data[i];
@@ -129,7 +145,7 @@ namespace oct::core::v3
         void printLn(std::ostream& out, bool delim = false) const
         {
             if(delim) out << "(";
-                for(size_t i = 0; i < S; i++)
+                for(I i = 0; i < S; i++)
                 {
                     if(i > 0) out << ",";
                     out << data[i];
@@ -150,56 +166,59 @@ namespace oct::core::v3
     *\param T Tipo de dato de la secuencia
     *\param L 0 para que la asignacion sea dinamica
     **/
-    template<typename T> class array<T,0>
+    template<typename T> class array<T,0,size_t>
     {
     protected:
         size_t S;
         T* data;
-        bool free;
+        //bool free;
 
     public:
-        array() : S(0),data(NULL),free(true)
+        array() : S(0),data(NULL)
         {
         }
-        array(size_t s, const T& v) : S(s),free(true)
+        array(size_t s, const T& v) : S(s)
         {
             data = new T[S];
             for(size_t i = 0; i < S; i++) data[i] = v;
         }
-        array(size_t s, T* v) : S(s),free(false)
+        array(size_t s, T* v) : S(s)
         {
-            data = v;
+            data = new T[S];
+            for(size_t i = 0; i < S; i++) data[i] = v[i];
         }
         /*constexpr explicit sequence(const T v[L])
         {
             for(size_t i = 0; i < L; i++) data[i] = v;
         }*/
-        array(const std::initializer_list<T>& l) : S(l.size()),free(true)
+        array(const std::initializer_list<T>& l) : S(l.size()),data(new T[S])
         {
-            if(l.size() < S) throw std::logic_error("La cantidad de datos indicados no es suficuente para inicializar el objeto");
-            if(l.size() > S) throw std::logic_error("La cantidad de datos execede la capacidad del objeto");
+            if(l.size() < S) throw exception("La cantidad de datos indicados no es suficuente para inicializar el objeto");
+            if(l.size() > S) throw exception("La cantidad de datos exeede la capacidad del objeto");
 
-            data = new T[S];
             const T* c = std::data(l);
-            data = new T[l.size()];
             for(size_t i = 0; i < l.size(); i++)
             {
                 data[i] = c[i];
             }
         }
-        array(const array& s)  : S(s.S),free(true)
+        array(const array& s)  : S(s.S)
         {
             data = new T[S];
             for(size_t i = 0; i < S; i++) data[i] = s.data[i];
         }
-        array(array&& s)  : S(s.S),free(true)
+        array(array&& s)  : S(s.S)
         {
             data = s.data;
             s.data = NULL;
         }
         ~array()
         {
-            if(free) delete[] data;
+            if(data)
+            {
+                delete[] data;
+                data = NULL;
+            }
         }
 
         T& operator [](size_t i)
@@ -241,7 +260,6 @@ namespace oct::core::v3
             if(data) delete[] data;
             data = new T[S];
             const T* c = std::data(l);
-            data = new T[l.size()];
             for(size_t i = 0; i < l.size(); i++)
             {
                 data[i] = c[i];

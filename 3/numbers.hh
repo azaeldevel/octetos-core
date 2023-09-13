@@ -42,6 +42,10 @@ namespace oct::core::v3
     template<typename T> concept real = std::same_as<T, float> || std::same_as<T, double>  || std::same_as<T, long double> || integer<T>;
     template<typename T> concept number = real<T>;
     template<typename T> concept decimal = std::same_as<T, float> || std::same_as<T, double>  || std::same_as<T, long double>;
+    template<typename T> concept index = integer<T> || requires(T v)
+    {
+        v >= 0;
+    };
 
     /*template<decimal T> bool equal(const T& a,const T& b)
     {

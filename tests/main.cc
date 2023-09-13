@@ -6,7 +6,7 @@
 #ifdef OCTETOS_CORE_V2
 	#include "v2.hh"
 #endif
-#ifdef OCTETOS_CORE_V3
+#ifdef OCTETOS_CORE_V3_TDD
 	#include "v3.hh"
 #endif
 
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 #endif
-#ifdef OCTETOS_CORE_V3
+#ifdef OCTETOS_CORE_V3_TDD
 	//std::cout << "Step 2\n";
 	CU_pSuite pSuite_v3 = CU_add_suite("Octetos Core v3", v3_init, v3_clean);
 	if (NULL == pSuite_v3)
