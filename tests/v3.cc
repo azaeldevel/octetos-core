@@ -139,12 +139,29 @@ void v3_array()
     CU_ASSERT(base5[4] == 8);
     CU_ASSERT(base5[5] == 7);
 
-    //auto array6 = array3.sub<2,2>();
-    //array6.print(std::cout);
-    //CU_ASSERT(array6.size() == 2)
-    //CU_ASSERT(base5[0] == 6);
-    //CU_ASSERT(base5[1] == 9);
+    constexpr core::array<int,6> array6(core::array<int,6>{-1,5,6,9,8,7});
+    CU_ASSERT(array6[0] == -1);
+    CU_ASSERT(array6[1] == 5);
+    CU_ASSERT(array6[2] == 6);
+    CU_ASSERT(array6[3] == 9);
+    CU_ASSERT(array6[4] == 8);
+    CU_ASSERT(array6[5] == 7);
 
+    auto array7 = array6.sub<2,2>();
+    //array7.print(std::cout);
+    CU_ASSERT(array7.size() == 2)
+    CU_ASSERT(array7[0] == 6);
+    CU_ASSERT(array7[1] == 9);
+
+    auto array8 = array3.sub(2,2);
+    //array8->print(std::cout);
+    CU_ASSERT(array8->size() == 2)
+    CU_ASSERT(array8->at(0) == 6);
+    CU_ASSERT(array8->at(1) == 9);
+
+    core::array<int> array9(2,base1 + 2);
+    CU_ASSERT(array9[0] == 6);
+    CU_ASSERT(array9[1] == 9);
 }
 void v3_tree()
 {

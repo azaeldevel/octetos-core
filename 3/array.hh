@@ -7,6 +7,7 @@
 #include "numbers.hh"
 #include "entity.hh"
 #include "Exception.hh"
+#include <memory>
 
 namespace oct::core::v3
 {
@@ -121,12 +122,10 @@ namespace oct::core::v3
 
         template<index auto b ,index auto s> constexpr const array<T,s,I>& sub() const
         {
-            static_assert(b + s >= S,"Fuera de rango, b + s < S");
-
+            static_assert(b + s < S,"Fuera de rango, b + s < S");
             const T* a = (const T*)this;
             a += b;
-
-            return *(const array<T,s,I>*)s;
+            return *(const array<T,s,I>*)a;
         }
 
 
@@ -168,6 +167,8 @@ namespace oct::core::v3
     **/
     template<typename T> class array<T,0,size_t>
     {
+    private:
+        typedef array<T,0,size_t> ARRAY;
     protected:
         size_t S;
         T* data;
@@ -177,14 +178,12 @@ namespace oct::core::v3
         array() : S(0),data(NULL)
         {
         }
-        array(size_t s, const T& v) : S(s)
+        /*array(size_t s, const T& v) : S(s),data(new T[S])
         {
-            data = new T[S];
             for(size_t i = 0; i < S; i++) data[i] = v;
-        }
-        array(size_t s, T* v) : S(s)
+        }*/
+        array(size_t s, const T* v) : S(s),data(new T[S])
         {
-            data = new T[S];
             for(size_t i = 0; i < S; i++) data[i] = v[i];
         }
         /*constexpr explicit sequence(const T v[L])
@@ -202,12 +201,11 @@ namespace oct::core::v3
                 data[i] = c[i];
             }
         }
-        array(const array& s)  : S(s.S)
+        array(const ARRAY& s)  : S(s.S),data(new T[S])
         {
-            data = new T[S];
             for(size_t i = 0; i < S; i++) data[i] = s.data[i];
         }
-        array(array&& s)  : S(s.S)
+        array(ARRAY&& s)  : S(s.S)
         {
             data = s.data;
             s.data = NULL;
@@ -245,7 +243,7 @@ namespace oct::core::v3
 
             throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
         }
-        array& operator =(const array& s)
+        array& operator =(const ARRAY& s)
         {
             S = s.S;
             data = new T[S];
@@ -291,9 +289,14 @@ namespace oct::core::v3
             return S;
         }
 
+        std::shared_ptr<ARRAY> sub(size_t b,size_t s) const
+        {
+            if(b + s >= S) throw exception("Fuera de rango, b + s deve ser menor que al alongitud del arreglo actual.");
+            const T* a = *this;
+            return std::shared_ptr<ARRAY>(new ARRAY(s,a + b));
+        }
 
-
-#ifdef OCTETOS_OCTETOS_V3_TDD
+#ifdef OCTETOS_CORE_V3_TDD
         void print(std::ostream& out, bool delim = false) const
         {
             if(delim) out << "(";
