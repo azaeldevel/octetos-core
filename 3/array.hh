@@ -128,6 +128,23 @@ namespace oct::core::v3
             return *(const array<T,s,I>*)a;
         }
 
+        T* begin()
+        {
+            return data;
+        }
+        const T* begin() const
+        {
+            return data;
+        }
+
+        T* end()
+        {
+            return data + S;
+        }
+        const T* end() const
+        {
+            return data + S;
+        }
 
 
 #ifdef OCTETOS_CORE_V3_TDD
@@ -296,6 +313,24 @@ namespace oct::core::v3
             return std::shared_ptr<ARRAY>(new ARRAY(s,a + b));
         }
 
+
+        T* begin()
+        {
+            return data;
+        }
+        const T* begin() const
+        {
+            return data;
+        }
+
+        T* end()
+        {
+            return data + S;
+        }
+        const T* end() const
+        {
+            return data + S;
+        }
 #ifdef OCTETOS_CORE_V3_TDD
         void print(std::ostream& out, bool delim = false) const
         {

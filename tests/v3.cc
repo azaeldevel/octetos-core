@@ -11,6 +11,8 @@
 #include <core/3/tree.hh>
 #include <core/3/Semver.hh>
 #include <core/3/numbers.hh>
+#include <algorithm>
+
 
 #if defined(__linux__)
 
@@ -162,6 +164,30 @@ void v3_array()
     core::array<int> array9(2,base1 + 2);
     CU_ASSERT(array9[0] == 6);
     CU_ASSERT(array9[1] == 9);
+
+    core::array<int> array10 {-1,5,6,9,8,7};
+    CU_ASSERT(array10[0] == -1);
+    CU_ASSERT(array10[1] == 5);
+    CU_ASSERT(array10[2] == 6);
+    CU_ASSERT(array10[3] == 9);
+    CU_ASSERT(array10[4] == 8);
+    CU_ASSERT(array10[5] == 7);
+    //array10.print(std::cout);
+    //std::cout << "\n";
+    std::reverse(array10.begin(),array10.end());
+    //array10.print(std::cout);
+
+    core::array<int,6> array11 {-1,5,6,9,8,7};
+    CU_ASSERT(array11[0] == -1);
+    CU_ASSERT(array11[1] == 5);
+    CU_ASSERT(array11[2] == 6);
+    CU_ASSERT(array11[3] == 9);
+    CU_ASSERT(array11[4] == 8);
+    CU_ASSERT(array11[5] == 7);
+    array11.print(std::cout);
+    std::cout << "\n";
+    std::reverse(array11.begin(),array11.end());
+    array11.print(std::cout);
 }
 void v3_tree()
 {
