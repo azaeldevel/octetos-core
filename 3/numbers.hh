@@ -47,6 +47,53 @@ namespace oct::core::v3
         v >= 0;
     };
 
+
+    template<typename T> struct convertion
+    {
+    };
+    template<> struct convertion<unsigned char>
+    {
+        using type = float;
+    };
+    template<> struct convertion<signed char>
+    {
+        using type = float;
+    };
+    template<> struct convertion<unsigned short>
+    {
+        using type = float;
+    };
+    template<> struct convertion<signed short>
+    {
+        using type = float;
+    };
+    template<> struct convertion<unsigned int>
+    {
+        using type = float;
+    };
+    template<> struct convertion<signed int>
+    {
+        using type = float;
+    };
+    template<> struct convertion<unsigned long int>
+    {
+        using type = long double;
+    };
+    template<> struct convertion<signed long int>
+    {
+        using type = long double;
+    };
+    template<> struct convertion<unsigned long long int>
+    {
+        using type = long double;
+    };
+    template<> struct convertion<signed long long int>
+    {
+        using type = long double;
+    };
+
+
+
     /*template<decimal T> bool equal(const T& a,const T& b)
     {
         //if(std::numeric_limits<T>::epsilon() + a > b and std::numeric_limits<T>::epsilon() - a < b) return true;
