@@ -184,10 +184,16 @@ void v3_array()
     CU_ASSERT(array11[3] == 9);
     CU_ASSERT(array11[4] == 8);
     CU_ASSERT(array11[5] == 7);
-    array11.print(std::cout);
-    std::cout << "\n";
+    //array11.print(std::cout);
+    //std::cout << "\n";
     std::reverse(array11.begin(),array11.end());
-    array11.print(std::cout);
+    //array11.print(std::cout);
+    CU_ASSERT(array11[5] == -1);
+    CU_ASSERT(array11[4] == 5);
+    CU_ASSERT(array11[3] == 6);
+    CU_ASSERT(array11[2] == 9);
+    CU_ASSERT(array11[1] == 8);
+    CU_ASSERT(array11[0] == 7);
 }
 void v3_tree()
 {
