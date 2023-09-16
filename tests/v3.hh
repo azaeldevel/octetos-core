@@ -23,5 +23,6 @@ void v3_array();
 void v3_tree();
 void v3_TTC();
 void v3_cpp();
+void v3_trails();
 
 #endif

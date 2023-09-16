@@ -77,11 +77,11 @@ namespace oct::core::v3
     };
     template<> struct convertion<unsigned long int>
     {
-        using type = long double;
+        using type = double;
     };
     template<> struct convertion<signed long int>
     {
-        using type = long double;
+        using type = double;
     };
     template<> struct convertion<unsigned long long int>
     {

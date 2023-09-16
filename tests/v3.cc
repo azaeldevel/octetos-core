@@ -59,6 +59,8 @@ void v3_developing()
     core::convertion<int>::type data = 1.11f;
     CU_ASSERT(core::equal(data,1.11f));
 }
+
+
 void v3_array()
 {
     constexpr core::array<int,6> array1 {-1,5,6,9,8,7};
@@ -349,4 +351,30 @@ void v3_cpp()
     std::string str1 = std::string(cstr1 + 3,5);
     //std::cout << "String : " << str1 << "\n";
     CU_ASSERT(str1.compare("eba 1") == 0);
+}
+
+void v3_trails()
+{
+    core::convertion<signed int>::type data1 = std::numeric_limits<signed int>::max();
+    //CU_ASSERT((signed int)data1 == std::numeric_limits<signed int>::max());
+
+    //core::convertion<unsigned int>::type data2 = std::numeric_limits<unsigned int>::max();
+    //CU_ASSERT((unsigned int)data2 == (float)std::numeric_limits<unsigned int>::max());
+
+    //core::convertion<signed long int>::type data3 = std::numeric_limits<signed long int>::max();
+    //CU_ASSERT((signed long int)data3 == (float)std::numeric_limits<signed long int>::max());
+
+    //core::convertion<signed long int>::type data4 = std::numeric_limits<signed long int>::max();
+    //CU_ASSERT((signed long int)data4 == (float)std::numeric_limits<signed long int>::max());
+
+    //core::convertion<unsigned long int>::type data4 = std::numeric_limits<unsigned long int>::max();
+    //CU_ASSERT(core::equal(data4, (float)std::numeric_limits<unsigned long int>::max()));
+
+    /*core::convertion<unsigned long>::type data2 = std::numeric_limits<unsigned long>::max();
+    CU_ASSERT(data2 == std::numeric_limits<unsigned long>::max());
+
+    core::convertion<unsigned long>::type data3 = std::numeric_limits<unsigned long>::max();
+    CU_ASSERT(data3 == std::numeric_limits<unsigned long>::max());*/
+
+
 }
