@@ -41,6 +41,7 @@ namespace oct::core::v3
     template<typename T> concept integer = std::same_as<T, signed char> || std::same_as<T, signed short> || std::same_as<T, signed short> || std::same_as<T, signed int> || std::same_as<T, signed long> || std::same_as<T, signed long long> || natural<T>;
     template<typename T> concept real = std::same_as<T, float> || std::same_as<T, double>  || std::same_as<T, long double> || integer<T>;
     template<typename T> concept number = real<T>;
+
     template<typename T> concept decimal = std::same_as<T, float> || std::same_as<T, double>  || std::same_as<T, long double>;
     template<typename T> concept index = integer<T> || requires(T v)
     {
@@ -88,6 +89,18 @@ namespace oct::core::v3
         using type = long double;
     };
     template<> struct convertion<signed long long int>
+    {
+        using type = long double;
+    };
+    template<> struct convertion<float>
+    {
+        using type = float;
+    };
+    template<> struct convertion<double>
+    {
+        using type = double;
+    };
+    template<> struct convertion<long double>
     {
         using type = long double;
     };
