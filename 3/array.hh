@@ -41,8 +41,8 @@ namespace oct::core::v3
         {
             //std::cout << "l.size() = " << l.size()<< "\n";
             if(l.size() < S) throw std::logic_error("La cantidad de datos indicados no es suficuente para inicializar el objeto");
-            if(l.size() > S) throw exception("La cantidad de datos execede la capacidad del objeto");
-            //static_assert(l.size() == S,"La captidad de objetos afrecido no es exacta");
+            if(l.size() > S) throw std::logic_error("La cantidad de datos execede la capacidad del objeto");
+            //static_assert(l.size() == S,"La cantiad de datos afrecidos no es exacto");
 
             const T* c = std::data(l);
             for(I i = 0; i < S; i++)
