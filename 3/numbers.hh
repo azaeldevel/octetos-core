@@ -39,10 +39,11 @@
 
 namespace oct::core::v3
 {
+    class Real;
 	template<typename T> concept natural = std::same_as<T, unsigned char> || std::same_as<T, unsigned short> || std::same_as<T, unsigned int> || std::same_as<T, unsigned long> || std::same_as<T, unsigned long long> || std::same_as<T, size_t>;
     template<typename T> concept integer = std::same_as<T, signed char> || std::same_as<T, signed short> || std::same_as<T, signed short> || std::same_as<T, signed int> || std::same_as<T, signed long> || std::same_as<T, signed long long> || natural<T>;
     template<typename T> concept real = std::same_as<T, float> || std::same_as<T, double>  || std::same_as<T, long double> || integer<T>;
-    template<typename T> concept number = real<T>;
+    template<typename T> concept number = real<T> || std::same_as<T, Real>;
 
     template<typename T> concept decimal = std::same_as<T, float> || std::same_as<T, double>  || std::same_as<T, long double>;
     template<typename T> concept index = integer<T> || requires(T v)
@@ -109,7 +110,8 @@ namespace oct::core::v3
 
 
 
-    /*template<decimal T> bool equal(const T& a,const T& b)
+    /*
+    template<decimal T> bool equal(const T& a,const T& b)
     {
         //if(std::numeric_limits<T>::epsilon() + a > b and std::numeric_limits<T>::epsilon() - a < b) return true;
         T r = a - b;
@@ -123,7 +125,8 @@ namespace oct::core::v3
         }
 
         return true;
-    }*/
+    }
+    */
     template<typename T> bool equal(const T& a,const T& b, const T& epsilon = std::numeric_limits<T>::epsilon())
     {
         //if(std::numeric_limits<T>::epsilon() + a > b and std::numeric_limits<T>::epsilon() - a < b) return true;
@@ -141,24 +144,24 @@ namespace oct::core::v3
         return true;
     }
 
-    class Real : public std::variant<signed char,unsigned char,signed int,unsigned int,signed long,signed long long,unsigned long long,float,double,long double>
+    class Number : public std::variant<signed char,unsigned char,signed int,unsigned int,signed long,signed long long,unsigned long long,float,double,long double>
     {
     public:
         typedef std::variant<signed char,unsigned char,signed int,unsigned int,signed long,signed long long,unsigned long long,float,double,long double> BASE;
     public:
-        Real() = default;
-        Real(real auto const& v) : BASE(v)
+        Number() = default;
+        Number(number auto const& v) : BASE(v)
         {
         }
-        Real(real auto&& v) : BASE(v)
+        Number(number auto&& v) : BASE(v)
         {
         }
 
-        template<real t> operator t()
+        template<number t> operator t()
         {
             return std::get<t>(*this);
         }
-        template<real t> operator t const&() const
+        template<number t> operator t const&() const
         {
             return std::get<t>(*this);
         }

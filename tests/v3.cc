@@ -202,6 +202,10 @@ void v3_array()
 void v3_tree()
 {
 
+    core::Node<core::Number> num1;
+    core::Node<core::Number> num2;
+    core::Node<core::Number> num3;
+
 }
 
 void v3_TTC()
@@ -333,15 +337,10 @@ void v3_trails()
 
 void v3_Real()
 {
-    core::Real real1(1.3f);
-    float real2 = real1;
-    CU_ASSERT(core::equal(1.3f,real2))
-    //std::cout << "Number 1 : " << real2 << "\n";
-    real1 = 12.39f;
-    real2 = real1;
-    CU_ASSERT(core::equal(12.39f,real2))
-    //std::cout << "Number 1 : " << real2 << "\n";
-
-    core::Real real3(23);
-    core::Real real4(53.936);
+    core::Number real1 = 1.36f;
+    core::Number real2 = -361.6f;
+    core::Number real3 = 93.6f;
+    CU_ASSERT(core::equal((float)real1,1.36f));
+    CU_ASSERT(core::equal((float)real2,-361.6f));
+    CU_ASSERT(core::equal((float)real3,93.6f));
 }
