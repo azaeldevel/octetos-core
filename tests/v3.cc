@@ -202,8 +202,6 @@ void v3_array()
 void v3_tree()
 {
 
-
-
 }
 
 void v3_TTC()
@@ -330,5 +328,18 @@ void v3_trails()
     core::convertion<unsigned long>::type data3 = std::numeric_limits<unsigned long>::max();
     CU_ASSERT(data3 == std::numeric_limits<unsigned long>::max());*/
 
+
+}
+
+void v3_Real()
+{
+    core::Real real1(1.3f);
+    float real2 = real1;
+    CU_ASSERT(core::equal(1.3f,real2))
+    //std::cout << "Number 1 : " << real2 << "\n";
+    real1 = 12.39f;
+    real2 = real1;
+    CU_ASSERT(core::equal(12.39f,real2))
+    //std::cout << "Number 1 : " << real2 << "\n";
 
 }

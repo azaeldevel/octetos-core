@@ -35,7 +35,7 @@
     #elif defined LINUX_GENTOO
 
     #else
-        #error "Sistema operativo desconocido."
+        //#error "Sistema operativo desconocido."
     #endif
 #elif defined _WIN32
 

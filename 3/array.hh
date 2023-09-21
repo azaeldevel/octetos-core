@@ -206,7 +206,14 @@ namespace oct::core::v3
         {
             for(size_t i = 0; i < S; i++) data[i] = v;
         }*/
-        array(size_t s, const T* v) : S(s),data(new T[S])
+        array(Index s) : S(s),data(new T[S])
+        {
+        }
+        /*array(size_t s, const T* v) : S(s),data(new T[S])
+        {
+            for(size_t i = 0; i < S; i++) data[i] = v[i];
+        }*/
+        array(size_t s, T const* v) : S(s),data(new T[S])
         {
             for(size_t i = 0; i < S; i++) data[i] = v[i];
         }

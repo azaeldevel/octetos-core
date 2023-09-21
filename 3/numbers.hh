@@ -141,13 +141,26 @@ namespace oct::core::v3
         return true;
     }
 
-    template <typename... Types>class Real
+    class Real : public std::variant<signed char,unsigned char,signed int,unsigned int,signed long,signed long long,unsigned long long,float,double,long double>
     {
     public:
-        Real()=default;
-        Real(real auto v)
+        typedef std::variant<signed char,unsigned char,signed int,unsigned int,signed long,signed long long,unsigned long long,float,double,long double> BASE;
+    public:
+        Real() = default;
+        Real(real auto const& v) : BASE(v)
         {
+        }
+        Real(real auto&& v) : BASE(v)
+        {
+        }
 
+        template<real t> operator t()
+        {
+            return std::get<t>(*this);
+        }
+        template<real t> operator t const&() const
+        {
+            return std::get<t>(*this);
         }
     };
 }

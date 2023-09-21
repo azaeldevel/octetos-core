@@ -34,16 +34,22 @@ namespace oct::core::v3
 {
 
 
-template<class T> class Node : public array<T>
+template<class T> class Node : public array<T*>
 {
 private:
 
 public:
-    typedef array<T> BASE;
+    typedef array<T*> BASE;
 
 public:
     Node() = default;
-    Node(BASE::Index i, T const* o) : BASE(i,o)
+    Node(BASE::Index i) : BASE(i)
+    {
+    }
+    Node(BASE::Index i,T* const* o) : BASE(i,o)
+    {
+    }
+    Node(BASE const& a) : BASE(a)
     {
     }
 
@@ -59,7 +65,13 @@ public:
 
 public:
     Number() = default;
-    Number(BASE::Index i, Real const* o) : BASE(i,o)
+    Number(BASE::Index i) : BASE(i)
+    {
+    }
+    Number(BASE::Index i, Real* const* o) : BASE(i,o)
+    {
+    }
+    Number(BASE const& a) : BASE(a)
     {
     }
 
