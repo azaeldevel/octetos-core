@@ -77,6 +77,91 @@ public:
 
 };
 
+class Addition : public Node<Number>
+{
+private:
+
+public:
+    typedef Node<Number> BASE;
+
+public:
+    Addition() = default;
+    Addition(BASE::Index i) : BASE(i)
+    {
+    }
+    Addition(BASE::Index i, Number* const* o) : BASE(i,o)
+    {
+    }
+    Addition(BASE const& a) : BASE(a)
+    {
+    }
+
+};
+
+
+class Diference : public Node<Number>
+{
+private:
+
+public:
+    typedef Node<Number> BASE;
+
+public:
+    Diference() = default;
+    Diference(BASE::Index i) : BASE(i)
+    {
+    }
+    Diference(BASE::Index i, Number* const* o) : BASE(i,o)
+    {
+    }
+    Diference(BASE const& a) : BASE(a)
+    {
+    }
+
+};
+
+class Product : public Node<Number>
+{
+private:
+
+public:
+    typedef Node<Number> BASE;
+
+public:
+    Product() = default;
+    Product(BASE::Index i) : BASE(i)
+    {
+    }
+    Product(BASE::Index i, Number* const* o) : BASE(i,o)
+    {
+    }
+    Product(BASE const& a) : BASE(a)
+    {
+    }
+
+};
+
+
+class Division : public Node<Number>
+{
+private:
+
+public:
+    typedef Node<Number> BASE;
+
+public:
+    Division() = default;
+    Division(BASE::Index i) : BASE(i)
+    {
+    }
+    Division(BASE::Index i, Number* const* o) : BASE(i,o)
+    {
+    }
+    Division(BASE const& a) : BASE(a)
+    {
+    }
+
+};
 
 }
 

@@ -342,4 +342,6 @@ void v3_Real()
     CU_ASSERT(core::equal(12.39f,real2))
     //std::cout << "Number 1 : " << real2 << "\n";
 
+    core::Real real3(23);
+    core::Real real4(53.936);
 }
