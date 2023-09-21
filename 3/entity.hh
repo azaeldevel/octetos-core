@@ -27,6 +27,24 @@
 #include <cctype>
 #include <cstddef>
 
+#ifdef __linux__
+    #ifdef LINUX_ARCH
+
+    #elif defined LINUX_DEBIAN
+
+    #elif defined LINUX_GENTOO
+
+    #else
+        #error "Sistema operativo desconocido."
+    #endif
+#elif defined _WIN32
+
+#elif defined _WIN64
+
+#else
+    //#error "Sistema operativo desconocido."
+#endif
+
 namespace oct::core::v3
 {
 

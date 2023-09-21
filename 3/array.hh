@@ -28,6 +28,7 @@ namespace oct::core::v3
 #pragma GCC diagnostic pop
 
     public:
+        using Index = I;
         array() = default;
         constexpr array(const T& v)
         {
@@ -193,6 +194,9 @@ namespace oct::core::v3
         size_t S;
         T* data;
         //bool free;
+
+    public:
+        using Index = size_t;
 
     public:
         array() : S(0),data(NULL)

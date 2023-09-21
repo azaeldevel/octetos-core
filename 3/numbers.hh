@@ -138,6 +138,17 @@ namespace oct::core::v3
 
         return true;
     }
+
+    class Real
+    {
+        union Numbers
+        {
+            signed int si;
+            unsigned int ui;
+            float f;
+            double d;
+        };
+    };
 }
 
 
