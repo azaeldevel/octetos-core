@@ -24,6 +24,8 @@
  * */
 
 #include <concepts>
+#include <variant>
+
 #if defined(__linux__)
 
 #elif defined(_WIN32) || defined(_WIN64)
@@ -139,15 +141,14 @@ namespace oct::core::v3
         return true;
     }
 
-    class Real
+    template <typename... Types>class Real
     {
-        union Numbers
+    public:
+        Real()=default;
+        Real(real auto v)
         {
-            signed int si;
-            unsigned int ui;
-            float f;
-            double d;
-        };
+
+        }
     };
 }
 
