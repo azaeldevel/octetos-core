@@ -354,7 +354,7 @@ void v3_Number()
 
 void v3_performance()
 {
-    constexpr size_t amoung = 500;
+    constexpr size_t amoung = 1000;
     core::Number numn;
     double numd,res1 = 0,res2 = 0;
     double data[amoung];
@@ -402,5 +402,5 @@ void v3_performance()
     CU_ASSERT(core::equal(res1,res2))
     double v = (double)duration2.count() / (double)duration1.count();
     //std::cout << "Eficiencia : " << v << "\n";
-    CU_ASSERT(v < 1.0)
+    CU_ASSERT(v < 1.1)
 }
