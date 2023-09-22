@@ -28,7 +28,7 @@
 
 #ifdef OCTETOS_CORE_V3_TDD
     #include <iostream>
-#endif // OCTETOS_OCTETOS_V3_TDD
+#endif
 
 namespace oct::core::v3
 {
@@ -62,7 +62,6 @@ public:
     Node(T const& o,BASE::Index i) : BASE(i),data(o)
     {
     }
-
     Node& operator = (Node const& o)
     {
         data = o;

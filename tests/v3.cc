@@ -349,7 +349,7 @@ void v3_Number()
 
 void v3_performance()
 {
-    size_t amoung = 500;
+    constexpr size_t amoung = 500;
     core::Number numn;
     double numd,res1 = 0,res2 = 0;
     double data[amoung];
