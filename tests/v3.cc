@@ -351,7 +351,7 @@ void v3_performance()
 {
     size_t amoung = 500;
     core::Number numn;
-    double numd,res = 0;
+    double numd,res1 = 0,res2 = 0;
     double data[amoung];
     std::random_device rd;
     std::uniform_real_distribution<double> distd(-10.0, 10.0);
@@ -366,32 +366,36 @@ void v3_performance()
     }*/
 
     size_t times = 100000;
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start1 = std::chrono::high_resolution_clock::now();
     for(size_t t = 0; t < times; t++)
     {
         for(size_t i = 0; i < amoung; i++)
         {
             numd = data[i];
-            res += numd;
+            res1 += numd;
         }
     }
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-    std::cout << "Time taken by function: " << duration.count() << " milliseconds" << std::endl;
-    std::cout << "Resul : " << res << "\n";
+    auto stop1 = std::chrono::high_resolution_clock::now();
+    auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
+    //std::cout << "Time taken by function: " << duration1.count() << " milliseconds" << std::endl;
+    //std::cout << "Resul : " << res1 << "\n";
 
-    res = 0;
-    start = std::chrono::high_resolution_clock::now();
+    res2 = 0;
+    auto start2 = std::chrono::high_resolution_clock::now();
     for(size_t t = 0; t < times; t++)
     {
         for(size_t i = 0; i < amoung; i++)
         {
             numn = data[i];
-            res += (double)numn;
+            res2 += (double)numn;
         }
     }
-    stop = std::chrono::high_resolution_clock::now();
-    duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-    std::cout << "Time taken by function: " << duration.count() << " milliseconds" << std::endl;
-    std::cout << "Resul : " << res << "\n";
+    auto stop2 = std::chrono::high_resolution_clock::now();
+    auto duration2 = std::chrono::duration_cast<std::chrono::milliseconds>(stop2 - start2);
+    //std::cout << "Time taken by function: " << duration2.count() << " milliseconds" << std::endl;
+    //std::cout << "Resul : " << res2 << "\n";
+    CU_ASSERT(core::equal(res1,res2))
+    double v = (double)duration2.count() / (double)duration1.count();
+    //std::cout << "Eficiencia : " << v << "\n";
+    CU_ASSERT(v < 1.0)
 }
