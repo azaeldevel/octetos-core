@@ -157,7 +157,7 @@ namespace oct::core::v3
         {
         }
 
-        template<number t> operator t()
+        template<number t> operator t&()
         {
             return std::get<t>(*this);
         }

@@ -344,6 +344,11 @@ void v3_Number()
     CU_ASSERT(core::equal((float)real1,1.36f));
     CU_ASSERT(core::equal((float)real2,-361.6f));
     CU_ASSERT(core::equal((float)real3,93.6f));
+
+    float& real4 = real1;
+    real4 = 65.3f;
+    CU_ASSERT_FALSE(core::equal((float)real1,1.36f));
+    CU_ASSERT(core::equal((float)real1,65.3f));
 }
 
 
