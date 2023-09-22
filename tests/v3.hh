@@ -24,6 +24,7 @@ void v3_tree();
 void v3_TTC();
 void v3_cpp();
 void v3_trails();
-void v3_Real();
+void v3_Number();
+void v3_performance();
 
 #endif

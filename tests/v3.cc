@@ -5,7 +5,8 @@
 #include <string.h>
 #include <iostream>
 #include <variant>
-
+#include <random>
+#include <chrono>
 
 #include <core/3/array.hh>
 #include <core/3/tree.hh>
@@ -335,7 +336,7 @@ void v3_trails()
 
 }
 
-void v3_Real()
+void v3_Number()
 {
     core::Number real1 = 1.36f;
     core::Number real2 = -361.6f;
@@ -343,4 +344,54 @@ void v3_Real()
     CU_ASSERT(core::equal((float)real1,1.36f));
     CU_ASSERT(core::equal((float)real2,-361.6f));
     CU_ASSERT(core::equal((float)real3,93.6f));
+}
+
+
+void v3_performance()
+{
+    size_t amoung = 500;
+    core::Number numn;
+    double numd,res = 0;
+    double data[amoung];
+    std::random_device rd;
+    std::uniform_real_distribution<double> distd(-10.0, 10.0);
+
+    for(size_t i = 0; i < amoung; i++)
+    {
+        data[i] = distd(rd);
+    }
+    /*for(size_t i = 0; i < amoung; i++)
+    {
+        std::cout << i << ".-" << data[i] << "\n";
+    }*/
+
+    size_t times = 100000;
+    auto start = std::chrono::high_resolution_clock::now();
+    for(size_t t = 0; t < times; t++)
+    {
+        for(size_t i = 0; i < amoung; i++)
+        {
+            numd = data[i];
+            res += numd;
+        }
+    }
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+    std::cout << "Time taken by function: " << duration.count() << " milliseconds" << std::endl;
+    std::cout << "Resul : " << res << "\n";
+
+    res = 0;
+    start = std::chrono::high_resolution_clock::now();
+    for(size_t t = 0; t < times; t++)
+    {
+        for(size_t i = 0; i < amoung; i++)
+        {
+            numn = data[i];
+            res += (double)numn;
+        }
+    }
+    stop = std::chrono::high_resolution_clock::now();
+    duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+    std::cout << "Time taken by function: " << duration.count() << " milliseconds" << std::endl;
+    std::cout << "Resul : " << res << "\n";
 }
