@@ -36,22 +36,7 @@ int v3_clean(void)
 	return 0;
 }
 
-struct package
-{
-    int major,minor,patch;
-    std::string brief,name;
-};
-typedef core::Node<package> Package;
-void print(std::ostream& out,Package const& pack, size_t margin = 0)
-{
-    std::string strmargin;
-    strmargin.insert(0,margin,'\t');
-    out << strmargin << pack->name << "\n";
-    for(size_t i = 0; i < pack.size(); i++)
-    {
-        print(out,pack[i],margin + 1);
-    }
-}
+
 
 void v3_developing()
 {
@@ -76,41 +61,6 @@ void v3_developing()
     core::convertion<int>::type data = 1.11f;
     CU_ASSERT(core::equal(data,1.11f));
 
-    Package pack1(3);
-        pack1->major = 1;
-        pack1->minor = 0;
-        pack1->patch = 0;
-        pack1->brief = "Packete princial";
-        pack1->name = "Main";
-        pack1[0]->major = 0;
-        pack1[0]->minor = 1;
-        pack1[0]->patch = 0;
-        pack1[0]->brief = "Packete 1";
-        pack1[0]->name = "Req 1";
-        pack1[1]->major = 0;
-        pack1[1]->minor = 1;
-        pack1[1]->patch = 0;
-        pack1[1]->brief = "Packete 2";
-        pack1[1]->name = "Req 2";
-            pack1[1].resize(2);
-            pack1[1][0]->major = 3;
-            pack1[1][0]->minor = 9;
-            pack1[1][0]->patch = 0;
-            pack1[1][0]->brief = "Packete 4";
-            pack1[1][0]->name = "Req 4";
-            pack1[1][1]->major = 3;
-            pack1[1][1]->minor = 9;
-            pack1[1][1]->patch = 0;
-            pack1[1][1]->brief = "Packete 5";
-            pack1[1][1]->name = "Req 5";
-        pack1[2]->major = 5;
-        pack1[2]->minor = 1;
-        pack1[2]->patch = 23;
-        pack1[2]->brief = "Packete 3";
-        pack1[2]->name = "Req 3";
-
-    std::cout << std::endl;
-    print(std::cout,pack1);
 }
 
 
