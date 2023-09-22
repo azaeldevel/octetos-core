@@ -33,8 +33,7 @@
 namespace oct::core::v3
 {
 
-
-template<class T> class Node : public array<T>
+template<class T> class Node : public array<Node<T>>
 {
 private:
 
@@ -43,7 +42,7 @@ protected:
     T data;
 
 public:
-    typedef array<T> BASE;
+    typedef array<Node<T>> BASE;
 
 public:
     Node() = default;
@@ -64,9 +63,33 @@ public:
     }
     Node& operator = (Node const& o)
     {
-        data = o;
+        data.operator = (o.data);
 
         return *this;
+    }
+    bool operator == (Node const& o) const
+    {
+        return data.operator == (o.data);
+    }
+    bool operator != (Node const& o) const
+    {
+        return data.operator != (o.data);
+    }
+    operator T&()
+    {
+        return data;
+    }
+    operator T const&() const
+    {
+        return data;
+    }
+    T* operator ->()
+    {
+        return &data;
+    }
+    const T* operator ->() const
+    {
+        return &data;
     }
 
 };

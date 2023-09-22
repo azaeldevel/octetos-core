@@ -367,6 +367,12 @@ namespace oct::core::v3
             if(delim) out << ")";
             out << "\n";
         }
+        void resize(size_t s)
+        {
+            if(data) delete[] data;
+            S = s;
+            data = new T[S];
+        }
 
 #endif // OCTETOS_AVERSO_TTD
 
