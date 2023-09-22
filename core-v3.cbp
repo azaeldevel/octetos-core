@@ -29,6 +29,7 @@
 					<Add option="-O2" />
 					<Add option="-DOCTETOS_CORE_TTD=3" />
 					<Add option="-DOCTETOS_CORE_V3_TDD" />
+					<Add option="-DOCTETOS_CORE_V3_PERFORMANCE" />
 				</Compiler>
 				<Linker>
 					<Add option="`pkg-config cunit --libs`" />
