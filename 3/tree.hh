@@ -45,33 +45,33 @@ public:
     typedef array<Node<T>> BASE;
 
 public:
-    Node() = default;
-    Node(BASE::Index i) : BASE(i)
+    constexpr Node() = default;
+    constexpr Node(BASE::Index i) : BASE(i)
     {
     }
-    Node(BASE::Index i,T const* o) : BASE(i,o)
+    constexpr Node(BASE::Index i,T const* o) : BASE(i,o)
     {
     }
-    Node(BASE const& a) : BASE(a)
+    constexpr Node(BASE const& a) : BASE(a)
     {
     }
-    Node(T const& o) : data(o)
+    constexpr Node(T const& o) : data(o)
     {
     }
-    Node(T const& o,BASE::Index i) : BASE(i),data(o)
+    constexpr Node(T const& o,BASE::Index i) : BASE(i),data(o)
     {
     }
-    Node& operator = (Node const& o)
+    constexpr Node& operator = (Node const& o)
     {
         data.operator = (o.data);
 
         return *this;
     }
-    bool operator == (Node const& o) const
+    constexpr bool operator == (Node const& o) const
     {
         return data.operator == (o.data);
     }
-    bool operator != (Node const& o) const
+    constexpr bool operator != (Node const& o) const
     {
         return data.operator != (o.data);
     }
@@ -79,7 +79,7 @@ public:
     {
         return data;
     }
-    operator T const&() const
+    constexpr operator T const&() const
     {
         return data;
     }
@@ -87,7 +87,7 @@ public:
     {
         return &data;
     }
-    const T* operator ->() const
+    constexpr const T* operator ->() const
     {
         return &data;
     }

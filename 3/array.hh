@@ -345,6 +345,14 @@ namespace oct::core::v3
         {
             return data + S;
         }
+        void resize(size_t s)
+        {
+            if(data) delete[] data;
+            S = s;
+            data = new T[S];
+        }
+
+
 #ifdef OCTETOS_CORE_V3_TDD
         void print(std::ostream& out, bool delim = false) const
         {
@@ -366,12 +374,6 @@ namespace oct::core::v3
                 }
             if(delim) out << ")";
             out << "\n";
-        }
-        void resize(size_t s)
-        {
-            if(data) delete[] data;
-            S = s;
-            data = new T[S];
         }
 
 #endif // OCTETOS_AVERSO_TTD
