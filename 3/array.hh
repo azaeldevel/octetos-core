@@ -186,10 +186,10 @@ namespace oct::core::v3
     *\param T Tipo de dato de la secuencia
     *\param L 0 para que la asignacion sea dinamica
     **/
-    template<typename T> class array<T,0,size_t>
+    template<typename T> class array<T,0>
     {
     private:
-        typedef array<T,0,size_t> ARRAY;
+        typedef array<T,0> ARRAY;
     protected:
         size_t S;
         T* data;
@@ -254,25 +254,25 @@ namespace oct::core::v3
         {
             if(i < S) return data[i];
 
-            throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
+            throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango " + std::to_string(S));
         }
         const T& operator [](size_t i) const
         {
             if(i < S) return data[i];
 
-            throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
+            throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango " + std::to_string(S));
         }
         const T& at(size_t i) const
         {
             if(i < S) return data[i];
 
-            throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
+            throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango " + std::to_string(S));
         }
         T& at(size_t i)
         {
             if(i < S) return data[i];
 
-            throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
+            throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango " + std::to_string(S));
         }
         array& operator =(const ARRAY& s)
         {
