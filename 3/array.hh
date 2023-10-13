@@ -223,8 +223,8 @@ namespace oct::core::v3
         }*/
         array(const std::initializer_list<T>& l) : S(l.size()),data(new T[S])
         {
-            if(l.size() < S) throw exception("La cantidad de datos indicados no es suficuente para inicializar el objeto");
-            if(l.size() > S) throw exception("La cantidad de datos exeede la capacidad del objeto");
+            //if(l.size() < S) throw exception("La cantidad de datos indicados no es suficuente para inicializar el objeto");
+            //if(l.size() > S) throw exception("La cantidad de datos exeede la capacidad del objeto");
 
             const T* c = std::data(l);
             for(size_t i = 0; i < l.size(); i++)
@@ -266,13 +266,13 @@ namespace oct::core::v3
         {
             if(i < S) return data[i];
 
-            throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
+            throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango");
         }
         T& at(size_t i)
         {
             if(i < S) return data[i];
 
-            throw std::out_of_range("La cantidad de datos execede la capacidad del objeto");
+            throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango");
         }
         array& operator =(const ARRAY& s)
         {
