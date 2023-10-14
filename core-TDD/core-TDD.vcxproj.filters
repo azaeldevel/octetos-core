@@ -18,9 +18,6 @@
     <ClInclude Include="..\3\array.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\3\Buffer.hh">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\3\entity.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
