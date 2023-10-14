@@ -541,3 +541,97 @@ void v3_reduced_parser()
 	CU_ASSERT(ver18 > ver19);
 	CU_ASSERT(ver19 < ver18);*/
 }
+
+
+void v3_TTC()
+{
+    const core::array<char> digits = {'0','1','2','3','4','5','6','7','8','9'};
+    const core::array<char> terms = {'.','-','+',' ','\n','\t'};
+    const core::array<char> separators = {'.','-','+'};
+    const core::array<char> alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+    typedef core::lex::TTC<char,core::Semver::Tokens,core::lex::State,11> TT;
+
+    const char* input1 = "2696.69.36-alpha";
+    core::Buffer semver_buff1(input1);
+
+
+    /*TT semver_tt1;
+    //semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
+    semver_tt1.one(digits);
+    //std::cout << "\n";
+    //semver_tt1.print(std::cout,2);
+	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex1(semver_tt1,semver_buff1);
+    //core::Semver::Tokens token1 = semver_lex1.next();
+    //CU_ASSERT(token1 == core::Semver::Tokens::number);*/
+
+    TT semver_tt2;
+    //semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
+    core::lex::State state_next_2 = semver_tt2.one(digits);
+    state_next_2 = semver_tt2.one(digits,state_next_2);
+    semver_tt2.prefixing(state_next_2,terms,core::Semver::Tokens::number);
+    semver_tt2.circular(digits,state_next_2);
+    state_next_2 = semver_tt2.one(separators,0,true);
+    //std::cout << "\n";
+    //semver_tt2.print(std::cout,0);
+    //std::cout << "Token : " << to_string(token2.token) << "\n";
+    //std::cout << "Token : " << (int)token2.token << "\n";
+    state_next_2 = semver_tt2.one(separators,0,true);
+    /*state_next_2 = semver_tt2.one(alphabet);
+    CU_ASSERT(state_next_2 > 0)
+    if(state_next_2 == -1)
+    {
+        std::cout << "Fallo la creacion de un estado ";
+        if(semver_tt2.get_last_error() > core::lex::errors::none)
+        {
+            std::cout << " : " << semver_tt2.get_last_error() << " : " << to_string(semver_tt2.get_last_error());
+        }
+        std::cout << "\n";
+    }
+    state_next_2 = semver_tt2.one(alphabet,state_next_2);*/
+    //semver_tt2.prefixing(state_next_2,terms,core::Semver::Tokens::string);
+    //semver_tt2.circular(digits,state_next_2);
+    //semver_tt2.print(std::cout,0);
+    //Reading input....
+	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex2(semver_tt2,semver_buff1);
+    core::lex::Tokenized<char,core::Semver::Tokens> token2;
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens::number);
+    CU_ASSERT(token2.string.compare("2696") == 0)
+    //std::cout << "TK : " << token2.string << "\n";
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens('.'));
+    CU_ASSERT(token2.string.compare(".") == 0)
+    //std::cout << "TK : " << token2.string << "\n";
+    //std::cout << "Token : " << to_string(token2.token) << "\n";
+    //std::cout << "Token : " << (int)token2.token << "\n";
+    //std::cout << "\n";
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens::number);
+    CU_ASSERT(token2.string.compare("69") == 0)
+    //std::cout << "TK : " << token2.string << "\n";
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens('.'));
+    CU_ASSERT(token2.string.compare(".") == 0)
+    //std::cout << "TK : " << token2.string << "\n";
+    semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens::number);
+    CU_ASSERT(token2.string.compare("36") == 0)
+    //std::cout << "TK : " << token2.string << "\n";
+    /*semver_lex2.next(token2);
+    CU_ASSERT(token2.token == core::Semver::Tokens('-'));
+    CU_ASSERT(token2.string.compare("-") == 0)
+    std::cout << "TK : " << token2.string << "\n";*/
+
+    /*std::cout << "\n\n";
+    TT semver_tt3;
+    //semver_tt1.almost_one(digits,core::Semver::Tokens::number,terms);
+    semver_tt3.one(digits,core::Semver::Tokens::number,terms,2,5);
+    //std::cout << "\n";
+    //semver_tt3.print(std::cout,2);
+	core::lex::LC<char,core::Semver::Tokens,core::lex::State,TT> semver_lex3(semver_tt3,semver_buff1);
+    core::lex::Tokenized<char,core::Semver::Tokens> token3;
+    semver_lex3.next(token3);
+    CU_ASSERT(token3.token == core::Semver::Tokens::number);
+    CU_ASSERT(token3.string.compare("2696") == 0)*/
+
+}
