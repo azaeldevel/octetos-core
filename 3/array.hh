@@ -6,8 +6,9 @@
 #include <initializer_list>
 #include "numbers.hh"
 #include "entity.hh"
-#include "Exception.hh"
+//#include "Exception.hh"
 #include <memory>
+#include <string>
 
 namespace oct::core::v3
 {
@@ -226,8 +227,8 @@ namespace oct::core::v3
         }*/
         array(const std::initializer_list<T>& l) : S(l.size()),data(new T[S])
         {
-            //if(l.size() < S) throw exception("La cantidad de datos indicados no es suficuente para inicializar el objeto");
-            //if(l.size() > S) throw exception("La cantidad de datos exeede la capacidad del objeto");
+            if(l.size() < S) throw std::domain_error("La cantidad de datos indicados no es suficuente para inicializar el objeto");
+            if(l.size() > S) throw std::domain_error("La cantidad de datos exeede la capacidad del objeto");
 
             const T* c = std::data(l);
             for(size_t i = 0; i < l.size(); i++)
@@ -325,7 +326,7 @@ namespace oct::core::v3
 
         std::shared_ptr<ARRAY> sub(size_t b,size_t s) const
         {
-            if(b + s >= S) throw exception("Fuera de rango, b + s deve ser menor que al alongitud del arreglo actual.");
+            if(b + s >= S) throw std::domain_error("Fuera de rango, b + s deve ser menor que al alongitud del arreglo actual.");
             const T* a = *this;
             return std::shared_ptr<ARRAY>(new ARRAY(s,a + b));
         }
