@@ -12,5 +12,6 @@ void v3_lc_innier_semver();
 void v3_lc_semver();
 void v3_lc_semver2();
 void v3_lc_semver_rejects();
+void v3_TTC();
 
 #endif

@@ -22,11 +22,14 @@ namespace oct::core::v3
         typedef array<T,S,I> ARRAY;
 
     protected:
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpedantic"
+#ifdef __GNUC__
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wpedantic"
+#endif
         T data[S];
-#pragma GCC diagnostic pop
-
+#ifdef __GNUC__
+    #pragma GCC diagnostic pop
+#endif
     public:
         using Index = I;
         array() = default;
