@@ -169,7 +169,7 @@ void v3_array()
     CU_ASSERT(array8->at(0) == 6);
     CU_ASSERT(array8->at(1) == 9);
 
-    core::array<int> array9(2,base1 + 2);
+    core::array<int> array9(base1 + 2,2);
     CU_ASSERT(array9[0] == 6);
     CU_ASSERT(array9[1] == 9);
 

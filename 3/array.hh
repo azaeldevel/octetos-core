@@ -233,7 +233,11 @@ namespace oct::core::v3
         {
             for(size_t i = 0; i < S; i++) data[i] = v[i];
         }*/
-        array(size_t s, T const* v) : S(s),data(new T[S])
+        array(T const* v,size_t s) : S(s),data(new T[S])
+        {
+            for(size_t i = 0; i < S; i++) data[i] = v[i];
+        }
+        array(T* v,size_t s) : S(s),data(new T[S])
         {
             for(size_t i = 0; i < S; i++) data[i] = v[i];
         }
@@ -344,7 +348,7 @@ namespace oct::core::v3
         {
             if(b + s >= S) throw std::domain_error("Fuera de rango, b + s deve ser menor que al alongitud del arreglo actual.");
             const T* a = *this;
-            return std::shared_ptr<ARRAY>(new ARRAY(s,a + b));
+            return std::shared_ptr<ARRAY>(new ARRAY(a + b,s));
         }
 
 
