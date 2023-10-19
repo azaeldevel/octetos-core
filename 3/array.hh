@@ -170,6 +170,19 @@ namespace oct::core::v3
             return data[S - 1];
         }
 
+        /*template<size_t s> array<T,S + s> push_back(const array<T,s>& a)
+        {
+            array<T,S + s> newa;
+            size_t i = 0;
+            for(;i < S; i++)
+            {
+                newa[i] = data[i];
+            }
+            for(size_t j = 0;j < s; j++)
+            {
+                newa[i + j] = a[j];
+            }
+        }*/
 
 #ifdef OCTETOS_CORE_V3_TDD
         void print(std::ostream& out, bool delim = false) const
@@ -260,6 +273,10 @@ namespace oct::core::v3
         {
             for(size_t i = 0; i < S; i++) data[i] = s.data[i];
         }
+        /*template<size_t s> array(const array<T,s>& a)  : S(s),data(new T[S])
+        {
+            for(size_t i = 0; i < S; i++) data[i] = a.data[i];
+        }*/
         array(ARRAY&& s)  : S(s.S)
         {
             data = s.data;
@@ -390,6 +407,29 @@ namespace oct::core::v3
         const T& back() const
         {
             return data[S - 1];
+        }
+
+        void push_back(const T* b,size_t s)
+        {
+            T* tempdata = new T[S + s];
+            size_t i = 0;
+            for(;i < S; i++)
+            {
+                tempdata[i] = data[i];
+            }
+            for(size_t j = 0;j < s; j++)
+            {
+                tempdata[i + j] = b[j];
+            }
+
+            T* temp = data;
+            data = tempdata;
+            S = S + s;
+            delete[] temp;
+        }
+        void push_back(const array a)
+        {
+            push_back((const T*)a,a.size());
         }
 
 

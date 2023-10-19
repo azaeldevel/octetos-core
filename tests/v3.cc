@@ -211,6 +211,31 @@ void v3_array()
     CU_ASSERT(array11[0] == 7);
 
     core::array<float(*)(float)> array12(10);
+
+    core::array<int> array13(array10);
+    //array13.print(std::cout);
+    CU_ASSERT(array13[0] == 7);
+    CU_ASSERT(array13[1] == 8);
+    CU_ASSERT(array13[2] == 9);
+    CU_ASSERT(array13[3] == 6);
+    CU_ASSERT(array13[4] == 5);
+    CU_ASSERT(array13[5] == -1);
+    array13.push_back(array5);
+    CU_ASSERT(array13[0] == 7);
+    CU_ASSERT(array13[1] == 8);
+    CU_ASSERT(array13[2] == 9);
+    CU_ASSERT(array13[3] == 6);
+    CU_ASSERT(array13[4] == 5);
+    CU_ASSERT(array13[5] == -1);
+    CU_ASSERT(array13[6] == -1);
+    CU_ASSERT(array13[7] == 5);
+    CU_ASSERT(array13[8] == 6);
+    CU_ASSERT(array13[9] == 9);
+    CU_ASSERT(array13[10] == 8);
+    CU_ASSERT(array13[11] == 7);
+    //array13.print(std::cout);
+
+
 }
 void v3_tree()
 {
