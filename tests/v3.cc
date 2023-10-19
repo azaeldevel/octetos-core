@@ -209,6 +209,8 @@ void v3_array()
     CU_ASSERT(array11[2] == 9);
     CU_ASSERT(array11[1] == 8);
     CU_ASSERT(array11[0] == 7);
+
+    core::array<float(*)(float)> array12(10);
 }
 void v3_tree()
 {
