@@ -236,6 +236,57 @@ void v3_array()
     //array13.print(std::cout);
 
 
+    core::array<core::array<int>> array14;
+    array14.push_back(array10);
+    CU_ASSERT(array14[0][0] == 7);
+    CU_ASSERT(array14[0][1] == 8);
+    CU_ASSERT(array14[0][2] == 9);
+    CU_ASSERT(array14[0][3] == 6);
+    CU_ASSERT(array14[0][4] == 5);
+    CU_ASSERT(array14[0][5] == -1);
+    array14.push_back(array5);
+    CU_ASSERT(array14[1][0] == -1);
+    CU_ASSERT(array14[1][1] == 5);
+    CU_ASSERT(array14[1][2] == 6);
+    CU_ASSERT(array14[1][3] == 9);
+    CU_ASSERT(array14[1][4] == 8);
+    CU_ASSERT(array14[1][5] == 7);
+
+    core::array<core::array<int>> array15 {{1,1,1},{2,2,2},{3,3,3}};
+    CU_ASSERT(array15[0][0] == 1);
+    CU_ASSERT(array15[0][1] == 1);
+    CU_ASSERT(array15[0][2] == 1);
+    CU_ASSERT(array15[1][0] == 2);
+    CU_ASSERT(array15[1][1] == 2);
+    CU_ASSERT(array15[1][2] == 2);
+    CU_ASSERT(array15[2][0] == 3);
+    CU_ASSERT(array15[2][1] == 3);
+    CU_ASSERT(array15[2][2] == 3);
+
+    core::array<core::array<int>> array16 {{4,4,4},{5,5,5},{6,6,6}};
+
+    core::array<core::array<int>> array17;
+    array17.push_back(array15);
+    array17.push_back(array16);
+    CU_ASSERT(array17[0][0] == 1);
+    CU_ASSERT(array17[0][1] == 1);
+    CU_ASSERT(array17[0][2] == 1);
+    CU_ASSERT(array17[1][0] == 2);
+    CU_ASSERT(array17[1][1] == 2);
+    CU_ASSERT(array17[1][2] == 2);
+    CU_ASSERT(array17[2][0] == 3);
+    CU_ASSERT(array17[2][1] == 3);
+    CU_ASSERT(array17[2][2] == 3);
+    CU_ASSERT(array17[3][0] == 4);
+    CU_ASSERT(array17[3][1] == 4);
+    CU_ASSERT(array17[3][2] == 4);
+    CU_ASSERT(array17[4][0] == 5);
+    CU_ASSERT(array17[4][1] == 5);
+    CU_ASSERT(array17[4][2] == 5);
+    CU_ASSERT(array17[5][0] == 6);
+    CU_ASSERT(array17[5][1] == 6);
+    CU_ASSERT(array17[5][2] == 6);
+
 }
 void v3_tree()
 {
@@ -257,25 +308,25 @@ void v3_cpp()
 
 void v3_trails()
 {
-    //core::convertion<signed int>::type data1 = std::numeric_limits<signed int>::max();
+    //core::convertion_to_real<signed int>::type data1 = std::numeric_limits<signed int>::max();
     //CU_ASSERT((signed int)data1 == std::numeric_limits<signed int>::max());
 
-    //core::convertion<unsigned int>::type data2 = std::numeric_limits<unsigned int>::max();
+    //core::convertion_to_real<unsigned int>::type data2 = std::numeric_limits<unsigned int>::max();
     //CU_ASSERT((unsigned int)data2 == (float)std::numeric_limits<unsigned int>::max());
 
-    //core::convertion<signed long int>::type data3 = std::numeric_limits<signed long int>::max();
+    //core::convertion_to_real<signed long int>::type data3 = std::numeric_limits<signed long int>::max();
     //CU_ASSERT((signed long int)data3 == (float)std::numeric_limits<signed long int>::max());
 
-    //core::convertion<signed long int>::type data4 = std::numeric_limits<signed long int>::max();
+    //core::convertion_to_real<signed long int>::type data4 = std::numeric_limits<signed long int>::max();
     //CU_ASSERT((signed long int)data4 == (float)std::numeric_limits<signed long int>::max());
 
-    //core::convertion<unsigned long int>::type data4 = std::numeric_limits<unsigned long int>::max();
+    //core::convertion_to_real<unsigned long int>::type data4 = std::numeric_limits<unsigned long int>::max();
     //CU_ASSERT(core::equal(data4, (float)std::numeric_limits<unsigned long int>::max()));
 
-    /*core::convertion<unsigned long>::type data2 = std::numeric_limits<unsigned long>::max();
+    /*core::convertion_to_real<unsigned long>::type data2 = std::numeric_limits<unsigned long>::max();
     CU_ASSERT(data2 == std::numeric_limits<unsigned long>::max());
 
-    core::convertion<unsigned long>::type data3 = std::numeric_limits<unsigned long>::max();
+    core::convertion_to_real<unsigned long>::type data3 = std::numeric_limits<unsigned long>::max();
     CU_ASSERT(data3 == std::numeric_limits<unsigned long>::max());*/
 
 

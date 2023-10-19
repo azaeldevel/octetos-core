@@ -409,27 +409,39 @@ namespace oct::core::v3
             return data[S - 1];
         }
 
-        void push_back(const T* b,size_t s)
+
+        void push_back(const array& a)
         {
-            T* tempdata = new T[S + s];
+            T* tempdata = new T[S + a.S];
             size_t i = 0;
             for(;i < S; i++)
             {
                 tempdata[i] = data[i];
             }
-            for(size_t j = 0;j < s; j++)
+            for(size_t j = 0;j < a.S; j++)
             {
-                tempdata[i + j] = b[j];
+                tempdata[i + j] = a[j];
             }
 
             T* temp = data;
             data = tempdata;
-            S = S + s;
+            S = S + a.S;
             delete[] temp;
         }
-        void push_back(const array a)
+        void push_back(const T& a)
         {
-            push_back((const T*)a,a.size());
+            T* tempdata = new T[S + 1];
+            size_t i = 0;
+            for(;i < S; i++)
+            {
+                tempdata[i] = data[i];
+            }
+            tempdata[i] = a;
+
+            T* temp = data;
+            data = tempdata;
+            S = S + 1;
+            delete[] temp;
         }
 
 
