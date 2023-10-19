@@ -153,6 +153,22 @@ namespace oct::core::v3
         {
             return data + S;
         }
+        T& front()
+        {
+            return data[0];
+        }
+        T& back()
+        {
+            return data[S - 1];
+        }
+        const T& front() const
+        {
+            return data[0];
+        }
+        const T& back() const
+        {
+            return data[S - 1];
+        }
 
 
 #ifdef OCTETOS_CORE_V3_TDD
@@ -354,6 +370,22 @@ namespace oct::core::v3
             if(data) delete[] data;
             S = s;
             data = new T[S];
+        }
+        T& front()
+        {
+            return data[0];
+        }
+        T& back()
+        {
+            return data[S - 1];
+        }
+        const T& front() const
+        {
+            return data[0];
+        }
+        const T& back() const
+        {
+            return data[S - 1];
         }
 
 

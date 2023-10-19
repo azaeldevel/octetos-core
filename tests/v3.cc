@@ -155,6 +155,7 @@ void v3_array()
     CU_ASSERT(array6[3] == 9);
     CU_ASSERT(array6[4] == 8);
     CU_ASSERT(array6[5] == 7);
+    CU_ASSERT(array6.back() == 7);
 
     auto array7 = array6.sub<2,2>();
     //array7.print(std::cout);
@@ -183,6 +184,13 @@ void v3_array()
     //std::cout << "\n";
     std::reverse(array10.begin(),array10.end());
     //array10.print(std::cout);
+    CU_ASSERT(array10[0] == 7);
+    CU_ASSERT(array10[1] == 8);
+    CU_ASSERT(array10[2] == 9);
+    CU_ASSERT(array10[3] == 6);
+    CU_ASSERT(array10[4] == 5);
+    CU_ASSERT(array10[5] == -1);
+    CU_ASSERT(array10.back() == -1);
 
     core::array<int,6> array11 {-1,5,6,9,8,7};
     CU_ASSERT(array11[0] == -1);
