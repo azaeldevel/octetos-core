@@ -52,58 +52,58 @@ namespace oct::core::v3
     };
 
 
-    template<typename T> struct convertion
+    template<typename T> struct convertion_to_real
     {
     };
-    template<> struct convertion<unsigned char>
-    {
-        using type = float;
-    };
-    template<> struct convertion<signed char>
+    template<> struct convertion_to_real<unsigned char>
     {
         using type = float;
     };
-    template<> struct convertion<unsigned short>
+    template<> struct convertion_to_real<signed char>
     {
         using type = float;
     };
-    template<> struct convertion<signed short>
+    template<> struct convertion_to_real<unsigned short>
     {
         using type = float;
     };
-    template<> struct convertion<unsigned int>
+    template<> struct convertion_to_real<signed short>
     {
         using type = float;
     };
-    template<> struct convertion<signed int>
+    template<> struct convertion_to_real<unsigned int>
     {
         using type = float;
     };
-    template<> struct convertion<unsigned long int>
+    template<> struct convertion_to_real<signed int>
+    {
+        using type = float;
+    };
+    template<> struct convertion_to_real<unsigned long int>
     {
         using type = double;
     };
-    template<> struct convertion<signed long int>
+    template<> struct convertion_to_real<signed long int>
     {
         using type = double;
     };
-    template<> struct convertion<unsigned long long int>
+    template<> struct convertion_to_real<unsigned long long int>
     {
         using type = long double;
     };
-    template<> struct convertion<signed long long int>
+    template<> struct convertion_to_real<signed long long int>
     {
         using type = long double;
     };
-    template<> struct convertion<float>
+    template<> struct convertion_to_real<float>
     {
         using type = float;
     };
-    template<> struct convertion<double>
+    template<> struct convertion_to_real<double>
     {
         using type = double;
     };
-    template<> struct convertion<long double>
+    template<> struct convertion_to_real<long double>
     {
         using type = long double;
     };

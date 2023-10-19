@@ -58,7 +58,7 @@ void v3_developing()
     CU_ASSERT_FALSE(core::equal(f,h));
     CU_ASSERT(core::equal(f,h,1));
 
-    core::convertion<int>::type data = 1.11f;
+    core::convertion_to_real<int>::type data = 1.11f;
     CU_ASSERT(core::equal(data,1.11f));
 
 }
