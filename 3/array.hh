@@ -153,7 +153,36 @@ namespace oct::core::v3
         {
             return data + S;
         }
+        T& front()
+        {
+            return data[0];
+        }
+        T& back()
+        {
+            return data[S - 1];
+        }
+        const T& front() const
+        {
+            return data[0];
+        }
+        const T& back() const
+        {
+            return data[S - 1];
+        }
 
+        /*template<size_t s> array<T,S + s> push_back(const array<T,s>& a)
+        {
+            array<T,S + s> newa;
+            size_t i = 0;
+            for(;i < S; i++)
+            {
+                newa[i] = data[i];
+            }
+            for(size_t j = 0;j < s; j++)
+            {
+                newa[i + j] = a[j];
+            }
+        }*/
 
 #ifdef OCTETOS_CORE_V3_TDD
         void print(std::ostream& out, bool delim = false) const
@@ -217,7 +246,11 @@ namespace oct::core::v3
         {
             for(size_t i = 0; i < S; i++) data[i] = v[i];
         }*/
-        array(size_t s, T const* v) : S(s),data(new T[S])
+        array(T const* v,size_t s) : S(s),data(new T[S])
+        {
+            for(size_t i = 0; i < S; i++) data[i] = v[i];
+        }
+        array(T* v,size_t s) : S(s),data(new T[S])
         {
             for(size_t i = 0; i < S; i++) data[i] = v[i];
         }
@@ -240,6 +273,10 @@ namespace oct::core::v3
         {
             for(size_t i = 0; i < S; i++) data[i] = s.data[i];
         }
+        /*template<size_t s> array(const array<T,s>& a)  : S(s),data(new T[S])
+        {
+            for(size_t i = 0; i < S; i++) data[i] = a.data[i];
+        }*/
         array(ARRAY&& s)  : S(s.S)
         {
             data = s.data;
@@ -328,7 +365,7 @@ namespace oct::core::v3
         {
             if(b + s >= S) throw std::domain_error("Fuera de rango, b + s deve ser menor que al alongitud del arreglo actual.");
             const T* a = *this;
-            return std::shared_ptr<ARRAY>(new ARRAY(s,a + b));
+            return std::shared_ptr<ARRAY>(new ARRAY(a + b,s));
         }
 
 
@@ -354,6 +391,57 @@ namespace oct::core::v3
             if(data) delete[] data;
             S = s;
             data = new T[S];
+        }
+        T& front()
+        {
+            return data[0];
+        }
+        T& back()
+        {
+            return data[S - 1];
+        }
+        const T& front() const
+        {
+            return data[0];
+        }
+        const T& back() const
+        {
+            return data[S - 1];
+        }
+
+
+        void push_back(const array& a)
+        {
+            T* tempdata = new T[S + a.S];
+            size_t i = 0;
+            for(;i < S; i++)
+            {
+                tempdata[i] = data[i];
+            }
+            for(size_t j = 0;j < a.S; j++)
+            {
+                tempdata[i + j] = a[j];
+            }
+
+            T* temp = data;
+            data = tempdata;
+            S = S + a.S;
+            delete[] temp;
+        }
+        void push_back(const T& a)
+        {
+            T* tempdata = new T[S + 1];
+            size_t i = 0;
+            for(;i < S; i++)
+            {
+                tempdata[i] = data[i];
+            }
+            tempdata[i] = a;
+
+            T* temp = data;
+            data = tempdata;
+            S = S + 1;
+            delete[] temp;
         }
 
 
