@@ -400,3 +400,23 @@ void v3_performance()
     //std::cout << "Eficiencia : " << v << "\n";
     CU_ASSERT(v < 1.1)
 }
+void v3_to_number()
+{
+    short num1 = core::to_number<short>("1200");
+    CU_ASSERT(num1 == 1200);
+    short num2 = core::to_number<short>("15300");
+    CU_ASSERT(num2 == 15300);
+    short num3 = core::to_number<short>("-1200");
+    CU_ASSERT(num3 == -1200);
+    short num4 = core::to_number<short>("-15300");
+    CU_ASSERT(num4 == -15300);
+    int num5 = core::to_number<int>("120000");
+    CU_ASSERT(num5 == 120000);
+    long num6 = core::to_number<long>("12000000");
+    CU_ASSERT(num6 == 12000000);
+
+    unsigned short num7 = core::to_number<unsigned short>("1200");
+    CU_ASSERT(num7 == 1200);
+    unsigned short num8 = core::to_number<unsigned short>("15300");
+    CU_ASSERT(num8 == 15300);
+}

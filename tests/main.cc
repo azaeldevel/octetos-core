@@ -120,6 +120,11 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+	if ((NULL == CU_add_test(pSuite_v3, "to_number funtion ..", v3_to_number)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
 #ifdef OCTETOS_CORE_V3_PERFORMANCE
 	if ((NULL == CU_add_test(pSuite_v3, "Performance..", v3_performance)))
 	{
