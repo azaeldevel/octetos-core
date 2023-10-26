@@ -290,10 +290,14 @@ void v3_array()
 }
 void v3_tree()
 {
+    enum Types
+    {
+        data1,
+        data2,
+        data3,
+    };
 
-    core::Node<core::Number> num1;
-    core::Node<core::Number> num2;
-    core::Node<core::Number> num3;
+    core::Node<Types> num1;
 
 }
 
