@@ -18,6 +18,9 @@
     <ClInclude Include="..\3\array.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\3\Buffer.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
     <ClInclude Include="..\3\entity.hh">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -44,8 +47,5 @@
     <ClCompile Include="..\tests\v3.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

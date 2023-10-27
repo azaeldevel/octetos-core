@@ -33,66 +33,43 @@
 namespace oct::core::v3
 {
 
-template<class T> class Node : public array<Node<T>>
-{
-private:
+    /**
+    *\brief Crea un nodo
+    *\param T parametro de plantilla para determinar el tipo de nodo
+    **/
+    template<typename T> class Node : public array<Node<T>*>
+    {
+    public:
+        typedef array<Node<T>*> BASE;
 
+    public:
+        Node() = default;
+        Node(const T& t) : type(t)
+        {
+        }
+        Node(const T& t,size_t s) : type(t),BASE(s,NULL)
+        {
+        }
+        Node(const std::initializer_list<Node<T>>& l) : BASE(l)
+        {
+        }
+        Node(const T& t,const std::initializer_list<Node<T>>& l) : type(t),BASE(l)
+        {
+        }
 
-protected:
-    T data;
+        /**
+        *\brief Asigna el type
+        *
+        **/
+        void set(const T& t)
+        {
+            type = t;
+        }
 
-public:
-    typedef array<Node<T>> BASE;
+    private:
+        T type;
 
-public:
-    constexpr Node() = default;
-    constexpr Node(BASE::Index i) : BASE(i)
-    {
-    }
-    constexpr Node(BASE::Index i,T const* o) : BASE(i,o)
-    {
-    }
-    constexpr Node(BASE const& a) : BASE(a)
-    {
-    }
-    constexpr Node(T const& o) : data(o)
-    {
-    }
-    constexpr Node(T const& o,BASE::Index i) : BASE(i),data(o)
-    {
-    }
-    constexpr Node& operator = (Node const& o)
-    {
-        data.operator = (o.data);
-
-        return *this;
-    }
-    constexpr bool operator == (Node const& o) const
-    {
-        return data.operator == (o.data);
-    }
-    constexpr bool operator != (Node const& o) const
-    {
-        return data.operator != (o.data);
-    }
-    operator T&()
-    {
-        return data;
-    }
-    constexpr operator T const&() const
-    {
-        return data;
-    }
-    T* operator ->()
-    {
-        return &data;
-    }
-    constexpr const T* operator ->() const
-    {
-        return &data;
-    }
-
-};
+    };
 
 
 }
