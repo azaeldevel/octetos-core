@@ -323,7 +323,7 @@ namespace oct::core::v3
 
             return *this;
         }
-        array& operator = (std::initializer_list<T> l)
+        array& operator = (const std::initializer_list<T>& l)
         {
             S = l.size();
 
