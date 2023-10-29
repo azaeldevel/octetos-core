@@ -66,6 +66,13 @@ namespace oct::core::v3
             type = t;
         }
 
+
+#ifdef OCTETOS_CORE_V3_TDD
+        virtual void print(std::ostream& out) const = 0
+        {
+        }
+#endif
+
     private:
         T type;
 
