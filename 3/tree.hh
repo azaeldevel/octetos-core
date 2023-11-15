@@ -68,7 +68,7 @@ namespace oct::core::v3
 
 
 #ifdef OCTETOS_CORE_V3_TDD
-        virtual void print(std::ostream& out) const = 0
+        virtual void print(std::ostream& out) const
         {
         }
 #endif
