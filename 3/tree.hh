@@ -44,6 +44,9 @@ namespace oct::core::v3
 
     public:
         Node() = default;
+        Node(size_t s) : BASE(s)
+        {
+        }
         Node(const T& t) : type(t)
         {
         }
