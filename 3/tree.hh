@@ -37,26 +37,42 @@ namespace oct::core::v3
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<typename T> class Node : public array<Node<T>*>
+    template<typename T> struct node
+    {
+    };
+
+    /**
+    *\brief Crea un nodo
+    *\param T parametro de plantilla para determinar el tipo de nodo
+    **/
+    template<typename T> struct Sheet : public node<T>
+    {
+    };
+
+    /**
+    *\brief Crea un nodo
+    *\param T parametro de plantilla para determinar el tipo de nodo
+    **/
+    template<typename T> struct Parent : public node<T>, public array<node<T>*>
     {
     public:
-        typedef array<Node<T>*> BASE;
+        typedef array<node<T>*> BASE;
 
     public:
-        Node() = default;
-        Node(size_t s) : BASE(s)
+        Parent() = default;
+        Parent(size_t s) : BASE(s)
         {
         }
-        Node(const T& t) : type(t)
+        Parent(const T& t) : data(t)
         {
         }
-        Node(const T& t,size_t s) : type(t),BASE(s,NULL)
+        Parent(const T& t,size_t s) : BASE(s),data(t)
         {
         }
-        Node(const std::initializer_list<Node<T>>& l) : BASE(l)
+        Parent(const std::initializer_list<Parent<T>>& l) : BASE(l)
         {
         }
-        Node(const T& t,const std::initializer_list<Node<T>>& l) : type(t),BASE(l)
+        Parent(const T& t,const std::initializer_list<Parent<T>>& l) : BASE(l),data(t)
         {
         }
 
@@ -66,7 +82,7 @@ namespace oct::core::v3
         **/
         void set(const T& t)
         {
-            type = t;
+            data = t;
         }
 
 
@@ -76,9 +92,8 @@ namespace oct::core::v3
         }
 #endif
 
-    private:
-        T type;
 
+        T data;
     };
 
 
