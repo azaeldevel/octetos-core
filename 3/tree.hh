@@ -72,13 +72,13 @@ namespace oct::core::v3
         Parent(const T& t) : Node<T>(t)
         {
         }
-        Parent(const T& t,size_t s) : BASE(s),Node<T>(t)
+        Parent(const T& t,size_t s) : Node<T>(t),BASE(s)
         {
         }
         Parent(const std::initializer_list<Parent<T>>& l) : BASE(l)
         {
         }
-        Parent(const T& t,const std::initializer_list<Parent<T>>& l) : BASE(l),Node<T>(t)
+        Parent(const T& t,const std::initializer_list<Parent<T>>& l) : Node<T>(t),BASE(l)
         {
         }
 
