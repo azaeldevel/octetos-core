@@ -65,10 +65,6 @@
 		<Unit filename="3/Semver.hh" />
 		<Unit filename="3/array.hh" />
 		<Unit filename="3/entity.hh" />
-		<Unit filename="3/generator.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="3/numbers.hh" />
 		<Unit filename="3/tree.cc" />
 		<Unit filename="3/tree.hh" />

@@ -37,10 +37,10 @@ namespace oct::core::v3
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<typename T> struct Node
+    template<typename T> struct node
     {
-        Node() = default;
-        Node(const T& t) : data(t)
+        node() = default;
+        node(const T& t) : data(t)
         {
         }
 
@@ -51,7 +51,7 @@ namespace oct::core::v3
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<typename T> struct Sheet : public Node<T>
+    template<typename T> struct Sheet : public node<T>
     {
     };
 
@@ -59,26 +59,26 @@ namespace oct::core::v3
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<typename T> struct Parent : public Node<T>, public array<Node<T>*>
+    template<typename T> struct Node : public node<T>, public array<node<T>*>
     {
     public:
-        typedef array<Node<T>*> BASE;
+        typedef array<node<T>*> BASE;
 
     public:
-        Parent() = default;
-        Parent(size_t s) : BASE(s)
+        Node() = default;
+        Node(size_t s) : BASE(s)
         {
         }
-        Parent(const T& t) : Node<T>(t)
+        Node(const T& t) : node<T>(t)
         {
         }
-        Parent(const T& t,size_t s) : Node<T>(t),BASE(s)
+        Node(const T& t,size_t s) : node<T>(t),BASE(s)
         {
         }
-        Parent(const std::initializer_list<Parent<T>>& l) : BASE(l)
+        Node(const std::initializer_list<Node<T>>& l) : BASE(l)
         {
         }
-        Parent(const T& t,const std::initializer_list<Parent<T>>& l) : Node<T>(t),BASE(l)
+        Node(const T& t,const std::initializer_list<Node<T>>& l) : node<T>(t),BASE(l)
         {
         }
 

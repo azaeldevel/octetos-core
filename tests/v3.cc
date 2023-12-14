@@ -297,7 +297,7 @@ void v3_tree()
         data3,
     };
 
-    core::Parent<Types> num1;
+    core::Node<Types> num1;
 
 }
 
