@@ -68,9 +68,9 @@ public:
 		if (description.empty())
 		{
 			description = _location.file_name();
-			description += ":";
-			description += std::to_string(_location.line()) + " ";
-			if (_code_flag) description += "- " + std::to_string(_code);
+			description += " : ";
+			description += std::to_string(_location.line());
+			if (_code_flag) description += " - Internal(" + std::to_string(_code) + ")";
 			if (not _message.empty()) description += "\n\t" + _message;
 		}
 
