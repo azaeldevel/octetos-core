@@ -22,8 +22,15 @@
 namespace oct::core::v3
 {
 
-    void copy(const std::string& from,const std::string& to,bool include,std::vector<char> datas)
+    std::string toupper(const std::string& from)
     {
+        std::string to = from;
+        for(size_t i = 0; i < to.size(); i++)
+        {
+            to[i] = std::toupper(to[i]);
+        }
+
+        return to;
     }
 
 }

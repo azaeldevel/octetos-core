@@ -52,27 +52,83 @@
 					<Add option="`pkg-config cunit --libs`" />
 				</Linker>
 			</Target>
+			<Target title="liboctetos-core-3">
+				<Option output="bin/Debug/liboctetos-core-3" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/Debug/objs" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-g -fPIC" />
+				</Compiler>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="--std=c++20 -Wall -pedantic" />
 			<Add directory="../../octetos" />
 		</Compiler>
-		<Unit filename="3/Buffer.cc" />
-		<Unit filename="3/Buffer.hh" />
-		<Unit filename="3/Exception.hh" />
-		<Unit filename="3/Lexer-C.hh" />
-		<Unit filename="3/Lexer.hh" />
-		<Unit filename="3/Semver.hh" />
-		<Unit filename="3/array.hh" />
-		<Unit filename="3/entity.hh" />
-		<Unit filename="3/numbers.hh" />
+		<Unit filename="3/Buffer.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
+		<Unit filename="3/Buffer.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
+		<Unit filename="3/Exception.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
+		<Unit filename="3/Lexer-C.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
+		<Unit filename="3/Lexer.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
+		<Unit filename="3/Semver.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
+		<Unit filename="3/array.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
+		<Unit filename="3/entity.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
+		<Unit filename="3/numbers.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
 		<Unit filename="3/string.cc" />
 		<Unit filename="3/string.hh">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="liboctetos-core-3" />
 		</Unit>
-		<Unit filename="3/tree.cc" />
-		<Unit filename="3/tree.hh" />
+		<Unit filename="3/tree.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
+		<Unit filename="3/tree.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="preformace" />
+		</Unit>
 		<Unit filename="tests/main.cc">
 			<Option target="Debug" />
 			<Option target="Release" />

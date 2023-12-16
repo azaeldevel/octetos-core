@@ -8,7 +8,7 @@
 namespace oct::core::v3
 {
 
-    void copy(const std::string& from,const std::string& to,bool include,std::vector<char>);
+    std::string toupper(const std::string&);
 
 }
 
