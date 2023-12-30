@@ -59,26 +59,26 @@ namespace oct::core::v3
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<typename T> struct Node : public node<T>, public array<node<T>*>
+    template<typename T,typename N = node<T>> struct Node : public N, public array<N*>
     {
     public:
-        typedef array<node<T>*> BASE;
+        typedef array<N*> BASE;
 
     public:
         Node() = default;
         Node(size_t s) : BASE(s)
         {
         }
-        Node(const T& t) : node<T>(t)
+        Node(const T& t) : N(t)
         {
         }
-        Node(const T& t,size_t s) : node<T>(t),BASE(s)
+        Node(const T& t,size_t s) : N(t),BASE(s)
         {
         }
         Node(const std::initializer_list<Node<T>>& l) : BASE(l)
         {
         }
-        Node(const T& t,const std::initializer_list<Node<T>>& l) : node<T>(t),BASE(l)
+        Node(const T& t,const std::initializer_list<Node<T>>& l) : BASE(t),BASE(l)
         {
         }
 
