@@ -54,6 +54,12 @@ namespace oct::core::v3
     };
 
 
+    class Temporary
+    {
+    public:
+
+    };
+
 }
 
 #endif
