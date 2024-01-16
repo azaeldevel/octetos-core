@@ -90,6 +90,10 @@ namespace oct::core::v3
     {
         return version;
     }
+    void Configuration::open()
+    {
+        open(fullname);
+    }
     void Configuration::open(const std::filesystem::path& p)
     {
 	    fullname = p;
@@ -128,7 +132,7 @@ namespace oct::core::v3
         version_setting["major"] = v.major;
         version_setting["minor"] = v.minor;
         version_setting["patch"] = v.patch;
-        version_setting["patch"] = v.patch;
+        version_setting["prerelease"] = v.prerelease;
         version_setting["build"] = v.build;
         writeFile(fullname.c_str());
         version = v;
