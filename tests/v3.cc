@@ -13,6 +13,7 @@
 //#include <core/3/Semver.hh>
 #include <core/3/numbers.hh>
 #include <algorithm>
+#include "../3/Configuration.hh"
 
 
 #if defined(__linux__)
@@ -60,6 +61,26 @@ void v3_developing()
 
     core::convertion_to_real<int>::type data = 1.11f;
     CU_ASSERT(core::equal(data,1.11f));
+
+
+    char* tmpf_config_temp = tmpnam(NULL);
+    std::filesystem::path tmpf_config = tmpf_config_temp;
+    core::Configuration config1(tmpf_config_temp);
+
+
+    core::Semver veroct;
+    veroct.major=OCTETOS_CORE_VERSION_MAJOR;
+    veroct.minor=OCTETOS_CORE_VERSION_MINOR;
+    veroct.patch=OCTETOS_CORE_VERSION_PATCH;
+    core::Configuration config2;
+    CU_ASSERT(config2.get_version().major == 0)
+    char* tmpf_config_temp2 = tmpnam(NULL);
+    std::filesystem::path tmpf_config2 = tmpf_config_temp2;
+    config2.create(tmpf_config2,veroct);
+    CU_ASSERT(config2.get_version().major == 3)
+
+    core::Configuration config3(tmpf_config2);
+    CU_ASSERT(config3.get_version().major == 3)
 
 }
 

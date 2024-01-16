@@ -79,9 +79,15 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="--std=c++20 -Wall -pedantic" />
+			<Add option="--std=c++20 -Wall -pedantic `pkg-config libconfig++ --cflags`" />
+			<Add option="-DOCTETOS_CORE_VERSION_MAJOR=3" />
+			<Add option="-DOCTETOS_CORE_VERSION_MINOR=0" />
+			<Add option="-DOCTETOS_CORE_VERSION_PATCH=0" />
 			<Add directory="../../octetos" />
 		</Compiler>
+		<Linker>
+			<Add option="`pkg-config libconfig++ --libs`" />
+		</Linker>
 		<Unit filename="3/Buffer.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -93,6 +99,16 @@
 			<Option target="Release" />
 			<Option target="preformace" />
 			<Option target="attempts" />
+		</Unit>
+		<Unit filename="3/Configuration.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="liboctetos-core-3" />
+		</Unit>
+		<Unit filename="3/Configuration.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="liboctetos-core-3" />
 		</Unit>
 		<Unit filename="3/Exception.hh">
 			<Option target="Debug" />
@@ -107,12 +123,6 @@
 			<Option target="attempts" />
 		</Unit>
 		<Unit filename="3/Lexer.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
-			<Option target="preformace" />
-			<Option target="attempts" />
-		</Unit>
-		<Unit filename="3/Semver.hh">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="preformace" />
@@ -154,6 +164,16 @@
 			<Option target="Release" />
 			<Option target="preformace" />
 			<Option target="attempts" />
+		</Unit>
+		<Unit filename="3/version.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="liboctetos-core-3" />
+		</Unit>
+		<Unit filename="3/version.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="liboctetos-core-3" />
 		</Unit>
 		<Unit filename="tests/attempts.cc">
 			<Option target="attempts" />
