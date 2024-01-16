@@ -9,7 +9,7 @@
 
 namespace oct::core::v3
 {
-    class Configuration : protected libconfig::Config
+    class Configuration : public libconfig::Config
     {
     public:
 
@@ -26,6 +26,7 @@ namespace oct::core::v3
         void create(const std::filesystem::path& p,const Semver&);
         void open();
         void open(const std::filesystem::path&);
+        void save();
 
         void write_name(const std::string&);
         void write(const Version&);

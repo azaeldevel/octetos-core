@@ -107,6 +107,10 @@ namespace oct::core::v3
         version.prerelease = (std::string)version_setting.lookup("prerelease");
         version.build = (std::string)version_setting.lookup("build");
     }
+    void Configuration::save()
+    {
+        writeFile(fullname.c_str());
+    }
 
     void Configuration::write_name(const std::string& n)
     {
