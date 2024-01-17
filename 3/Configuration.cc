@@ -66,7 +66,7 @@ namespace oct::core::v3
         version_setting.add("prerelease", libconfig::Setting::TypeString) = "";
         version_setting.add("build", libconfig::Setting::TypeString) = "";
 
-        writeFile(fullname.c_str());
+        writeFile(fullname.string().c_str());
 	}
 	void Configuration::create(const std::filesystem::path& p,const Version& v)
 	{
@@ -98,7 +98,7 @@ namespace oct::core::v3
     {
 	    fullname = p;
         //std::cout << "reading : " << p << "\n";
-        readFile(p.c_str());
+        readFile(p.string().c_str());
 
 
         name = (std::string)lookup("name");
@@ -113,18 +113,18 @@ namespace oct::core::v3
     }
     void Configuration::save()
     {
-        writeFile(fullname.c_str());
+        writeFile(fullname.string().c_str());
     }
 
     void Configuration::write_name(const std::string& n)
     {
         libconfig::Setting &name_setting = lookup("name");
         name_setting = (std::string)n;
-        writeFile(fullname.c_str());
+        writeFile(fullname.string().c_str());
     }
     void Configuration::write(const Version&)
     {
-        writeFile(fullname.c_str());
+        writeFile(fullname.string().c_str());
     }
     void Configuration::write(const Semver& v)
     {
@@ -134,7 +134,7 @@ namespace oct::core::v3
         version_setting["patch"] = v.patch;
         version_setting["prerelease"] = v.prerelease;
         version_setting["build"] = v.build;
-        writeFile(fullname.c_str());
+        writeFile(fullname.string().c_str());
         version = v;
     }
 
