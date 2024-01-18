@@ -43,7 +43,20 @@ namespace oct::core::v3
         msys2,
     };
 
-    platform_type get_platform_type();
+    constexpr platform_type get_platform_type()
+    {
+#if __linux__
+        return platform_type::linux;
+#elif (defined(_WIN32) || defined(_WIN64))
+    #if MSYS2
+        return platform_type::msys2;
+    #else
+        return platform_type::windows;
+    #endif
+#else
+	#error "Plataforma desconocida."
+#endif
+    }
 
     std::filesystem::path get_user_directory();
 }
