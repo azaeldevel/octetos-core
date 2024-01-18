@@ -14,6 +14,7 @@
 #include <core/3/numbers.hh>
 #include <algorithm>
 #include "../3/Configuration.hh"
+#include "../3/platform.hh"
 
 
 #if defined(__linux__)
@@ -81,6 +82,10 @@ void v3_developing()
 
     core::Configuration config3(tmpf_config2);
     CU_ASSERT(config3.get_version().major == 3)
+
+
+    std::filesystem::path userdir = core::get_user_directory();
+    //std::wcout << userdir << "\n";
 
 }
 
