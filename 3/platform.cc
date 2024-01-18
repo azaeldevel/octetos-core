@@ -46,7 +46,7 @@ namespace oct::core::v3
         std::filesystem::path home = pw->pw_dir;
 
         //configure directory
-        return home/configure_directory;
+        return home;
 #elif (defined(_WIN32) || defined(_WIN64))
         std::filesystem::path homeDir;
         homeDir = _wgetenv(L"USERPROFILE");

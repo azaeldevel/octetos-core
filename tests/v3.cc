@@ -85,7 +85,7 @@ void v3_developing()
 
 
     std::filesystem::path userdir = core::get_user_directory();
-    //std::wcout << userdir << "\n";
+    std::cout << userdir << "\n";
 
 }
 
