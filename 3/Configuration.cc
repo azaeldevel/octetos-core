@@ -16,6 +16,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+ #include "Exception.hh"
+
 #include "Configuration.hh"
 
 namespace oct::core::v3
@@ -34,17 +36,9 @@ namespace oct::core::v3
 	}
 	Configuration::Configuration(const std::filesystem::path& p,const std::filesystem::path& d)
 	{
-	    if(std::filesystem::exists(d))//existe el directorio
-        {
-            fullname = d/p;
-            if(std::filesystem::exists(fullname)) open(p);
-            else create(fullname);
-        }
-	    else
-        {
-            fullname = d/p;
-            create(fullname);
-        }
+	    fullname = d/p;
+	    if(std::filesystem::exists(p)) open(p);
+	    else create(p);
 	}
 
 
@@ -52,6 +46,14 @@ namespace oct::core::v3
 	//create funtion
     void Configuration::create(const std::filesystem::path& fn)
 	{
+	    if(std::filesystem::exists(fn))
+        {
+            std::string strmsg = "Ya existe el archivo \"";
+            strmsg += fn.string().c_str();
+            strmsg += "\"";
+            throw exception(strmsg);
+        }
+
 	    fullname = fn;
 	    libconfig::Setting &root = getRoot();
 	    //System key name
@@ -66,9 +68,11 @@ namespace oct::core::v3
         version_setting.add("prerelease", libconfig::Setting::TypeString) = "";
         version_setting.add("build", libconfig::Setting::TypeString) = "";
 
+        if(not std::filesystem::exists(fullname.parent_path())) std::filesystem::create_directory(fullname.parent_path());
+
         writeFile(fullname.string().c_str());
 	}
-	void Configuration::create(const std::filesystem::path& p,const Version& v)
+	/*void Configuration::create(const std::filesystem::path& p,const Version& v)
 	{
 	    fullname = p;
 	    create(p);
@@ -79,7 +83,7 @@ namespace oct::core::v3
 	    fullname = p;
 	    create(p);
         write(v);
-	}
+	}*/
 
 
     const std::string& Configuration::get_name() const
@@ -90,12 +94,20 @@ namespace oct::core::v3
     {
         return version;
     }
-    void Configuration::open()
+    /*void Configuration::open()
     {
         open(fullname);
-    }
+    }*/
     void Configuration::open(const std::filesystem::path& p)
     {
+	    if(not std::filesystem::exists(p))
+        {
+            std::string strmsg = "No existe el archivo \"";
+            strmsg += p.string().c_str();
+            strmsg += "\"";
+            throw exception(strmsg);
+        }
+
 	    fullname = p;
         //std::cout << "reading : " << p << "\n";
         readFile(p.string().c_str());
@@ -113,6 +125,12 @@ namespace oct::core::v3
     }
     void Configuration::save()
     {
+	    if(fullname.empty())
+        {
+            std::string strmsg = "No se a asignaod un nombre de archivo, deve crear uno o abrir uno existeste";
+            throw exception(strmsg);
+        }
+
         writeFile(fullname.string().c_str());
     }
 

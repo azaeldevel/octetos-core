@@ -22,9 +22,9 @@ namespace oct::core::v3
         //std::filesystem::path read(const std::filesystem::path& p);
         void create();
         void create(const std::filesystem::path& p);
-        void create(const std::filesystem::path& p,const Version&);
-        void create(const std::filesystem::path& p,const Semver&);
-        void open();
+        //void create(const std::filesystem::path& p,const Version&);
+        //void create(const std::filesystem::path& p,const Semver&);
+        //void open();
         void open(const std::filesystem::path&);
         void save();
 
