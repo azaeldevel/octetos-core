@@ -87,6 +87,7 @@
 		</Compiler>
 		<Linker>
 			<Add option="`pkg-config libconfig++ --libs`" />
+			<Add library="Userenv" />
 		</Linker>
 		<Unit filename="3/Buffer.cc">
 			<Option target="Debug" />
@@ -145,6 +146,16 @@
 			<Option target="Release" />
 			<Option target="preformace" />
 			<Option target="attempts" />
+		</Unit>
+		<Unit filename="3/platform.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="liboctetos-core-3" />
+		</Unit>
+		<Unit filename="3/platform.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="liboctetos-core-3" />
 		</Unit>
 		<Unit filename="3/string.cc" />
 		<Unit filename="3/string.hh">
