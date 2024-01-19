@@ -18,14 +18,11 @@ mkdir $2
 for line in "${lines[@]}"
 do
 	dll=`sed 's/[^"]*\(C:[^"]*.dll\) ([^"]*)/\1/' <<< "$line"`
-	case $dll in
-		"C:\Windows\SYSTEM32\ADVAPI32.dll")
-			continue
-		;;
-		"C:\Windows\SYSTEM32\KERNEL32.dll")
-			continue
-		;;
-	esac
-	echo $dll
+	WINDIR="$(dirname "${dll}")"
+	#echo "dir:$WINDIR"
+	if [ "$WINDIR" = "C:\Windows\SYSTEM32" ]; then
+		continue
+	fi
+	echo "copiying $dll"
 	cp $dll $2
 done
