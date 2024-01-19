@@ -14,7 +14,7 @@ fi
 list=`ntldd $1`
 readarray -t lines <<<"$list"
 #echo ${lines[0]}
-mkdir $2
+mkdir -p $2
 for line in "${lines[@]}"
 do
 	dll=`sed 's/[^"]*\(C:[^"]*.dll\) ([^"]*)/\1/' <<< "$line"`
@@ -23,6 +23,10 @@ do
 	if [ "$WINDIR" = "C:\Windows\SYSTEM32" ]; then
 		continue
 	fi
-	echo "copiying $dll"
+	if ! [ -f "$dll" ] ; then
+		echo "$dll"
+		continue
+	fi
+	#echo "copiying $dll"
 	cp $dll $2
 done
