@@ -66,7 +66,7 @@ void v3_developing()
 
     char* tmpf_config_temp = tmpnam(NULL);
     std::filesystem::path tmpf_config = tmpf_config_temp;
-    core::Configuration config1(tmpf_config_temp);
+    core::Configuration config1("mps2-conf");
 
 
     core::Semver veroct;

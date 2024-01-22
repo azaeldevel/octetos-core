@@ -88,6 +88,7 @@
 		<Linker>
 			<Add option="`pkg-config libconfig++ --libs`" />
 			<Add library="Userenv" />
+			<Add directory="bin/Debug" />
 		</Linker>
 		<Unit filename="3/Buffer.cc">
 			<Option target="Debug" />

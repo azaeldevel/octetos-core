@@ -16,8 +16,10 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
- #include "Exception.hh"
+ #include <fstream>
+ #include <iostream>
 
+#include "Exception.hh"
 #include "Configuration.hh"
 
 namespace oct::core::v3
@@ -68,7 +70,15 @@ namespace oct::core::v3
         version_setting.add("prerelease", libconfig::Setting::TypeString) = "";
         version_setting.add("build", libconfig::Setting::TypeString) = "";
 
-        if(not std::filesystem::exists(fullname.parent_path())) std::filesystem::create_directory(fullname.parent_path());
+        //std::cout << "check : "  << fullname << "\n";
+        std::filesystem::path parentdir = fullname.parent_path();
+        if(not std::filesystem::exists(parentdir) and (not parentdir.string().empty())) std::filesystem::create_directory(fullname.parent_path());
+        if(not std::filesystem::exists(fullname))
+        {
+            std::ofstream file(fullname);
+            file.close();
+        }
+        //std::cout << "write : " << fullname << "\n";
 
         writeFile(fullname.string().c_str());
 	}
