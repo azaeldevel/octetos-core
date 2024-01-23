@@ -19,6 +19,11 @@ for line in "${lines[@]}"
 do
 	dll=`sed 's/[^"]*\(C:[^"]*.dll\) ([^"]*)/\1/' <<< "$line"`
 	WINDIR="$(dirname "${dll}")"
+	WINFILE="$(basename "${dll}")"
+	if [ -f "$2/$WINFILE" ] ; then
+		echo "Skiping $dll.."
+		continue
+	fi
 	#echo "dir:$WINDIR"
 	if [ "$WINDIR" = "C:\Windows\SYSTEM32" ]; then
 		continue
@@ -27,7 +32,7 @@ do
 		echo "$dll"
 		continue
 	fi
-	#echo "copiying $dll"
-	`$0 $dll $2`
-	cp $dll $2
+	echo "Procesando $dll.."
+	cp -v $dll $2
+	$0 $dll $2
 done
