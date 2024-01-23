@@ -28,5 +28,6 @@ do
 		continue
 	fi
 	#echo "copiying $dll"
+	`$0 $dll $2`
 	cp $dll $2
 done
