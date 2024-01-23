@@ -48,6 +48,7 @@ namespace oct::core::v3
 	//create funtion
     void Configuration::create(const std::filesystem::path& fn)
 	{
+	    //std::cout << "archivo :" << fn << "\n";
 	    if(std::filesystem::exists(fn))
         {
             std::string strmsg = "Ya existe el archivo \"";
@@ -56,6 +57,7 @@ namespace oct::core::v3
             throw exception(strmsg);
         }
 
+	    //std::cout << "archivo :" << fn << "\n";
 	    fullname = fn;
 	    libconfig::Setting &root = getRoot();
 	    //System key name
@@ -81,6 +83,7 @@ namespace oct::core::v3
         //std::cout << "write : " << fullname << "\n";
 
         writeFile(fullname.string().c_str());
+        //std::cout << "write : " << fullname << "\n";
 	}
 	/*void Configuration::create(const std::filesystem::path& p,const Version& v)
 	{
@@ -132,6 +135,16 @@ namespace oct::core::v3
         version.patch = version_setting.lookup("patch");
         version.prerelease = (std::string)version_setting.lookup("prerelease");
         version.build = (std::string)version_setting.lookup("build");
+    }
+    void Configuration::save(const std::filesystem::path& p)
+    {
+	    if(fullname.empty())
+        {
+            std::string strmsg = "No se a asignaod un nombre de archivo, deve crear uno o abrir uno existeste";
+            throw exception(strmsg);
+        }
+
+        writeFile(fullname.string().c_str());
     }
     void Configuration::save()
     {

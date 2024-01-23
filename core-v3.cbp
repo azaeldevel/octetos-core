@@ -52,7 +52,7 @@
 					<Add option="`pkg-config cunit --libs`" />
 				</Linker>
 			</Target>
-			<Target title="liboctetos-core-3">
+			<Target title="liboctetos-core-3-dbg">
 				<Option output="bin/Debug/octetos-core-3" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/Debug/objs" />
 				<Option type="3" />
@@ -76,6 +76,17 @@
 				<Linker>
 					<Add option="`pkg-config cunit --libs`" />
 				</Linker>
+			</Target>
+			<Target title="liboctetos-core-3">
+				<Option output="bin/Release/octetos-core-3" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/Release/objs" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2 -fPIC" />
+				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
@@ -105,11 +116,13 @@
 		<Unit filename="3/Configuration.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 		</Unit>
 		<Unit filename="3/Configuration.hh">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 		</Unit>
 		<Unit filename="3/Exception.hh">
@@ -151,19 +164,22 @@
 		<Unit filename="3/platform.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 		</Unit>
 		<Unit filename="3/platform.hh">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 		</Unit>
 		<Unit filename="3/string.cc" />
 		<Unit filename="3/string.hh">
 			<Option target="Debug" />
 			<Option target="Release" />
-			<Option target="liboctetos-core-3" />
+			<Option target="liboctetos-core-3-dbg" />
 			<Option target="attempts" />
+			<Option target="liboctetos-core-3" />
 		</Unit>
 		<Unit filename="3/tree.cc">
 			<Option target="Debug" />
@@ -180,11 +196,13 @@
 		<Unit filename="3/version.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 		</Unit>
 		<Unit filename="3/version.hh">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 		</Unit>
 		<Unit filename="tests/attempts.cc">

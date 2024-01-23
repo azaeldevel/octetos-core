@@ -27,6 +27,7 @@ namespace oct::core::v3
         //void open();
         void open(const std::filesystem::path&);
         void save();
+        void save(const std::filesystem::path&);
 
         void write_name(const std::string&);
         void write(const Version&);
