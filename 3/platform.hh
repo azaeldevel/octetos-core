@@ -1,7 +1,6 @@
 
-
-#ifndef OCTETOS_CORE_USER_V3_HH
-#define OCTETOS_CORE_USER_V3_HH
+#ifndef OCTETOS_CORE_PLATFORM_V3_HH
+#define OCTETOS_CORE_PLATFORM_V3_HH
 
 
 /**
@@ -26,10 +25,6 @@
  * */
 
 
-/*
- * Copyright (C) 2022 Azael Reyes Martinez. <azael.devel@gmail.com>
- * All rights reserved
- */
 
 #include <filesystem>
 

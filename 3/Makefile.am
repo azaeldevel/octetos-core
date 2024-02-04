@@ -1,33 +1,43 @@
+
 AM_CPPFLAGS = \
+	-Wall\
+	-pedantic\
+	-std=c++20\
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
-	-DPACKAGE_SRC_DIR=\""$(srcdir). \
-	$(OCTETOS_CORE_BASE_CFLAGS). "\" \
-	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
-	-DOCTETOS_CORE_LOCALEDIR=\"${OCTETOS_CORE_LOCALEDIR}\"
+	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\"
 
-AM_YFLAGS = -d	
 
-AM_CFLAGS =\
-	 -Wall\
-	 -g 
+lib_LTLIBRARIES = liboctetos-core.la
+
+liboctetos_core_la_CXXFLAGS = $(OCTETOS_CORE_DEP_FLAGS) 
+liboctetos_core_la_LIBADD = $(OCTETOS_CORE_DEP_LIBS)
+liboctetos_core_la_SOURCES = \
+	platform.cc \
+	Configuration.cc \
+	string.cc \
+	version.cc \
+	tree.cc \
+	Buffer.cc
+
+
+octetos_core_includedir = $(includedir)/octetos/core
+octetos_core_include_HEADERS = Configuration.hh platform.hh Buffer.hh entity.hh tree.hh version.hh
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = octetos-core-3.pc
+
+EXTRA_DIST = octetos-core-3.pc.in
+
 
 uninstall-local:
 	-rm -r $(jsdir)
 
-noinst_PROGRAMS = develop-lexer-flex-c90 develop-lexer-occ-c90 occ-c90
 
-develop_lexer_occ_c90_SOURCES = develop-lexer-occ-c90.cc
-develop_lexer_occ_c90_LDADD = 
-develop_lexer_occ_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS) 
 
-develop_lexer_flex_c90_SOURCES = lexer-c90.l
-develop_lexer_flex_c90_LDADD = -lfl
-develop_lexer_flex_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS)
+version_SOURCES = version-main.cc 
+version_LDADD = $(LIBS) liboctetos-core.la
+version_CXXFLAGS = $(FLAGS) 
 
-occ_c90_SOURCES = main-occ-c90.cc
-occ_c90_LDADD = 
-occ_c90_CXXFLAGS = $(OCTETOS_CC_CFLGAS)
- 
-oas_SOURCES = lexer-c90.l
-oas_LDADD = -lfl
-oas_CXXFLAGS = $(OCTETOS_CC_CFLGAS)
+
+

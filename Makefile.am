@@ -1,14 +1,8 @@
 
-SUBDIRS = src
+SUBDIRS = 3
 
-if WITH_DOCS
-SUBDIRS +=  docs
-endif
-if WITH_EXAMPLES
-SUBDIRS += examples
-endif
-if WITH_TESTS
-SUBDIRS += tests
+if OCTETOS_CORE_V3_TDD
+#SUBDIRS += tests
 endif
 
 # SUBDIRS += po
