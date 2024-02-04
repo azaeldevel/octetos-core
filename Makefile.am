@@ -1,8 +1,8 @@
 
 SUBDIRS = 3
 
-if OCTETOS_CORE_V3_TDD
-#SUBDIRS += tests
+if TDD
+SUBDIRS += tests
 endif
 
 # SUBDIRS += po

@@ -8,11 +8,11 @@ AM_CPPFLAGS = \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\"
 
 
-lib_LTLIBRARIES = liboctetos-core.la
+lib_LTLIBRARIES = liboctetos-core-3.la
 
-liboctetos_core_la_CXXFLAGS = $(OCTETOS_CORE_DEP_FLAGS) 
-liboctetos_core_la_LIBADD = $(OCTETOS_CORE_DEP_LIBS)
-liboctetos_core_la_SOURCES = \
+liboctetos_core_3_la_CXXFLAGS = $(OCTETOS_CORE_DEP_FLAGS) 
+liboctetos_core_3_la_LIBADD = $(OCTETOS_CORE_DEP_LIBS)
+liboctetos_core_3_la_SOURCES = \
 	platform.cc \
 	Configuration.cc \
 	string.cc \
@@ -32,12 +32,4 @@ EXTRA_DIST = octetos-core-3.pc.in
 
 uninstall-local:
 	-rm -r $(jsdir)
-
-
-
-version_SOURCES = version-main.cc 
-version_LDADD = $(LIBS) liboctetos-core.la
-version_CXXFLAGS = $(FLAGS) 
-
-
 

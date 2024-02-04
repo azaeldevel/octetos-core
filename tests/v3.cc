@@ -8,10 +8,10 @@
 #include <random>
 #include <chrono>
 
-#include <core/3/array.hh>
-#include <core/3/tree.hh>
+#include <../3/array.hh>
+#include <../3/tree.hh>
 //#include <core/3/Semver.hh>
-#include <core/3/numbers.hh>
+#include <../3/numbers.hh>
 #include <algorithm>
 #include "../3/Configuration.hh"
 #include "../3/platform.hh"

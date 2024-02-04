@@ -11,6 +11,19 @@ LT_INIT
 PKG_CHECK_MODULES([OCTETOS_CORE_DEP], [libconfig++])
 
 AM_CONDITIONAL(OCTETOS_CORE_V3_TDD, false)
+AC_ARG_ENABLE([tdd],
+[  --enable-tdd    Turn on Test Developing-driver],
+[case "${enableval}" in
+  yes) 
+	tdd=true
+	PKG_CHECK_MODULES(CUNIT,cunit)
+	;;
+  no)  
+	tdd=false 
+	;;
+  *) AC_MSG_ERROR([bad value ${enableval} for --enable-tdd]) ;;
+esac],[tdd=false])
+AM_CONDITIONAL([TDD], [test x$tdd = xtrue])
 
 AC_OUTPUT([
 Makefile
