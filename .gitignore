@@ -1,7 +1,6 @@
 Debug
 *~
-.anjuta/
-*.anjuta
+
 .anjuta_sym_db.db
 aclocal.m4
 autom4te.cache/
