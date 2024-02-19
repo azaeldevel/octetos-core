@@ -88,7 +88,39 @@ void v3_developing()
 
     std::filesystem::path userdir = core::get_user_directory();
     //std::cout << userdir << "\n";
+}
 
+struct elapse
+{
+    std::chrono::time_point<std::chrono::high_resolution_clock> start,end;
+
+    template<class D = std::chrono::nanoseconds> auto duration()
+    {
+        return duration_cast<D>(end - start);
+    }
+};
+
+void v3_table_performace_1(int numbers[],size_t numbers_length, core::table<int>& numbers_octetos, elapse& time)
+{
+    time.start = std::chrono::high_resolution_clock::now();
+    for(size_t i = 0; i < numbers_length;i++)
+    {
+        numbers_octetos.push_back(numbers[i]);
+    }
+    time.end = std::chrono::high_resolution_clock::now();
+}
+void v3_table_performace_1(int numbers[],size_t numbers_length, std::vector<int>& numbers_std, elapse& time)
+{
+    time.start = std::chrono::high_resolution_clock::now();
+    for(size_t i = 0; i < numbers_length;i++)
+    {
+        numbers_std.push_back(numbers[i]);
+    }
+    time.end = std::chrono::high_resolution_clock::now();
+}
+
+void v3_table_performace_1()
+{
     constexpr size_t numbers_length = 1000;
     std::random_device dev;
     std::mt19937 rng(dev());
@@ -96,34 +128,22 @@ void v3_developing()
     int numbers[numbers_length];
     core::table<int> numbers_octetos;
     std::vector<int> numbers_std;
+    elapse e1,e2;
 
     for(size_t i = 0; i < numbers_length;i++)
     {
         numbers[i] = numint(rng);
     }
 
-    auto exceution_start = std::chrono::high_resolution_clock::now();
-    for(size_t i = 0; i < numbers_length;i++)
-    {
-        numbers_octetos.push_back(numbers[i]);
-    }
-    auto exceution_end = std::chrono::high_resolution_clock::now();
-    auto duration_1 = duration_cast<std::chrono::nanoseconds>(exceution_end - exceution_start);
+    v3_table_performace_1(numbers,numbers_length,numbers_octetos,e1);
 
-
-    exceution_start = std::chrono::high_resolution_clock::now();
-    for(size_t i = 0; i < numbers_length;i++)
-    {
-        numbers_std.push_back(numbers[i]);
-    }
-    exceution_end = std::chrono::high_resolution_clock::now();
-    auto duration_2 = duration_cast<std::chrono::nanoseconds>(exceution_end - exceution_start);
+    v3_table_performace_1(numbers,numbers_length,numbers_std,e2);
 
     //std::cout << "valor/base = " << duration_1 << "/" << duration_2 << "\n";
-    auto speed = duration_1.count()/duration_2.count();
-    std::cout << "valor/base = " << duration_1 << "/" << duration_2 << " = " << speed << "\n";
+    auto speed = e1.duration().count()/e2.duration().count();
+    std::cout << "valor/base = " << e1.duration() << "/" << e2.duration() << " = " << speed << "\n";
+    CU_ASSERT(speed <= 1)
 }
-
 
 void v3_array()
 {

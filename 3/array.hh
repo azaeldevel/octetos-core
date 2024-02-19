@@ -229,7 +229,7 @@ namespace oct::core::v3
         //bool free;
 
     public:
-        using Index = size_t;
+        //using Index = size_t;
 
     public:
         array() : S(0),data(NULL)
@@ -239,7 +239,7 @@ namespace oct::core::v3
         {
             for(size_t i = 0; i < S; i++) data[i] = v;
         }*/
-        array(Index s) : S(s),data(new T[S])
+        array(size_t s) : S(s),data(new T[S])
         {
         }
         /*array(size_t s, const T* v) : S(s),data(new T[S])
@@ -388,9 +388,17 @@ namespace oct::core::v3
         }
         void resize(size_t s)
         {
-            if(data) delete[] data;
-            S = s;
-            data = new T[S];
+            T* new_data = new T[S + s];
+            size_t i = 0;
+            for(;i < S; i++)
+            {
+                new_data[i] = data[i];
+            }
+
+            T* old_data = data;
+            data = new_data;
+            S = S + s;
+            delete[] old_data;
         }
         T& front()
         {
@@ -412,21 +420,21 @@ namespace oct::core::v3
 
         void push_back(const array& a)
         {
-            T* tempdata = new T[S + a.S];
+            T* new_data = new T[S + a.S];
             size_t i = 0;
             for(;i < S; i++)
             {
-                tempdata[i] = data[i];
+                new_data[i] = data[i];
             }
             for(size_t j = 0;j < a.S; j++)
             {
-                tempdata[i + j] = a[j];
+                new_data[i + j] = a[j];
             }
 
-            T* temp = data;
-            data = tempdata;
+            T* old_data = data;
+            data = new_data;
             S = S + a.S;
-            delete[] temp;
+            delete[] old_data;
         }
         void push_back(const T& a)
         {
