@@ -128,20 +128,30 @@ void v3_table_performace_1()
     int numbers[numbers_length];
     core::table<int> numbers_octetos;
     std::vector<int> numbers_std;
-    elapse e1,e2;
+    elapse e1[numbers_length],e2[numbers_length];
+    double t1 = 0,t2 = 0;
 
     for(size_t i = 0; i < numbers_length;i++)
     {
         numbers[i] = numint(rng);
     }
 
-    v3_table_performace_1(numbers,numbers_length,numbers_octetos,e1);
-
-    v3_table_performace_1(numbers,numbers_length,numbers_std,e2);
+    for(size_t i = 0; i < numbers_length;i++)
+    {
+        v3_table_performace_1(numbers,numbers_length,numbers_octetos,e1[i]);
+        v3_table_performace_1(numbers,numbers_length,numbers_std,e2[i]);
+    }
+    for(size_t i = 0; i < numbers_length;i++)
+    {
+        t1 += e1[i].duration().count();
+        t2 += e2[i].duration().count();
+    }
+    t1 = t1 / double(numbers_length);
+    t2 = t2 / double(numbers_length);
 
     //std::cout << "valor/base = " << duration_1 << "/" << duration_2 << "\n";
-    auto speed = e1.duration().count()/e2.duration().count();
-    std::cout << "valor/base = " << e1.duration() << "/" << e2.duration() << " = " << speed << "\n";
+    auto speed = t1/t2;
+    std::cout << "valor/base = " << t1 << "/" << t2 << " = " << speed << "\n";
     CU_ASSERT(speed <= 1)
 }
 
