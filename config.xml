@@ -1,8 +1,0 @@
-<octetos> 
-    <mail>
-        <user>azael.devel@gmail.com</user> 
-        <server>smtp.gmail.com</server>  
-        <port>465</port> 
-        <pw>---</pw> 
-    </mail>
-</octetos>

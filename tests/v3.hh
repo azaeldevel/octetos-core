@@ -9,7 +9,7 @@
 
 //#include "tests.hh"
 #if defined(__linux__)
-    #include <../3/Exception.hh>
+    #include "../3/Exception.hh"
 #elif defined(_WIN32) || defined(_WIN64)
 
 #else

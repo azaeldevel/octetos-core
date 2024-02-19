@@ -8,10 +8,10 @@
 #include <random>
 #include <chrono>
 
-#include <../3/array.hh>
-#include <../3/tree.hh>
+#include "../3/array.hh"
+#include "../3/tree.hh"
 //#include <core/3/Semver.hh>
-#include <../3/numbers.hh>
+#include "../3/numbers.hh"
 #include <algorithm>
 #include "../3/Configuration.hh"
 #include "../3/platform.hh"
@@ -88,6 +88,39 @@ void v3_developing()
     std::filesystem::path userdir = core::get_user_directory();
     //std::cout << userdir << "\n";
 
+    constexpr size_t numbers_length = 1000;
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> numint(1,100000);
+    int numbers[numbers_length];
+    core::array<int> numbers_octetos;
+    std::vector<int> numbers_std;
+
+    for(size_t i = 0; i < numbers_length;i++)
+    {
+        numbers[i] = numint(rng);
+    }
+
+    auto exceution_start = std::chrono::high_resolution_clock::now();
+    for(size_t i = 0; i < numbers_length;i++)
+    {
+        numbers_octetos.push_back(numbers[i]);
+    }
+    auto exceution_end = std::chrono::high_resolution_clock::now();
+    auto duration_1 = duration_cast<std::chrono::nanoseconds>(exceution_end - exceution_start);
+
+
+    exceution_start = std::chrono::high_resolution_clock::now();
+    for(size_t i = 0; i < numbers_length;i++)
+    {
+        numbers_std.push_back(numbers[i]);
+    }
+    exceution_end = std::chrono::high_resolution_clock::now();
+    auto duration_2 = duration_cast<std::chrono::nanoseconds>(exceution_end - exceution_start);
+
+    std::cout << "valor/base = " << duration_1 << "/" << duration_2 << "\n";
+    auto speed = duration_1/duration_2;
+    std::cout << "valor/base = " << duration_1 << "/" << duration_2 << " = " << speed << "\n";
 }
 
 
