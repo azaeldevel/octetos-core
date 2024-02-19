@@ -181,6 +181,12 @@
 			<Option target="attempts" />
 			<Option target="liboctetos-core-3" />
 		</Unit>
+		<Unit filename="3/table.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="liboctetos-core-3-dbg" />
+			<Option target="liboctetos-core-3" />
+		</Unit>
 		<Unit filename="3/tree.cc">
 			<Option target="Debug" />
 			<Option target="Release" />

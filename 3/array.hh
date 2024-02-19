@@ -215,7 +215,7 @@ namespace oct::core::v3
 
 
     /**
-    *\brief Representa una secuacion continua de datos, eqiuvalante al sequence
+    *\brief Representa una secuencia continua de datos
     *\param T Tipo de dato de la secuencia
     *\param L 0 para que la asignacion sea dinamica
     **/
@@ -430,18 +430,19 @@ namespace oct::core::v3
         }
         void push_back(const T& a)
         {
-            T* tempdata = new T[S + 1];
+            size_t s = S + 1;
+            T* new_data = new T[s];
             size_t i = 0;
             for(;i < S; i++)
             {
-                tempdata[i] = data[i];
+                new_data[i] = data[i];
             }
-            tempdata[i] = a;
+            new_data[i] = a;
 
-            T* temp = data;
-            data = tempdata;
-            S = S + 1;
-            delete[] temp;
+            T* old_data = data;
+            data = new_data;
+            S = s;
+            delete[] old_data;
         }
 
 

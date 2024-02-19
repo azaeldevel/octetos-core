@@ -15,6 +15,7 @@
 #include <algorithm>
 #include "../3/Configuration.hh"
 #include "../3/platform.hh"
+#include "../3/table.hh"
 
 
 #if defined(__linux__)
@@ -93,7 +94,7 @@ void v3_developing()
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> numint(1,100000);
     int numbers[numbers_length];
-    core::array<int> numbers_octetos;
+    core::table<int> numbers_octetos;
     std::vector<int> numbers_std;
 
     for(size_t i = 0; i < numbers_length;i++)
@@ -118,8 +119,8 @@ void v3_developing()
     exceution_end = std::chrono::high_resolution_clock::now();
     auto duration_2 = duration_cast<std::chrono::nanoseconds>(exceution_end - exceution_start);
 
-    std::cout << "valor/base = " << duration_1 << "/" << duration_2 << "\n";
-    auto speed = duration_1/duration_2;
+    //std::cout << "valor/base = " << duration_1 << "/" << duration_2 << "\n";
+    auto speed = duration_1.count()/duration_2.count();
     std::cout << "valor/base = " << duration_1 << "/" << duration_2 << " = " << speed << "\n";
 }
 
