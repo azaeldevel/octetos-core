@@ -20,13 +20,13 @@ namespace oct::core::v3
         Configuration(const std::filesystem::path& p,const std::filesystem::path& d);
 
         //std::filesystem::path read(const std::filesystem::path& p);
-        void create();
+        //void create();
         void create(const std::filesystem::path& p);
         //void create(const std::filesystem::path& p,const Version&);
         //void create(const std::filesystem::path& p,const Semver&);
         //void open();
         void open(const std::filesystem::path&);
-        void save();
+        //void save();
         void save(const std::filesystem::path&);
 
         void write_name(const std::string&);

@@ -34,7 +34,7 @@ namespace oct::core::v3
     {
         none,
         linux,
-        windos,
+        windows,
         msys2,
     };
 

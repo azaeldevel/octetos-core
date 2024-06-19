@@ -122,7 +122,7 @@ namespace oct::core::v3
         }
 
 	    fullname = p;
-        //std::cout << "reading : " << p << "\n";
+        std::cout << "reading : " << p << "\n";
         readFile(p.string().c_str());
         libconfig::Setting &root = getRoot();
 
@@ -170,7 +170,7 @@ namespace oct::core::v3
 
         writeFile(p.string().c_str());
     }
-    void Configuration::save()
+    /*void Configuration::save()
     {
 	    if(fullname.empty())
         {
@@ -184,7 +184,7 @@ namespace oct::core::v3
         }
 
         writeFile(fullname.string().c_str());
-    }
+    }*/
 
     void Configuration::write_name(const std::string& n)
     {
