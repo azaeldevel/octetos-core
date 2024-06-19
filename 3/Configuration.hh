@@ -9,6 +9,9 @@
 
 namespace oct::core::v3
 {
+    /**
+    *\brief Crea un archivo de configuracion estandar
+    **/
     class Configuration : public libconfig::Config
     {
     public:
