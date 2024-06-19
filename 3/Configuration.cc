@@ -124,27 +124,51 @@ namespace oct::core::v3
 	    fullname = p;
         //std::cout << "reading : " << p << "\n";
         readFile(p.string().c_str());
+        libconfig::Setting &root = getRoot();
 
 
-        name = (std::string)lookup("name");
+
+        if(exists("name"))
+        {
+            name = (std::string)lookup("name");
+        }
+        else
+        {
+            libconfig::Setting &name_setting = root.add("name", libconfig::Setting::TypeString);
+            name_setting = name;
+        }
 
 
-        const libconfig::Setting &version_setting = lookup("version");
-        version.major = version_setting.lookup("major");
-        version.minor = version_setting.lookup("minor");
-        version.patch = version_setting.lookup("patch");
-        version.prerelease = (std::string)version_setting.lookup("prerelease");
-        version.build = (std::string)version_setting.lookup("build");
+
+        //version
+        if(exists("version"))
+        {
+            const libconfig::Setting &version_setting = lookup("version");
+            version.major = version_setting.lookup("major");
+            version.minor = version_setting.lookup("minor");
+            version.patch = version_setting.lookup("patch");
+            version.prerelease = (std::string)version_setting.lookup("prerelease");
+            version.build = (std::string)version_setting.lookup("build");
+        }
+        else
+        {
+            libconfig::Setting &version_setting = root.add("version", libconfig::Setting::TypeGroup);
+            version_setting.add("major", libconfig::Setting::TypeInt) = 0;
+            version_setting.add("minor", libconfig::Setting::TypeInt) = 0;
+            version_setting.add("patch", libconfig::Setting::TypeInt) = 0;
+            version_setting.add("prerelease", libconfig::Setting::TypeString) = "";
+            version_setting.add("build", libconfig::Setting::TypeString) = "";
+        }
     }
     void Configuration::save(const std::filesystem::path& p)
     {
-	    if(fullname.empty())
+	    if(p.empty())
         {
             std::string strmsg = "No se a asignaod un nombre de archivo, deve crear uno o abrir uno existeste";
             throw exception(strmsg);
         }
 
-        writeFile(fullname.string().c_str());
+        writeFile(p.string().c_str());
     }
     void Configuration::save()
     {
@@ -152,6 +176,11 @@ namespace oct::core::v3
         {
             std::string strmsg = "No se a asignaod un nombre de archivo, deve crear uno o abrir uno existeste";
             throw exception(strmsg);
+        }
+
+        if(not std::filesystem::exists(fullname))
+        {
+            create(fullname);
         }
 
         writeFile(fullname.string().c_str());
