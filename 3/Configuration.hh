@@ -39,6 +39,11 @@ namespace oct::core::v3
         const std::string& get_name() const;
         const Semver& get_version() const;
 
+        const std::filesystem::path& get_file_name() const
+        {
+            return fullname;
+        }
+
     private:
 
     private:
