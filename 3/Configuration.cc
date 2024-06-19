@@ -122,7 +122,7 @@ namespace oct::core::v3
         }
 
 	    fullname = p;
-        std::cout << "reading : " << p << "\n";
+        //std::cout << "reading : " << p << "\n";
         readFile(p.string().c_str());
         libconfig::Setting &root = getRoot();
 
