@@ -170,11 +170,11 @@ namespace oct::core::v3
 
         writeFile(p.string().c_str());
     }
-    /*void Configuration::save()
+    void Configuration::save()
     {
 	    if(fullname.empty())
         {
-            std::string strmsg = "No se a asignaod un nombre de archivo, deve crear uno o abrir uno existeste";
+            std::string strmsg = "No se a asigado un nombre de archivo, deve crear uno o abrir uno existeste";
             throw exception(strmsg);
         }
 
@@ -184,7 +184,7 @@ namespace oct::core::v3
         }
 
         writeFile(fullname.string().c_str());
-    }*/
+    }
 
     void Configuration::write_name(const std::string& n)
     {
