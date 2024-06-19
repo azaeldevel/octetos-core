@@ -18,6 +18,9 @@ namespace oct::core::v3
         return to;
     }
 
+
+    std::vector<std::string> split(const std::string& from,const std::string& delim);
+
 }
 
 

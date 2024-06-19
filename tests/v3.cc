@@ -16,6 +16,7 @@
 #include "../3/Configuration.hh"
 #include "../3/platform.hh"
 #include "../3/table.hh"
+#include "../3/string.hh"
 
 
 #if defined(__linux__)
@@ -88,6 +89,13 @@ void v3_developing()
 
     std::filesystem::path userdir = core::get_user_directory();
     //std::cout << userdir << "\n";
+
+    std::vector<std::string> vec = core::split("user=root&psw=1234567","&");
+    /*for(const std::string& s : vec)
+    {
+        std::cout << s << "\n";
+    }*/
+    CU_ASSERT(vec.size() == 2);
 }
 
 struct elapse
@@ -151,7 +159,7 @@ void v3_table_performace_1()
 
     //std::cout << "valor/base = " << duration_1 << "/" << duration_2 << "\n";
     auto speed = t1/t2;
-    std::cout << "valor/base = " << t1 << "/" << t2 << " = " << speed << "\n";
+    //std::cout << "valor/base = " << t1 << "/" << t2 << " = " << speed << "\n";
     CU_ASSERT(speed <= 1)
 }
 
