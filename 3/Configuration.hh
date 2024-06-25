@@ -29,25 +29,25 @@ namespace oct::core::v3
         //void create(const std::filesystem::path& p,const Semver&);
         //void open();
         void open(const std::filesystem::path&);
-        void save();
+        //void save();
         void save(const std::filesystem::path&);
 
-        void write_name(const std::string&);
-        void write(const Version&);
-        void write(const Semver&);
+        void write_name(const std::filesystem::path&,const std::string&);
+        void write(const std::filesystem::path&,const Version&);
+        void write(const std::filesystem::path&,const Semver&);
 
         const std::string& get_name() const;
         const Semver& get_version() const;
 
-        const std::filesystem::path& get_file_name() const
+        /*const std::filesystem::path& get_file_name() const
         {
             return fullname;
-        }
+        }*/
 
     private:
 
     private:
-        std::filesystem::path fullname;
+        //std::filesystem::path fullname;
         std::string name;
         Semver version;
 

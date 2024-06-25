@@ -32,15 +32,14 @@ namespace oct::core::v3
 	}
 	Configuration::Configuration(const std::filesystem::path& p)
 	{
-        fullname = p;
 	    if(std::filesystem::exists(p)) open(p);
 	    else create(p);
 	}
 	Configuration::Configuration(const std::filesystem::path& p,const std::filesystem::path& d)
 	{
-	    fullname = d/p;
-	    if(std::filesystem::exists(p)) open(p);
-	    else create(p);
+	    std::filesystem::path fullname = d/p;
+	    if(std::filesystem::exists(fullname)) open(fullname);
+	    else create(fullname);
 	}
 
 
@@ -58,7 +57,7 @@ namespace oct::core::v3
         }
 
 	    //std::cout << "archivo :" << fn << "\n";
-	    fullname = fn;
+	    //fullname = fn;
 	    libconfig::Setting &root = getRoot();
 	    //System key name
 	    libconfig::Setting &name_setting = root.add("name", libconfig::Setting::TypeString);
@@ -72,22 +71,22 @@ namespace oct::core::v3
         version_setting.add("prerelease", libconfig::Setting::TypeString) = "";
         version_setting.add("build", libconfig::Setting::TypeString) = "";
 
-        //std::cout << "check : "  << fullname << "\n";
-        std::filesystem::path parentdir = fullname.parent_path();
-        if(not std::filesystem::exists(parentdir) and (not parentdir.string().empty())) std::filesystem::create_directory(fullname.parent_path());
-        if(not std::filesystem::exists(fullname))
+        //std::cout << "check : "  << fn << "\n";
+        std::filesystem::path parentdir = fn.parent_path();
+        if(not std::filesystem::exists(parentdir) and (not parentdir.string().empty())) std::filesystem::create_directory(fn.parent_path());
+        if(not std::filesystem::exists(fn))
         {
-            std::ofstream file(fullname);
+            std::ofstream file(fn);
             file.close();
         }
-        //std::cout << "write : " << fullname << "\n";
+        //std::cout << "write : " << fn << "\n";
 
-        writeFile(fullname.string().c_str());
-        //std::cout << "write : " << fullname << "\n";
+        writeFile(fn.string().c_str());
+        //std::cout << "write : " << fn << "\n";
 	}
 	/*void Configuration::create(const std::filesystem::path& p,const Version& v)
 	{
-	    fullname = p;
+	    fn = p;
 	    create(p);
         write(v);
 	}
@@ -121,7 +120,7 @@ namespace oct::core::v3
             throw exception(strmsg);
         }
 
-	    fullname = p;
+	    //fullname = p;
         //std::cout << "reading : " << p << "\n";
         readFile(p.string().c_str());
         libconfig::Setting &root = getRoot();
@@ -170,7 +169,7 @@ namespace oct::core::v3
 
         writeFile(p.string().c_str());
     }
-    void Configuration::save()
+    /*void Configuration::save()
     {
 	    if(fullname.empty())
         {
@@ -184,19 +183,19 @@ namespace oct::core::v3
         }
 
         writeFile(fullname.string().c_str());
-    }
+    }*/
 
-    void Configuration::write_name(const std::string& n)
+    void Configuration::write_name(const std::filesystem::path& file,const std::string& n)
     {
         libconfig::Setting &name_setting = lookup("name");
         name_setting = (std::string)n;
-        writeFile(fullname.string().c_str());
+        writeFile(file.string().c_str());
     }
-    void Configuration::write(const Version&)
+    void Configuration::write(const std::filesystem::path& file,const Version&)
     {
-        writeFile(fullname.string().c_str());
+        writeFile(file.string().c_str());
     }
-    void Configuration::write(const Semver& v)
+    void Configuration::write(const std::filesystem::path& file,const Semver& v)
     {
         libconfig::Setting &version_setting = lookup("version");
         version_setting["major"] = v.major;
@@ -204,7 +203,7 @@ namespace oct::core::v3
         version_setting["patch"] = v.patch;
         version_setting["prerelease"] = v.prerelease;
         version_setting["build"] = v.build;
-        writeFile(fullname.string().c_str());
+        writeFile(file.string().c_str());
         version = v;
     }
 
