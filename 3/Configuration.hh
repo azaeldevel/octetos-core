@@ -24,6 +24,10 @@ namespace oct::core::v3
 
         //std::filesystem::path read(const std::filesystem::path& p);
         //void create();
+
+        /**
+        *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
+        **/
         void create(const std::filesystem::path& p);
         //void create(const std::filesystem::path& p,const Version&);
         //void create(const std::filesystem::path& p,const Semver&);
