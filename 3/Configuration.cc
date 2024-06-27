@@ -61,7 +61,7 @@ namespace oct::core::v3
 	    libconfig::Setting &root = getRoot();
 	    //System key name
 	    libconfig::Setting &name_setting = root.add("name", libconfig::Setting::TypeString);
-        name_setting = name;
+        //name_setting = name;
 
         //version
         libconfig::Setting &version_setting = root.add("version", libconfig::Setting::TypeGroup);
@@ -98,12 +98,28 @@ namespace oct::core::v3
 	}*/
 
 
-    const std::string& Configuration::get_name() const
+    std::string Configuration::get_name() const
     {
-        return name;
+        if(exists("name"))
+        {
+            return (std::string)lookup("name");
+        }
+
+        return "";
     }
-    const Semver& Configuration::get_version()const
+    Semver Configuration::get_version()const
     {
+        Semver version;
+        if(exists("version"))
+        {
+            const libconfig::Setting &version_setting = lookup("version");
+            version.major = version_setting.lookup("major");
+            version.minor = version_setting.lookup("minor");
+            version.patch = version_setting.lookup("patch");
+            version.prerelease = (std::string)version_setting.lookup("prerelease");
+            version.build = (std::string)version_setting.lookup("build");
+        }
+
         return version;
     }
     /*void Configuration::open()
@@ -129,12 +145,11 @@ namespace oct::core::v3
 
         if(exists("name"))
         {
-            name = (std::string)lookup("name");
+
         }
         else
         {
             libconfig::Setting &name_setting = root.add("name", libconfig::Setting::TypeString);
-            name_setting = name;
         }
 
 
@@ -142,12 +157,6 @@ namespace oct::core::v3
         //version
         if(exists("version"))
         {
-            const libconfig::Setting &version_setting = lookup("version");
-            version.major = version_setting.lookup("major");
-            version.minor = version_setting.lookup("minor");
-            version.patch = version_setting.lookup("patch");
-            version.prerelease = (std::string)version_setting.lookup("prerelease");
-            version.build = (std::string)version_setting.lookup("build");
         }
         else
         {
@@ -204,7 +213,6 @@ namespace oct::core::v3
         version_setting["prerelease"] = v.prerelease;
         version_setting["build"] = v.build;
         writeFile(file.string().c_str());
-        version = v;
     }
 
 }

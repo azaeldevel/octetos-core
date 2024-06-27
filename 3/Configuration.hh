@@ -40,8 +40,8 @@ namespace oct::core::v3
         void write(const std::filesystem::path&,const Version&);
         void write(const std::filesystem::path&,const Semver&);
 
-        const std::string& get_name() const;
-        const Semver& get_version() const;
+        std::string get_name() const;
+        Semver get_version() const;
 
         /*const std::filesystem::path& get_file_name() const
         {
@@ -52,8 +52,8 @@ namespace oct::core::v3
 
     private:
         //std::filesystem::path fullname;
-        std::string name;
-        Semver version;
+        //std::string name;
+        //Semver version;
 
     };
 
