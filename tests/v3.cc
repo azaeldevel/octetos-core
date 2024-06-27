@@ -80,8 +80,9 @@ void v3_developing()
     char* tmpf_config_temp2 = tmpnam(NULL);
     std::filesystem::path tmpf_config2 = tmpf_config_temp2;
     config2.create(tmpf_config2);
-    config2.write(tmpf_config2,veroct);
+    config2.write(veroct);
     CU_ASSERT(config2.get_version().major == 3)
+    config2.save(tmpf_config2);
 
     core::Configuration config3(tmpf_config2);
     CU_ASSERT(config3.get_version().major == 3)

@@ -148,28 +148,15 @@ namespace oct::core::v3
             throw exception(strmsg);
         }
 
-        /*std::filesystem::path parentdir = fn.parent_path();
-        if(not std::filesystem::exists(parentdir) and (not parentdir.string().empty())) std::filesystem::create_directory(fn.parent_path());
-        if(not std::filesystem::exists(fn))
-        {
-            std::ofstream file(fn);
-            file.close();
-        }*/
-
         writeFile(p.string().c_str());
     }
 
-    void Configuration::write_name(const std::filesystem::path& file,const std::string& n)
+    void Configuration::write_name(const std::string& n)
     {
         libconfig::Setting &name_setting = lookup("name");
         name_setting = (std::string)n;
-        writeFile(file.string().c_str());
     }
-    void Configuration::write(const std::filesystem::path& file,const Version&)
-    {
-        writeFile(file.string().c_str());
-    }
-    void Configuration::write(const std::filesystem::path& file,const Semver& v)
+    void Configuration::write(const Semver& v)
     {
         libconfig::Setting &version_setting = lookup("version");
         version_setting["major"] = v.major;
@@ -177,7 +164,6 @@ namespace oct::core::v3
         version_setting["patch"] = v.patch;
         version_setting["prerelease"] = v.prerelease;
         version_setting["build"] = v.build;
-        writeFile(file.string().c_str());
     }
 
 }
