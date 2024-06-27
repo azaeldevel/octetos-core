@@ -33,47 +33,27 @@ namespace oct::core::v3
 	Configuration::Configuration(const std::filesystem::path& p)
 	{
 	    if(std::filesystem::exists(p)) open(p);
-	    else create(p);
 	}
 	Configuration::Configuration(const std::filesystem::path& p,const std::filesystem::path& d)
 	{
 	    std::filesystem::path fullname = d/p;
 	    if(std::filesystem::exists(fullname)) open(fullname);
-	    else create(fullname);
 	}
 
 
 
 	//create funtion
-    void Configuration::create(const std::filesystem::path& fn)
-	{
-	    //std::cout << "archivo :" << fn << "\n";
-	    if(std::filesystem::exists(fn))
-        {
-            std::string strmsg = "Ya existe el archivo \"";
-            strmsg += fn.string().c_str();
-            strmsg += "\"";
-            throw exception(strmsg);
-        }
-
-	    libconfig::Setting &root = getRoot();
-	    libconfig::Setting &name_setting = root.add("name", libconfig::Setting::TypeString);
-	    libconfig::Setting &decorated_setting = root.add("decorated", libconfig::Setting::TypeString);
-	    //name_setting = "octetos";
-        //version
-        libconfig::Setting &version_setting = root.add("version", libconfig::Setting::TypeGroup);
-        version_setting.add("major", libconfig::Setting::TypeInt) = 0;
-        version_setting.add("minor", libconfig::Setting::TypeInt) = 0;
-        version_setting.add("patch", libconfig::Setting::TypeInt) = 0;
-        version_setting.add("prerelease", libconfig::Setting::TypeString) = "";
-        version_setting.add("build", libconfig::Setting::TypeString) = "";
-	}
 
     std::string Configuration::get_name() const
     {
         if(getRoot().exists("name"))
         {
             return (std::string)lookup("name");
+        }
+        else
+        {
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &name_setting = root.add("name", libconfig::Setting::TypeString);
         }
 
         return "";
@@ -90,6 +70,16 @@ namespace oct::core::v3
             version.prerelease = (std::string)version_setting.lookup("prerelease");
             version.build = (std::string)version_setting.lookup("build");
         }
+        else
+        {
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &version_setting = root.add("version", libconfig::Setting::TypeGroup);
+            version_setting.add("major", libconfig::Setting::TypeInt) = 0;
+            version_setting.add("minor", libconfig::Setting::TypeInt) = 0;
+            version_setting.add("patch", libconfig::Setting::TypeInt) = 0;
+            version_setting.add("prerelease", libconfig::Setting::TypeString) = "";
+            version_setting.add("build", libconfig::Setting::TypeString) = "";
+        }
 
         return version;
     }
@@ -98,6 +88,11 @@ namespace oct::core::v3
         if(getRoot().exists("decorated"))
         {
             return (std::string)lookup("decorated");
+        }
+        else
+        {
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &decorated_setting = root.add("decorated", libconfig::Setting::TypeString);
         }
 
         return "";

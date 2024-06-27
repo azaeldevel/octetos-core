@@ -26,14 +26,12 @@ namespace oct::core::v3
         //void create();
 
         /**
-        *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
+        *\brief
         **/
-        void create(const std::filesystem::path& p);
-        //void create(const std::filesystem::path& p,const Version&);
-        //void create(const std::filesystem::path& p,const Semver&);
-        //void open();
         void open(const std::filesystem::path&);
-        //void save();
+        /**
+        *\brief
+        **/
         void save(const std::filesystem::path&);
 
         void write_name(const std::string&);
@@ -42,18 +40,9 @@ namespace oct::core::v3
         std::string get_name() const;
         Semver get_version() const;
         std::string get_decorated() const;
-
-        /*const std::filesystem::path& get_file_name() const
-        {
-            return fullname;
-        }*/
-
     private:
 
     private:
-        //std::filesystem::path fullname;
-        //std::string name;
-        //Semver version;
 
     };
 
