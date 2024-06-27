@@ -89,6 +89,7 @@ void v3_developing()
     core::Semver veroct2;
     core::Configuration config4(tmpf_config2);
     veroct2 = config4.get_version();
+    //std::cout << "config4.get_name() : " << config4.get_name() << "\n";
 
 
     std::filesystem::path userdir = core::get_user_directory();

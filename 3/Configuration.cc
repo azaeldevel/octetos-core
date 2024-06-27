@@ -56,13 +56,9 @@ namespace oct::core::v3
             throw exception(strmsg);
         }
 
-	    //std::cout << "archivo :" << fn << "\n";
-	    //fullname = fn;
 	    libconfig::Setting &root = getRoot();
-	    //System key name
 	    libconfig::Setting &name_setting = root.add("name", libconfig::Setting::TypeString);
-        //name_setting = name;
-
+	    //name_setting = "octetos";
         //version
         libconfig::Setting &version_setting = root.add("version", libconfig::Setting::TypeGroup);
         version_setting.add("major", libconfig::Setting::TypeInt) = 0;
@@ -70,33 +66,7 @@ namespace oct::core::v3
         version_setting.add("patch", libconfig::Setting::TypeInt) = 0;
         version_setting.add("prerelease", libconfig::Setting::TypeString) = "";
         version_setting.add("build", libconfig::Setting::TypeString) = "";
-
-        //std::cout << "check : "  << fn << "\n";
-        std::filesystem::path parentdir = fn.parent_path();
-        if(not std::filesystem::exists(parentdir) and (not parentdir.string().empty())) std::filesystem::create_directory(fn.parent_path());
-        if(not std::filesystem::exists(fn))
-        {
-            std::ofstream file(fn);
-            file.close();
-        }
-        //std::cout << "write : " << fn << "\n";
-
-        writeFile(fn.string().c_str());
-        //std::cout << "write : " << fn << "\n";
 	}
-	/*void Configuration::create(const std::filesystem::path& p,const Version& v)
-	{
-	    fn = p;
-	    create(p);
-        write(v);
-	}
-	void Configuration::create(const std::filesystem::path& p,const Semver& v)
-	{
-	    fullname = p;
-	    create(p);
-        write(v);
-	}*/
-
 
     std::string Configuration::get_name() const
     {
@@ -122,10 +92,6 @@ namespace oct::core::v3
 
         return version;
     }
-    /*void Configuration::open()
-    {
-        open(fullname);
-    }*/
     void Configuration::open(const std::filesystem::path& p)
     {
 	    if(not std::filesystem::exists(p))
@@ -136,12 +102,8 @@ namespace oct::core::v3
             throw exception(strmsg);
         }
 
-	    //fullname = p;
-        //std::cout << "reading : " << p << "\n";
         readFile(p.string().c_str());
         libconfig::Setting &root = getRoot();
-
-
 
         if(exists("name"))
         {
@@ -176,23 +138,16 @@ namespace oct::core::v3
             throw exception(strmsg);
         }
 
+        /*std::filesystem::path parentdir = fn.parent_path();
+        if(not std::filesystem::exists(parentdir) and (not parentdir.string().empty())) std::filesystem::create_directory(fn.parent_path());
+        if(not std::filesystem::exists(fn))
+        {
+            std::ofstream file(fn);
+            file.close();
+        }*/
+
         writeFile(p.string().c_str());
     }
-    /*void Configuration::save()
-    {
-	    if(fullname.empty())
-        {
-            std::string strmsg = "No se a asigado un nombre de archivo, deve crear uno o abrir uno existeste";
-            throw exception(strmsg);
-        }
-
-        if(not std::filesystem::exists(fullname))
-        {
-            create(fullname);
-        }
-
-        writeFile(fullname.string().c_str());
-    }*/
 
     void Configuration::write_name(const std::filesystem::path& file,const std::string& n)
     {
