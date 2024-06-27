@@ -38,8 +38,8 @@ namespace oct::core::v3
         void write(const Semver&);
 
         std::string get_name() const;
-        Semver get_version() const;
         std::string get_decorated() const;
+        Semver get_version() const;
     private:
 
     private:
