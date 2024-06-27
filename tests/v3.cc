@@ -86,6 +86,10 @@ void v3_developing()
     core::Configuration config3(tmpf_config2);
     CU_ASSERT(config3.get_version().major == 3)
 
+    core::Semver veroct2;
+    core::Configuration config4(tmpf_config2);
+    veroct2 = config4.get_version();
+
 
     std::filesystem::path userdir = core::get_user_directory();
     //std::cout << userdir << "\n";
