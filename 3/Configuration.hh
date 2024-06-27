@@ -42,6 +42,7 @@ namespace oct::core::v3
 
         std::string get_name() const;
         Semver get_version() const;
+        std::string get_decorated() const;
 
         /*const std::filesystem::path& get_file_name() const
         {

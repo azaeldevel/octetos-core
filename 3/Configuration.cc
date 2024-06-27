@@ -58,6 +58,7 @@ namespace oct::core::v3
 
 	    libconfig::Setting &root = getRoot();
 	    libconfig::Setting &name_setting = root.add("name", libconfig::Setting::TypeString);
+	    libconfig::Setting &decorated_setting = root.add("decorated", libconfig::Setting::TypeString);
 	    //name_setting = "octetos";
         //version
         libconfig::Setting &version_setting = root.add("version", libconfig::Setting::TypeGroup);
@@ -70,7 +71,7 @@ namespace oct::core::v3
 
     std::string Configuration::get_name() const
     {
-        if(exists("name"))
+        if(getRoot().exists("name"))
         {
             return (std::string)lookup("name");
         }
@@ -80,7 +81,7 @@ namespace oct::core::v3
     Semver Configuration::get_version()const
     {
         Semver version;
-        if(exists("version"))
+        if(getRoot().exists("version"))
         {
             const libconfig::Setting &version_setting = lookup("version");
             version.major = version_setting.lookup("major");
@@ -91,6 +92,15 @@ namespace oct::core::v3
         }
 
         return version;
+    }
+    std::string Configuration::get_decorated() const
+    {
+        if(getRoot().exists("decorated"))
+        {
+            return (std::string)lookup("decorated");
+        }
+
+        return "";
     }
     void Configuration::open(const std::filesystem::path& p)
     {
