@@ -93,6 +93,25 @@ namespace oct::core::v3
 
     };
 
+    template<typename T,typename N = node<T>> struct Addition : public Node<T,N>
+    {
+    };
+    template<typename T,typename N = node<T>> struct Subtraction : public Node<T,N>
+    {
+    };
+    template<typename T,typename N = node<T>> struct Product : public Node<T,N>
+    {
+    };
+    template<typename T,typename N = node<T>> struct Divition : public Node<T,N>
+    {
+    };
+    template<typename T,typename N = node<T>> struct Pow : public Node<T,N>
+    {
+    };
+    template<typename T,typename N = node<T>> struct Root : public Node<T,N>
+    {
+    };
+
 
 }
 
