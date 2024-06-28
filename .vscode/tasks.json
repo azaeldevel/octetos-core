@@ -35,7 +35,7 @@
                 "${workspaceFolder}/3/tree.cc",
                 "${workspaceFolder}/3/version.cc",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${workspaceFolder}/bin/Debug/${fileBasenameNoExtension}"
             ],
             "options": {
                 "cwd": "${fileDirname}"
