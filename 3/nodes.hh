@@ -48,7 +48,7 @@ namespace oct::core::v3
     *\brief Representa el nodo de un arbol
     *\param T Child
     **/
-    template<class T> class Node : public std::vector<node<T>*>
+    template<class T> class Node : public std::vector<node<T>*>,public node<T>
     {
     private:
         typedef std::vector<node<T>*> BASE;
@@ -74,7 +74,7 @@ namespace oct::core::v3
     *\param T Child
     *\param L label
     **/
-    template<class T,class L = char> class Number
+    template<class T,class L = char> class Number : public node<T>
     {
     private:
         T number;
@@ -103,10 +103,10 @@ namespace oct::core::v3
 
     public:
         operation() = default;
-        operation(Number<T>& a,Number<T>& b) : BASE(2)
+        operation(node<T>& a,node<T>& b) : BASE(2)
         {
-            BASE::at(0) = reinterpret_cast<node<T>*>(&a);
-            BASE::at(1) = reinterpret_cast<node<T>*>(&b);
+            BASE::at(0) = &a;
+            BASE::at(1) = &b;
         }
 
     };
@@ -123,14 +123,14 @@ namespace oct::core::v3
 
     public:
         Addition() = default;
-        Addition(Number<T>& a,Number<T>& b) : BASE(a,b)
+        Addition(node<T>& a,node<T>& b) : BASE(a,b)
         {
         }
 
         virtual operator T()
         {
-            Number<T>& a = reinterpret_cast<Number<T>&>(*BASE::at(0));
-            Number<T>& b = reinterpret_cast<Number<T>&>(*BASE::at(1));
+            node<T>& a = *BASE::at(0);
+            node<T>& b = *BASE::at(1);
             return T(a) + T(b);
         }
 
@@ -148,14 +148,14 @@ namespace oct::core::v3
 
     public:
         Subtration() = default;
-        Subtration(Number<T>& a,Number<T>& b) : BASE(a,b)
+        Subtration(node<T>& a,node<T>& b) : BASE(a,b)
         {
         }
 
         virtual operator T()
         {
-            Number<T>& a = reinterpret_cast<Number<T>&>(*BASE::at(0));
-            Number<T>& b = reinterpret_cast<Number<T>&>(*BASE::at(1));
+            node<T>& a = *BASE::at(0);
+            node<T>& b = *BASE::at(1);
             return T(a) - T(b);
         }
     };
