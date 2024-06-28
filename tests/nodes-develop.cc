@@ -1,37 +1,125 @@
 #include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 #include <random>
 #include <chrono>
 
 #include "../3/nodes.hh"
 
-//https://cop3402fall20.github.io/projects/project1.html
-#include "ast.h"
-#include "ast_printer.h"
-
-struct add
-{
-    float a,b;
-    float result(){return a + b;}
-};
-struct sub
-{
-    float a,b;
-
-    float result() {return a - b;}
-};
-
 namespace core = oct::core::v3;
+
+    /**
+    *\brief Representa el nodo de un arbol
+    *\param T data type
+    *\param S Selector de clase
+    **/
+    template<class T> class Number : public core::node<T>
+    {
+    private:
+        T number;
+    public:
+        Number() = default;
+        Number(const T& n) : number(n)
+        {
+        }
+        virtual ~Number() = default;
+
+        virtual operator T() const
+        {
+            return number;
+        }
+        Number& operator =(const T& n)
+        {
+            number = n;
+            return *this;
+        }
+    };
+
+
+    /**
+    *\brief Representa el nodo de un arbol
+    *\param T data type
+    *\param S Selector de clase
+    **/
+    template<class T> class operation : public core::Node<T>
+    {
+    private:
+        typedef core::Node<T> BASE;
+
+    public:
+        operation() = default;
+        operation(core::node<T>& a,core::node<T>& b) : BASE(2)
+        {
+            BASE::at(0) = &a;
+            BASE::at(1) = &b;
+        }
+        virtual ~operation() = default;
+        void set(core::node<T>& a,core::node<T>& b)
+        {
+            if(BASE::size() != 2) BASE::resize(2);
+            BASE::at(0) = &a;
+            BASE::at(1) = &b;
+        }
+
+    };
+
+    /**
+    *\brief Representa el nodo de un arbol
+    *\param T data type
+    *\param S Selector de clase
+    **/
+    template<class T> class Addition : public operation<T>
+    {
+    private:
+        typedef operation<T> BASE;
+
+    public:
+        Addition() = default;
+        Addition(core::node<T>& a,core::node<T>& b) : BASE(a,b)
+        {
+        }
+        virtual ~Addition() = default;
+
+        virtual operator T() const
+        {
+            return T(*BASE::at(0)) + T(*BASE::at(1));
+        }
+
+    };
+
+    /**
+    *\brief Representa el nodo de un arbol
+    *\param T data type
+    *\param S Selector de clase
+    **/
+    template<class T> class Subtration : public operation<T>
+    {
+    private:
+        typedef operation<T> BASE;
+
+    public:
+        Subtration() = default;
+        Subtration(core::node<T>& a,core::node<T>& b) : BASE(a,b)
+        {
+        }
+        virtual ~Subtration() = default;
+
+        virtual operator T() const
+        {
+            return T(*BASE::at(0)) - T(*BASE::at(1));
+        }
+    };
+
 
 int main(int argc, char *argv[])
 {
-    const char* testing = "testing....";
-    core::Number<float> num1(5.0f);
-    core::Number<float> num2(1.9f);
-    core::Number<float> num3(3.9f);
-    core::Addition<float> op1(num1,num2);
-    core::Addition<float> op2(op1,num3);
-    core::Subtration<float> op3(op2,num2);
+    Number<float> num1(5.0f);
+    Number<float> num2(1.9f);
+    Number<float> num3(3.9f);
+    Addition<float> op1(num1,num2);
+    Addition<float> op2(op1,num3);
+    Subtration<float> op3(op2,num2);
     std::cout <<"Developing...\n";
     float result = op1;
     float result2 = op2;
@@ -39,69 +127,6 @@ int main(int argc, char *argv[])
     std::cout <<"Result 1 : " << result << "\n";
     std::cout <<"Result 2 : " << result2 << "\n";
     std::cout <<"Result 3 : " << result3 << "\n";
-
-    constexpr size_t numbers_length = 1000;
-    constexpr size_t operations_length = numbers_length/size_t(2);
-
-    float numbers[numbers_length];
-    core::Number<float> numbersNode[numbers_length];
-
-    add adds[operations_length];
-    core::Addition<float> additions[operations_length];
-
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_real_distribution<float> gen(1.0f,100000.0f);
-
-    for(size_t i = 0; i < numbers_length;i++)
-    {
-        numbers[i] = gen(rng);
-        numbersNode[i] = numbers[i];
-    }
-    /*for(size_t i = 0; i < numbers_length;i++)
-    {
-        std::cout << numbers[i] << "\n";
-    }*/
-
-    for (size_t i = 0; i < operations_length; i++)
-    {
-        adds[i].a = numbers[i];
-        adds[i].b = numbers[i + 1];
-        additions[i].set(numbersNode[i],numbersNode[i + 1]);
-        //std::cout << "Result " << i << " : " << adds[i].result() << "\n";
-        //std::cout << "Result " << i << " : " << float(additions[i]) << "\n";
-        //std::cout << "\n";
-    }
-
-    float data;
-    auto start = std::chrono::high_resolution_clock::now();
-    for(size_t i = 0; i < operations_length;i++)
-    {
-        data = adds[i].result();
-    }
-    auto end = std::chrono::high_resolution_clock::now();
-    auto time_base = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-
-    start = std::chrono::high_resolution_clock::now();
-    for(size_t i = 0; i < operations_length;i++)
-    {
-        data = float(additions[i]);
-    }
-    end = std::chrono::high_resolution_clock::now();
-    auto time_target = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-
-    std::cout << "base : " << time_base.count() << "\n";
-    std::cout << "target : " << time_target.count() << "\n";
-    std::cout << "Speed : " << time_target.count()/time_base.count() << "\n";
-
-    T_stmt stmt
-        = create_assignstmt(
-            create_identexpr("a"),
-            create_binaryexpr(create_identexpr("c"),
-                E_op_plus,
-                create_intexpr(7)));
-    print_stmt(stmt, 0);
-    T_stmtlist stmtlist = create_stmtlist(stmt, NULL);
 
 
     return EXIT_SUCCESS;

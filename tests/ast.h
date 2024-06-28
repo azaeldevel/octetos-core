@@ -1,14 +1,11 @@
 #ifndef AST_H
 #define AST_H
-
-
 #include <stdbool.h>
 #include <assert.h>
 
-
 #include "util.h"
 
-typedef const char* string;
+typedef char* string;
 typedef struct S_prog* T_prog;
 typedef enum { E_typename_int, E_typename_char } E_typename;
 typedef enum { E_op_ref, E_op_deref, E_op_plus, E_op_minus, E_op_not, E_op_times, E_op_divide, E_op_mod, E_op_eq, E_op_ne, E_op_lt, E_op_le, E_op_gt, E_op_ge, E_op_and, E_op_or } E_op;
@@ -25,96 +22,96 @@ typedef struct S_func* T_func;
 typedef struct S_funclist* T_funclist;
 typedef struct S_main* T_main;
 struct S_prog {
-    T_decllist decllist;
-    T_funclist funclist;
-    T_main main;
+  T_decllist decllist;
+  T_funclist funclist;
+  T_main main;
 };
 
 struct S_exprlist {
-    T_expr expr;
-    T_exprlist tail;
+  T_expr expr;
+  T_exprlist tail;
 };
 
 struct S_expr {
-    enum { E_identexpr, E_callexpr, E_intexpr, E_charexpr, E_strexpr, E_arrayexpr, E_unaryexpr, E_binaryexpr, E_castexpr } kind;
-    union {
-        string identexpr;
-        struct { string ident; T_exprlist args; } callexpr;
-        int intexpr;
-        char charexpr;
-        string strexpr;
-        struct { T_expr expr; T_expr index; } arrayexpr;
-        struct { E_op op; T_expr expr; } unaryexpr;
-        struct { T_expr left; E_op op; T_expr right; } binaryexpr;
-        struct { T_type type; T_expr expr; } castexpr;
-    };
-    T_type type;  // used for the type-checking project
+  enum { E_identexpr, E_callexpr, E_intexpr, E_charexpr, E_strexpr, E_arrayexpr, E_unaryexpr, E_binaryexpr, E_castexpr } kind;
+  union {
+    string identexpr;
+    struct { string ident; T_exprlist args; } callexpr;
+    int intexpr;
+    char charexpr;
+    string strexpr;
+    struct { T_expr expr; T_expr index; } arrayexpr;
+    struct { E_op op; T_expr expr; } unaryexpr;
+    struct { T_expr left; E_op op; T_expr right; } binaryexpr;
+    struct { T_type type; T_expr expr; } castexpr;
+  };
+  T_type type;  // used for the type-checking project
 };
 
 struct S_stmt {
-    enum { E_assignstmt, E_ifstmt, E_ifelsestmt, E_whilestmt, E_compoundstmt } kind;
-    union {
-        struct { T_expr left; T_expr right; } assignstmt;
-        struct { T_expr cond; T_stmt body; } ifstmt;
-        struct { T_expr cond; T_stmt ifbranch; T_stmt elsebranch; } ifelsestmt;
-        struct { T_expr cond; T_stmt body; } whilestmt;
-        struct { T_decllist decllist; T_stmtlist stmtlist; } compoundstmt;
-    };
+  enum { E_assignstmt, E_ifstmt, E_ifelsestmt, E_whilestmt, E_compoundstmt } kind;
+  union {
+    struct { T_expr left; T_expr right; } assignstmt;
+    struct { T_expr cond; T_stmt body; } ifstmt;
+    struct { T_expr cond; T_stmt ifbranch; T_stmt elsebranch; } ifelsestmt;
+    struct { T_expr cond; T_stmt body; } whilestmt;
+    struct { T_decllist decllist; T_stmtlist stmtlist; } compoundstmt;
+  };
 };
 
 struct S_stmtlist {
-    T_stmt stmt;
-    T_stmtlist tail;
+  T_stmt stmt;
+  T_stmtlist tail;
 };
 
 struct S_type {
-    enum { E_primitivetype, E_pointertype, E_arraytype, E_functiontype } kind;
-    union {
-        E_typename primitivetype;
-        T_type pointertype;
-        struct { int size; T_type type; } arraytype;
-        struct { T_typelist paramtypes; T_type returntype; } functiontype;
-    };
+  enum { E_primitivetype, E_pointertype, E_arraytype, E_functiontype } kind;
+  union {
+    E_typename primitivetype;
+    T_type pointertype;
+    struct { int size; T_type type; } arraytype;
+    struct { T_typelist paramtypes; T_type returntype; } functiontype;
+  };
 };
 
 struct S_typelist {
-    T_type type;
-    T_typelist tail;
+  T_type type;
+  T_typelist tail;
 };
 
 struct S_decl {
-    T_type type;
-    string ident;
+  T_type type;
+  string ident;
 };
 
 struct S_decllist {
-    T_decl decl;
-    T_decllist tail;
+  T_decl decl;
+  T_decllist tail;
 };
 
 struct S_paramlist {
-    string ident;
-    T_paramlist tail;
+  string ident;
+  T_paramlist tail;
 };
 
 struct S_func {
-    string ident;
-    T_paramlist paramlist;
-    T_type type;
-    T_decllist decllist;
-    T_stmtlist stmtlist;
-    T_expr returnexpr;
+  string ident;
+  T_paramlist paramlist;
+  T_type type;
+  T_decllist decllist;
+  T_stmtlist stmtlist;
+  T_expr returnexpr;
 };
 
 struct S_funclist {
-    T_func func;
-    T_funclist tail;
+  T_func func;
+  T_funclist tail;
 };
 
 struct S_main {
-    T_decllist decllist;
-    T_stmtlist stmtlist;
-    T_expr returnexpr;
+  T_decllist decllist;
+  T_stmtlist stmtlist;
+  T_expr returnexpr;
 };
 
 T_prog create_prog(T_decllist decllist, T_funclist funclist, T_main main);

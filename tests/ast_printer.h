@@ -13,7 +13,7 @@ void print_int(int value, int depth);
 void print_char(char value, int depth);
 void print_prog(T_prog prog_node, int indent);
 
-void print_typename(E_typename typename, int indent);
+void print_typename(E_typename , int indent);
 
 void print_op(E_op op, int indent);
 
