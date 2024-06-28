@@ -34,24 +34,24 @@ namespace oct::core::v3
     *\brief Representa el nodo de un arbol
     *\param C Child
     **/
-    template<class C> class node
+    template<class T> class node
     {
     private:
     public:
         node() = default;
         virtual ~node() = default;
         
-        //virtual void resolve() const = 0;
+        virtual operator T() = 0;
     };
 
     /**
     *\brief Representa el nodo de un arbol
-    *\param C Child
+    *\param T Child
     **/
-    template<class C> class Node : public std::vector<node<C>*>
+    template<class T> class Node : public std::vector<node<T>*>
     {
     private:
-        typedef std::vector<node<C>*> BASE;
+        typedef std::vector<node<T>*> BASE;
     private:
 
     public:
@@ -71,20 +71,20 @@ namespace oct::core::v3
 
     /**
     *\brief Representa el nodo de un arbol
-    *\param C Child
+    *\param T Child
     *\param L label
     **/
-    template<class C,class L = char> class Number
+    template<class T,class L = char> class Number
     {
     private:
-        C number;
+        T number;
     public:
         Number() = default;
-        Number(const C& n) : number(n)
+        Number(const T& n) : number(n)
         {
         }
 
-        operator C()
+        virtual operator T()
         {
             return number;
         }
@@ -93,45 +93,45 @@ namespace oct::core::v3
 
     /**
     *\brief Representa el nodo de un arbol
-    *\param C Child
+    *\param T Type
     *\param L label
     **/
-    template<class C,class L = char> class operation : public Node<C>
+    template<class T,class L = char> class operation : public Node<T>
     {
     private:
-        typedef Node<C> BASE;
+        typedef Node<T> BASE;
 
     public:
         operation() = default;
-        operation(Number<C>& a,Number<C>& b) : BASE(2)
+        operation(Number<T>& a,Number<T>& b) : BASE(2)
         {
-            BASE::at(0) = reinterpret_cast<node<C>*>(&a);
-            BASE::at(1) = reinterpret_cast<node<C>*>(&b);
+            BASE::at(0) = reinterpret_cast<node<T>*>(&a);
+            BASE::at(1) = reinterpret_cast<node<T>*>(&b);
         }
 
     };
 
     /**
     *\brief Representa el nodo de un arbol
-    *\param C Child
+    *\param T Type
     *\param L label
     **/
-    template<class C,class L = char> class Addition : public operation<C>
+    template<class T,class L = char> class Addition : public operation<T>
     {
     private:
-        typedef operation<C> BASE;
+        typedef operation<T> BASE;
 
     public:
         Addition() = default;
-        Addition(Number<C>& a,Number<C>& b) : BASE(a,b)
+        Addition(Number<T>& a,Number<T>& b) : BASE(a,b)
         {
         }
 
-        operator C()
+        virtual operator T()
         {
-            Number<C>& a = reinterpret_cast<Number<C>&>(*BASE::at(0));
-            Number<C>& b = reinterpret_cast<Number<C>&>(*BASE::at(1));
-            return C(a) + C(b);
+            Number<T>& a = reinterpret_cast<Number<T>&>(*BASE::at(0));
+            Number<T>& b = reinterpret_cast<Number<T>&>(*BASE::at(1));
+            return T(a) + T(b);
         }
 
     };
@@ -141,22 +141,22 @@ namespace oct::core::v3
     *\param C Child
     *\param L label
     **/
-    template<class C,class L = char> class Subtration : public operation<C,L>
+    template<class T,class L = char> class Subtration : public operation<T,L>
     {
     private:
-        typedef operation<C,L> BASE;
+        typedef operation<T,L> BASE;
 
     public:
         Subtration() = default;
-        Subtration(Number<C>& a,Number<C>& b) : BASE(a,b)
+        Subtration(Number<T>& a,Number<T>& b) : BASE(a,b)
         {
         }
 
-        operator C()
+        virtual operator T()
         {
-            Number<C>& a = reinterpret_cast<Number<C>&>(*BASE::at(0));
-            Number<C>& b = reinterpret_cast<Number<C>&>(*BASE::at(1));
-            return C(a) - C(b);
+            Number<T>& a = reinterpret_cast<Number<T>&>(*BASE::at(0));
+            Number<T>& b = reinterpret_cast<Number<T>&>(*BASE::at(1));
+            return T(a) - T(b);
         }
     };
 }
