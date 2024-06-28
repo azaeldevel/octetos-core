@@ -41,7 +41,7 @@ namespace oct::core::v3
         node() = default;
         virtual ~node() = default;
         
-        virtual operator T() = 0;
+        virtual operator T() const = 0;
     };
 
     /**
@@ -59,6 +59,7 @@ namespace oct::core::v3
         Node(size_t s) : BASE(s)
         {
         }
+        virtual ~Node() = default;
 
     };
 
@@ -83,10 +84,16 @@ namespace oct::core::v3
         Number(const T& n) : number(n)
         {
         }
+        virtual ~Number() = default;
 
-        virtual operator T()
+        virtual operator T() const
         {
             return number;
+        }
+        Number& operator =(const T& n)
+        {
+            number = n;
+            return *this;
         }
     };
 
@@ -108,6 +115,13 @@ namespace oct::core::v3
             BASE::at(0) = &a;
             BASE::at(1) = &b;
         }
+        virtual ~operation() = default;
+        void set(node<T>& a,node<T>& b)
+        {
+            if(BASE::size() != 2) BASE::resize(2);
+            BASE::at(0) = &a;
+            BASE::at(1) = &b;
+        }
 
     };
 
@@ -126,12 +140,11 @@ namespace oct::core::v3
         Addition(node<T>& a,node<T>& b) : BASE(a,b)
         {
         }
+        virtual ~Addition() = default;
 
-        virtual operator T()
+        virtual operator T() const
         {
-            node<T>& a = *BASE::at(0);
-            node<T>& b = *BASE::at(1);
-            return T(a) + T(b);
+            return T(*BASE::at(0)) + T(*BASE::at(1));
         }
 
     };
@@ -151,12 +164,11 @@ namespace oct::core::v3
         Subtration(node<T>& a,node<T>& b) : BASE(a,b)
         {
         }
+        virtual ~Subtration() = default;
 
-        virtual operator T()
+        virtual operator T() const
         {
-            node<T>& a = *BASE::at(0);
-            node<T>& b = *BASE::at(1);
-            return T(a) - T(b);
+            return T(*BASE::at(0)) - T(*BASE::at(1));
         }
     };
 }

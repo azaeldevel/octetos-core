@@ -46,8 +46,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/azael/develop/octetos/core/3",
-      "program": "/home/azael/develop/octetos/core/3/build/Debug/outDebug",
+      "cwd": "/home/azael/develop/octetos/core/tests",
+      "program": "/home/azael/develop/octetos/core/tests/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
