@@ -21,9 +21,10 @@ namespace core = oct::core::v3;
 
 int main(int argc, char *argv[])
 {
-    core::Number<float> num1(5.0);
-    core::Number<float> num2(1.9);
-    core::Number<float> num3(3.9);
+    const char* testing = "testing....";
+    core::Number<float> num1(5.0f);
+    core::Number<float> num2(1.9f);
+    core::Number<float> num3(3.9f);
     core::Addition<float> op1(num1,num2);
     core::Addition<float> op2(op1,num3);
     core::Subtration<float> op3(op2,num2);
@@ -35,7 +36,7 @@ int main(int argc, char *argv[])
     std::cout <<"Result 2 : " << result2 << "\n";
     std::cout <<"Result 3 : " << result3 << "\n";
 
-    constexpr size_t numbers_length = 1000000;
+    constexpr size_t numbers_length = 1000;
     constexpr size_t operations_length = numbers_length/size_t(2);
 
     float numbers[numbers_length];
@@ -46,7 +47,7 @@ int main(int argc, char *argv[])
 
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_real_distribution<> gen(1.0,100000.0);
+    std::uniform_real_distribution<float> gen(1.0f,100000.0f);
 
     for(size_t i = 0; i < numbers_length;i++)
     {
@@ -58,7 +59,7 @@ int main(int argc, char *argv[])
         std::cout << numbers[i] << "\n";
     }*/
 
-    for(size_t i = 0; i < operations_length;i++)
+    for (size_t i = 0; i < operations_length; i++)
     {
         adds[i].a = numbers[i];
         adds[i].b = numbers[i + 1];
@@ -75,7 +76,7 @@ int main(int argc, char *argv[])
         data = adds[i].result();
     }
     auto end = std::chrono::high_resolution_clock::now();
-    auto time_base = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    auto time_base = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
 
     start = std::chrono::high_resolution_clock::now();
     for(size_t i = 0; i < operations_length;i++)
@@ -83,11 +84,11 @@ int main(int argc, char *argv[])
         data = float(additions[i]);
     }
     end = std::chrono::high_resolution_clock::now();
-    auto time_target = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    auto time_target = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
 
     std::cout << "base : " << time_base.count() << "\n";
     std::cout << "target : " << time_target.count() << "\n";
-    //std::cout << "Speed : " << time_target.count()/time_base.count() << "\n";
+    std::cout << "Speed : " << time_target.count()/time_base.count() << "\n";
 
 
     return EXIT_SUCCESS;
