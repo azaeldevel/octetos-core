@@ -32,26 +32,26 @@ namespace oct::core::v3
 
     /**
     *\brief Representa el nodo de un arbol
+    *\param C Child
     **/
-    class node
+    template<class C> class node
     {
     private:
     public:
         node() = default;
         virtual ~node() = default;
         
-        virtual void resolve() const = 0;
+        //virtual void resolve() const = 0;
     };
 
     /**
     *\brief Representa el nodo de un arbol
     *\param C Child
-    *\param L label
     **/
-    template<class C,class L> class Node : public std::vector<C*>
+    template<class C> class Node : public std::vector<node<C>*>
     {
     private:
-        typedef std::vector<C*> BASE;
+        typedef std::vector<node<C>*> BASE;
     private:
 
     public:
@@ -83,6 +83,11 @@ namespace oct::core::v3
         Number(const C& n) : number(n)
         {
         }
+
+        operator C()
+        {
+            return number;
+        }
     };
 
 
@@ -91,17 +96,17 @@ namespace oct::core::v3
     *\param C Child
     *\param L label
     **/
-    template<class C,class L = char> class operation : public Node<C,L>
+    template<class C,class L = char> class operation : public Node<C>
     {
     private:
-        typedef Node<C,L> BASE;
+        typedef Node<C> BASE;
 
     public:
         operation() = default;
-        operation(C& a,C& b) : BASE(2)
+        operation(Number<C>& a,Number<C>& b) : BASE(2)
         {
-            BASE::at(0) = &a;
-            BASE::at(1) = &b;
+            BASE::at(0) = reinterpret_cast<node<C>*>(&a);
+            BASE::at(1) = reinterpret_cast<node<C>*>(&b);
         }
 
     };
@@ -111,15 +116,22 @@ namespace oct::core::v3
     *\param C Child
     *\param L label
     **/
-    template<class C,class L = char> class Addition : public operation<C,L>
+    template<class C,class L = char> class Addition : public operation<C>
     {
     private:
-        typedef operation<C,L> BASE;
+        typedef operation<C> BASE;
 
     public:
         Addition() = default;
-        Addition(C& a,C& b) : BASE(a,b)
+        Addition(Number<C>& a,Number<C>& b) : BASE(a,b)
         {
+        }
+
+        operator C()
+        {
+            Number<C>& a = reinterpret_cast<Number<C>&>(*BASE::at(0));
+            Number<C>& b = reinterpret_cast<Number<C>&>(*BASE::at(1));
+            return C(a) + C(b);
         }
 
     };
@@ -136,10 +148,16 @@ namespace oct::core::v3
 
     public:
         Subtration() = default;
-        Subtration(C& a,C& b) : BASE(a,b)
+        Subtration(Number<C>& a,Number<C>& b) : BASE(a,b)
         {
         }
 
+        operator C()
+        {
+            Number<C>& a = reinterpret_cast<Number<C>&>(*BASE::at(0));
+            Number<C>& b = reinterpret_cast<Number<C>&>(*BASE::at(1));
+            return C(a) - C(b);
+        }
     };
 }
 
