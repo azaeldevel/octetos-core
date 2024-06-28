@@ -18,9 +18,27 @@
     <ClCompile Include="..\tests\nodes-develop.cc">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="..\tests\ast.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tests\ast_printer.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tests\util.c">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3\nodes.hh">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tests\ast.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tests\ast_printer.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tests\util.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

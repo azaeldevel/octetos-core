@@ -5,6 +5,10 @@
 
 #include "../3/nodes.hh"
 
+//https://cop3402fall20.github.io/projects/project1.html
+#include "ast.h"
+#include "ast_printer.h"
+
 struct add
 {
     float a,b;
@@ -89,6 +93,15 @@ int main(int argc, char *argv[])
     std::cout << "base : " << time_base.count() << "\n";
     std::cout << "target : " << time_target.count() << "\n";
     std::cout << "Speed : " << time_target.count()/time_base.count() << "\n";
+
+    T_stmt stmt
+        = create_assignstmt(
+            create_identexpr("a"),
+            create_binaryexpr(create_identexpr("c"),
+                E_op_plus,
+                create_intexpr(7)));
+    print_stmt(stmt, 0);
+    T_stmtlist stmtlist = create_stmtlist(stmt, NULL);
 
 
     return EXIT_SUCCESS;

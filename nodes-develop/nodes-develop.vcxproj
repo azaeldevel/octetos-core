@@ -128,10 +128,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\tests\ast.c" />
+    <ClCompile Include="..\tests\ast_printer.c" />
     <ClCompile Include="..\tests\nodes-develop.cc" />
+    <ClCompile Include="..\tests\util.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3\nodes.hh" />
+    <ClInclude Include="..\tests\ast.h" />
+    <ClInclude Include="..\tests\ast_printer.h" />
+    <ClInclude Include="..\tests\util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
