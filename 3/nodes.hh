@@ -29,6 +29,9 @@
 
 namespace oct::core::v3::nodes
 {
+    class Expresion;
+    class Numeric;
+
     class node
     {
     public:
@@ -36,6 +39,8 @@ namespace oct::core::v3::nodes
         {
             none,
             number,
+            expression,
+            expression_numeric,
         };
 
     public:
@@ -45,7 +50,7 @@ namespace oct::core::v3::nodes
         node* is_number();
         Types get_type();
 
-        virtual void print(std::ostream& out, bool delim = false) const = 0;
+        virtual void print(std::ostream& out) const = 0;
 
     private:
         Types type;
@@ -70,7 +75,7 @@ namespace oct::core::v3::nodes
             f,
             d,
             ld,
-            op,
+            numeric,
 
         };
     public:
@@ -90,6 +95,7 @@ namespace oct::core::v3::nodes
             float f;
             double d;
             long double ld;
+            Numeric* expre;
         };
 
     public:
@@ -107,6 +113,7 @@ namespace oct::core::v3::nodes
         Number(float);
         Number(double);
         Number(long double);
+        Number(Numeric*);
 
 
         Number* is_signed_char();
@@ -115,14 +122,83 @@ namespace oct::core::v3::nodes
         Number* is_unsigned_short();
         Number* is_signed_int();
         Number* is_unsigned_int();
+        Number* is_signed_long();
+        Number* is_unsigned_long();
+        Number* is_signed_long_long();
+        Number* is_unsigned_long_long();
+        Number* is_float();
+        Number* is_double();
+        Number* is_long_double();
+        Number* is_numeric();
+        Types get_type();
 
-        virtual void print(std::ostream& out, bool delim = false) const;
+        virtual void print(std::ostream& out) const;
 
     private:
         Types type;
         number_t number;
     };
 
+
+    class Expression : public node
+    {
+    public:
+        Expression();
+        Expression(node::Types);
+    };
+
+    /**
+    *\brief Representa un expresion numerica
+    */
+    class Numeric : public Expression
+    {
+
+
+    public:
+        Numeric();
+        Numeric(node::Types);
+
+    public:
+    private:
+    };
+
+    /**
+    *\brief Representa un operacion binaria
+    */
+    class Operation : public Numeric
+    {
+    public:
+        enum class Types : char
+        {
+            none,
+            addition = '+',
+            subtraction = '-',
+            product = '*',
+            divition = '/',
+        };
+
+    public:
+        Operation();
+        Operation(Types,Number&,Number&);
+        Operation(char,Number&,Number&);
+
+        virtual void print(std::ostream& out) const;
+    protected:
+        Types type;
+        Number *left,*right;
+    };
+
+    /**
+    *\brief Representa un expresion numerica
+    */
+    class Addition : public Operation
+    {
+    public:
+    public:
+        Addition();
+        Addition(Number&,Number&);
+    private:
+    };
 
 }
 

@@ -138,8 +138,53 @@ namespace oct::core::v3::nodes
         if(type == Types::ui) return this;
         return NULL;
     }
+    Number* Number::is_signed_long()
+    {
+        if(type == Types::sl) return this;
+        return NULL;
+    }
+    Number* Number::is_unsigned_long()
+    {
+        if(type == Types::ul) return this;
+        return NULL;
+    }
+    Number* Number::is_signed_long_long()
+    {
+        if(type == Types::sll) return this;
+        return NULL;
+    }
+    Number* Number::is_unsigned_long_long()
+    {
+        if(type == Types::ull) return this;
+        return NULL;
+    }
+    Number* Number::is_float()
+    {
+        if(type == Types::f) return this;
+        return NULL;
+    }
+    Number* Number::is_double()
+    {
+        if(type == Types::f) return this;
+        return NULL;
+    }
+    Number* Number::is_long_double()
+    {
+        if(type == Types::f) return this;
+        return NULL;
+    }
+    Number* Number::is_numeric()
+    {
+        if(type == Types::numeric) return this;
+        return NULL;
+    }
 
-    void Number::print(std::ostream& out, bool delim) const
+    Number::Types Number::get_type()
+    {
+        return type;
+    }
+
+    void Number::print(std::ostream& out) const
     {
         switch(type)
         {
@@ -179,10 +224,77 @@ namespace oct::core::v3::nodes
         case Types::d:
             out << number.d;
             break;
-        case Types::op:
+        case Types::ld:
+            out << number.ld;
+            break;
+        case Types::numeric:
         default:
             break;
         }
     }
 
+
+
+    Expression::Expression() : node(node::Types::expression)
+    {
+    }
+    Expression::Expression(node::Types t) : node(t)
+    {
+    }
+
+
+
+
+
+
+    Numeric::Numeric() : Expression(node::Types::expression_numeric)
+    {
+    }
+    Numeric::Numeric(node::Types t) : Expression(t)
+    {
+    }
+
+
+
+
+
+
+    Operation::Operation()
+    {
+    }
+    Operation::Operation(Types t,Number& a,Number& b) : type(t),left(&a),right(&b)
+    {
+    }
+    Operation::Operation(char t,Number& a,Number& b) : type((Types)t),left(&a),right(&b)
+    {
+    }
+
+    void Operation::print(std::ostream& out) const
+    {
+        switch(type)
+        {
+        case Types::addition:
+            left->print(out);
+            out << " + ";
+            right->print(out);
+            break;
+        case Types::subtraction:
+            left->print(out);
+            out << " - ";
+            right->print(out);
+            break;
+        case Types::product:
+            left->print(out);
+            out << " * ";
+            right->print(out);
+            break;
+        case Types::divition:
+            left->print(out);
+            out << " / ";
+            right->print(out);
+            break;
+        default:
+            break;
+        }
+    }
 }
