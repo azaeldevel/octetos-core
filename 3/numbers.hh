@@ -217,13 +217,6 @@ namespace oct::core::v3
 
         template <class T> T get();
 
-        _Number operator + (const _Number& n)const
-        {
-            //return get() + n.get();
-
-            return *this;
-        }
-
     private:
         selectors selection;
         types type;

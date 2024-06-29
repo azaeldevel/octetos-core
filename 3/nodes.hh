@@ -21,51 +21,107 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-#include <vector>
+#include "array.hh"
 
 #ifdef OCTETOS_CORE_V3_TDD
     #include <iostream>
 #endif
 
-namespace oct::core::v3
+namespace oct::core::v3::nodes
 {
-
-    /**
-    *\brief Representa el nodo de un arbol
-    *\param T data type
-    *\param S Selector de clase
-    **/
-    template<class T> class node
+    class node
     {
-    private:
     public:
-        node() = default;
-        virtual ~node() = default;
-        
-        virtual operator T() const = 0;
-    };
-
-    /**
-    *\brief Representa el nodo de un arbol
-    *\param T data type
-    *\param S Selector de clase
-    **/
-    template<class T> class Node : public std::vector<node<T>*>,public node<T>
-    {
-    private:
-        typedef std::vector<node<T>*> BASE;
-    private:
-
-    public:
-        Node() = default;
-        Node(size_t s) : BASE(s)
+        enum class Types
         {
-        }
-        virtual ~Node() = default;
+            none,
+            number,
+        };
 
+    public:
+        node();
+        node(Types t);
+
+        node* is_number();
+        Types get_type();
+
+        virtual void print(std::ostream& out, bool delim = false) const = 0;
+
+    private:
+        Types type;
     };
 
+    class Number : public node
+    {
+    public:
+        enum class Types
+        {
+            none,
+            sc,
+            uc,
+            ss,
+            us,
+            si,
+            ui,
+            ul,
+            sl,
+            ull,
+            sll,
+            f,
+            d,
+            ld,
+            op,
 
+        };
+    public:
+        typedef node BASE;
+        union number_t
+        {
+            signed char sc;
+            unsigned char uc;
+            signed short ss;
+            unsigned short us;
+            signed int si;
+            unsigned int ui;
+            signed long sl;
+            unsigned long ul;
+            signed long long sll;
+            unsigned long long ull;
+            float f;
+            double d;
+            long double ld;
+        };
+
+    public:
+        Number() = default;
+        Number(signed char);
+        Number(unsigned char);
+        Number(signed short);
+        Number(unsigned short);
+        Number(signed int);
+        Number(unsigned int);
+        Number(signed long);
+        Number(unsigned long);
+        Number(signed long long);
+        Number(unsigned long long);
+        Number(float);
+        Number(double);
+        Number(long double);
+
+
+        Number* is_signed_char();
+        Number* is_unsigned_char();
+        Number* is_signed_short();
+        Number* is_unsigned_short();
+        Number* is_signed_int();
+        Number* is_unsigned_int();
+
+        virtual void print(std::ostream& out, bool delim = false) const;
+
+    private:
+        Types type;
+        number_t number;
+    };
 
 
 }
