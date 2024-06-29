@@ -5,7 +5,7 @@
 #include <random>
 #include <chrono>
 
-#include "../3/nodes.hh"
+#include "nodes.hh"
 
 namespace core = oct::core::v3;
 

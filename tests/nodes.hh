@@ -21,7 +21,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-#include "array.hh"
 
 #ifdef OCTETOS_CORE_V3_TDD
     #include <iostream>
