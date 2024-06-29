@@ -256,7 +256,6 @@
 		</Unit>
 		<Unit filename="tests/develop-nodes.cc">
 			<Option target="develop-nodes-2" />
-			<Option target="develop-nodes-3" />
 		</Unit>
 		<Unit filename="tests/main.cc">
 			<Option target="Debug" />
