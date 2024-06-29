@@ -88,8 +88,14 @@
 					<Add option="-O2 -fPIC" />
 				</Compiler>
 			</Target>
-			<Target title="develop-nodes">
-				<Option output="bin/Debug/nodes-develop" prefix_auto="1" extension_auto="1" />
+			<Target title="develop-number">
+				<Option output="bin/Debug/number-develop" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/Debug/obj" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
+			<Target title="develop-nodes-2">
+				<Option output="bin/Debug/nodes-develop-2" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/Debug/obj" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -97,11 +103,14 @@
 					<Add option="-DOCTETOS_CORE_V3_TDD" />
 				</Compiler>
 			</Target>
-			<Target title="develop-number">
-				<Option output="bin/Debug/number-develop" prefix_auto="1" extension_auto="1" />
+			<Target title="develop-nodes-3">
+				<Option output="bin/Debug/nodes-develop-3" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/Debug/obj" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DOCTETOS_CORE_V3_TDD" />
+				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
@@ -242,18 +251,33 @@
 		<Unit filename="tests/develop-Number.cc">
 			<Option target="develop-number" />
 		</Unit>
+		<Unit filename="tests/develop-nodes-3.cc">
+			<Option target="develop-nodes-3" />
+		</Unit>
 		<Unit filename="tests/develop-nodes.cc">
-			<Option target="develop-nodes" />
+			<Option target="develop-nodes-2" />
+			<Option target="develop-nodes-3" />
 		</Unit>
 		<Unit filename="tests/main.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="tests/nodes-3.cc">
+			<Option target="develop-nodes-3" />
+		</Unit>
+		<Unit filename="tests/nodes-3.hh">
+			<Option target="develop-nodes-3" />
+		</Unit>
+		<Unit filename="tests/nodes-develop.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="tests/nodes.cc">
-			<Option target="develop-nodes" />
+			<Option target="develop-nodes-2" />
+			<Option target="develop-nodes-3" />
 		</Unit>
 		<Unit filename="tests/nodes.hh">
-			<Option target="develop-nodes" />
+			<Option target="develop-nodes-2" />
+			<Option target="develop-nodes-3" />
 		</Unit>
 		<Unit filename="tests/performace.cc">
 			<Option target="preformace" />
