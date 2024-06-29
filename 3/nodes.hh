@@ -29,8 +29,6 @@
 
 namespace oct::core::v3::nodes
 {
-    class Expresion;
-    class Numeric;
 
     class node
     {
@@ -75,7 +73,6 @@ namespace oct::core::v3::nodes
             f,
             d,
             ld,
-            numeric,
 
         };
     public:
@@ -95,7 +92,6 @@ namespace oct::core::v3::nodes
             float f;
             double d;
             long double ld;
-            Numeric* expre;
         };
 
     public:
@@ -113,8 +109,6 @@ namespace oct::core::v3::nodes
         Number(float);
         Number(double);
         Number(long double);
-        Number(Numeric*);
-
 
         Number* is_signed_char();
         Number* is_unsigned_char();
@@ -129,7 +123,6 @@ namespace oct::core::v3::nodes
         Number* is_float();
         Number* is_double();
         Number* is_long_double();
-        Number* is_numeric();
         Types get_type();
 
         virtual void print(std::ostream& out) const;
@@ -180,25 +173,20 @@ namespace oct::core::v3::nodes
     public:
         Operation();
         Operation(Types,Number&,Number&);
+        Operation(Types,Number&,Operation&);
+        Operation(Types,Operation&,Number&);
+        Operation(Types,Operation&,Operation&);
         Operation(char,Number&,Number&);
+        Operation(char,Number&,Operation&);
+        Operation(char,Operation&,Number&);
+        Operation(char,Operation&,Operation&);
 
         virtual void print(std::ostream& out) const;
     protected:
         Types type;
-        Number *left,*right;
+        node *left,*right;
     };
 
-    /**
-    *\brief Representa un expresion numerica
-    */
-    class Addition : public Operation
-    {
-    public:
-    public:
-        Addition();
-        Addition(Number&,Number&);
-    private:
-    };
 
 }
 

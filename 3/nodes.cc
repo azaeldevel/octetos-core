@@ -173,11 +173,6 @@ namespace oct::core::v3::nodes
         if(type == Types::f) return this;
         return NULL;
     }
-    Number* Number::is_numeric()
-    {
-        if(type == Types::numeric) return this;
-        return NULL;
-    }
 
     Number::Types Number::get_type()
     {
@@ -227,7 +222,6 @@ namespace oct::core::v3::nodes
         case Types::ld:
             out << number.ld;
             break;
-        case Types::numeric:
         default:
             break;
         }
@@ -265,7 +259,25 @@ namespace oct::core::v3::nodes
     Operation::Operation(Types t,Number& a,Number& b) : type(t),left(&a),right(&b)
     {
     }
+    Operation::Operation(Types t,Number& a,Operation& b) : type(t),left(&a),right(&b)
+    {
+    }
+    Operation::Operation(Types t,Operation& a,Number& b) : type(t),left(&a),right(&b)
+    {
+    }
+    Operation::Operation(Types t,Operation& a,Operation& b) : type(t),left(&a),right(&b)
+    {
+    }
     Operation::Operation(char t,Number& a,Number& b) : type((Types)t),left(&a),right(&b)
+    {
+    }
+    Operation::Operation(char t,Number& a,Operation& b) : type((Types)t),left(&a),right(&b)
+    {
+    }
+    Operation::Operation(char t,Operation& a,Number& b) : type((Types)t),left(&a),right(&b)
+    {
+    }
+    Operation::Operation(char t,Operation& a,Operation& b) : type((Types)t),left(&a),right(&b)
     {
     }
 
