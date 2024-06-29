@@ -39,6 +39,7 @@ namespace oct::core::v3::nodes
             number,
             expression,
             expression_numeric,
+            expression_nested,
         };
 
     public:
@@ -145,8 +146,6 @@ namespace oct::core::v3::nodes
     */
     class Numeric : public Expression
     {
-
-
     public:
         Numeric();
         Numeric(node::Types);
