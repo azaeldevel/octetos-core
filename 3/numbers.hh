@@ -155,18 +155,78 @@ namespace oct::core::v3
         Number(number auto const& v) : BASE(v)
         {
         }
-        Number(number auto&& v) : BASE(v)
+    };
+
+
+    class _Number
+    {
+    public:
+        union types
         {
+            signed char sc;
+            unsigned char uc;
+            signed short ss;
+            unsigned short us;
+            signed int si;
+            unsigned int ui;
+            signed long sl;
+            unsigned long ul;
+            signed long long sll;
+            unsigned long long ull;
+            float f;
+            double d;
+            long double ld;
+        };
+
+        enum class selectors : char
+        {
+            sc,
+            uc,
+            ss,
+            us,
+            si,
+            ui,
+        };
+
+    public:
+        _Number() = default;
+        _Number(signed char sc) : selection(selectors::sc)
+        {
+            type.sc = sc;
+        }
+        _Number(unsigned char uc) : selection(selectors::uc)
+        {
+            type.uc = uc;
+        }
+        _Number(signed short ss) : selection(selectors::ss)
+        {
+            type.sc = ss;
+        }
+        _Number(unsigned short us) : selection(selectors::us)
+        {
+            type.uc = us;
+        }
+        _Number(signed int si) : selection(selectors::si)
+        {
+            type.si = si;
+        }
+        _Number(unsigned int ui) : selection(selectors::ui)
+        {
+            type.ui = ui;
         }
 
-        template<number t> operator t&()
+        template <class T> T get();
+
+        _Number operator + (const _Number& n)const
         {
-            return std::get<t>(*this);
+            //return get() + n.get();
+
+            return *this;
         }
-        template<number t> operator t const&() const
-        {
-            return std::get<t>(*this);
-        }
+
+    private:
+        selectors selection;
+        types type;
     };
 
     //https://en.cppreference.com/w/cpp/string/byte/atoi
