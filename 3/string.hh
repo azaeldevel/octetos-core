@@ -19,7 +19,7 @@ namespace oct::core::v3
     }
 
 
-    std::vector<std::string> split(const std::string& from,const std::string& delim);
+    std::vector<std::string> split(const std::string& from,const std::string& delim = "\n");
 
 }
 

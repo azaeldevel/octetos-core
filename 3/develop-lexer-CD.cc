@@ -1,8 +1,10 @@
 
 #include <iostream>
+#include <vector>
 
+#include "../3/Lexer-TTB.hh"
 
-#include "Lexer-TTC-v3.hh"
+namespace core = oct::core::v3;
 
 enum class Tokens : int
 	{//https://www.charset.org/utf-8,https://www.asciitable.com/,https://www.rapidtables.com/code/text/ascii-table.html
@@ -240,7 +242,7 @@ const std::vector<core_here::lex::pair_keyword<char, Tokens>> keywords = {
 		{"while",Tokens::keyword_while}
 	};
 
-typedef core_here::lex::TTC<char,Tokens, core_here::lex::State,1,128> TT;
+typedef core_here::lex::TTB<char,Tokens, core_here::lex::State,1,128> TT;
 
 	template<typename Token> std::string to_string(Token t)
 	{
@@ -248,7 +250,7 @@ typedef core_here::lex::TTC<char,Tokens, core_here::lex::State,1,128> TT;
 
 		if (t < Token::base)
 		{
-			return core_next::lex::to_string(t);
+			return core::lex::to_string(t);
 		}
 		else if (t > Token::base)
 		{
@@ -276,7 +278,7 @@ int main(int argc, char* argv[])
 	std::filesystem::path file1_c90 = "C:\\Users\\Azael\\Documents\\develop\\octetos\\OCC\\tests\\main-ansi-90.c";
 	//const char* str_c90 = "auto char break switch volatil void int 923456789 5 j a0 aabcd a1_test z juan contianer09 _09cont _09cont % ? #";
 	const char* str_c90 = "auto char break switch volatil void int 923456789 5 j a0 aabcd a1_test z juan contianer09 _09cont _09cont % ? #";
-	core_next::Buffer<char> buff1_c90(str_c90);
+	core::Buffer<char> buff1_c90(str_c90);
 	TT tt_c90(alphabet);
 	for (const auto& p : keywords)
 	{
