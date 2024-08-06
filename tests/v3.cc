@@ -102,6 +102,19 @@ void v3_developing()
         std::cout << s << "\n";
     }*/
     //CU_ASSERT(vec.size() == 2);
+
+
+    std::string params = "number=1000&counter=100&id=567";
+    auto param = core::split(params,'&');
+    /*std::cout << "params size : " << param.size() << "\n";
+    for(const std::string& s : param)
+    {
+        std::cout << s << "\n";
+    }*/
+    CU_ASSERT(param.size() == 3)
+    CU_ASSERT(param[0].compare("number=1000") ==0)
+    CU_ASSERT(param[1].compare("counter=100") ==0)
+    CU_ASSERT(param[2].compare("id=567") ==0)
 }
 
 struct elapse
