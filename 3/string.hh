@@ -34,7 +34,7 @@ namespace oct::core::v3
                 begin = i + 1;
             }
         }
-        if(begin > 0 and end < begin)
+        if(begin > 0 and end < begin)//el ultimio elemento
         {
             result.push_back(std::string(str,begin,str.size() - begin));
         }
