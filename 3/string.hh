@@ -34,9 +34,13 @@ namespace oct::core::v3
                 begin = i + 1;
             }
         }
-        if(begin < str.size() and begin > end)
+        if(begin > 0 and end < begin)
         {
-            result.push_back(std::string(str,begin,str.size() - 1));
+            result.push_back(std::string(str,begin,str.size() - begin));
+        }
+        else if(result.empty())
+        {
+            result.push_back(str);
         }
 
         return result;

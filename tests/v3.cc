@@ -103,18 +103,27 @@ void v3_developing()
     }*/
     //CU_ASSERT(vec.size() == 2);
 
-
-    std::string params = "number=1000&counter=100&id=567";
-    auto param = core::split(params,'&');
+    std::string params1 = "number=1000";
+    auto param1 = core::split(params1,'&');
     /*std::cout << "params size : " << param.size() << "\n";
     for(const std::string& s : param)
     {
         std::cout << s << "\n";
     }*/
-    CU_ASSERT(param.size() == 3)
-    CU_ASSERT(param[0].compare("number=1000") ==0)
-    CU_ASSERT(param[1].compare("counter=100") ==0)
-    CU_ASSERT(param[2].compare("id=567") ==0)
+    CU_ASSERT(param1.size() == 1)
+    CU_ASSERT(param1[0].compare("number=1000") == 0)
+
+    std::string strparams2 = "number=1000&counter=100&id=567";
+    auto param2list = core::split(strparams2,'&');
+    /*std::cout << "params size : " << param2list.size() << "\n";
+    for(const std::string& s : param2list)
+    {
+        std::cout << s << "\n";
+    }*/
+    CU_ASSERT(param2list.size() == 3)
+    CU_ASSERT(param2list[0].compare("number=1000") == 0 )
+    CU_ASSERT(param2list[1].compare("counter=100") == 0 )
+    CU_ASSERT(param2list[2].compare("id=567") == 0 )
 }
 
 struct elapse
