@@ -1,8 +1,8 @@
 ﻿PROJECT(liboctetos-core-3)
 cmake_minimum_required(VERSION 3.12)
 
-set(VCPKG_DIR $ENV{VCPKG_DIR})
-include(${VCPKG_DIR}/scripts/buildsystems/vcpkg.cmake)
+set(VCPKG_ROOT $ENV{VCPKG_ROOT})
+include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 
 FIND_PACKAGE(PkgConfig REQUIRED)
 find_package(libconfig CONFIG REQUIRED)
