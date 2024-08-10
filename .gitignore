@@ -56,3 +56,4 @@ po/remove-potcdate.sin
 po/*.pot
 src/*- copia.*
 *-old.*
+build/

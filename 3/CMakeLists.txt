@@ -1,0 +1,16 @@
+﻿PROJECT(liboctetos-core-3)
+cmake_minimum_required(VERSION 3.12)
+
+set(VCPKG_DIR $ENV{VCPKG_DIR})
+include(${VCPKG_DIR}/scripts/buildsystems/vcpkg.cmake)
+
+FIND_PACKAGE(PkgConfig REQUIRED)
+find_package(libconfig CONFIG REQUIRED)
+
+add_definitions(-DLINUX_ARCH -DOCTETOS_CORE_VERSION_MAJOR=3 -DOCTETOS_CORE_VERSION_MINOR=0 -DOCTETOS_CORE_VERSION_PATCH=0 )
+
+add_library(octetos-core-3 SHARED Buffer.cc Configuration.cc numbers.cc platform.cc string.cc tree.cc version.cc)
+target_link_libraries(octetos-core-3 PRIVATE libconfig::config libconfig::config++)
+set_property(TARGET octetos-core-3 PROPERTY CXX_STANDARD 20)
+
+

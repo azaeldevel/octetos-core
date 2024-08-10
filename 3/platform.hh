@@ -32,21 +32,21 @@ namespace oct::core::v3
 {
     enum class platform_type
     {
-        none,
-        linux,
-        windows,
-        msys2,
+        None,
+        Linux,
+        Windows,
+        MSYS2,
     };
 
     constexpr platform_type get_platform_type()
     {
-#if __linux__
-        return platform_type::linux;
+#if linux
+        return platform_type::Linux;
 #elif (defined(_WIN32) || defined(_WIN64))
     #if MSYS2
-        return platform_type::msys2;
+        return platform_type::MSYS2;
     #else
-        return platform_type::windows;
+        return platform_type::Windows;
     #endif
 #else
 	#error "Plataforma desconocida."

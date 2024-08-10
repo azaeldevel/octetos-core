@@ -279,17 +279,11 @@
 		<Unit filename="tests/develop-Number.cc">
 			<Option target="develop-number" />
 		</Unit>
-		<Unit filename="tests/develop-iso-90.cc">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="tests/develop-nodes-3.cc">
 			<Option target="develop-nodes-3" />
 		</Unit>
 		<Unit filename="tests/develop-nodes.cc">
 			<Option target="develop-nodes-2" />
-		</Unit>
-		<Unit filename="tests/main-occ-c90.cc">
-			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="tests/main.cc">
 			<Option target="Debug" />
