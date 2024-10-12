@@ -40,7 +40,7 @@ namespace oct::core::v3
 
     constexpr platform_type get_platform_type()
     {
-#if linux
+#if linux || __linux__
         return platform_type::Linux;
 #elif (defined(_WIN32) || defined(_WIN64))
     #if MSYS2

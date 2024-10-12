@@ -14,6 +14,7 @@ namespace oct::core::v3
     struct Semver : public Version
     {
         Semver();
+        Semver(int major, int minor);
 
         int major;
         int minor;
