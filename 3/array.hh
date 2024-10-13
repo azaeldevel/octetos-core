@@ -38,6 +38,17 @@ namespace oct::core::v3
         {
             for(I i = 0; i < S; i++) data[i] = v;
         }
+        constexpr array(const T& v1,const T& v2)
+        {
+            data[0] = v1;
+            data[1] = v2;
+        }
+        constexpr array(const T& v1,const T& v2,const T& v3)
+        {
+            data[0] = v1;
+            data[1] = v2;
+            data[2] = v3;
+        }
         /*constexpr explicit sequence(const T v[L])
         {
             for(size_t i = 0; i < L; i++) data[i] = v;
@@ -59,6 +70,9 @@ namespace oct::core::v3
         {
             for(I i = 0; i < S; i++) data[i] = s.data[i];
         }
+
+
+
 
         constexpr T& operator [](I i)
         {
@@ -84,6 +98,9 @@ namespace oct::core::v3
 
             throw std::out_of_range("Indice fuera de rango");
         }
+
+
+
         constexpr array& operator =(const ARRAY& s)
         {
             for(I i = 0; i < S; i++) data[i] = s.data[i];
@@ -282,6 +299,12 @@ namespace oct::core::v3
             data[0] = d1;
             data[1] = d2;
         }
+        array(const T& d1,const T& d2,const T& d3)  : S(3),data(new T[S])
+        {
+            data[0] = d1;
+            data[1] = d2;
+            data[2] = d3;
+        }
         /*template<size_t s> array(const array<T,s>& a)  : S(s),data(new T[S])
         {
             for(size_t i = 0; i < S; i++) data[i] = a.data[i];
@@ -302,15 +325,13 @@ namespace oct::core::v3
 
         T& operator [](size_t i)
         {
-            if(i < S) return data[i];
-
-            throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango " + std::to_string(S));
+            return data[i];
+            //throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango " + std::to_string(S));
         }
         const T& operator [](size_t i) const
         {
-            if(i < S) return data[i];
-
-            throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango " + std::to_string(S));
+           return data[i];
+        //throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango " + std::to_string(S));
         }
         const T& at(size_t i) const
         {
