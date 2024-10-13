@@ -273,6 +273,15 @@ namespace oct::core::v3
         {
             for(size_t i = 0; i < S; i++) data[i] = s.data[i];
         }
+        array(const T& d)  : S(1),data(new T[S])
+        {
+            data[0] = d;
+        }
+        array(const T& d1,const T& d2)  : S(2),data(new T[S])
+        {
+            data[0] = d1;
+            data[1] = d2;
+        }
         /*template<size_t s> array(const array<T,s>& a)  : S(s),data(new T[S])
         {
             for(size_t i = 0; i < S; i++) data[i] = a.data[i];
