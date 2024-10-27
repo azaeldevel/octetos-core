@@ -256,6 +256,10 @@ namespace oct::core::v3
         {
             for(size_t i = 0; i < S; i++) data[i] = v;
         }*/
+        /**
+        *\brief Crea un Arreglo del tanamo indicado
+        *
+        */
         array(size_t s) : S(s),data(new T[S])
         {
         }
@@ -286,19 +290,27 @@ namespace oct::core::v3
                 data[i] = c[i];
             }
         }
-        array(const ARRAY& s)  : S(s.S),data(new T[S])
+        array(const array& s)  : S(s.S),data(new T[S])
         {
             for(size_t i = 0; i < S; i++) data[i] = s.data[i];
         }
-        array(const T& d)  : S(1),data(new T[S])
+        /*array(const T& d)  : S(1),data(new T[S])
         {
             data[0] = d;
-        }
+        }*/
+        /**
+        *\brief Crea un Arreglo de 2 elenetos y los indicializa con los datos indicdos
+        *
+        */
         array(const T& d1,const T& d2)  : S(2),data(new T[S])
         {
             data[0] = d1;
             data[1] = d2;
         }
+        /**
+        *\brief Crea un Arreglo de 3 elenetos y los indicializa con los datos indicdos
+        *
+        */
         array(const T& d1,const T& d2,const T& d3)  : S(3),data(new T[S])
         {
             data[0] = d1;
@@ -309,7 +321,11 @@ namespace oct::core::v3
         {
             for(size_t i = 0; i < S; i++) data[i] = a.data[i];
         }*/
-        array(ARRAY&& s)  : S(s.S)
+        /**
+        *\brief constructo de semantico
+        *
+        */
+        array(array&& s)  : S(s.S)
         {
             data = s.data;
             s.data = NULL;
