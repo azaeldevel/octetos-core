@@ -414,6 +414,11 @@ void v3_array()
     CU_ASSERT(array17[5][1] == 6);
     CU_ASSERT(array17[5][2] == 6);
 
+    core::array<int> array18(core::array<int>(1,2,3));
+    CU_ASSERT(array18[0] == 1);
+    CU_ASSERT(array18[1] == 2);
+    CU_ASSERT(array18[2] == 3);
+
 }
 void v3_tree()
 {

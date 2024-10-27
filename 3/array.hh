@@ -322,7 +322,7 @@ namespace oct::core::v3
             for(size_t i = 0; i < S; i++) data[i] = a.data[i];
         }*/
         /**
-        *\brief constructo de semantico
+        *\brief constructo de movimiento
         *
         */
         array(array&& s)  : S(s.S)
