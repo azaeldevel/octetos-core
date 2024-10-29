@@ -339,6 +339,8 @@ namespace oct::core::v3
             }
         }
 
+
+
         T& operator [](size_t i)
         {
             return data[i];
@@ -361,7 +363,8 @@ namespace oct::core::v3
 
             throw std::out_of_range("El indice " + std::to_string(i) + ", esta fuera del rango " + std::to_string(S));
         }
-        array& operator =(const ARRAY& s)
+
+        array& operator =(const array& s)
         {
             S = s.S;
             data = new T[S];
@@ -383,6 +386,16 @@ namespace oct::core::v3
 
             return *this;
         }
+        array& operator =(array&& s)
+        {
+            S = s.S;
+            data = s.data;
+            s.data = NULL;
+
+            return *this;
+        }
+
+
 
         operator T*()
         {
@@ -498,6 +511,7 @@ namespace oct::core::v3
             S = s;
             delete[] old_data;
         }
+        T* emplace();
 
 
 #ifdef OCTETOS_CORE_V3_TDD
