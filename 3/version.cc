@@ -29,7 +29,4 @@ namespace oct::core::v3
     Semver::Semver() : major(0),minor(0),patch(0)
     {
     }
-    Semver::Semver(int may, int min) : major(may),minor(min),patch(0)
-    {
-    }
 }
