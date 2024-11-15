@@ -122,6 +122,7 @@ namespace oct::core::v3
             return *this;
         }
 
+
         constexpr operator T*()
         {
             return data;
@@ -130,6 +131,8 @@ namespace oct::core::v3
         {
             return data;
         }
+
+
         constexpr operator void*()
         {
             return data;

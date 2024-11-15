@@ -134,13 +134,28 @@ namespace oct::core::v3
         //if(std::numeric_limits<T>::epsilon() + a > b and std::numeric_limits<T>::epsilon() - a < b) return true;
         T r = a - b;
         //std::cout << "a : " << a << ", b : " << b << ", r : " << r << "\n";
-        if(r > 0)
+        if(a > T(0) and b > T(0))
         {
-            if(r > epsilon) return false;
+            if(a > b)
+            {
+                if(a - b > epsilon) return false;
+            }
+            else if(a < b)
+            {
+                if(a - b < -epsilon) return false;
+            }
         }
-        else if(r < 0)
+        else if(a > T(0) and b < T(0))
         {
-            if(r < -epsilon) return false;
+            if(a + b > epsilon) return false;
+        }
+        else if(a < T(0) and b > T(0))
+        {
+            if(a + b > epsilon) return false;
+        }
+        else if(a < T(0) and b < T(0))
+        {
+            if(a + b < -epsilon) return false;
         }
 
         return true;
