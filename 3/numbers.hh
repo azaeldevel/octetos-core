@@ -155,7 +155,14 @@ namespace oct::core::v3
         }
         else if(a < T(0) and b < T(0))
         {
-            if(a + b < -epsilon) return false;
+            if(a > b)
+            {
+                if(a - b > epsilon) return false;
+            }
+            else if(a < b)
+            {
+                if(a - b < -epsilon) return false;
+            }
         }
 
         return true;
