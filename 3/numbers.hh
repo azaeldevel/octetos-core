@@ -132,7 +132,7 @@ namespace oct::core::v3
     template<typename T> bool equal(const T& a,const T& b, const T& epsilon = std::numeric_limits<T>::epsilon())
     {
         //if(std::numeric_limits<T>::epsilon() + a > b and std::numeric_limits<T>::epsilon() - a < b) return true;
-        T r = a - b;
+        //T r = a - b;
         //std::cout << "a : " << a << ", b : " << b << ", r : " << r << "\n";
         if(a > T(0) and b > T(0))
         {
