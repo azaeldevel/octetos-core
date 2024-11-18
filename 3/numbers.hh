@@ -111,29 +111,8 @@ namespace oct::core::v3
     };
 
 
-
-    /*
-    template<decimal T> bool equal(const T& a,const T& b)
+    template<typename T> constexpr bool equal(const T& a,const T& b, const T& epsilon = std::numeric_limits<T>::epsilon())
     {
-        //if(std::numeric_limits<T>::epsilon() + a > b and std::numeric_limits<T>::epsilon() - a < b) return true;
-        T r = a - b;
-        if(r > 0)
-        {
-            if(r > std::numeric_limits<T>::epsilon()) return false;
-        }
-        else if(r < 0)
-        {
-            if(r < std::numeric_limits<T>::epsilon()) return false;
-        }
-
-        return true;
-    }
-    */
-    template<typename T> bool equal(const T& a,const T& b, const T& epsilon = std::numeric_limits<T>::epsilon())
-    {
-        //if(std::numeric_limits<T>::epsilon() + a > b and std::numeric_limits<T>::epsilon() - a < b) return true;
-        //T r = a - b;
-        //std::cout << "a : " << a << ", b : " << b << ", r : " << r << "\n";
         if(a > T(0) and b > T(0))
         {
             if(a > b)
