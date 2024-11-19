@@ -27,5 +27,7 @@ void v3_Number();
 void v3_performance();
 void v3_to_number();
 void v3_table_performace_1();
+void v3_operators();
+
 
 #endif

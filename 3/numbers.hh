@@ -113,38 +113,76 @@ namespace oct::core::v3
 
     template<typename T> constexpr bool equal(const T& a,const T& b, const T& epsilon = std::numeric_limits<T>::epsilon())
     {
-        if(a > T(0) and b > T(0))
+        if( a < b)
         {
-            if(a > b)
-            {
-                if(a - b > epsilon) return false;
-            }
-            else if(a < b)
-            {
-                if(a - b < -epsilon) return false;
-            }
+            T r = b - a;
+            if(r > epsilon) return false;
+            else if(r < epsilon) return false;
         }
-        else if(a > T(0) and b < T(0))
+        else if (a > b)
         {
-            if(a + b > epsilon) return false;
-        }
-        else if(a < T(0) and b > T(0))
-        {
-            if(a + b > epsilon) return false;
-        }
-        else if(a < T(0) and b < T(0))
-        {
-            if(a > b)
-            {
-                if(a - b > epsilon) return false;
-            }
-            else if(a < b)
-            {
-                if(a - b < -epsilon) return false;
-            }
+            T r = a - b;
+            if(r > epsilon) return false;
+            else if(r < epsilon) return false;
         }
 
         return true;
+    }
+
+    template<typename T> constexpr bool diff(const T& a,const T& b, const T& epsilon = std::numeric_limits<T>::epsilon())
+    {
+        if( a < b)
+        {
+            T r = b - a;
+            if(r > epsilon) return true;
+            else if(r < epsilon) return true;
+        }
+        else if (a > b)
+        {
+            T r = a - b;
+            if(r > epsilon) return true;
+            else if(r < epsilon) return true;
+        }
+
+        return false;
+    }
+
+    template<typename T> constexpr bool operator ==(const T& a,const T& b)
+    {
+        const T epsilon = std::numeric_limits<T>::epsilon();
+        if( a < b)
+        {
+            T r = b - a;
+            if(r > epsilon) return false;
+            else if(r < epsilon) return false;
+        }
+        else if (a > b)
+        {
+            T r = a - b;
+            if(r > epsilon) return false;
+            else if(r < epsilon) return false;
+        }
+
+        return true;
+    }
+
+    template<typename T> constexpr bool operator !=(const T& a,const T& b)
+    {
+        const T epsilon = std::numeric_limits<T>::epsilon();
+        if( a < b)
+        {
+            T r = b - a;
+            if(r > epsilon) return true;
+            else if(r < epsilon) return true;
+        }
+        else if (a > b)
+        {
+            T r = a - b;
+            if(r > epsilon) return true;
+            else if(r < epsilon) return true;
+        }
+
+        return false;
     }
 
     class Number : public std::variant<signed char,unsigned char,signed int,unsigned int,signed long,signed long long,unsigned long long,float,double,long double>

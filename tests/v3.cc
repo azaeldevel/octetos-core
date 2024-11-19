@@ -10,7 +10,6 @@
 
 #include "../3/array.hh"
 #include "../3/tree.hh"
-//#include <core/3/Semver.hh>
 #include "../3/numbers.hh"
 #include <algorithm>
 #include "../3/Configuration.hh"
@@ -44,16 +43,6 @@ int v3_clean(void)
 
 void v3_developing()
 {
-    float a = 1.5f;
-    float b = 1.5f;
-    float c = 1.7f;
-    float epsilon = 0.001f;
-    float d = b - (epsilon/2.0f);
-    float e = b + (epsilon/2.0f);
-    CU_ASSERT(core::equal(a,b));
-    CU_ASSERT_FALSE(core::equal(a,c));
-    CU_ASSERT(core::equal(a,d,epsilon));
-    CU_ASSERT(core::equal(a,e,epsilon));
 
     int f = 2;
     int g = 2;
@@ -69,7 +58,6 @@ void v3_developing()
     char* tmpf_config_temp = tmpnam(NULL);
     std::filesystem::path tmpf_config = tmpf_config_temp;
     core::Configuration config1("mps2-conf");
-
 
     /*core::Semver veroct;
     veroct.major=OCTETOS_CORE_VERSION_MAJOR;
@@ -124,6 +112,8 @@ void v3_developing()
     CU_ASSERT(param2list[0].compare("number=1000") == 0 )
     CU_ASSERT(param2list[1].compare("counter=100") == 0 )
     CU_ASSERT(param2list[2].compare("id=567") == 0 )
+
+
 }
 
 struct elapse
@@ -541,4 +531,33 @@ void v3_to_number()
     CU_ASSERT(num7 == 1200);
     unsigned short num8 = core::to_number<unsigned short>("15300");
     CU_ASSERT(num8 == 15300);
+}
+
+void v3_operators()
+{
+    float a = 1.5f;
+    float b = -1.5f;
+    float c = 1.7f;
+    float epsilon = 0.001f;
+    CU_ASSERT_FALSE(core::equal(a,b));
+    CU_ASSERT_FALSE(core::equal(a,c));
+    CU_ASSERT(core::equal(a,a));
+    CU_ASSERT(core::equal(b,b));
+    CU_ASSERT_FALSE(core::equal(a,0.f));
+    CU_ASSERT(core::equal(0.f,0.f));
+    CU_ASSERT(core::equal(10.f,10.f));
+    CU_ASSERT(core::equal(-10.f,-10.f));
+    CU_ASSERT_FALSE(core::equal(3.f,0.f));
+    //
+    CU_ASSERT(core::diff(a,b));
+    CU_ASSERT(core::diff(a,c));
+    CU_ASSERT_FALSE(core::diff(a,a));
+    CU_ASSERT_FALSE(core::diff(b,b));
+    CU_ASSERT(core::diff(a,0.f));
+    CU_ASSERT_FALSE(core::diff(0.f,0.f));
+    CU_ASSERT_FALSE(core::diff(10.f,10.f));
+    CU_ASSERT_FALSE(core::diff(-10.f,-10.f));
+    CU_ASSERT(core::diff(3.f,0.f));
+    //
+
 }
