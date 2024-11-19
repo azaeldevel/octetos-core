@@ -76,15 +76,11 @@ namespace oct::core::v3
 
         constexpr T& operator [](I i)
         {
-            if(i < S) return data[i];
-
-            throw std::out_of_range("Indice fuera de rango");
+            return data[i];
         }
         constexpr const T& operator [](I i) const
         {
-            if(i < S) return data[i];
-
-            throw std::out_of_range("Indice fuera de rango");
+            return data[i];
         }
         constexpr const T& at(I i) const
         {
