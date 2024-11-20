@@ -126,61 +126,10 @@ struct elapse
     }
 };
 
-void v3_table_performace_1(int numbers[],size_t numbers_length, core::table<int>& numbers_octetos, elapse& time)
+void v3_table()
 {
-    time.start = std::chrono::high_resolution_clock::now();
-    for(size_t i = 0; i < numbers_length;i++)
-    {
-        numbers_octetos.push_back(numbers[i]);
-    }
-    time.end = std::chrono::high_resolution_clock::now();
+
 }
-void v3_table_performace_1(int numbers[],size_t numbers_length, std::vector<int>& numbers_std, elapse& time)
-{
-    time.start = std::chrono::high_resolution_clock::now();
-    for(size_t i = 0; i < numbers_length;i++)
-    {
-        numbers_std.push_back(numbers[i]);
-    }
-    time.end = std::chrono::high_resolution_clock::now();
-}
-
-void v3_table_performace_1()
-{
-    constexpr size_t numbers_length = 1000;
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> numint(1,100000);
-    int numbers[numbers_length];
-    core::table<int> numbers_octetos;
-    std::vector<int> numbers_std;
-    elapse e1[numbers_length],e2[numbers_length];
-    double t1 = 0,t2 = 0;
-
-    for(size_t i = 0; i < numbers_length;i++)
-    {
-        numbers[i] = numint(rng);
-    }
-
-    for(size_t i = 0; i < numbers_length;i++)
-    {
-        v3_table_performace_1(numbers,numbers_length,numbers_octetos,e1[i]);
-        v3_table_performace_1(numbers,numbers_length,numbers_std,e2[i]);
-    }
-    for(size_t i = 0; i < numbers_length;i++)
-    {
-        t1 += e1[i].duration().count();
-        t2 += e2[i].duration().count();
-    }
-    t1 = t1 / double(numbers_length);
-    t2 = t2 / double(numbers_length);
-
-    //std::cout << "valor/base = " << duration_1 << "/" << duration_2 << "\n";
-    auto speed = t1/t2;
-    //std::cout << "valor/base = " << t1 << "/" << t2 << " = " << speed << "\n";
-    //CU_ASSERT(speed <= 1.0f)
-}
-
 void v3_array()
 {
     constexpr core::array<int,6> array1 {-1,5,6,9,8,7};

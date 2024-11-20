@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	if ((NULL == CU_add_test(pSuite_v3, "Table (performace)..", v3_table_performace_1)))
+	if ((NULL == CU_add_test(pSuite_v3, "Table (performace)..", v3_table)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
