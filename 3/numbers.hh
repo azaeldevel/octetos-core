@@ -147,43 +147,6 @@ namespace oct::core::v3
         return false;
     }
 
-    template<typename T> constexpr bool operator ==(const T& a,const T& b)
-    {
-        const T epsilon = std::numeric_limits<T>::epsilon();
-        if( a < b)
-        {
-            T r = b - a;
-            if(r > epsilon) return false;
-            //else if(r < epsilon) return false;
-        }
-        else if (a > b)
-        {
-            T r = a - b;
-            if(r > epsilon) return false;
-            //else if(r < epsilon) return false;
-        }
-
-        return true;
-    }
-
-    template<typename T> constexpr bool operator !=(const T& a,const T& b)
-    {
-        const T epsilon = std::numeric_limits<T>::epsilon();
-        if( a < b)
-        {
-            T r = b - a;
-            if(r > epsilon) return true;
-            //else if(r < epsilon) return true;
-        }
-        else if (a > b)
-        {
-            T r = a - b;
-            if(r > epsilon) return true;
-            //else if(r < epsilon) return true;
-        }
-
-        return false;
-    }
 
     class Number : public std::variant<signed char,unsigned char,signed int,unsigned int,signed long,signed long long,unsigned long long,float,double,long double>
     {
