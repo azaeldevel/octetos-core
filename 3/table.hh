@@ -21,6 +21,8 @@ namespace oct::core::v3
 #pragma GCC diagnostic ignored "-Wpedantic"
         T data[R][C];
 #pragma GCC diagnostic pop
+
+
     };
 }
 
