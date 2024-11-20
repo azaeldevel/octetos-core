@@ -128,6 +128,21 @@
 					<Add library="cunit" />
 				</Linker>
 			</Target>
+			<Target title="TDD">
+				<Option output="bin/Debug/TDD" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/Debug/obj" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DOCTETOS_CORE_TTD=3" />
+					<Add option="-DOCTETOS_CORE_V3_TDD" />
+				</Compiler>
+				<Linker>
+					<Add option="`pkg-config cunit --libs`" />
+					<Add library="cunit" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="--std=c++20 -Wall -pedantic `pkg-config libconfig++ --cflags`" />
@@ -147,6 +162,7 @@
 			<Option target="preformace" />
 			<Option target="attempts" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/Buffer.hh">
 			<Option target="Debug" />
@@ -154,6 +170,7 @@
 			<Option target="preformace" />
 			<Option target="attempts" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/C90.hh">
 			<Option target="develop-lexer" />
@@ -164,6 +181,7 @@
 			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/Configuration.hh">
 			<Option target="Debug" />
@@ -171,6 +189,7 @@
 			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/Exception.hh">
 			<Option target="Debug" />
@@ -178,6 +197,7 @@
 			<Option target="preformace" />
 			<Option target="attempts" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/array.hh">
 			<Option target="Debug" />
@@ -185,6 +205,7 @@
 			<Option target="preformace" />
 			<Option target="attempts" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/develop-lexer-CD.cc">
 			<Option target="develop-lexer" />
@@ -195,6 +216,7 @@
 			<Option target="preformace" />
 			<Option target="attempts" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/numbers.cc">
 			<Option target="develop-number" />
@@ -206,6 +228,7 @@
 			<Option target="attempts" />
 			<Option target="develop-number" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/platform.cc">
 			<Option target="Debug" />
@@ -213,6 +236,7 @@
 			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/platform.hh">
 			<Option target="Debug" />
@@ -220,6 +244,7 @@
 			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/string.cc">
 			<Option target="Debug" />
@@ -229,6 +254,7 @@
 			<Option target="attempts" />
 			<Option target="liboctetos-core-3" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/string.hh">
 			<Option target="Debug" />
@@ -237,6 +263,7 @@
 			<Option target="attempts" />
 			<Option target="liboctetos-core-3" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/table.hh">
 			<Option target="Debug" />
@@ -244,6 +271,7 @@
 			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/tree.cc">
 			<Option target="Debug" />
@@ -251,6 +279,7 @@
 			<Option target="preformace" />
 			<Option target="attempts" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/tree.hh">
 			<Option target="Debug" />
@@ -258,6 +287,7 @@
 			<Option target="preformace" />
 			<Option target="attempts" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/version.cc">
 			<Option target="Debug" />
@@ -265,6 +295,7 @@
 			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="3/version.hh">
 			<Option target="Debug" />
@@ -272,6 +303,7 @@
 			<Option target="liboctetos-core-3-dbg" />
 			<Option target="liboctetos-core-3" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="tests/attempts.cc">
 			<Option target="attempts" />
@@ -288,6 +320,7 @@
 		<Unit filename="tests/main.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="tests/nodes-3.cc">
 			<Option target="develop-nodes-3" />
@@ -313,11 +346,13 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Unit filename="tests/v3.hh">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="develop-lexer" />
+			<Option target="TDD" />
 		</Unit>
 		<Extensions />
 	</Project>

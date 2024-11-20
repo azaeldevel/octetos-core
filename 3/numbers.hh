@@ -117,13 +117,13 @@ namespace oct::core::v3
         {
             T r = b - a;
             if(r > epsilon) return false;
-            else if(r < epsilon) return false;
+            //else if(r < epsilon) return false;
         }
         else if (a > b)
         {
             T r = a - b;
             if(r > epsilon) return false;
-            else if(r < epsilon) return false;
+            //else if(r < epsilon) return false;
         }
 
         return true;
@@ -135,13 +135,13 @@ namespace oct::core::v3
         {
             T r = b - a;
             if(r > epsilon) return true;
-            else if(r < epsilon) return true;
+            //else if(r < epsilon) return true;
         }
         else if (a > b)
         {
             T r = a - b;
             if(r > epsilon) return true;
-            else if(r < epsilon) return true;
+            //else if(r < epsilon) return true;
         }
 
         return false;
@@ -154,13 +154,13 @@ namespace oct::core::v3
         {
             T r = b - a;
             if(r > epsilon) return false;
-            else if(r < epsilon) return false;
+            //else if(r < epsilon) return false;
         }
         else if (a > b)
         {
             T r = a - b;
             if(r > epsilon) return false;
-            else if(r < epsilon) return false;
+            //else if(r < epsilon) return false;
         }
 
         return true;
@@ -173,13 +173,13 @@ namespace oct::core::v3
         {
             T r = b - a;
             if(r > epsilon) return true;
-            else if(r < epsilon) return true;
+            //else if(r < epsilon) return true;
         }
         else if (a > b)
         {
             T r = a - b;
             if(r > epsilon) return true;
-            else if(r < epsilon) return true;
+            //else if(r < epsilon) return true;
         }
 
         return false;

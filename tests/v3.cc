@@ -487,6 +487,8 @@ void v3_operators()
     float a = 1.5f;
     float b = -1.5f;
     float c = 1.7f;
+    float d = -1.7f;
+    float e = -2.1f;
     float epsilon = 0.001f;
     CU_ASSERT_FALSE(core::equal(a,b));
     CU_ASSERT_FALSE(core::equal(a,c));
@@ -498,6 +500,8 @@ void v3_operators()
     CU_ASSERT(core::equal(-10.f,-10.f));
     CU_ASSERT_FALSE(core::equal(3.f,0.f));
     CU_ASSERT(core::equal(0.2f,0.2f));
+    CU_ASSERT_FALSE(core::equal(d,e));
+    CU_ASSERT_FALSE(core::equal(e,d));
     //
     CU_ASSERT(core::diff(a,b));
     CU_ASSERT(core::diff(a,c));
@@ -508,6 +512,8 @@ void v3_operators()
     CU_ASSERT_FALSE(core::diff(10.f,10.f));
     CU_ASSERT_FALSE(core::diff(-10.f,-10.f));
     CU_ASSERT(core::diff(3.f,0.f));
+    CU_ASSERT(core::diff(d,e));
+    CU_ASSERT(core::diff(e,d));
     //
 
 }
