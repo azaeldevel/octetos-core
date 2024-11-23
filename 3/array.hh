@@ -34,15 +34,24 @@ namespace oct::core::v3
     public:
         using Index = I;
         array() = default;
+        /**
+        *\brief inicializa todos los elementos del arreglo
+        */
         constexpr array(const T& v)
         {
             for(I i = 0; i < S; i++) data[i] = v;
         }
+        /**
+        *\brief inicializa 2 elementos del arreglo
+        */
         constexpr array(const T& v1,const T& v2)
         {
             data[0] = v1;
             data[1] = v2;
         }
+        /**
+        *\brief inicializa 3 elementos del arreglo
+        */
         constexpr array(const T& v1,const T& v2,const T& v3)
         {
             data[0] = v1;
@@ -66,7 +75,7 @@ namespace oct::core::v3
                 data[i] = c[i];
             }
         }
-        constexpr array(const ARRAY& s)
+        constexpr array(const array& s)
         {
             for(I i = 0; i < S; i++) data[i] = s.data[i];
         }
@@ -97,7 +106,7 @@ namespace oct::core::v3
 
 
 
-        constexpr array& operator =(const ARRAY& s)
+        constexpr array& operator =(const array& s)
         {
             for(I i = 0; i < S; i++) data[i] = s.data[i];
 
@@ -289,6 +298,10 @@ namespace oct::core::v3
                 data[i] = c[i];
             }
         }
+
+        /**
+        *\brief inicializa todos los elementos del arreglo
+        */
         array(const array& s)  : S(s.S),data(new T[S])
         {
             for(size_t i = 0; i < S; i++) data[i] = s.data[i];
@@ -296,6 +309,14 @@ namespace oct::core::v3
         /*array(const T& d)  : S(1),data(new T[S])
         {
             data[0] = d;
+        }*/
+        /**
+        *\brief Crea un Arreglo de 2 elenetos y los indicializa con los datos indicdos
+        *
+        */
+        /*array(const T& d1)  : S(1),data(new T[S])
+        {
+            data[0] = d1;
         }*/
         /**
         *\brief Crea un Arreglo de 2 elenetos y los indicializa con los datos indicdos

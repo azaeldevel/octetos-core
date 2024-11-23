@@ -23,21 +23,21 @@ namespace oct::core::v3
 #pragma GCC diagnostic pop
 
 
-        constexpr T* operator [](I const& i)
+        constexpr T* operator [](size_t const& i)
         {
             return data[i];
         }
-        constexpr const T* operator [](I const& i) const
+        constexpr const T* operator [](size_t const& i) const
         {
             return data[i];
         }
-        constexpr T& at(I const& i,I const& j)
+        constexpr T& at(size_t const& i,size_t const& j)
         {
             if(i < R) if(j < C) return data[i][j];
 
             throw std::out_of_range("Indice fuera de rango");
         }
-        constexpr T const& at(I const& i,I const& j) const
+        constexpr T const& at(size_t const& i,size_t const& j) const
         {
             if(i < R) if(j < C) return data[i][j];
 
