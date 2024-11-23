@@ -489,6 +489,7 @@ void v3_operators()
     float c = 1.7f;
     float d = -1.7f;
     float e = -2.1f;
+    float f = -1.22625;
     float epsilon = 0.001f;
     CU_ASSERT_FALSE(core::equal(a,b));
     CU_ASSERT_FALSE(core::equal(a,c));
@@ -502,6 +503,40 @@ void v3_operators()
     CU_ASSERT(core::equal(0.2f,0.2f));
     CU_ASSERT_FALSE(core::equal(d,e));
     CU_ASSERT_FALSE(core::equal(e,d));
+    CU_ASSERT(core::equal(f,-1.2f,1.0e-1f));
+
+    //
+    /*float data_a = f,data_b = -1.2,data_epsilon = 1.0e-1;
+    if( data_a < data_b )
+    {
+        float r = data_b - data_a;
+        std::cout << "a < b : diff : " << data_b - data_a << "\n";
+        if(r > float(0))
+        {
+            if(r > data_epsilon) std::cout << "a > b\n";
+        }
+        else if(r < float(0))
+        {
+            if(r < -data_epsilon) std::cout << "a < b\n";
+        }
+    }
+    else if (data_a > data_b)
+    {
+        float r = data_a - data_b;
+        std::cout << "a > b : diff : " << data_a - data_b << "\n";
+        if(r > float(0))
+        {
+            //if(r > epsilon) return false;
+        }
+        else if(r < float(0))
+        {
+            //if(r < -epsilon) return false;
+        }
+    }
+    else
+    {
+        std::cout << "igual : a y b\n";
+    }*/
     //
     CU_ASSERT(core::diff(a,b));
     CU_ASSERT(core::diff(a,c));
