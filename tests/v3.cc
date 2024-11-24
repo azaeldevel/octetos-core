@@ -490,7 +490,7 @@ void v3_operators()
     float d = -1.7f;
     float e = -2.1f;
     float f = -1.22625;
-    float epsilon = 0.001f;
+    //float epsilon = 0.001f;
     CU_ASSERT_FALSE(core::equal(a,b));
     CU_ASSERT_FALSE(core::equal(a,c));
     CU_ASSERT(core::equal(a,a));

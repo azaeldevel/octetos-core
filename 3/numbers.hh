@@ -287,6 +287,20 @@ namespace oct::core::v3
 
 		return result;
 	}
+
+
+
+    template<number T>
+    T radian_to_degree(T angle)
+    {
+        return (T(180)/std::numbers::pi) * angle;
+    }
+
+    template<number T>
+    T degree_to_radian(T angle)
+    {
+        return (std::numbers::pi/T(180)) * angle;
+    }
 }
 
 
