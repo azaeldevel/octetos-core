@@ -407,9 +407,15 @@ void v3_trails()
 
 }
 
-void v3_Number()
+void v3_numbers()
 {
-
+    double angle1 = 45;//45 grados
+    double angle2 = core::degree_to_radian(angle1);
+    //std::cout << "angle 2 : " << angle2 << " == " << std::numbers::pi/4.0 << "\n";
+    CU_ASSERT(core::equal(angle2,std::numbers::pi/4.0))
+    double angle3 = core::radian_to_degree(angle2);
+    //std::cout << "angle 3 : " << angle3 << "\n";
+    CU_ASSERT(core::equal(angle3,45.0))
 }
 
 
