@@ -27,6 +27,7 @@
 #include <variant>
 #include <limits>
 #include <cctype>
+#include <cmath>
 
 #if defined(__linux__)
 
@@ -290,16 +291,32 @@ namespace oct::core::v3
 
 
 
+
+    /**
+    *\brief convirte radianes a grados
+    */
     template<number T>
-    T radian_to_degree(T angle)
+    constexpr T radian_to_degree(T angle)
     {
         return (T(180)/std::numbers::pi) * angle;
     }
 
+    /**
+    *\brief convirte grados a radianes
+    */
     template<number T>
-    T degree_to_radian(T angle)
+    constexpr T degree_to_radian(T angle)
     {
         return (std::numbers::pi/T(180)) * angle;
+    }
+
+    /**
+    *\brief distance entre los dos punto(mediante teorema de pitagoras)
+    */
+    template<number T>
+    constexpr T distance(const T& x, const T& y)
+    {
+        return std::sqrt(std::pow(x,T(2)) + std::pow(y,T(2)));
     }
 }
 
