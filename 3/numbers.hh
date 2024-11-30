@@ -318,6 +318,15 @@ namespace oct::core::v3
     {
         return std::sqrt(std::pow(x,T(2)) + std::pow(y,T(2)));
     }
+
+    /**
+    *\brief distance entre los dos punto(mediante teorema de pitagoras)
+    */
+    template<number T>
+    constexpr T distance(const T& x, const T& y, const T& z)
+    {
+        return std::sqrt(std::pow(x,T(2)) + std::pow(y,T(2)) + std::pow(z,T(2)));
+    }
 }
 
 
