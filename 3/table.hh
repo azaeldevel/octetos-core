@@ -1,73 +1,18 @@
 #ifndef OCTETOS_CORE_TABLE_HH_INCLUDED
 #define OCTETOS_CORE_TABLE_HH_INCLUDED
 
-#include "numbers.hh"
+#include "array.hh"
 
 namespace oct::core::v3
 {
-
     /**
-    *\brief Representa una arreglo
-    *\param T Tipo de dato
-    *\param R Renglones
-    *\param C Columnas
+    *\brief Representa una secuacion continua de datos, eqiuvalante al sequence
+    *\param T Tipo de dato de la secuencia
+    *\param C La cantidad de datos, si es 0, la asignacion es dinamica
+    *\param R La cantidad de renglones, si es 0, la asignacion es dinamica
     **/
-    template<class T,index auto R = 0,index auto C = 0>
-    struct Table
-    {
-    public:
+    template<typename T,index auto C = 0,index auto R = 0,index I = size_t> using table = array<array<T,C>,R>;
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpedantic"
-        T data[R][C];
-#pragma GCC diagnostic pop
-
-
-        constexpr T* operator [](size_t const& i)
-        {
-            return data[i];
-        }
-        constexpr const T* operator [](size_t const& i) const
-        {
-            return data[i];
-        }
-        constexpr T& at(size_t const& i,size_t const& j)
-        {
-            if(i < R) if(j < C) return data[i][j];
-
-            throw std::out_of_range("Indice fuera de rango");
-        }
-        constexpr T const& at(size_t const& i,size_t const& j) const
-        {
-            if(i < R) if(j < C) return data[i][j];
-
-            throw std::out_of_range("Indice fuera de rango");
-        }
-        constexpr operator T*()
-        {
-            return (T*)&data;
-        }
-        constexpr operator const T*() const
-        {
-            return (const T*)&data;
-        }
-#ifdef __cpp_multidimensional_subscript
-        constexpr T& operator [](I const& i,I const& j)
-        {
-            if(i < R) if(j < C) return data[i][j];
-
-            throw std::out_of_range("Indice fuera de rango");
-        }
-        constexpr T const& operator [](I const& i,I const& j)const
-        {
-            if(i < R) if(j < C) return data[i][j];
-
-            throw std::out_of_range("Indice fuera de rango");
-        }
-#endif
-
-
-    };
 }
 
 #endif // OCTETOS_CORE_TABLE_HH_INCLUDED
