@@ -246,6 +246,10 @@
 			<Option target="develop-lexer" />
 			<Option target="TDD" />
 		</Unit>
+		<Unit filename="3/stock.hh">
+			<Option target="liboctetos-core-3-dbg" />
+			<Option target="liboctetos-core-3" />
+		</Unit>
 		<Unit filename="3/string.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
