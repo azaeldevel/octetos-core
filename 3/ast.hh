@@ -182,8 +182,8 @@ namespace oct::core::v3::ast
 
         number,
         arithmetic,
-            sum,
-            rest,
+            addition,
+            subtraction,
             product,
             quotient,
             number_nested,
@@ -309,7 +309,7 @@ namespace oct::core::v3::ast
         {
             switch(this->type)
             {
-            case typen::sum:
+            case typen::addition:
                 if(a_nested and b_nested)
                 {
                     return static_cast<arithmetic<N,M,T>*>(a)->result() + static_cast<arithmetic<N,M,T>*>(b)->result();
@@ -330,12 +330,69 @@ namespace oct::core::v3::ast
                 {
                     throw exception("No se reconoce como una operacion aritmetica valida");
                 }
-            case typen::rest:
-                return static_cast<numeric<N,T>*>(a)->data - static_cast<numeric<M,T>*>(b)->data;
+            case typen::subtraction:
+                if(a_nested and b_nested)
+                {
+                    return static_cast<arithmetic<N,M,T>*>(a)->result() - static_cast<arithmetic<N,M,T>*>(b)->result();
+                }
+                else if(a_nested and !b_nested)
+                {
+                    return static_cast<arithmetic<N,M,T>*>(a)->result() - static_cast<numeric<M,T>*>(b)->data;
+                }
+                else if(!a_nested and b_nested)
+                {
+                    return static_cast<numeric<N,T>*>(a)->data - static_cast<arithmetic<N,M,T>*>(b)->result();
+                }
+                else if(!a_nested and !b_nested)
+                {
+                    return static_cast<numeric<N,T>*>(a)->data - static_cast<numeric<M,T>*>(b)->data;
+                }
+                else
+                {
+                    throw exception("No se reconoce como una operacion aritmetica valida");
+                }
             case typen::product:
-                return static_cast<numeric<N,T>*>(a)->data * static_cast<numeric<M,T>*>(b)->data;
+                if(a_nested and b_nested)
+                {
+                    return static_cast<arithmetic<N,M,T>*>(a)->result() * static_cast<arithmetic<N,M,T>*>(b)->result();
+                }
+                else if(a_nested and !b_nested)
+                {
+                    return static_cast<arithmetic<N,M,T>*>(a)->result() * static_cast<numeric<M,T>*>(b)->data;
+                }
+                else if(!a_nested and b_nested)
+                {
+                    return static_cast<numeric<N,T>*>(a)->data * static_cast<arithmetic<N,M,T>*>(b)->result();
+                }
+                else if(!a_nested and !b_nested)
+                {
+                    return static_cast<numeric<N,T>*>(a)->data * static_cast<numeric<M,T>*>(b)->data;
+                }
+                else
+                {
+                    throw exception("No se reconoce como una operacion aritmetica valida");
+                }
             case typen::quotient:
-                return static_cast<numeric<N,T>*>(a)->data / static_cast<numeric<M,T>*>(b)->data;
+                if(a_nested and b_nested)
+                {
+                    return static_cast<arithmetic<N,M,T>*>(a)->result() / static_cast<arithmetic<N,M,T>*>(b)->result();
+                }
+                else if(a_nested and !b_nested)
+                {
+                    return static_cast<arithmetic<N,M,T>*>(a)->result() / static_cast<numeric<M,T>*>(b)->data;
+                }
+                else if(!a_nested and b_nested)
+                {
+                    return static_cast<numeric<N,T>*>(a)->data / static_cast<arithmetic<N,M,T>*>(b)->result();
+                }
+                else if(!a_nested and !b_nested)
+                {
+                    return static_cast<numeric<N,T>*>(a)->data / static_cast<numeric<M,T>*>(b)->data;
+                }
+                else
+                {
+                    throw exception("No se reconoce como una operacion aritmetica valida");
+                }
             default:
                 throw exception("No se reconoce como una operacion aritmetica valida");
             }
