@@ -179,7 +179,7 @@ namespace oct::core::v3::ast
 
         //>>>Tokens
         base	= 0x110000,
-
+        root,
         number,
         arithmetic,
             addition,
@@ -230,6 +230,12 @@ namespace oct::core::v3::ast
         {
         }
         Node(T t,size_t s) : N(t),ARRAY_BASE(s)
+        {
+        }
+        Node(const Node& n) : N(n),ARRAY_BASE(n)
+        {
+        }
+        Node(Node&& n) : N(n),ARRAY_BASE(std::move(n))
         {
         }
 
