@@ -376,6 +376,14 @@ void v3_ast()
     //
     core::ast::arithmetic<float> sum2(core::ast::typen::sum,rest1,d3);
     CU_ASSERT(core::equal((rest1.result() + d3.data),sum2.result()));
+    //
+    core::ast::arithmetic<float> sum3(core::ast::typen::sum,d2,sum1);
+    CU_ASSERT(core::equal((d2.data + sum1.result()),sum3.result()));
+    //std::cout << (d2.data + sum1.result()) << " == " << sum3.result() << "\n";
+    //
+    core::ast::arithmetic<float> sum4(core::ast::typen::sum,div1,prod1);
+    CU_ASSERT(core::equal((div1.result() + prod1.result()),sum4.result()));
+    //std::cout << (d2.data + sum1.result()) << " == " << sum4.result() << "\n";
 
 }
 
