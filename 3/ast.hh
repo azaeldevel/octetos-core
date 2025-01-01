@@ -186,6 +186,9 @@ namespace oct::core::v3::ast
             rest,
             product,
             quotient,
+            number_nested,
+            nested_number,
+            nested_nested,
 
         keywords,
 
@@ -213,7 +216,39 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N,class T = typen> struct numeric : public node<T>
+    template<typename T = typen,typename N = node<T>> struct Node : public N, public array<N*>
+    {
+    public:
+        typedef array<N*> ARRAY_BASE;
+
+    public:
+        Node() = default;
+        Node(size_t s) : ARRAY_BASE(s)
+        {
+        }
+        Node(T t) : N(t)
+        {
+        }
+        Node(T t,size_t s) : N(t),ARRAY_BASE(s)
+        {
+        }
+
+
+#ifdef OCTETOS_CORE_V3_TDD
+        virtual void print(std::ostream& out) const
+        {
+        }
+#endif
+
+
+
+    };
+
+    /**
+    *\brief Crea un nodo
+    *\param T parametro de plantilla para determinar el tipo de nodo
+    **/
+    template<class N,class T = typen> struct numeric : public Node<T>
     {
     public:
         typedef numeric<T> NUMBER_NODE;
@@ -236,7 +271,7 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N,class M,class T = typen> struct arithmetic : public node<T>
+    template<class N,class M = N,class T = typen> struct arithmetic : public node<T>
     {
     public:
         typedef node<T> ARITHMETIC_NODE;
@@ -246,16 +281,27 @@ namespace oct::core::v3::ast
         arithmetic(T t) : ARITHMETIC_NODE(t)
         {
         }
-        arithmetic(numeric<N,T>* n,numeric<M,T>* m) : ARITHMETIC_NODE(typen::arithmetic),a(n),b(m)
+        arithmetic(numeric<N,T>* n,numeric<M,T>* m) : ARITHMETIC_NODE(typen::arithmetic),a(n),b(m),a_nested(false),b_nested(false)
         {
         }
-        arithmetic(numeric<N,T>& n,numeric<M,T>& m) : ARITHMETIC_NODE(typen::arithmetic),a(&n),b(&m)
+        arithmetic(numeric<N,T>& n,numeric<M,T>& m) : ARITHMETIC_NODE(typen::arithmetic),a(&n),b(&m),a_nested(false),b_nested(false)
         {
         }
-        arithmetic(T t,numeric<N,T>* n,numeric<M,T>* m) : ARITHMETIC_NODE(t),a(n),b(m)
+        arithmetic(T t,numeric<N,T>* n,numeric<M,T>* m) : ARITHMETIC_NODE(t),a(n),b(m),a_nested(false),b_nested(false)
         {
         }
-        arithmetic(T t,numeric<N,T>& n,numeric<M,T>& m) : ARITHMETIC_NODE(t),a(&n),b(&m)
+        arithmetic(T t,numeric<N,T>& n,numeric<M,T>& m) : ARITHMETIC_NODE(t),a(&n),b(&m),a_nested(false),b_nested(false)
+        {
+        }
+
+        //nested
+        arithmetic(T t,arithmetic<N,M,T>& n,numeric<M,T>& m) : ARITHMETIC_NODE(t),a(&n),b(&m),a_nested(true),b_nested(false)
+        {
+        }
+        arithmetic(T t,numeric<N,T>& n,arithmetic<N,M,T>& m) : ARITHMETIC_NODE(t),a(&n),b(&m),a_nested(false),b_nested(true)
+        {
+        }
+        arithmetic(T t,arithmetic<N,M,T>& n,arithmetic<N,M,T>& m) : ARITHMETIC_NODE(t),a(&n),b(&m),a_nested(true),b_nested(true)
         {
         }
 
@@ -264,21 +310,41 @@ namespace oct::core::v3::ast
             switch(this->type)
             {
             case typen::sum:
-                return a->data + b->data;
+                if(a_nested and b_nested)
+                {
+                    return static_cast<arithmetic<N,M,T>*>(a)->result() + static_cast<arithmetic<N,M,T>*>(b)->result();
+                }
+                else if(a_nested and !b_nested)
+                {
+                    return static_cast<arithmetic<N,M,T>*>(a)->result() + static_cast<numeric<M,T>*>(b)->data;
+                }
+                else if(!a_nested and b_nested)
+                {
+                    return static_cast<numeric<N,T>*>(a)->data + static_cast<arithmetic<N,M,T>*>(b)->result();
+                }
+                else if(!a_nested and !b_nested)
+                {
+                    return static_cast<numeric<N,T>*>(a)->data + static_cast<numeric<M,T>*>(b)->data;
+                }
+                else
+                {
+                    throw exception("No se reconoce como una operacion aritmetica valida");
+                }
             case typen::rest:
-                return a->data - b->data;
+                return static_cast<numeric<N,T>*>(a)->data - static_cast<numeric<M,T>*>(b)->data;
             case typen::product:
-                return a->data * b->data;
+                return static_cast<numeric<N,T>*>(a)->data * static_cast<numeric<M,T>*>(b)->data;
             case typen::quotient:
-                return a->data / b->data;
+                return static_cast<numeric<N,T>*>(a)->data / static_cast<numeric<M,T>*>(b)->data;
             default:
                 throw exception("No se reconoce como una operacion aritmetica valida");
             }
         }
 
     public:
-        numeric<N,T>* a;
-        numeric<M,T>* b;
+        node<T>* a;
+        node<T>* b;
+        bool a_nested,b_nested;
     };
 
 
