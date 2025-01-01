@@ -35,8 +35,8 @@ namespace oct::core::v3::ast
 
     enum class typen
     {
-        command = -100,
-        eoi,//end of input
+        //command = -100,
+        //eoi,//end of input
         none,
 
         //ASCII>>>
