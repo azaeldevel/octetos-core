@@ -207,6 +207,9 @@
 			<Option target="develop-lexer" />
 			<Option target="TDD" />
 		</Unit>
+		<Unit filename="3/ast.hh">
+			<Option target="TDD" />
+		</Unit>
 		<Unit filename="3/develop-lexer-CD.cc">
 			<Option target="develop-lexer" />
 		</Unit>

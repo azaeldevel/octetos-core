@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-	if ((NULL == CU_add_test(pSuite_v3, "Tree class..", v3_tree)))
+	if ((NULL == CU_add_test(pSuite_v3, "AST class..", v3_ast)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();

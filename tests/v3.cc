@@ -16,6 +16,7 @@
 #include "../3/platform.hh"
 #include "../3/table.hh"
 #include "../3/string.hh"
+#include "../3/ast.hh"
 
 
 #if defined(__linux__)
@@ -359,16 +360,13 @@ void v3_array()
     CU_ASSERT(array18[2] == 3);
 
 }
-void v3_tree()
+void v3_ast()
 {
-    enum Types
-    {
-        data1,
-        data2,
-        data3,
-    };
-
-    core::Node<Types> num1;
+    core::ast::numeric<float> d1(10.5f);
+    core::ast::numeric<float> d2(110.56f);
+    core::ast::numeric<float> d3(89.5);
+    core::ast::arithmetic sum1(core::ast::typen::sum,d1,d2);
+    CU_ASSERT(core::equal((d1.data + d2.data),sum1.result()));
 
 }
 

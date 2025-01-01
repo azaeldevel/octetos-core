@@ -93,21 +93,6 @@ namespace oct::core::v3
 
     };
 
-    enum class operators
-    {
-        addition,
-        subtraction,
-        product,
-        divition,
-        pow,
-        root,        
-    };
-
-    template<typename T,typename N = node<T>> struct Operator : public Node<T,N>
-    {
-    };
-
-
 }
 
 #endif

@@ -20,7 +20,7 @@ int v3_init(void);
 int v3_clean(void);
 void v3_developing();
 void v3_array();
-void v3_tree();
+void v3_ast();
 void v3_cpp();
 void v3_trails();
 void v3_numbers();
