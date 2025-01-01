@@ -40,8 +40,8 @@ namespace oct::core::v3::ast
         arithmetic,
             sum,
             rest,
-            multiplication,
-            division,
+            product,
+            quotient,
     };
 
     /**
@@ -117,9 +117,9 @@ namespace oct::core::v3::ast
                 return a->data + b->data;
             case typen::rest:
                 return a->data - b->data;
-            case typen::multiplication:
+            case typen::product:
                 return a->data * b->data;
-            case typen::division:
+            case typen::quotient:
                 return a->data / b->data;
             default:
                 throw exception("No se reconoce como una operacion aritmetica valida");

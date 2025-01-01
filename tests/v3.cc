@@ -366,7 +366,12 @@ void v3_ast()
     core::ast::numeric<float> d2(110.56f);
     core::ast::numeric<float> d3(89.5);
     core::ast::arithmetic sum1(core::ast::typen::sum,d1,d2);
+    core::ast::arithmetic rest1(core::ast::typen::rest,d1,d3);
+    core::ast::arithmetic prod1(core::ast::typen::product,d2,d3);
+    core::ast::arithmetic div1(core::ast::typen::quotient,d2,d1);
     CU_ASSERT(core::equal((d1.data + d2.data),sum1.result()));
+    CU_ASSERT(core::equal((d1.data - d3.data),rest1.result()));
+    CU_ASSERT(core::equal((d2.data / d1.data),div1.result()));
 
 }
 
