@@ -203,11 +203,21 @@ namespace oct::core::v3::ast
     **/
     template<typename T = typen> struct node
     {
-        node() = default;
+    public:
+        node() : type(typen::none)
+        {
+        }
         node(const T& t) : type(t)
         {
         }
+        node(const node& n) : type(n.type)
+        {
+        }
+        node(const node* n) : type(n->type)
+        {
+        }
 
+    public:
         T type;
     };
 
@@ -254,10 +264,10 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N,class T = typen> struct numeric : public Node<T>
+    template<class N=float,class T = typen> struct numeric : public node<T>
     {
     public:
-        typedef numeric<T> NUMBER_NODE;
+        typedef node<T> NUMBER_NODE;
 
     public:
         numeric() = default;
@@ -265,6 +275,12 @@ namespace oct::core::v3::ast
         {
         }
         numeric(N d) : data(d)
+        {
+        }
+        numeric(const numeric& o) : NUMBER_NODE(o),data(o.data)
+        {
+        }
+        numeric(const numeric* o) : NUMBER_NODE(o),data(o->data)
         {
         }
 
@@ -277,37 +293,104 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N,class M = N,class T = typen> struct arithmetic : public node<T>
+    template<class N=float,class M = N,class T = typen> struct arithmetic : public node<T>
     {
     public:
-        typedef node<T> ARITHMETIC_NODE;
+        typedef node<T> ARITHMETIC_BASE;
 
     public:
-        arithmetic() = default;
-        arithmetic(T t) : ARITHMETIC_NODE(t)
+        arithmetic() : a(NULL),b(NULL),a_nested(false),b_nested(false),auto_free(false)
         {
         }
-        arithmetic(numeric<N,T>* n,numeric<M,T>* m) : ARITHMETIC_NODE(typen::arithmetic),a(n),b(m),a_nested(false),b_nested(false)
+        arithmetic(const arithmetic* o) :
+            ARITHMETIC_BASE(o),a(NULL),b(NULL),
+            a_nested(o->a_nested),b_nested(o->b_nested),
+            auto_free(true)
+        {
+            copy_opdos(o);
+        }
+        arithmetic(const arithmetic& o) :
+            ARITHMETIC_BASE(o),a(NULL),b(NULL),
+            a_nested(o.a_nested),b_nested(o.b_nested),
+            auto_free(true)
+        {
+            copy_opdos(&o);
+        }
+        arithmetic(T t) : ARITHMETIC_BASE(t)
         {
         }
-        arithmetic(numeric<N,T>& n,numeric<M,T>& m) : ARITHMETIC_NODE(typen::arithmetic),a(&n),b(&m),a_nested(false),b_nested(false)
+        arithmetic(numeric<N,T>* n,numeric<M,T>* m) :
+            ARITHMETIC_BASE(typen::arithmetic)
+            ,a(n),b(m),a_nested(false),b_nested(false),
+            auto_free(false)
         {
         }
-        arithmetic(T t,numeric<N,T>* n,numeric<M,T>* m) : ARITHMETIC_NODE(t),a(n),b(m),a_nested(false),b_nested(false)
+        arithmetic(numeric<N,T>& n,numeric<M,T>& m) :
+            ARITHMETIC_BASE(typen::arithmetic),a(&n),b(&m),
+            a_nested(false),b_nested(false),
+            auto_free(false)
         {
         }
-        arithmetic(T t,numeric<N,T>& n,numeric<M,T>& m) : ARITHMETIC_NODE(t),a(&n),b(&m),a_nested(false),b_nested(false)
+        arithmetic(T t,numeric<N,T>* n,numeric<M,T>* m) :
+            ARITHMETIC_BASE(t),
+            a(n),b(m),a_nested(false),b_nested(false),
+            auto_free(false)
         {
+        }
+        arithmetic(T t,numeric<N,T>& n,numeric<M,T>& m) :
+            ARITHMETIC_BASE(t),
+            a(&n),b(&m),a_nested(false),b_nested(false),
+            auto_free(false)
+        {
+        }
+        void copy_opdos(const arithmetic* o)
+        {
+            if(o->a_nested)
+            {
+                a = (node<T>*)new arithmetic((const arithmetic*)o->a);
+            }
+            else
+            {
+                a = (node<T>*)new numeric<N>((const numeric<N>*)o->a);
+            }
+            if(o->b_nested)
+            {
+                b = (node<T>*)new arithmetic((const arithmetic*)o->b);
+            }
+            else
+            {
+               b = (node<T>*)new numeric<N>((const numeric<N>*)o->b);
+            }
+            //this->type = o->type;
+        }
+        ~arithmetic()
+        {
+            if(auto_free)
+            {
+                delete a;
+                delete b;
+                a = NULL;
+                b = NULL;
+            }
         }
 
         //nested
-        arithmetic(T t,arithmetic<N,M,T>& n,numeric<M,T>& m) : ARITHMETIC_NODE(t),a(&n),b(&m),a_nested(true),b_nested(false)
+        arithmetic(T t,arithmetic<N,M,T>& n,numeric<M,T>& m) :
+            ARITHMETIC_BASE(t),
+            a(&n),b(&m),a_nested(true),b_nested(false),
+            auto_free(false)
         {
         }
-        arithmetic(T t,numeric<N,T>& n,arithmetic<N,M,T>& m) : ARITHMETIC_NODE(t),a(&n),b(&m),a_nested(false),b_nested(true)
+        arithmetic(T t,numeric<N,T>& n,arithmetic<N,M,T>& m) :
+            ARITHMETIC_BASE(t),
+            a(&n),b(&m),a_nested(false),b_nested(true),
+            auto_free(false)
         {
         }
-        arithmetic(T t,arithmetic<N,M,T>& n,arithmetic<N,M,T>& m) : ARITHMETIC_NODE(t),a(&n),b(&m),a_nested(true),b_nested(true)
+        arithmetic(T t,arithmetic<N,M,T>& n,arithmetic<N,M,T>& m) :
+            ARITHMETIC_BASE(t),a(&n),b(&m),
+            a_nested(true),b_nested(true),
+            auto_free(false)
         {
         }
 
@@ -408,6 +491,7 @@ namespace oct::core::v3::ast
         node<T>* a;
         node<T>* b;
         bool a_nested,b_nested;
+        bool auto_free;
     };
 
 

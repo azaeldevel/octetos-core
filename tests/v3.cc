@@ -392,6 +392,20 @@ void v3_ast()
     //
     core::ast::arithmetic<float> div3(core::ast::typen::quotient,div1,prod1);
     CU_ASSERT(core::equal((div1.result() / prod1.result()),div3.result()));
+    //
+    core::ast::arithmetic<float> sum5(sum1);
+    //float d100 = div3.result();
+    //float d200 = div4.result();
+    //std::cout << "a = " << ((core::ast::numeric<float>*)sum5.a)->data << "\n";
+    //std::cout << "a = " << ((core::ast::numeric<float>*)sum1.a)->data << "\n";
+    //std::cout << "b = " << ((core::ast::numeric<float>*)sum5.b)->data << "\n";
+    //std::cout << "type = " << (int)((core::ast::numeric<float>*)sum5.b)->type << "\n";
+    CU_ASSERT(core::equal(((core::ast::numeric<float>*)sum5.a)->data,((core::ast::numeric<float>*)sum1.a)->data));
+    CU_ASSERT(core::equal(((core::ast::numeric<float>*)sum5.b)->data,((core::ast::numeric<float>*)sum1.b)->data));
+    CU_ASSERT(sum5.type == sum1.type);
+    //float sum5_rest = sum5.result();
+    //CU_ASSERT(core::equal(sum1.result(),sum5_rest));
+    CU_ASSERT(core::equal(sum5.result(),sum1.result()));
 
 }
 
