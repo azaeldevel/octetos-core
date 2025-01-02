@@ -319,30 +319,8 @@ namespace oct::core::v3::ast
         Arithmetic(T t) : ARITHMETIC_BASE(t)
         {
         }
-        Arithmetic(Numeric<N,T>* n,Numeric<M,T>* m) :
-            ARITHMETIC_BASE(typen::arithmetic)
-            ,a(n),b(m),a_nested(false),b_nested(false),
-            auto_free(false)
-        {
-        }
-        Arithmetic(Numeric<N,T>& n,Numeric<M,T>& m) :
-            ARITHMETIC_BASE(typen::arithmetic),a(&n),b(&m),
-            a_nested(false),b_nested(false),
-            auto_free(false)
-        {
-        }
-        Arithmetic(T t,Numeric<N,T>* n,Numeric<M,T>* m) :
-            ARITHMETIC_BASE(t),
-            a(n),b(m),a_nested(false),b_nested(false),
-            auto_free(false)
-        {
-        }
-        Arithmetic(T t,Numeric<N,T>& n,Numeric<M,T>& m) :
-            ARITHMETIC_BASE(t),
-            a(&n),b(&m),a_nested(false),b_nested(false),
-            auto_free(false)
-        {
-        }
+        //
+
         void copy_opdos(const Arithmetic* o)
         {
             if(o->a_nested)
@@ -363,18 +341,13 @@ namespace oct::core::v3::ast
             }
             //this->type = o->type;
         }
-        ~Arithmetic()
+        //
+        Arithmetic(T t,Numeric<N,T>& n,Numeric<M,T>& m) :
+            ARITHMETIC_BASE(t),
+            a(&n),b(&m),a_nested(false),b_nested(false),
+            auto_free(false)
         {
-            if(auto_free)
-            {
-                delete a;
-                delete b;
-                a = NULL;
-                b = NULL;
-            }
         }
-
-        //nested
         Arithmetic(T t,Arithmetic<N,M,T>& n,Numeric<M,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),a_nested(true),b_nested(false),
@@ -393,6 +366,45 @@ namespace oct::core::v3::ast
             auto_free(false)
         {
         }
+
+        //
+        Arithmetic(T t,Numeric<N,T>* n,Numeric<M,T>* m) :
+            ARITHMETIC_BASE(t),
+            a(n),b(m),a_nested(false),b_nested(false),
+            auto_free(false)
+        {
+        }
+        Arithmetic(T t,Arithmetic<N,M,T>* n,Numeric<M,T>* m) :
+            ARITHMETIC_BASE(t),
+            a(n),b(m),a_nested(true),b_nested(false),
+            auto_free(false)
+        {
+        }
+        Arithmetic(T t,Numeric<N,T>* n,Arithmetic<N,M,T>* m) :
+            ARITHMETIC_BASE(t),
+            a(n),b(m),a_nested(false),b_nested(true),
+            auto_free(false)
+        {
+        }
+        Arithmetic(T t,Arithmetic<N,M,T>* n,Arithmetic<N,M,T>* m) :
+            ARITHMETIC_BASE(t),
+            a(n),b(m),a_nested(true),b_nested(true),
+            auto_free(false)
+        {
+        }
+
+        ~Arithmetic()
+        {
+            if(auto_free)
+            {
+                delete a;
+                delete b;
+                a = NULL;
+                b = NULL;
+            }
+        }
+
+
 
         N result()const
         {
