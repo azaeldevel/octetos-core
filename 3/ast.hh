@@ -264,23 +264,23 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N=float,class T = typen> struct numeric : public node<T>
+    template<class N=float,class T = typen> struct Numeric : public node<T>
     {
     public:
         typedef node<T> NUMBER_NODE;
 
     public:
-        numeric() = default;
-        numeric(T t) : NUMBER_NODE(t)
+        Numeric() = default;
+        Numeric(T t) : NUMBER_NODE(t)
         {
         }
-        numeric(N d) : data(d)
+        Numeric(N d) : data(d)
         {
         }
-        numeric(const numeric& o) : NUMBER_NODE(o),data(o.data)
+        Numeric(const Numeric& o) : NUMBER_NODE(o),data(o.data)
         {
         }
-        numeric(const numeric* o) : NUMBER_NODE(o),data(o->data)
+        Numeric(const Numeric* o) : NUMBER_NODE(o),data(o->data)
         {
         }
 
@@ -293,77 +293,77 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N=float,class M = N,class T = typen> struct arithmetic : public node<T>
+    template<class N=float,class M = N,class T = typen> struct Arithmetic : public node<T>
     {
     public:
         typedef node<T> ARITHMETIC_BASE;
 
     public:
-        arithmetic() : a(NULL),b(NULL),a_nested(false),b_nested(false),auto_free(false)
+        Arithmetic() : a(NULL),b(NULL),a_nested(false),b_nested(false),auto_free(false)
         {
         }
-        arithmetic(const arithmetic* o) :
+        Arithmetic(const Arithmetic* o) :
             ARITHMETIC_BASE(o),a(NULL),b(NULL),
             a_nested(o->a_nested),b_nested(o->b_nested),
             auto_free(true)
         {
             copy_opdos(o);
         }
-        arithmetic(const arithmetic& o) :
+        Arithmetic(const Arithmetic& o) :
             ARITHMETIC_BASE(o),a(NULL),b(NULL),
             a_nested(o.a_nested),b_nested(o.b_nested),
             auto_free(true)
         {
             copy_opdos(&o);
         }
-        arithmetic(T t) : ARITHMETIC_BASE(t)
+        Arithmetic(T t) : ARITHMETIC_BASE(t)
         {
         }
-        arithmetic(numeric<N,T>* n,numeric<M,T>* m) :
+        Arithmetic(Numeric<N,T>* n,Numeric<M,T>* m) :
             ARITHMETIC_BASE(typen::arithmetic)
             ,a(n),b(m),a_nested(false),b_nested(false),
             auto_free(false)
         {
         }
-        arithmetic(numeric<N,T>& n,numeric<M,T>& m) :
+        Arithmetic(Numeric<N,T>& n,Numeric<M,T>& m) :
             ARITHMETIC_BASE(typen::arithmetic),a(&n),b(&m),
             a_nested(false),b_nested(false),
             auto_free(false)
         {
         }
-        arithmetic(T t,numeric<N,T>* n,numeric<M,T>* m) :
+        Arithmetic(T t,Numeric<N,T>* n,Numeric<M,T>* m) :
             ARITHMETIC_BASE(t),
             a(n),b(m),a_nested(false),b_nested(false),
             auto_free(false)
         {
         }
-        arithmetic(T t,numeric<N,T>& n,numeric<M,T>& m) :
+        Arithmetic(T t,Numeric<N,T>& n,Numeric<M,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),a_nested(false),b_nested(false),
             auto_free(false)
         {
         }
-        void copy_opdos(const arithmetic* o)
+        void copy_opdos(const Arithmetic* o)
         {
             if(o->a_nested)
             {
-                a = (node<T>*)new arithmetic((const arithmetic*)o->a);
+                a = (node<T>*)new Arithmetic((const Arithmetic*)o->a);
             }
             else
             {
-                a = (node<T>*)new numeric<N>((const numeric<N>*)o->a);
+                a = (node<T>*)new Numeric<N>((const Numeric<N>*)o->a);
             }
             if(o->b_nested)
             {
-                b = (node<T>*)new arithmetic((const arithmetic*)o->b);
+                b = (node<T>*)new Arithmetic((const Arithmetic*)o->b);
             }
             else
             {
-               b = (node<T>*)new numeric<N>((const numeric<N>*)o->b);
+               b = (node<T>*)new Numeric<N>((const Numeric<N>*)o->b);
             }
             //this->type = o->type;
         }
-        ~arithmetic()
+        ~Arithmetic()
         {
             if(auto_free)
             {
@@ -375,19 +375,19 @@ namespace oct::core::v3::ast
         }
 
         //nested
-        arithmetic(T t,arithmetic<N,M,T>& n,numeric<M,T>& m) :
+        Arithmetic(T t,Arithmetic<N,M,T>& n,Numeric<M,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),a_nested(true),b_nested(false),
             auto_free(false)
         {
         }
-        arithmetic(T t,numeric<N,T>& n,arithmetic<N,M,T>& m) :
+        Arithmetic(T t,Numeric<N,T>& n,Arithmetic<N,M,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),a_nested(false),b_nested(true),
             auto_free(false)
         {
         }
-        arithmetic(T t,arithmetic<N,M,T>& n,arithmetic<N,M,T>& m) :
+        Arithmetic(T t,Arithmetic<N,M,T>& n,Arithmetic<N,M,T>& m) :
             ARITHMETIC_BASE(t),a(&n),b(&m),
             a_nested(true),b_nested(true),
             auto_free(false)
@@ -401,19 +401,19 @@ namespace oct::core::v3::ast
             case typen::addition:
                 if(a_nested and b_nested)
                 {
-                    return static_cast<arithmetic<N,M,T>*>(a)->result() + static_cast<arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Arithmetic<N,M,T>*>(a)->result() + static_cast<Arithmetic<N,M,T>*>(b)->result();
                 }
                 else if(a_nested and !b_nested)
                 {
-                    return static_cast<arithmetic<N,M,T>*>(a)->result() + static_cast<numeric<M,T>*>(b)->data;
+                    return static_cast<Arithmetic<N,M,T>*>(a)->result() + static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else if(!a_nested and b_nested)
                 {
-                    return static_cast<numeric<N,T>*>(a)->data + static_cast<arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data + static_cast<Arithmetic<N,M,T>*>(b)->result();
                 }
                 else if(!a_nested and !b_nested)
                 {
-                    return static_cast<numeric<N,T>*>(a)->data + static_cast<numeric<M,T>*>(b)->data;
+                    return static_cast<Numeric<N,T>*>(a)->data + static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else
                 {
@@ -422,19 +422,19 @@ namespace oct::core::v3::ast
             case typen::subtraction:
                 if(a_nested and b_nested)
                 {
-                    return static_cast<arithmetic<N,M,T>*>(a)->result() - static_cast<arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Arithmetic<N,M,T>*>(a)->result() - static_cast<Arithmetic<N,M,T>*>(b)->result();
                 }
                 else if(a_nested and !b_nested)
                 {
-                    return static_cast<arithmetic<N,M,T>*>(a)->result() - static_cast<numeric<M,T>*>(b)->data;
+                    return static_cast<Arithmetic<N,M,T>*>(a)->result() - static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else if(!a_nested and b_nested)
                 {
-                    return static_cast<numeric<N,T>*>(a)->data - static_cast<arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data - static_cast<Arithmetic<N,M,T>*>(b)->result();
                 }
                 else if(!a_nested and !b_nested)
                 {
-                    return static_cast<numeric<N,T>*>(a)->data - static_cast<numeric<M,T>*>(b)->data;
+                    return static_cast<Numeric<N,T>*>(a)->data - static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else
                 {
@@ -443,19 +443,19 @@ namespace oct::core::v3::ast
             case typen::product:
                 if(a_nested and b_nested)
                 {
-                    return static_cast<arithmetic<N,M,T>*>(a)->result() * static_cast<arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Arithmetic<N,M,T>*>(a)->result() * static_cast<Arithmetic<N,M,T>*>(b)->result();
                 }
                 else if(a_nested and !b_nested)
                 {
-                    return static_cast<arithmetic<N,M,T>*>(a)->result() * static_cast<numeric<M,T>*>(b)->data;
+                    return static_cast<Arithmetic<N,M,T>*>(a)->result() * static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else if(!a_nested and b_nested)
                 {
-                    return static_cast<numeric<N,T>*>(a)->data * static_cast<arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data * static_cast<Arithmetic<N,M,T>*>(b)->result();
                 }
                 else if(!a_nested and !b_nested)
                 {
-                    return static_cast<numeric<N,T>*>(a)->data * static_cast<numeric<M,T>*>(b)->data;
+                    return static_cast<Numeric<N,T>*>(a)->data * static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else
                 {
@@ -464,19 +464,19 @@ namespace oct::core::v3::ast
             case typen::quotient:
                 if(a_nested and b_nested)
                 {
-                    return static_cast<arithmetic<N,M,T>*>(a)->result() / static_cast<arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Arithmetic<N,M,T>*>(a)->result() / static_cast<Arithmetic<N,M,T>*>(b)->result();
                 }
                 else if(a_nested and !b_nested)
                 {
-                    return static_cast<arithmetic<N,M,T>*>(a)->result() / static_cast<numeric<M,T>*>(b)->data;
+                    return static_cast<Arithmetic<N,M,T>*>(a)->result() / static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else if(!a_nested and b_nested)
                 {
-                    return static_cast<numeric<N,T>*>(a)->data / static_cast<arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data / static_cast<Arithmetic<N,M,T>*>(b)->result();
                 }
                 else if(!a_nested and !b_nested)
                 {
-                    return static_cast<numeric<N,T>*>(a)->data / static_cast<numeric<M,T>*>(b)->data;
+                    return static_cast<Numeric<N,T>*>(a)->data / static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else
                 {

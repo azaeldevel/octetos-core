@@ -362,49 +362,47 @@ void v3_array()
 }
 void v3_ast()
 {
-    core::ast::numeric<float> d1(10.5f);
-    core::ast::numeric<float> d2(110.56f);
-    core::ast::numeric<float> d3(89.5);
-    core::ast::arithmetic sum1(core::ast::typen::addition,d1,d2);
-    core::ast::arithmetic rest1(core::ast::typen::subtraction,d1,d3);
-    core::ast::arithmetic prod1(core::ast::typen::product,d2,d3);
-    core::ast::arithmetic div1(core::ast::typen::quotient,d2,d1);
+    core::ast::Numeric<float> d1(10.5f);
+    core::ast::Numeric<float> d2(110.56f);
+    core::ast::Numeric<float> d3(89.5);
+    core::ast::Arithmetic sum1(core::ast::typen::addition,d1,d2);
+    core::ast::Arithmetic rest1(core::ast::typen::subtraction,d1,d3);
+    core::ast::Arithmetic prod1(core::ast::typen::product,d2,d3);
+    core::ast::Arithmetic div1(core::ast::typen::quotient,d2,d1);
     CU_ASSERT(core::equal((d1.data + d2.data),sum1.result()));
     CU_ASSERT(core::equal((d1.data - d3.data),rest1.result()));
     CU_ASSERT(core::equal((d2.data * d3.data),prod1.result()));
     CU_ASSERT(core::equal((d2.data / d1.data),div1.result()));
     //
-    core::ast::arithmetic<float> sum2(core::ast::typen::addition,rest1,d3);
+    core::ast::Arithmetic<float> sum2(core::ast::typen::addition,rest1,d3);
     CU_ASSERT(core::equal((rest1.result() + d3.data),sum2.result()));
     //
-    core::ast::arithmetic<float> sum3(core::ast::typen::addition,d2,sum1);
+    core::ast::Arithmetic<float> sum3(core::ast::typen::addition,d2,sum1);
     CU_ASSERT(core::equal((d2.data + sum1.result()),sum3.result()));
     //
-    core::ast::arithmetic<float> sum4(core::ast::typen::addition,div1,prod1);
+    core::ast::Arithmetic<float> sum4(core::ast::typen::addition,div1,prod1);
     CU_ASSERT(core::equal((div1.result() + prod1.result()),sum4.result()));
     //
     //
-    core::ast::arithmetic<float> rest3(core::ast::typen::subtraction,rest1,d3);
+    core::ast::Arithmetic<float> rest3(core::ast::typen::subtraction,rest1,d3);
     CU_ASSERT(core::equal((rest1.result() - d3.data),rest3.result()));
     //
-    core::ast::arithmetic<float> prod3(core::ast::typen::product,d2,sum1);
+    core::ast::Arithmetic<float> prod3(core::ast::typen::product,d2,sum1);
     CU_ASSERT(core::equal((d2.data * sum1.result()),prod3.result()));
     //
-    core::ast::arithmetic<float> div3(core::ast::typen::quotient,div1,prod1);
+    core::ast::Arithmetic<float> div3(core::ast::typen::quotient,div1,prod1);
     CU_ASSERT(core::equal((div1.result() / prod1.result()),div3.result()));
     //
-    core::ast::arithmetic<float> sum5(sum1);
+    core::ast::Arithmetic<float> sum5(sum1);
     //float d100 = div3.result();
     //float d200 = div4.result();
     //std::cout << "a = " << ((core::ast::numeric<float>*)sum5.a)->data << "\n";
     //std::cout << "a = " << ((core::ast::numeric<float>*)sum1.a)->data << "\n";
     //std::cout << "b = " << ((core::ast::numeric<float>*)sum5.b)->data << "\n";
     //std::cout << "type = " << (int)((core::ast::numeric<float>*)sum5.b)->type << "\n";
-    CU_ASSERT(core::equal(((core::ast::numeric<float>*)sum5.a)->data,((core::ast::numeric<float>*)sum1.a)->data));
-    CU_ASSERT(core::equal(((core::ast::numeric<float>*)sum5.b)->data,((core::ast::numeric<float>*)sum1.b)->data));
+    CU_ASSERT(core::equal(((core::ast::Numeric<float>*)sum5.a)->data,((core::ast::Numeric<float>*)sum1.a)->data));
+    CU_ASSERT(core::equal(((core::ast::Numeric<float>*)sum5.b)->data,((core::ast::Numeric<float>*)sum1.b)->data));
     CU_ASSERT(sum5.type == sum1.type);
-    //float sum5_rest = sum5.result();
-    //CU_ASSERT(core::equal(sum1.result(),sum5_rest));
     CU_ASSERT(core::equal(sum5.result(),sum1.result()));
 
 }
