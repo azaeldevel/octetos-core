@@ -405,6 +405,10 @@ void v3_ast()
     CU_ASSERT(sum5.type == sum1.type);
     CU_ASSERT(core::equal(sum5.result(),sum1.result()));
 
+    std::cout << "\n";
+    rest3.print(std::cout);
+    std::cout << " = " << rest3.result();
+    std::cout << "\n";
 }
 
 

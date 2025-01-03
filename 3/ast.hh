@@ -310,6 +310,17 @@ namespace oct::core::v3::ast
         virtual ~Numeric()
         {
         }
+        virtual void print(std::ostream& out) const
+        {
+            switch(this->type)
+            {
+            case typen::number:
+                out << N(data);
+                break;
+            default:
+                out << "desconocido";
+            }
+        }
 
     public:
         N data;
@@ -431,7 +442,49 @@ namespace oct::core::v3::ast
             }
         }
 
-
+        virtual void print(std::ostream& out) const
+        {
+            //
+            if(a_nested)
+            {
+                out << "(";
+                a->print(out);
+                out << ")";
+            }
+            else
+            {
+                a->print(out);
+            }
+            switch(this->type)
+            {
+            case typen::addition:
+                out << " + ";
+                break;
+            case typen::subtraction:
+                out << " - ";
+                break;
+            case typen::product:
+                out << " * ";
+                break;
+            case typen::quotient:
+                out << " / ";
+                break;
+            default:
+                out << "desconocido";
+                break;
+            }
+            //
+            if(b_nested)
+            {
+                out << "(";
+                b->print(out);
+                out << ")";
+            }
+            else
+            {
+                b->print(out);
+            }
+        }
 
         N result()const
         {
