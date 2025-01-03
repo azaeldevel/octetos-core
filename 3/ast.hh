@@ -244,6 +244,7 @@ namespace oct::core::v3::ast
                 break;
             default:
                 out << "desconocido";
+                break;
             }
         }
 
