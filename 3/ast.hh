@@ -189,6 +189,8 @@ namespace oct::core::v3::ast
             number_nested,
             nested_number,
             nested_nested,
+        algebra,
+            variable,
 
         keywords,
 
@@ -207,7 +209,7 @@ namespace oct::core::v3::ast
         node() : type(typen::none)
         {
         }
-        node(const T& t) : type(t)
+        node(T t) : type(t)
         {
         }
         node(const node& n) : type(n.type)
@@ -241,6 +243,9 @@ namespace oct::core::v3::ast
                 break;
             case typen::quotient:
                 out << "cociente";
+                break;
+            case typen::variable:
+                out << "variable";
                 break;
             default:
                 out << "desconocido";
@@ -305,6 +310,9 @@ namespace oct::core::v3::ast
         Numeric(const Numeric& o) : NUMBER_NODE(o),data(o.data)
         {
         }
+        Numeric(T t,N d) : NUMBER_NODE(t),data(d)
+        {
+        }
         Numeric(const Numeric* o) : NUMBER_NODE(o),data(o->data)
         {
         }
@@ -327,6 +335,59 @@ namespace oct::core::v3::ast
         N data;
     };
 
+
+
+    /**
+    *\brief Crea un nodo
+    *\param T parametro de plantilla para determinar el tipo de nodo
+    **/
+    template<class N,class T = typen> struct Variable : public Numeric<N,T>
+    {
+    public:
+        typedef Numeric<N,T> NUMERIC_NODE;
+
+    public:
+        Variable() = default;
+        Variable(T t) : NUMERIC_NODE(t)
+        {
+        }
+        Variable(N d) : NUMERIC_NODE(typen::variable,d)
+        {
+        }
+        Variable(const char* n) : NUMERIC_NODE(typen::variable),name(n)
+        {
+        }
+        Variable(const std::string& n) : NUMERIC_NODE(typen::variable),name(n)
+        {
+        }
+        Variable(const std::string& n,N d) : NUMERIC_NODE(typen::variable,d),name(n)
+        {
+        }
+        Variable(const Variable& o) : NUMERIC_NODE(o),name(o.name)
+        {
+        }
+        Variable(const Variable* o) : NUMERIC_NODE(o),name(o->name)
+        {
+        }
+        virtual ~Variable()
+        {
+        }
+
+        virtual void print(std::ostream& out) const
+        {
+            switch(this->type)
+            {
+            case typen::variable:
+                out << name;
+                break;
+            default:
+                out << "desconocido";
+            }
+        }
+
+    public:
+        std::string name;
+    };
 
     /**
     *\brief Crea un nodo

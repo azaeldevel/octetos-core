@@ -409,6 +409,10 @@ void v3_ast()
     rest3.print(std::cout);
     std::cout << " = " << rest3.result();
     std::cout << "\n";*/
+
+
+    core::ast::Variable<float> v1("X");
+    v1.print(std::cout);
 }
 
 
