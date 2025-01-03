@@ -216,6 +216,36 @@ namespace oct::core::v3::ast
         node(const node* n) : type(n->type)
         {
         }
+        virtual ~node()
+        {
+        }
+
+        virtual void print(std::ostream& out) const
+        {
+            switch(type)
+            {
+            case typen::number:
+                out << "Numero";
+                break;
+            case typen::arithmetic:
+                out << "aritmetica";
+                break;
+            case typen::addition:
+                out << "adiccion";
+                break;
+            case typen::subtraction:
+                out << "substracion";
+                break;
+            case typen::product:
+                out << "producto";
+                break;
+            case typen::quotient:
+                out << "cociente";
+                break;
+            default:
+                out << "desconocido";
+            }
+        }
 
     public:
         T type;
@@ -248,15 +278,9 @@ namespace oct::core::v3::ast
         Node(Node&& n) : N(n),ARRAY_BASE(std::move(n))
         {
         }
-
-
-#ifdef OCTETOS_CORE_V3_TDD
-        virtual void print(std::ostream& out) const
+        virtual ~Node()
         {
         }
-#endif
-
-
 
     };
 
@@ -274,13 +298,16 @@ namespace oct::core::v3::ast
         Numeric(T t) : NUMBER_NODE(t)
         {
         }
-        Numeric(N d) : data(d)
+        Numeric(N d) : NUMBER_NODE(typen::number),data(d)
         {
         }
         Numeric(const Numeric& o) : NUMBER_NODE(o),data(o.data)
         {
         }
         Numeric(const Numeric* o) : NUMBER_NODE(o),data(o->data)
+        {
+        }
+        virtual ~Numeric()
         {
         }
 
@@ -393,7 +420,7 @@ namespace oct::core::v3::ast
         {
         }
 
-        ~Arithmetic()
+        virtual ~Arithmetic()
         {
             if(auto_free)
             {
