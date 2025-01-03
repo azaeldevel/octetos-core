@@ -264,7 +264,7 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N=float,class T = typen> struct Numeric : public node<T>
+    template<class N,class T = typen> struct Numeric : public node<T>
     {
     public:
         typedef node<T> NUMBER_NODE;
@@ -293,7 +293,7 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N=float,class M = N,class T = typen> struct Arithmetic : public node<T>
+    template<class N,class M = N,class T = typen> struct Arithmetic : public node<T>
     {
     public:
         typedef node<T> ARITHMETIC_BASE;
