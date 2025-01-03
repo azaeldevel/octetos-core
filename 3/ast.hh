@@ -248,7 +248,7 @@ namespace oct::core::v3::ast
                 out << "variable";
                 break;
             default:
-                out << "desconocido";
+                out << "node-desconocido";
                 break;
             }
         }
@@ -300,25 +300,28 @@ namespace oct::core::v3::ast
         typedef node<T> NUMBER_NODE;
 
     public:
-        Numeric() = default;
-        Numeric(T t) : NUMBER_NODE(t)
-        {
-        }
-        Numeric(N d) : NUMBER_NODE(typen::number),data(d)
+        Numeric() : NUMBER_NODE(typen::number),data(0)
         {
         }
         Numeric(const Numeric& o) : NUMBER_NODE(o),data(o.data)
         {
         }
-        Numeric(T t,N d) : NUMBER_NODE(t),data(d)
+        Numeric(const Numeric* o) : NUMBER_NODE(o),data(o->data)
         {
         }
-        Numeric(const Numeric* o) : NUMBER_NODE(o),data(o->data)
+        Numeric(T t) : NUMBER_NODE(t),data(0)
+        {
+        }
+        Numeric(N d) : NUMBER_NODE(typen::number),data(d)
+        {
+        }
+        Numeric(T t,N d) : NUMBER_NODE(t),data(d)
         {
         }
         virtual ~Numeric()
         {
         }
+
         virtual void print(std::ostream& out) const
         {
             switch(this->type)
@@ -326,8 +329,11 @@ namespace oct::core::v3::ast
             case typen::number:
                 out << N(data);
                 break;
+            case typen::variable:
+                out << N(data);
+                break;
             default:
-                out << "desconocido";
+                out << "Number-desconocido";
             }
         }
 
@@ -347,7 +353,15 @@ namespace oct::core::v3::ast
         typedef Numeric<N,T> NUMERIC_NODE;
 
     public:
-        Variable() = default;
+        Variable() : NUMERIC_NODE(typen::variable)
+        {
+        }
+        Variable(const Variable& o) : NUMERIC_NODE(o),name(o.name)
+        {
+        }
+        Variable(const Variable* o) : NUMERIC_NODE(o),name(o->name)
+        {
+        }
         Variable(T t) : NUMERIC_NODE(t)
         {
         }
@@ -363,12 +377,6 @@ namespace oct::core::v3::ast
         Variable(const std::string& n,N d) : NUMERIC_NODE(typen::variable,d),name(n)
         {
         }
-        Variable(const Variable& o) : NUMERIC_NODE(o),name(o.name)
-        {
-        }
-        Variable(const Variable* o) : NUMERIC_NODE(o),name(o->name)
-        {
-        }
         virtual ~Variable()
         {
         }
@@ -377,11 +385,14 @@ namespace oct::core::v3::ast
         {
             switch(this->type)
             {
+            case typen::number:
+                out << N(this->data);
+                break;
             case typen::variable:
                 out << name;
                 break;
             default:
-                out << "desconocido";
+                out << "variable-desconocido";
             }
         }
 
