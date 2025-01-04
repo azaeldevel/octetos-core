@@ -421,12 +421,12 @@ void v3_ast()
     core::ast::Arithmetic<float> div4(core::ast::typen::quotient,sum7,d3);
     //rest5.print(std::cout);//126.06
     //std::cout << "R : " << div4.result() << "\n";
-    CU_ASSERT(core::equal((div4.result()),1.352625698f));
+    CU_ASSERT(core::equal((div4.result()),1.352625698f));//-1.53241
 
     core::ast::Arithmetic<float> div5(core::ast::typen::quotient,sum7,nest1);
-    div5.print(std::cout);
-    std::cout << "R : " << div5.result() << "\n";
-
+    //div5.print(std::cout);
+    //std::cout << "R : " << div5.result() << "\n";
+    CU_ASSERT(core::equal((div5.result()),-1.532405063f));//
 }
 
 

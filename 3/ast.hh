@@ -269,6 +269,7 @@ namespace oct::core::v3::ast
             case typen::subtraction:
             case typen::product:
             case typen::quotient:
+            case typen::nest:
                 return true;
             default:
                 return false;
