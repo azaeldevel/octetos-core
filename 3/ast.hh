@@ -25,6 +25,7 @@
 
 #include "array.hh"
 #include "Exception.hh"
+#include "numbers.hh"
 
 #ifdef OCTETOS_CORE_V3_TDD
     #include <iostream>
@@ -180,12 +181,14 @@ namespace oct::core::v3::ast
         //>>>Tokens
         base	= 0x110000,
         root,
+        operation,
         number,
         arithmetic,
             addition,
             subtraction,
             product,
             quotient,
+        nest,
             number_nested,
             nested_number,
             nested_nested,
@@ -195,7 +198,7 @@ namespace oct::core::v3::ast
         keywords,
 
         statement,
-
+            rvalue,
 
     };
 
@@ -224,7 +227,7 @@ namespace oct::core::v3::ast
 
         virtual void print(std::ostream& out) const
         {
-            switch(type)
+            switch(this->type)
             {
             case typen::number:
                 out << "Numero";
@@ -290,6 +293,52 @@ namespace oct::core::v3::ast
 
     };
 
+
+
+    /**
+    *\brief Crea un nodo
+    *\param T parametro de plantilla para determinar el tipo de nodo
+    **/
+    template<number D,typename T = typen,typename N = node<T>> struct Math : public Node<T,N>
+    {
+    public:
+        typedef Node<T,N> NODE_BASE;
+
+    public:
+        Math() = default;
+        Math(size_t s) : NODE_BASE(s)
+        {
+        }
+        Math(T t) : NODE_BASE(t)
+        {
+        }
+        Math(T t,size_t s) : NODE_BASE(t,s)
+        {
+        }
+        Math(const Math& n) : NODE_BASE(n)
+        {
+        }
+        Math(Math&& n) : NODE_BASE(std::move(n))
+        {
+        }
+        virtual ~Math()
+        {
+        }
+
+        D result() const
+        {
+            if(this->type == typen::rvalue)
+            {
+                for(size_t i = 0; i < this->size(); i++)
+                {
+
+                }
+            }
+        }
+
+    };
+
+
     /**
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
@@ -335,6 +384,11 @@ namespace oct::core::v3::ast
             default:
                 out << "Number-desconocido";
             }
+        }
+
+        virtual N result()const
+        {
+            return data;
         }
 
     public:
@@ -559,7 +613,7 @@ namespace oct::core::v3::ast
             }
         }
 
-        N result()const
+        virtual N result()const
         {
             switch(this->type)
             {
@@ -659,6 +713,88 @@ namespace oct::core::v3::ast
         bool auto_free;
     };
 
+
+
+    /**
+    *\brief Crea un nodo
+    *\param T parametro de plantilla para determinar el tipo de nodo
+    **/
+    template<class N,class T = typen> struct Nest : public node<T>
+    {
+    public:
+        typedef node<T> NEST_NODE;
+
+    public:
+        Nest() : NEST_NODE(typen::nest),content(NULL),auto_free(false)
+        {
+        }
+        Nest(const Nest& o) : NEST_NODE(o),content(o.content),auto_free(o.auto_free)
+        {
+        }
+        Nest(const Nest* o) : NEST_NODE(o),content(o->content),auto_free(o->auto_free)
+        {
+        }
+        Nest(T t) : NEST_NODE(t),content(NULL),auto_free(false)
+        {
+        }
+        Nest(node<T>* n) : NEST_NODE(typen::nest),content(n),auto_free(false)
+        {
+        }
+        Nest(node<T>& n) : NEST_NODE(typen::nest),content(&n),auto_free(false)
+        {
+        }
+        Nest(T t,node<T>* n) : NEST_NODE(t),content(n),auto_free(false)
+        {
+        }
+        Nest(T t,node<T>* n,bool autof) : NEST_NODE(t),content(n),auto_free(autof)
+        {
+        }
+        virtual ~Nest()
+        {
+            if(auto_free)
+            {
+                delete content;
+                content = NULL;
+            }
+        }
+
+        virtual void print(std::ostream& out) const
+        {
+            switch(content->type)
+            {
+            case typen::addition:
+            case typen::subtraction:
+            case typen::product:
+            case typen::quotient:
+                out << "(";
+                static_cast<const Arithmetic<N>*>(content)->print(out);
+                out << ")";
+                break;
+            default:
+                out << "nest-desconocido";
+                break;
+            }
+        }
+
+        virtual N result() const
+        {
+            switch(content->type)
+            {
+            case typen::addition:
+            case typen::subtraction:
+            case typen::product:
+            case typen::quotient:
+                return static_cast<const Arithmetic<N>*>(content)->result();
+            default:
+                throw exception("No se reconoce como una operacion aritmetica valida");
+                break;
+            }
+        }
+
+    public:
+        node<T>* content;
+        bool auto_free;
+    };
 
 }
 
