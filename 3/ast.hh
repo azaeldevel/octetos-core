@@ -488,41 +488,41 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N,class M = N,class T = typen> struct Arithmetic : public node<T>
+    template<class N,class M = N,class T = typen> struct Binopr : public node<T>
     {
     public:
         typedef node<T> ARITHMETIC_BASE;
 
     public:
-        Arithmetic() :
+        Binopr() :
             a(NULL),b(NULL),
             auto_free(false)
         {
         }
-        Arithmetic(const Arithmetic* o) :
+        Binopr(const Binopr* o) :
             ARITHMETIC_BASE(o),
             a(NULL),b(NULL),
             auto_free(true)
         {
             copy_opdos(o);
         }
-        Arithmetic(const Arithmetic& o) :
+        Binopr(const Binopr& o) :
             ARITHMETIC_BASE(o)
             ,a(NULL),b(NULL),
             auto_free(true)
         {
             copy_opdos(&o);
         }
-        Arithmetic(T t) : ARITHMETIC_BASE(t)
+        Binopr(T t) : ARITHMETIC_BASE(t)
         {
         }
         //
 
-        void copy_opdos(const Arithmetic* o)
+        void copy_opdos(const Binopr* o)
         {
             if(o->a->is_arithmetic())
             {
-                a = (node<T>*)new Arithmetic((const Arithmetic*)o->a);
+                a = (node<T>*)new Binopr((const Binopr*)o->a);
             }
             else
             {
@@ -530,7 +530,7 @@ namespace oct::core::v3::ast
             }
             if(o->b->is_arithmetic())
             {
-                b = (node<T>*)new Arithmetic((const Arithmetic*)o->b);
+                b = (node<T>*)new Binopr((const Binopr*)o->b);
             }
             else
             {
@@ -539,25 +539,25 @@ namespace oct::core::v3::ast
             //this->type = o->type;
         }
         //
-        Arithmetic(T t,Numeric<N,T>& n,Numeric<M,T>& m) :
+        Binopr(T t,Numeric<N,T>& n,Numeric<M,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),
             auto_free(false)
         {
         }
-        Arithmetic(T t,Arithmetic<N,M,T>& n,Numeric<M,T>& m) :
+        Binopr(T t,Binopr<N,M,T>& n,Numeric<M,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),
             auto_free(false)
         {
         }
-        Arithmetic(T t,Numeric<N,T>& n,Arithmetic<N,M,T>& m) :
+        Binopr(T t,Numeric<N,T>& n,Binopr<N,M,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),
             auto_free(false)
         {
         }
-        Arithmetic(T t,Arithmetic<N,M,T>& n,Arithmetic<N,M,T>& m) :
+        Binopr(T t,Binopr<N,M,T>& n,Binopr<N,M,T>& m) :
             ARITHMETIC_BASE(t)
             ,a(&n),b(&m),
             auto_free(false)
@@ -565,25 +565,25 @@ namespace oct::core::v3::ast
         }
 
         //
-        Arithmetic(T t,Numeric<N,T>* n,Numeric<M,T>* m) :
+        Binopr(T t,Numeric<N,T>* n,Numeric<M,T>* m) :
             ARITHMETIC_BASE(t),
             a(n),b(m),
             auto_free(false)
         {
         }
-        Arithmetic(T t,Arithmetic<N,M,T>* n,Numeric<M,T>* m) :
+        Binopr(T t,Binopr<N,M,T>* n,Numeric<M,T>* m) :
             ARITHMETIC_BASE(t),
             a(n),b(m),
             auto_free(false)
         {
         }
-        Arithmetic(T t,Numeric<N,T>* n,Arithmetic<N,M,T>* m) :
+        Binopr(T t,Numeric<N,T>* n,Binopr<N,M,T>* m) :
             ARITHMETIC_BASE(t),
             a(n),b(m),
             auto_free(false)
         {
         }
-        Arithmetic(T t,Arithmetic<N,M,T>* n,Arithmetic<N,M,T>* m) :
+        Binopr(T t,Binopr<N,M,T>* n,Binopr<N,M,T>* m) :
             ARITHMETIC_BASE(t),
             a(n),b(m),
             auto_free(false)
@@ -591,19 +591,19 @@ namespace oct::core::v3::ast
         }
 
         //
-        Arithmetic(T t,Nest<N,T>& n,Numeric<M,T>& m) :
+        Binopr(T t,Nest<N,T>& n,Numeric<M,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),
             auto_free(false)
         {
         }
-        Arithmetic(T t,Numeric<N,T>& n,Nest<N,T>& m) :
+        Binopr(T t,Numeric<N,T>& n,Nest<N,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),
             auto_free(false)
         {
         }
-        Arithmetic(T t,Nest<N,T>& n,Nest<N,T>& m) :
+        Binopr(T t,Nest<N,T>& n,Nest<N,T>& m) :
             ARITHMETIC_BASE(t)
             ,a(&n),b(&m),
             auto_free(false)
@@ -611,13 +611,13 @@ namespace oct::core::v3::ast
         }
 
         //
-        Arithmetic(T t,Nest<N,T>& n,Arithmetic<N,M,T>& m) :
+        Binopr(T t,Nest<N,T>& n,Binopr<N,M,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),
             auto_free(false)
         {
         }
-        Arithmetic(T t,Arithmetic<N,M,T>& n,Nest<N,T>& m) :
+        Binopr(T t,Binopr<N,M,T>& n,Nest<N,T>& m) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),
             auto_free(false)
@@ -625,7 +625,7 @@ namespace oct::core::v3::ast
         }
 
 
-        virtual ~Arithmetic()
+        virtual ~Binopr()
         {
             if(auto_free)
             {
@@ -675,15 +675,15 @@ namespace oct::core::v3::ast
             case typen::addition:
                 if(a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Arithmetic<N,M,T>*>(a)->result() + static_cast<Arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Binopr<N,M,T>*>(a)->result() + static_cast<Binopr<N,M,T>*>(b)->result();
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Arithmetic<N,M,T>*>(a)->result() + static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Binopr<N,M,T>*>(a)->result() + static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data + static_cast<Arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data + static_cast<Binopr<N,M,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
@@ -697,15 +697,15 @@ namespace oct::core::v3::ast
             case typen::subtraction:
                 if(a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Arithmetic<N,M,T>*>(a)->result() - static_cast<Arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Binopr<N,M,T>*>(a)->result() - static_cast<Binopr<N,M,T>*>(b)->result();
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Arithmetic<N,M,T>*>(a)->result() - static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Binopr<N,M,T>*>(a)->result() - static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data - static_cast<Arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data - static_cast<Binopr<N,M,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
@@ -719,15 +719,15 @@ namespace oct::core::v3::ast
             case typen::product:
                 if(a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Arithmetic<N,M,T>*>(a)->result() * static_cast<Arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Binopr<N,M,T>*>(a)->result() * static_cast<Binopr<N,M,T>*>(b)->result();
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Arithmetic<N,M,T>*>(a)->result() * static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Binopr<N,M,T>*>(a)->result() * static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data * static_cast<Arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data * static_cast<Binopr<N,M,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
@@ -741,15 +741,15 @@ namespace oct::core::v3::ast
             case typen::quotient:
                 if(a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Arithmetic<N,M,T>*>(a)->result() / static_cast<Arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Binopr<N,M,T>*>(a)->result() / static_cast<Binopr<N,M,T>*>(b)->result();
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Arithmetic<N,M,T>*>(a)->result() / static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Binopr<N,M,T>*>(a)->result() / static_cast<Numeric<M,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data / static_cast<Arithmetic<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data / static_cast<Binopr<N,M,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
@@ -826,7 +826,7 @@ namespace oct::core::v3::ast
             case typen::product:
             case typen::quotient:
                 out << "(";
-                static_cast<const Arithmetic<N>*>(content)->print(out);
+                static_cast<const Binopr<N>*>(content)->print(out);
                 out << ")";
                 break;
             default:
@@ -843,7 +843,7 @@ namespace oct::core::v3::ast
             case typen::subtraction:
             case typen::product:
             case typen::quotient:
-                return static_cast<const Arithmetic<N>*>(content)->result();
+                return static_cast<const Binopr<N>*>(content)->result();
             default:
                 throw exception("No se reconoce como una operacion aritmetica valida");
                 break;
