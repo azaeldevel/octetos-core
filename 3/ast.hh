@@ -202,6 +202,10 @@ namespace oct::core::v3::ast
 
     };
 
+
+    template<class N,class T> struct Nest;
+
+
     /**
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
@@ -585,6 +589,41 @@ namespace oct::core::v3::ast
         {
         }
 
+        //
+        Arithmetic(T t,Nest<N,T>& n,Numeric<M,T>& m) :
+            ARITHMETIC_BASE(t),
+            a(&n),b(&m),
+            auto_free(false)
+        {
+        }
+        Arithmetic(T t,Numeric<N,T>& n,Nest<N,T>& m) :
+            ARITHMETIC_BASE(t),
+            a(&n),b(&m),
+            auto_free(false)
+        {
+        }
+        Arithmetic(T t,Nest<N,T>& n,Nest<N,T>& m) :
+            ARITHMETIC_BASE(t)
+            ,a(&n),b(&m),
+            auto_free(false)
+        {
+        }
+
+        //
+        Arithmetic(T t,Nest<N,T>& n,Arithmetic<N,M,T>& m) :
+            ARITHMETIC_BASE(t),
+            a(&n),b(&m),
+            auto_free(false)
+        {
+        }
+        Arithmetic(T t,Arithmetic<N,M,T>& n,Nest<N,T>& m) :
+            ARITHMETIC_BASE(t),
+            a(&n),b(&m),
+            auto_free(false)
+        {
+        }
+
+
         virtual ~Arithmetic()
         {
             if(auto_free)
@@ -622,9 +661,9 @@ namespace oct::core::v3::ast
                 break;
             }
             //
-            out << "(";
+            out << " ";
             b->print(out);
-            out << ")";
+            out << " ";
         }
 
 

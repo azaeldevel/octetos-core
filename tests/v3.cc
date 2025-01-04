@@ -413,8 +413,20 @@ void v3_ast()
     core::ast::Variable<float> v1("X");
     //v1.print(std::cout);
 
-    core::ast::Nest<float> nest1(div3);
+    core::ast::Nest<float> nest1(rest1);
     //nest1.print(std::cout);
+
+    core::ast::Arithmetic<float> sum7(core::ast::typen::addition,d1,d2);
+    //std::cout << "S : " << sum7.result() << "\n";
+    core::ast::Arithmetic<float> div4(core::ast::typen::quotient,sum7,d3);
+    //rest5.print(std::cout);//126.06
+    //std::cout << "R : " << div4.result() << "\n";
+    CU_ASSERT(core::equal((div4.result()),1.352625698f));
+
+    core::ast::Arithmetic<float> div5(core::ast::typen::quotient,sum7,nest1);
+    div5.print(std::cout);
+    std::cout << "R : " << div5.result() << "\n";
+
 }
 
 
