@@ -410,13 +410,11 @@ void v3_ast()
     std::cout << " = " << rest3.result();
     std::cout << "\n";*/
 
-
     core::ast::Variable<float> v1("X");
     //v1.print(std::cout);
 
-
     core::ast::Nest<float> nest1(div3);
-    nest1.print(std::cout);
+    //nest1.print(std::cout);
 }
 
 
