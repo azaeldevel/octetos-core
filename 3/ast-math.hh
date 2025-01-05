@@ -27,10 +27,33 @@
 
 namespace oct::core::v3::ast
 {
-    template<class R,class T> struct Variable;
-    template<class R,class T> struct Number;
-    template<class R,class T> struct Binopr;
-    template<class R,class T> struct Nest;
+    template<class N,class T> struct Variable;
+    template<class N,class T> struct Number;
+    template<class N,class T> struct Binopr;
+    template<class N,class T> struct Nest;
+
+    template<class N,class T>
+    node<T>* copy(const node<T>* n)
+    {
+        switch(n->type)
+        {
+        case typen::addition:
+        case typen::subtraction:
+        case typen::product:
+        case typen::quotient:
+            return new Binopr<N,T>(static_cast<const Binopr<N,T>*>(n));
+        case typen::nest:
+            return new Nest<N,T>(static_cast<const Nest<N,T>*>(n));
+        case typen::number:
+            return new Number<N,T>(static_cast<const Number<N,T>*>(n));
+        case typen::variable:
+            return new Variable<N,T>(static_cast<const Variable<N,T>*>(n));
+        default:
+            break;
+        }
+
+        return NULL;
+    }
 
     /**
     *\brief Crea un nodo
@@ -111,10 +134,10 @@ namespace oct::core::v3::ast
         Variable() : NUMERIC_NODE(T::variable)
         {
         }
-        Variable(const Variable& o) : NUMERIC_NODE(o)
+        Variable(const Variable& o) : NUMERIC_NODE(o),name(o.name),reference(o.reference)
         {
         }
-        Variable(const Variable* o) : NUMERIC_NODE(o)
+        Variable(const Variable* o) : NUMERIC_NODE(o),name(o->name),reference(o->reference)
         {
         }
         Variable(T t) : NUMERIC_NODE(t)
@@ -207,23 +230,8 @@ namespace oct::core::v3::ast
 
         void copy_opdos(const Binopr* o)
         {
-            if(o->a->is_arithmetic())
-            {
-                a = (node<T>*)new Binopr((const Binopr*)o->a);
-            }
-            else
-            {
-                a = (node<T>*)new Number<N>((const Number<N>*)o->a);
-            }
-            if(o->b->is_arithmetic())
-            {
-                b = (node<T>*)new Binopr((const Binopr*)o->b);
-            }
-            else
-            {
-               b = (node<T>*)new Number<N>((const Number<N>*)o->b);
-            }
-            //this->type = o->type;
+            a = copy<N,T>(o->a);
+            b = copy<N,T>(o->b);
         }
 
         //
@@ -479,11 +487,13 @@ namespace oct::core::v3::ast
         Nest() : NEST_NODE(typen::nest),content(NULL),auto_free(false)
         {
         }
-        Nest(const Nest& o) : NEST_NODE(o),content(o.content),auto_free(o.auto_free)
+        Nest(const Nest& o) : NEST_NODE(o),content(NULL),auto_free(true)
         {
+            content = copy<N,T>(o.content);
         }
-        Nest(const Nest* o) : NEST_NODE(o),content(o->content),auto_free(o->auto_free)
+        Nest(const Nest* o) : NEST_NODE(o),content(NULL),auto_free(true)
         {
+            content = copy<N,T>(o->content);
         }
         Nest(T t) : NEST_NODE(t),content(NULL),auto_free(false)
         {
