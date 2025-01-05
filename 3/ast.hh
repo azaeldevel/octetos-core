@@ -488,7 +488,7 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N,class M = N,class T = typen> struct Binopr : public node<T>
+    template<class N,class T = typen> struct Binopr : public node<T>
     {
     public:
         typedef node<T> ARITHMETIC_BASE;
@@ -538,89 +538,22 @@ namespace oct::core::v3::ast
             }
             //this->type = o->type;
         }
+
         //
-        Binopr(T t,Numeric<N,T>& n,Numeric<M,T>& m) :
+        template<template<typename,typename> typename A, template<typename,typename> typename B>
+        Binopr(T t,A<N,T>* n,B<N,T>* m,bool autof = true) :
             ARITHMETIC_BASE(t),
-            a(&n),b(&m),
-            auto_free(false)
-        {
-        }
-        Binopr(T t,Binopr<N,M,T>& n,Numeric<M,T>& m) :
-            ARITHMETIC_BASE(t),
-            a(&n),b(&m),
-            auto_free(false)
-        {
-        }
-        Binopr(T t,Numeric<N,T>& n,Binopr<N,M,T>& m) :
-            ARITHMETIC_BASE(t),
-            a(&n),b(&m),
-            auto_free(false)
-        {
-        }
-        Binopr(T t,Binopr<N,M,T>& n,Binopr<N,M,T>& m) :
-            ARITHMETIC_BASE(t)
-            ,a(&n),b(&m),
-            auto_free(false)
+            a(n),b(m),
+            auto_free(autof)
         {
         }
 
         //
-        Binopr(T t,Numeric<N,T>* n,Numeric<M,T>* m) :
-            ARITHMETIC_BASE(t),
-            a(n),b(m),
-            auto_free(false)
-        {
-        }
-        Binopr(T t,Binopr<N,M,T>* n,Numeric<M,T>* m) :
-            ARITHMETIC_BASE(t),
-            a(n),b(m),
-            auto_free(false)
-        {
-        }
-        Binopr(T t,Numeric<N,T>* n,Binopr<N,M,T>* m) :
-            ARITHMETIC_BASE(t),
-            a(n),b(m),
-            auto_free(false)
-        {
-        }
-        Binopr(T t,Binopr<N,M,T>* n,Binopr<N,M,T>* m) :
-            ARITHMETIC_BASE(t),
-            a(n),b(m),
-            auto_free(false)
-        {
-        }
-
-        //
-        Binopr(T t,Nest<N,T>& n,Numeric<M,T>& m) :
+        template<template<typename,typename> typename A, template<typename,typename> typename B>
+        Binopr(T t,A<N,T>& n,B<N,T>& m,bool autof = false) :
             ARITHMETIC_BASE(t),
             a(&n),b(&m),
-            auto_free(false)
-        {
-        }
-        Binopr(T t,Numeric<N,T>& n,Nest<N,T>& m) :
-            ARITHMETIC_BASE(t),
-            a(&n),b(&m),
-            auto_free(false)
-        {
-        }
-        Binopr(T t,Nest<N,T>& n,Nest<N,T>& m) :
-            ARITHMETIC_BASE(t)
-            ,a(&n),b(&m),
-            auto_free(false)
-        {
-        }
-
-        //
-        Binopr(T t,Nest<N,T>& n,Binopr<N,M,T>& m) :
-            ARITHMETIC_BASE(t),
-            a(&n),b(&m),
-            auto_free(false)
-        {
-        }
-        Binopr(T t,Binopr<N,M,T>& n,Nest<N,T>& m) :
-            ARITHMETIC_BASE(t),
-            a(&n),b(&m),
-            auto_free(false)
+            auto_free(autof)
         {
         }
 
@@ -675,19 +608,19 @@ namespace oct::core::v3::ast
             case typen::addition:
                 if(a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,M,T>*>(a)->result() + static_cast<Binopr<N,M,T>*>(b)->result();
+                    return static_cast<Binopr<N,T>*>(a)->result() + static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,M,T>*>(a)->result() + static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Binopr<N,T>*>(a)->result() + static_cast<Numeric<N,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data + static_cast<Binopr<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data + static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data + static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Numeric<N,T>*>(a)->data + static_cast<Numeric<N,T>*>(b)->data;
                 }
                 else
                 {
@@ -697,19 +630,19 @@ namespace oct::core::v3::ast
             case typen::subtraction:
                 if(a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,M,T>*>(a)->result() - static_cast<Binopr<N,M,T>*>(b)->result();
+                    return static_cast<Binopr<N,T>*>(a)->result() - static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,M,T>*>(a)->result() - static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Binopr<N,T>*>(a)->result() - static_cast<Numeric<N,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data - static_cast<Binopr<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data - static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data - static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Numeric<N,T>*>(a)->data - static_cast<Numeric<N,T>*>(b)->data;
                 }
                 else
                 {
@@ -719,19 +652,19 @@ namespace oct::core::v3::ast
             case typen::product:
                 if(a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,M,T>*>(a)->result() * static_cast<Binopr<N,M,T>*>(b)->result();
+                    return static_cast<Binopr<N,T>*>(a)->result() * static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,M,T>*>(a)->result() * static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Binopr<N,T>*>(a)->result() * static_cast<Numeric<N,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data * static_cast<Binopr<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data * static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data * static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Numeric<N,T>*>(a)->data * static_cast<Numeric<N,T>*>(b)->data;
                 }
                 else
                 {
@@ -741,19 +674,19 @@ namespace oct::core::v3::ast
             case typen::quotient:
                 if(a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,M,T>*>(a)->result() / static_cast<Binopr<N,M,T>*>(b)->result();
+                    return static_cast<Binopr<N,T>*>(a)->result() / static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,M,T>*>(a)->result() / static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Binopr<N,T>*>(a)->result() / static_cast<Numeric<N,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data / static_cast<Binopr<N,M,T>*>(b)->result();
+                    return static_cast<Numeric<N,T>*>(a)->data / static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data / static_cast<Numeric<M,T>*>(b)->data;
+                    return static_cast<Numeric<N,T>*>(a)->data / static_cast<Numeric<N,T>*>(b)->data;
                 }
                 else
                 {
@@ -771,8 +704,6 @@ namespace oct::core::v3::ast
         //bool a_nested,b_nested;
         bool auto_free;
     };
-
-
 
     /**
     *\brief Crea un nodo
