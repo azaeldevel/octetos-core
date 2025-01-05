@@ -16,7 +16,7 @@
 #include "../3/platform.hh"
 #include "../3/table.hh"
 #include "../3/string.hh"
-#include "../3/ast.hh"
+#include "../3/ast-math.hh"
 
 
 #if defined(__linux__)
@@ -410,9 +410,6 @@ void v3_ast()
     std::cout << " = " << rest3.result();
     std::cout << "\n";*/
 
-    core::ast::Variable<float> v1("X");
-    //v1.print(std::cout);
-
     core::ast::Nest<float> nest1(rest1);
     //nest1.print(std::cout);
 
@@ -427,6 +424,11 @@ void v3_ast()
     //div5.print(std::cout);
     //std::cout << "R : " << div5.result() << "\n";
     CU_ASSERT(core::equal((div5.result()),-1.532405063f));//
+
+    core::ast::Variable<size_t> v1("YXZ",12);
+    //v1.print(std::cout);
+    //std::cout << "R : " << v1.reference << "\n";
+    CU_ASSERT(v1.result() == 12);
 }
 
 
