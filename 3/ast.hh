@@ -33,11 +33,6 @@
 
 namespace oct::core::v3::ast
 {
-    template<class R,class T> struct Variable;
-    template<class R,class T> struct Numeric;
-    template<class R,class T> struct Binopr;
-    template<class R,class T> struct Nest;
-
     enum class typen
     {
         //command = -100,
@@ -207,9 +202,6 @@ namespace oct::core::v3::ast
     };
 
 
-    template<class N,class T> struct Nest;
-
-
     /**
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
@@ -217,7 +209,7 @@ namespace oct::core::v3::ast
     template<typename T = typen> struct node
     {
     public:
-        node() : type(typen::none)
+        node() : type(T::none)
         {
         }
         node(T t) : type(t)
@@ -235,27 +227,27 @@ namespace oct::core::v3::ast
 
         virtual void print(std::ostream& out) const
         {
-            switch(this->type)
+            switch(type)
             {
-            case typen::number:
+            case T::number:
                 out << "Numero";
                 break;
-            case typen::arithmetic:
+            case T::arithmetic:
                 out << "aritmetica";
                 break;
-            case typen::addition:
+            case T::addition:
                 out << "adiccion";
                 break;
-            case typen::subtraction:
+            case T::subtraction:
                 out << "substracion";
                 break;
-            case typen::product:
+            case T::product:
                 out << "producto";
                 break;
-            case typen::quotient:
+            case T::quotient:
                 out << "cociente";
                 break;
-            case typen::variable:
+            case T::variable:
                 out << "variable";
                 break;
             default:
@@ -269,11 +261,11 @@ namespace oct::core::v3::ast
         {
             switch(type)
             {
-            case typen::addition:
-            case typen::subtraction:
-            case typen::product:
-            case typen::quotient:
-            case typen::nest:
+            case T::addition:
+            case T::subtraction:
+            case T::product:
+            case T::quotient:
+            case T::nest:
                 return true;
             default:
                 return false;
@@ -282,12 +274,12 @@ namespace oct::core::v3::ast
         }
         bool is_numeric()const
         {
-            if(type == typen::number) return true;
+            if(type == T::number) return true;
             return false;
         }
         bool is_variable()const
         {
-            if(type == typen::variable) return true;
+            if(type == T::variable) return true;
             return false;
         }
     public:
