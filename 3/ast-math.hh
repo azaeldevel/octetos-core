@@ -21,7 +21,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-#include <typeinfo>
+
 #include "ast.hh"
 
 
@@ -37,31 +37,31 @@ namespace oct::core::v3::ast
     *\brief Crea un nodo
     *\param T parametro de plantilla para determinar el tipo de nodo
     **/
-    template<class N,class T = typen> struct Numeric : public node<T>
+    template<class N,class T = typen> struct Number : public node<T>
     {
     public:
         typedef node<T> NUMBER_NODE;
 
     public:
-        Numeric() : NUMBER_NODE(typen::number),data(0)
+        Number() : NUMBER_NODE(T::number),data(0)
         {
         }
-        Numeric(const Numeric& o) : NUMBER_NODE(o),data(o.data)
+        Number(const Number& o) : NUMBER_NODE(o),data(o.data)
         {
         }
-        Numeric(const Numeric* o) : NUMBER_NODE(o),data(o->data)
+        Number(const Number* o) : NUMBER_NODE(o),data(o->data)
         {
         }
-        Numeric(T t) : NUMBER_NODE(t),data(0)
+        Number(T t) : NUMBER_NODE(t),data(0)
         {
         }
-        Numeric(N d) : NUMBER_NODE(typen::number),data(d)
+        Number(N d) : NUMBER_NODE(T::number),data(d)
         {
         }
-        Numeric(T t,N d) : NUMBER_NODE(t),data(d)
+        Number(T t,N d) : NUMBER_NODE(t),data(d)
         {
         }
-        virtual ~Numeric()
+        virtual ~Number()
         {
         }
 
@@ -69,10 +69,10 @@ namespace oct::core::v3::ast
         {
             switch(this->type)
             {
-            case typen::number:
+            case T::number:
                 out << N(data);
                 break;
-            case typen::variable:
+            case T::variable:
                 out << N(data);
                 break;
             default:
@@ -84,7 +84,7 @@ namespace oct::core::v3::ast
         {
             return data;
         }
-        Numeric& operator = (const N& i)
+        Number& operator = (const N& i)
         {
             data = i;
             return *this;
@@ -214,7 +214,7 @@ namespace oct::core::v3::ast
             }
             else
             {
-                a = (node<T>*)new Numeric<N>((const Numeric<N>*)o->a);
+                a = (node<T>*)new Number<N>((const Number<N>*)o->a);
             }
             if(o->b->is_arithmetic())
             {
@@ -222,7 +222,7 @@ namespace oct::core::v3::ast
             }
             else
             {
-               b = (node<T>*)new Numeric<N>((const Numeric<N>*)o->b);
+               b = (node<T>*)new Number<N>((const Number<N>*)o->b);
             }
             //this->type = o->type;
         }
@@ -309,15 +309,15 @@ namespace oct::core::v3::ast
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,T>*>(a)->result() + static_cast<Numeric<N,T>*>(b)->data;
+                    return static_cast<Binopr<N,T>*>(a)->result() + static_cast<Number<N,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data + static_cast<Binopr<N,T>*>(b)->result();
+                    return static_cast<Number<N,T>*>(a)->data + static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data + static_cast<Numeric<N,T>*>(b)->data;
+                    return static_cast<Number<N,T>*>(a)->data + static_cast<Number<N,T>*>(b)->data;
                 }
                 else
                 {
@@ -331,15 +331,15 @@ namespace oct::core::v3::ast
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,T>*>(a)->result() - static_cast<Numeric<N,T>*>(b)->data;
+                    return static_cast<Binopr<N,T>*>(a)->result() - static_cast<Number<N,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data - static_cast<Binopr<N,T>*>(b)->result();
+                    return static_cast<Number<N,T>*>(a)->data - static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data - static_cast<Numeric<N,T>*>(b)->data;
+                    return static_cast<Number<N,T>*>(a)->data - static_cast<Number<N,T>*>(b)->data;
                 }
                 else
                 {
@@ -353,15 +353,15 @@ namespace oct::core::v3::ast
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,T>*>(a)->result() * static_cast<Numeric<N,T>*>(b)->data;
+                    return static_cast<Binopr<N,T>*>(a)->result() * static_cast<Number<N,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data * static_cast<Binopr<N,T>*>(b)->result();
+                    return static_cast<Number<N,T>*>(a)->data * static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data * static_cast<Numeric<N,T>*>(b)->data;
+                    return static_cast<Number<N,T>*>(a)->data * static_cast<Number<N,T>*>(b)->data;
                 }
                 else
                 {
@@ -375,15 +375,15 @@ namespace oct::core::v3::ast
                 }
                 else if(a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Binopr<N,T>*>(a)->result() / static_cast<Numeric<N,T>*>(b)->data;
+                    return static_cast<Binopr<N,T>*>(a)->result() / static_cast<Number<N,T>*>(b)->data;
                 }
                 else if(!a->is_arithmetic() and b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data / static_cast<Binopr<N,T>*>(b)->result();
+                    return static_cast<Number<N,T>*>(a)->data / static_cast<Binopr<N,T>*>(b)->result();
                 }
                 else if(!a->is_arithmetic() and !b->is_arithmetic())
                 {
-                    return static_cast<Numeric<N,T>*>(a)->data / static_cast<Numeric<N,T>*>(b)->data;
+                    return static_cast<Number<N,T>*>(a)->data / static_cast<Number<N,T>*>(b)->data;
                 }
                 else
                 {
@@ -459,7 +459,7 @@ namespace oct::core::v3::ast
                 static_cast<const Nest<N>*>(content)->print(out);
                 break;
             case typen::number:
-                static_cast<const Numeric<N>*>(content)->print(out);
+                static_cast<const Number<N>*>(content)->print(out);
                 break;
             case typen::variable:
                 static_cast<const Variable<N>*>(content)->print(out);
@@ -482,7 +482,7 @@ namespace oct::core::v3::ast
             case typen::nest:
                 return static_cast<const Nest<N>*>(content)->result();
             case typen::number:
-                return static_cast<const Numeric<N>*>(content)->result();
+                return static_cast<const Number<N>*>(content)->result();
             case typen::variable:
                 return static_cast<const Variable<N>*>(content)->result();
             default:

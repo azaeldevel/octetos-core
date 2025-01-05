@@ -362,9 +362,9 @@ void v3_array()
 }
 void v3_ast()
 {
-    core::ast::Numeric<float> d1(10.5f);
-    core::ast::Numeric<float> d2(110.56f);
-    core::ast::Numeric<float> d3(89.5);
+    core::ast::Number<float> d1(10.5f);
+    core::ast::Number<float> d2(110.56f);
+    core::ast::Number<float> d3(89.5);
     core::ast::Binopr sum1(core::ast::typen::addition,d1,d2);
     core::ast::Binopr rest1(core::ast::typen::subtraction,d1,d3);
     core::ast::Binopr prod1(core::ast::typen::product,d2,d3);
@@ -400,8 +400,8 @@ void v3_ast()
     //std::cout << "a = " << ((core::ast::numeric<float>*)sum1.a)->data << "\n";
     //std::cout << "b = " << ((core::ast::numeric<float>*)sum5.b)->data << "\n";
     //std::cout << "type = " << (int)((core::ast::numeric<float>*)sum5.b)->type << "\n";
-    CU_ASSERT(core::equal(((core::ast::Numeric<float>*)sum5.a)->data,((core::ast::Numeric<float>*)sum1.a)->data));
-    CU_ASSERT(core::equal(((core::ast::Numeric<float>*)sum5.b)->data,((core::ast::Numeric<float>*)sum1.b)->data));
+    CU_ASSERT(core::equal(((core::ast::Number<float>*)sum5.a)->data,((core::ast::Number<float>*)sum1.a)->data));
+    CU_ASSERT(core::equal(((core::ast::Number<float>*)sum5.b)->data,((core::ast::Number<float>*)sum1.b)->data));
     CU_ASSERT(sum5.type == sum1.type);
     CU_ASSERT(core::equal(sum5.result(),sum1.result()));
 
