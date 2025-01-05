@@ -277,11 +277,38 @@ namespace oct::core::v3::ast
             if(type == T::number) return true;
             return false;
         }
-        bool is_variable()const
+
+
+        bool is_number() const
+        {
+            if(type == T::number) return true;
+            return false;
+        }
+        bool is_variable() const
         {
             if(type == T::variable) return true;
             return false;
         }
+        bool is_binopr() const
+        {
+            switch(type)
+            {
+            case T::addition:
+            case T::subtraction:
+            case T::product:
+            case T::quotient:
+                return true;
+            default:
+                return false;
+                break;
+            }
+        }
+        bool is_nest() const
+        {
+            if(type == T::nest) return true;
+            return false;
+        }
+
     public:
         T type;
     };

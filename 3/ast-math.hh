@@ -28,10 +28,9 @@
 namespace oct::core::v3::ast
 {
     template<class R,class T> struct Variable;
-    template<class R,class T> struct Numeric;
+    template<class R,class T> struct Number;
     template<class R,class T> struct Binopr;
     template<class R,class T> struct Nest;
-
 
     /**
     *\brief Crea un nodo
@@ -298,6 +297,71 @@ namespace oct::core::v3::ast
         }
 
 
+
+        /*template<template<typename, typename> typename A>
+        const A<N,T>* from_a() const
+        {
+            switch(a->type)
+            {
+            case typen::addition:
+            case typen::subtraction:
+            case typen::product:
+            case typen::quotient:
+                return static_cast<Binopr<N,T>*>(a);
+            case typen::nest:
+                return static_cast<Nest<N,T>*>(a);
+            case typen::number:
+                return static_cast<Number<N,T>*>(a);
+            case typen::variable:
+                return static_cast<Variable<N,T>*>(a);
+            default:
+                break;
+            }
+
+            return NULL;
+        }
+
+        template<template<typename, typename> typename B>
+        const B<N,T>* from_b() const
+        {
+            switch(b->type)
+            {
+            case typen::addition:
+            case typen::subtraction:
+            case typen::product:
+            case typen::quotient:
+                return static_cast<Binopr<N,T>*>(b);
+            case typen::nest:
+                return static_cast<Nest<N,T>*>(b);
+            case typen::number:
+                return static_cast<Number<N,T>*>(b);
+            case typen::variable:
+                return static_cast<Variable<N,T>*>(b);
+            default:
+                break;
+            }
+
+            return NULL;
+        }
+
+        virtual N result2()const
+        {
+            switch(this->type)
+            {
+            case typen::addition:
+                return from_a()->result() + from_b()->result();
+            case typen::subtraction:
+                return from_a()->result() - from_b()->result();
+            case typen::product:
+                return from_a()->result() * from_b()->result();
+            case typen::quotient:
+                return from_a()->result() / from_b()->result();
+            default:
+                break;
+            }
+
+        }*/
+
         virtual N result()const
         {
             switch(this->type)
@@ -442,6 +506,7 @@ namespace oct::core::v3::ast
             {
                 delete content;
                 content = NULL;
+                auto_free = false;
             }
         }
 
