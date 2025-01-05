@@ -540,6 +540,15 @@ namespace oct::core::v3::ast
         }
 
         //
+        template<template<typename> typename A, template<typename> typename B>
+        Binopr(T t,A<T>* n,B<T>* m,bool autof = true) :
+            ARITHMETIC_BASE(t),
+            a(n),b(m),
+            auto_free(autof)
+        {
+        }
+
+        //
         template<template<typename,typename> typename A, template<typename,typename> typename B>
         Binopr(T t,A<N,T>* n,B<N,T>* m,bool autof = true) :
             ARITHMETIC_BASE(t),
