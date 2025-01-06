@@ -131,7 +131,7 @@ namespace oct::core::v3::ast
         typedef node<T> NUMERIC_NODE;
 
     public:
-        Variable() : NUMERIC_NODE(T::variable)
+        Variable() : NUMERIC_NODE(T::variable),name("variable")
         {
         }
         Variable(const Variable& o) : NUMERIC_NODE(o),name(o.name),reference(o.reference)
@@ -140,10 +140,10 @@ namespace oct::core::v3::ast
         Variable(const Variable* o) : NUMERIC_NODE(o),name(o->name),reference(o->reference)
         {
         }
-        Variable(T t) : NUMERIC_NODE(t)
+        Variable(T t) : NUMERIC_NODE(t),name("variable")
         {
         }
-        Variable(const R& d) : NUMERIC_NODE(T::variable),reference(d)
+        Variable(const R& d) : NUMERIC_NODE(T::variable),name("variable"),reference(d)
         {
         }
         Variable(const char* n) : NUMERIC_NODE(T::variable),name(n)
