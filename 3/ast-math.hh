@@ -116,6 +116,11 @@ namespace oct::core::v3::ast
             return data;
         }
 
+        unsigned deep()const
+        {
+            return 0;
+        }
+
     public:
         N data;
     };
@@ -186,6 +191,11 @@ namespace oct::core::v3::ast
         R result()const
         {
             return reference;
+        }
+
+        unsigned deep()const
+        {
+            return 0;
         }
 
     public:
@@ -467,6 +477,55 @@ namespace oct::core::v3::ast
             }
         }
 
+        unsigned deep_a()const
+        {
+            switch(a->type)
+            {
+            case typen::addition:
+            case typen::subtraction:
+            case typen::product:
+            case typen::quotient:
+                return 1 + static_cast<Binopr<N,T>*>(a)->deep();
+            case typen::nest:
+                return 1 + static_cast<Nest<N,T>*>(a)->deep();
+            case typen::number:
+                return 1;
+            case typen::variable:
+                return 1;
+            default:
+                break;
+            }
+
+            return 0;
+        }
+        unsigned deep_b()const
+        {
+            switch(b->type)
+            {
+            case typen::addition:
+            case typen::subtraction:
+            case typen::product:
+            case typen::quotient:
+                return 1 + static_cast<Binopr<N,T>*>(b)->deep();
+            case typen::nest:
+                return 1 + static_cast<Nest<N,T>*>(b)->deep();
+            case typen::number:
+                return 1;
+            case typen::variable:
+                return 1;
+            default:
+                break;
+            }
+
+            return 0;
+        }
+        unsigned deep()const
+        {
+            unsigned da = deep_a(), db = deep_b();
+            if(da > db) return da;
+            return db;
+        }
+
     public:
         node<T>* a;
         node<T>* b;
@@ -564,6 +623,28 @@ namespace oct::core::v3::ast
                 throw exception("No se reconoce como una operacion aritmetica valida");
                 break;
             }
+        }
+
+        unsigned deep()const
+        {
+            switch(content->type)
+            {
+            case typen::addition:
+            case typen::subtraction:
+            case typen::product:
+            case typen::quotient:
+                return 1 + static_cast<Binopr<N,T>*>(content)->deep();
+            case typen::nest:
+                return 1 + static_cast<Nest<N,T>*>(content)->deep();
+            case typen::number:
+                return 1;
+            case typen::variable:
+                return 1;
+            default:
+                break;
+            }
+
+            return 0;
         }
 
     public:

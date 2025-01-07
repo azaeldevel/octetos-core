@@ -429,6 +429,11 @@ void v3_ast()
     //v1.print(std::cout);
     //std::cout << "R : " << v1.reference << "\n";
     CU_ASSERT(v1.result() == 12);
+
+    CU_ASSERT(sum1.deep() == 1);
+    CU_ASSERT(sum2.deep() == 2);
+    CU_ASSERT(sum3.deep() == 2);
+    CU_ASSERT(sum4.deep() == 2);
 }
 
 
