@@ -430,10 +430,10 @@ void v3_ast()
     //std::cout << "R : " << v1.reference << "\n";
     CU_ASSERT(v1.result() == 12);
 
-    CU_ASSERT(sum1.deep() == 1);
-    CU_ASSERT(sum2.deep() == 2);
-    CU_ASSERT(sum3.deep() == 2);
-    CU_ASSERT(sum4.deep() == 2);
+    CU_ASSERT(sum1.deep_tree() == 1);
+    CU_ASSERT(sum2.deep_tree() == 2);
+    CU_ASSERT(sum3.deep_tree() == 2);
+    CU_ASSERT(sum4.deep_tree() == 2);
 }
 
 

@@ -116,9 +116,9 @@ namespace oct::core::v3::ast
             return data;
         }
 
-        unsigned deep()const
+        unsigned deep_tree()const
         {
-            return 0;
+            return 1;
         }
 
     public:
@@ -193,9 +193,9 @@ namespace oct::core::v3::ast
             return reference;
         }
 
-        unsigned deep()const
+        unsigned deep_tree()const
         {
-            return 0;
+            return 1;
         }
 
     public:
@@ -485,9 +485,9 @@ namespace oct::core::v3::ast
             case typen::subtraction:
             case typen::product:
             case typen::quotient:
-                return 1 + static_cast<Binopr<N,T>*>(a)->deep();
+                return 1 + static_cast<Binopr<N,T>*>(a)->deep_tree();
             case typen::nest:
-                return 1 + static_cast<Nest<N,T>*>(a)->deep();
+                return 1 + static_cast<Nest<N,T>*>(a)->deep_tree();
             case typen::number:
                 return 1;
             case typen::variable:
@@ -506,9 +506,9 @@ namespace oct::core::v3::ast
             case typen::subtraction:
             case typen::product:
             case typen::quotient:
-                return 1 + static_cast<Binopr<N,T>*>(b)->deep();
+                return 1 + static_cast<Binopr<N,T>*>(b)->deep_tree();
             case typen::nest:
-                return 1 + static_cast<Nest<N,T>*>(b)->deep();
+                return 1 + static_cast<Nest<N,T>*>(b)->deep_tree();
             case typen::number:
                 return 1;
             case typen::variable:
@@ -519,7 +519,7 @@ namespace oct::core::v3::ast
 
             return 0;
         }
-        unsigned deep()const
+        unsigned deep_tree()const
         {
             unsigned da = deep_a(), db = deep_b();
             if(da > db) return da;
@@ -625,7 +625,7 @@ namespace oct::core::v3::ast
             }
         }
 
-        unsigned deep()const
+        unsigned deep_tree()const
         {
             switch(content->type)
             {
@@ -633,9 +633,9 @@ namespace oct::core::v3::ast
             case typen::subtraction:
             case typen::product:
             case typen::quotient:
-                return 1 + static_cast<Binopr<N,T>*>(content)->deep();
+                return 1 + static_cast<Binopr<N,T>*>(content)->deep_tree();
             case typen::nest:
-                return 1 + static_cast<Nest<N,T>*>(content)->deep();
+                return 1 + static_cast<Nest<N,T>*>(content)->deep_tree();
             case typen::number:
                 return 1;
             case typen::variable:
